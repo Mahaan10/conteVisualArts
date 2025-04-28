@@ -45,7 +45,7 @@ function Header() {
           <button className="cursor-pointer">
             <HiOutlineShoppingBag className="w-6 h-6" />
           </button>
-          <Link to="" className="btn">
+          <Link to="" className="btn text-sm">
             <FaRegUser className="w-5 h-5" />
             <span>ورود|عضویت</span>
           </Link>
