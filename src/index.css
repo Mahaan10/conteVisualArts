@@ -31,7 +31,7 @@
 
 @layer {
   .btn {
-    @apply flex items-center justify-center gap-x-4 w-full cursor-pointer bg-twilight rounded-md py-3.5 px-2 hover:bg-muted-purple text-neutral-200;
+    @apply flex items-center justify-center gap-x-4 w-full cursor-pointer bg-twilight rounded-md py-3.5 px-2 hover:bg-muted-purple;
   }
 
   .textField_input {

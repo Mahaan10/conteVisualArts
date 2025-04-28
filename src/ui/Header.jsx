@@ -16,11 +16,11 @@ function Header() {
   return (
     <div className="flex flex-col relative min-h-screen">
       {/* Background Image */}
-      <div className="bg-[url('images/bg-4.jpg')] inset-0 blur-xs absolute bg-center bg-no-repeat bg-cover -z-10"></div>
+      <div className="bg-[url('images/bg-4.jpg')] inset-0 blur-sm absolute bg-center bg-no-repeat bg-cover"></div>
       {/* Header Navbar */}
-      <div className="flex items-center justify-between mt-4 w-[90%] mx-auto font-iran-sans">
+      <div className="flex items-center justify-between mt-4 w-[90%] mx-auto font-iran-sans z-10">
         {/* Right Section */}
-        <ul className="flex items-center gap-x-6">
+        <ul className="flex items-center gap-x-6 z-10">
           <li>
             <Link to="/">
               <img
@@ -36,9 +36,12 @@ function Header() {
           <li>
             <CustomNavlink to="">درباره ما</CustomNavlink>
           </li>
+          <li>
+            <CustomNavlink to="">مقالات</CustomNavlink>
+          </li>
         </ul>
         {/* Left Section */}
-        <div className="flex items-center gap-x-6">
+        <div className="flex items-center gap-x-6 z-10">
           <button className="cursor-pointer">
             <BsSun className="w-6 h-6" />
           </button>
@@ -52,7 +55,7 @@ function Header() {
         </div>
       </div>
       {/* Header Chants */}
-      <div className="container">
+      <div className="container z-10">
         <div className="text-center mt-8 sm:mt-14">
           <h1 className="font-black text-5xl bg-clip-text">
             کُنته، جایی برای تجلی هنر

@@ -5,16 +5,19 @@ import { IoPeopleOutline } from "react-icons/io5";
 function CourseCard({ course }) {
   return (
     <div className="bg-slate-800 rounded-lg flex flex-col">
+      {/* Course Image */}
       <div className="w-full">
         <img src={course.image} alt="" className="w-full h-44 rounded-t-lg" />
       </div>
+      {/* Course Title and Description */}
       <div className="flex-grow px-4.5 py-4">
         <h1 className="line-clamp-2 text-2xl font-bold mb-3">{course.title}</h1>
         <p className="opacity-65 font-bold line-clamp-2">
           {course.description}
         </p>
       </div>
-      <div className="flex items-center justify-between px-4.5 pb-3 border-t border-neutral-200/10">
+      {/* Course Master and num of attendence */}
+      <div className="flex items-center justify-between px-4.5 py-1.5 border-t border-neutral-200/10">
         <Link
           to=""
           className="my-1 flex items-center justify-center gap-1 hover:text-sand cursor-pointer"
@@ -29,8 +32,9 @@ function CourseCard({ course }) {
           <span className="text-lg">{course.num}</span>
         </div>
       </div>
-      <div className="text-black w-full text-center">
-        <button className="btn text-lg font-bold !rounded-t-none">
+      {/* Course submit */}
+      <div className="w-full text-center">
+        <button className="btn text-lg font-bold !rounded-t-none !py-3">
           ثبت نام
         </button>
       </div>

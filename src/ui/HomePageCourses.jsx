@@ -45,7 +45,7 @@ function HomePageCourses() {
   ];
 
   return (
-    <div className="bg-slate-900 p-10">
+    <div className="p-10">
       <div className="container">
         <div className="mt-10 relative">
           <h1 className="opacity-70 text-xl">آخرین دوره های ما</h1>
@@ -55,7 +55,7 @@ function HomePageCourses() {
           <h1 className="text-3xl  font-black">سکوی پرتاب به سمت موفقیت</h1>
           <Link
             to=""
-            className="flex items-center gap-x-2 hover:text-sand font-extrabold opacity-75"
+            className="flex items-center gap-x-2 hover:text-sand transition-colors duration-300 font-extrabold opacity-75"
           >
             <span className="text-lg">همه دوره ها</span>
             <FiArrowUpLeft className="w-5 h-5" />
