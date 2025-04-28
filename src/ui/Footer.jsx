@@ -29,7 +29,7 @@ function Footer() {
               <Link
                 key={social.id}
                 to={social.to}
-                className="bg-sand rounded-full p-3 text-slate-950 hover:bg-twilight hover:text-sand transition-colors duration-300 border border-twilight"
+                className="bg-sand rounded-full p-3 text-slate-950 hover:bg-twilight hover:text-sand transition-colors duration-300 border border-neutral-200"
               >
                 {social.icon}
               </Link>

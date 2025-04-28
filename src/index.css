@@ -41,6 +41,10 @@
   .sectionTitle {
     @apply w-28 rounded-tl-full h-4 underline-offset-8 underline bg-sand absolute -bottom-1 opacity-10 right-0;
   }
+
+  .stepperCircle {
+    @apply h-9 w-9 rounded-full bg-neutral-200 border-2 border-gray-400 text-gray-400 flex items-center justify-center font-bold transition-colors duration-300 opacity-70;
+  }
 }
 
 /* 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 */

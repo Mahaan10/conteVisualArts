@@ -5,8 +5,13 @@ import { HiOutlineShoppingBag } from "react-icons/hi";
 import { FaRegUser } from "react-icons/fa";
 import { PiMagnifyingGlassBold } from "react-icons/pi";
 import { toPersianNumbers } from "../utils/toPersianNumbers";
+import { useState } from "react";
+import Modal from "./Modal";
+import MultiStepForm from "./MultiStepForm";
 
 function Header() {
+  const [isOpen, setIsOpen] = useState(false);
+
   const statsInfo = [
     { id: 1, image: "images/degree.png", num: 987, title: "فارغ التحصیل" },
     { id: 2, image: "images/courses.png", num: 32, title: "دوره آموزشی" },
@@ -48,10 +53,10 @@ function Header() {
           <button className="cursor-pointer">
             <HiOutlineShoppingBag className="w-6 h-6" />
           </button>
-          <Link to="" className="btn text-sm">
+          <button className="btn text-sm" onClick={() => setIsOpen(!isOpen)}>
             <FaRegUser className="w-5 h-5" />
             <span>ورود|عضویت</span>
-          </Link>
+          </button>
         </div>
       </div>
       {/* Header Chants */}
@@ -89,6 +94,12 @@ function Header() {
           ))}
         </ul>
       </div>
+      {/* Login Section */}
+      {isOpen && (
+        <Modal title="ورود یا ثبت نام" onClose={() => setIsOpen(!isOpen)}>
+          <MultiStepForm setIsOpen={setIsOpen} />
+        </Modal>
+      )}
     </div>
   );
 }
