@@ -14,11 +14,11 @@ function Header() {
   ];
 
   return (
-    <div className="flex flex-col relative font-iran-sans min-h-screen">
+    <div className="flex flex-col relative min-h-screen">
       {/* Background Image */}
       <div className="bg-[url('images/bg-4.jpg')] inset-0 blur-xs absolute bg-center bg-no-repeat bg-cover -z-10"></div>
       {/* Header Navbar */}
-      <div className="flex items-center justify-between mt-4 w-[90%] mx-auto">
+      <div className="flex items-center justify-between mt-4 w-[90%] mx-auto font-iran-sans">
         {/* Right Section */}
         <ul className="flex items-center gap-x-6">
           <li>
@@ -54,8 +54,10 @@ function Header() {
       {/* Header Chants */}
       <div className="container">
         <div className="text-center mt-8 sm:mt-14">
-          <h1 className="font-black text-4xl">کُنته، جایی برای تجلی هنر</h1>
-          <h1 className="text-xl mt-8 sm:mt-14">
+          <h1 className="font-black text-5xl bg-clip-text">
+            کُنته، جایی برای تجلی هنر
+          </h1>
+          <h1 className="text-3xl mt-8 sm:mt-14">
             با آموزشگاه هنر های تجسمی کُنته، مسیر هنر رو تجربه کن
           </h1>
           <div className="mt-8 sm:mt-14 w-[85%] sm:w-[70%] mx-auto relative">
@@ -70,16 +72,16 @@ function Header() {
           </div>
         </div>
         {/* Stats Section */}
-        <ul className="flex items-center justify-between mt-8 sm:mt-10 w-[60%] mx-auto">
+        <ul className="flex items-center justify-between mt-8 sm:mt-10 w-[60%] mx-auto mb-10">
           {statsInfo.map((stat) => (
-            <li key={stat.id} className="space-y-3 text-center">
+            <li key={stat.id} className="space-y-1.5 text-center">
               <div className="">
                 <img src={stat.image} alt="" className="w-24 h-24" />
               </div>
-              <p className="text-3xl font-black">
+              <p className="text-4xl bg-clip-text font-black">
                 {toPersianNumbers(stat.num)}
               </p>
-              <p>{stat.title}</p>
+              <p className="text-2xl">{stat.title}</p>
             </li>
           ))}
         </ul>

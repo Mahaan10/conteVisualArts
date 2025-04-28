@@ -37,6 +37,10 @@
   .textField_input {
     @apply w-full bg-white py-6 px-4 rounded-r-full rounded-l-full border border-gray-600 outline-none focus:bg-neutral-200 text-black transition-all duration-300 ease-in-out focus:shadow-lg focus:shadow-black placeholder:font-extrabold;
   }
+
+  .sectionTitle {
+    @apply w-28 rounded-tl-full h-4 underline-offset-8 underline bg-sand absolute -bottom-1 opacity-10 right-0;
+  }
 }
 
 /* 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 */
