@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import InputTextField from "./InputTextField";
+import CheckOtpForm from "./CheckOtpForm";
 
 const MultiStepForm = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [step, setStep] = useState(2);
+  const [step, setStep] = useState(1);
 
   const nextStep = (e) => {
     e.preventDefault();
@@ -55,8 +56,7 @@ const MultiStepForm = () => {
         )}
         {step === 2 && (
           <>
-            <InputTextField title="ایمیل" />
-            <InputTextField title="ایمیل" />
+            <CheckOtpForm />
           </>
         )}
         <div className="flex items-center justify-between gap-6">
@@ -65,7 +65,7 @@ const MultiStepForm = () => {
               className="btn !bg-blue-700 text-base font-bold hover:!bg-blue-800"
               onClick={prevStep}
             >
-              قبلی
+              مرحله قبل
             </button>
           )}
           {step < 3 && (
@@ -73,7 +73,7 @@ const MultiStepForm = () => {
               className="btn !bg-blue-700 text-base font-bold hover:!bg-blue-800"
               onClick={nextStep}
             >
-              بعدی
+              مرحله بعد
             </button>
           )}
           {step === 3 && (

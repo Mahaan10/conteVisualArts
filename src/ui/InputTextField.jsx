@@ -10,7 +10,7 @@ function InputTextField({ type = "text", title, phoneNumber, setPhoneNumber }) {
         id=""
         value={phoneNumber}
         onChange={() => setPhoneNumber(event.target.value)}
-        className="peer w-full py-2 px-1 border border-neutral-200 rounded-md focus:outline-none focus:ring-0"
+        className="peer w-full p-2 border border-neutral-200 rounded-md focus:outline-none focus:ring-0"
       />
       <label
         htmlFor=""
