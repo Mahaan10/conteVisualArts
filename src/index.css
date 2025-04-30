@@ -39,7 +39,7 @@
   }
 
   .sectionTitle {
-    @apply w-28 rounded-tl-full h-4 underline-offset-8 underline bg-sand absolute -bottom-1 opacity-10 right-0;
+    @apply rounded-tl-full h-4 underline-offset-8 underline bg-sand absolute -bottom-1 opacity-10 right-0;
   }
 
   .stepperCircle {
