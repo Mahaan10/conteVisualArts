@@ -1,8 +1,6 @@
 import { Link } from "react-router-dom";
 import { FiArrowUpLeft } from "react-icons/fi";
-import { FaRegUser } from "react-icons/fa";
-import { IoPeopleOutline } from "react-icons/io5";
-import CourseCard from "./courseCard";
+import CourseCard from "./CourseCard";
 
 function HomePageCourses() {
   const lastCourses = [
