@@ -4,7 +4,7 @@ import { IoPeopleOutline } from "react-icons/io5";
 
 function CourseCard({ course }) {
   return (
-    <div className="bg-slate-800 rounded-lg flex flex-col">
+    <div className="bg-gradient-to-b from-20% to-100%% dark:to-light-purple from-neutral-200 to-mindaro text-black rounded-lg flex flex-col">
       {/* Course Image */}
       <div className="w-full">
         <img src={course.image} alt="" className="w-full h-44 rounded-t-lg" />

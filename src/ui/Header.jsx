@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import CustomNavlink from "./CustomNavlink";
-import { BsSun } from "react-icons/bs";
 import { HiOutlineShoppingBag } from "react-icons/hi";
 import { FaRegUser } from "react-icons/fa";
 import { PiMagnifyingGlassBold } from "react-icons/pi";
@@ -8,6 +7,7 @@ import { toPersianNumbers } from "../utils/toPersianNumbers";
 import { useState } from "react";
 import Modal from "./Modal";
 import MultiStepForm from "./MultiStepForm";
+import ThemeMode from "./ThemeMode";
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,41 +19,48 @@ function Header() {
   ];
 
   return (
-    <div className="flex flex-col relative min-h-screen">
+    <div className="flex flex-col relative min-h-screen text-neutral-200">
       {/* Background Image */}
       <div className="bg-[url('images/bg-4.jpg')] inset-0 blur-sm absolute bg-center bg-no-repeat bg-cover"></div>
+      {/* Header Menu */}
+      {/* HEADER MENU NEEDED */}
       {/* Header Navbar */}
       <div className="flex items-center justify-between mt-4 w-[90%] mx-auto font-iran-sans z-10">
         {/* Right Section */}
-        <ul className="flex items-center gap-x-6 z-10">
-          <li>
-            <Link to="/">
-              <img
-                src="images/IMG_20250427_165334_993-removebg-preview 2.png"
-                alt=""
-                className="h-16 w-10"
-              />
-            </Link>
-          </li>
-          <li>
-            <CustomNavlink to="">همه دوره ها</CustomNavlink>
-          </li>
-          <li>
-            <CustomNavlink to="">درباره ما</CustomNavlink>
-          </li>
-          <li>
-            <CustomNavlink to="">مقالات</CustomNavlink>
-          </li>
-        </ul>
+        <div className="flex items-center gap-x-6">
+          {/* Brand Logo */}
+          <Link to="/" className="">
+            <img
+              src="images/IMG_20250427_165334_993-removebg-preview 2.png"
+              alt=""
+              className="h-16 w-10"
+            />
+          </Link>
+          <ul className="hidden md:flex items-center gap-x-6 z-10 text-sm">
+            <li>
+              <CustomNavlink to="/">همه دوره ها</CustomNavlink>
+            </li>
+            <li>
+              <CustomNavlink to="/">درباره ما</CustomNavlink>
+            </li>
+            <li>
+              <CustomNavlink to="/">اخبار و رویداد ها</CustomNavlink>
+            </li>
+            <li>
+              <CustomNavlink to="/">تماس با ما</CustomNavlink>
+            </li>
+          </ul>
+        </div>
         {/* Left Section */}
-        <div className="flex items-center gap-x-6 z-10">
-          <button className="cursor-pointer">
-            <BsSun className="w-6 h-6" />
-          </button>
+        <div className="flex items-center w-full justify-end md:w-auto gap-x-6 z-10">
+          <ThemeMode />
           <button className="cursor-pointer">
             <HiOutlineShoppingBag className="w-6 h-6" />
           </button>
-          <button className="btn text-sm" onClick={() => setIsOpen(!isOpen)}>
+          <button
+            className="text-sm btn !text-black !hidden md:!flex"
+            onClick={() => setIsOpen(!isOpen)}
+          >
             <FaRegUser className="w-5 h-5" />
             <span>ورود|عضویت</span>
           </button>
@@ -74,7 +81,7 @@ function Header() {
               className="textField_input"
               placeholder="جستجو در بین دوره ها ..."
             />
-            <button className="cursor-pointer absolute top-3.5 p-3 dark:text-neutral-200 left-4 bg-twilight rounded-full">
+            <button className="cursor-pointer absolute top-3.5 p-3 dark:text-neutral-200 left-4 bg-soft-yellow text-black dark:bg-twilight rounded-full">
               <PiMagnifyingGlassBold className="w-6 h-6" />
             </button>
           </div>

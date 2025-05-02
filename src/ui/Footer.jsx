@@ -12,7 +12,7 @@ function Footer() {
   ];
 
   return (
-    <div className="bg-slate-800">
+    <div className="dark:bg-twilight bg-sand/50 text-black">
       <div className="p-10 container">
         {/* Logo and Social Link */}
         <div className="flex items-center justify-between">
@@ -29,7 +29,7 @@ function Footer() {
               <Link
                 key={social.id}
                 to={social.to}
-                className="bg-sand rounded-full p-3 text-slate-950 hover:bg-twilight hover:text-sand transition-colors duration-300 border border-sand"
+                className="bg-mindaro border-strong-yellow rounded-full p-3 hover:bg-sand text-slate-900 transition-colors duration-300 border dark:bg-dark-violet dark:border-dark-purple dark:hover:bg-dark-purple dark:hover:text-neutral-200 hover:border-slate-900"
               >
                 {social.icon}
               </Link>

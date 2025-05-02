@@ -4,7 +4,7 @@ import HomePageCourses from "../ui/HomePageCourses";
 
 function Home() {
   return (
-    <div className="max-w-screen bg-slate-900 text-neutral-200 overflow-x-hidden font-b-mitra">
+    <div className="max-w-screen bg-sand/50 text-black dark:bg-dark-purple dark:text-neutral-200 overflow-x-hidden font-b-mitra">
       <Header />
       <HomePageCourses />
       <Footer />
