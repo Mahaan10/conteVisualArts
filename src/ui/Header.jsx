@@ -8,9 +8,12 @@ import { useState } from "react";
 import Modal from "./Modal";
 import MultiStepForm from "./MultiStepForm";
 import ThemeMode from "./ThemeMode";
+import HeaderMenu from "./HeaderMenu";
+import { MdMenu } from "react-icons/md";
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const statsInfo = [
     { id: 1, image: "images/degree.png", num: 987, title: "فارغ التحصیل" },
@@ -23,47 +26,54 @@ function Header() {
       {/* Background Image */}
       <div className="bg-[url('images/bg-4.jpg')] inset-0 blur-sm absolute bg-center bg-no-repeat bg-cover"></div>
       {/* Header Menu */}
-      {/* HEADER MENU NEEDED */}
-      {/* Header Navbar */}
-      <div className="flex items-center justify-between mt-4 w-[90%] mx-auto font-iran-sans z-10">
-        {/* Right Section */}
-        <div className="flex items-center gap-x-6">
-          {/* Brand Logo */}
-          <Link to="/" className="">
-            <img
-              src="images/IMG_20250427_165334_993-removebg-preview 2.png"
-              alt=""
-              className="h-16 w-10"
-            />
-          </Link>
-          <ul className="hidden md:flex items-center gap-x-6 z-10 text-sm">
-            <li>
-              <CustomNavlink to="/">همه دوره ها</CustomNavlink>
-            </li>
-            <li>
-              <CustomNavlink to="/">درباره ما</CustomNavlink>
-            </li>
-            <li>
-              <CustomNavlink to="/">اخبار و رویداد ها</CustomNavlink>
-            </li>
-            <li>
-              <CustomNavlink to="/">تماس با ما</CustomNavlink>
-            </li>
-          </ul>
-        </div>
-        {/* Left Section */}
-        <div className="flex items-center w-full justify-end md:w-auto gap-x-6 z-10">
-          <ThemeMode />
-          <button className="cursor-pointer">
-            <HiOutlineShoppingBag className="w-6 h-6" />
-          </button>
-          <button
-            className="text-sm btn !text-black !hidden md:!flex"
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            <FaRegUser className="w-5 h-5" />
-            <span>ورود|عضویت</span>
-          </button>
+      <div className="flex items-center justify-between z-10">
+        <button
+          className="md:hidden cursor-pointer"
+          onClick={() => setOpen(!open)}
+        >
+          <MdMenu className="w-7 h-7" />
+        </button>
+        {/* Header Navbar */}
+        <div className="flex items-center justify-between mt-4 w-[90%] mx-auto font-iran-sans z-10">
+          {/* Right Section */}
+          <div className="flex items-center gap-x-6">
+            {/* Brand Logo */}
+            <Link to="/" className="">
+              <img
+                src="images/IMG_20250427_165334_993-removebg-preview 2.png"
+                alt=""
+                className="h-16 w-10"
+              />
+            </Link>
+            <ul className="hidden md:flex items-center gap-x-6 z-10 text-sm">
+              <li>
+                <CustomNavlink to="/">همه دوره ها</CustomNavlink>
+              </li>
+              <li>
+                <CustomNavlink to="/">درباره ما</CustomNavlink>
+              </li>
+              <li>
+                <CustomNavlink to="/">اخبار و رویداد ها</CustomNavlink>
+              </li>
+              <li>
+                <CustomNavlink to="/">تماس با ما</CustomNavlink>
+              </li>
+            </ul>
+          </div>
+          {/* Left Section */}
+          <div className="flex items-center w-full justify-end md:w-auto gap-x-6 z-10">
+            <ThemeMode />
+            <button className="cursor-pointer">
+              <HiOutlineShoppingBag className="w-6 h-6" />
+            </button>
+            <button
+              className="text-sm btn !text-black !hidden md:!flex"
+              onClick={() => setIsOpen(!isOpen)}
+            >
+              <FaRegUser className="w-5 h-5" />
+              <span>ورود|عضویت</span>
+            </button>
+          </div>
         </div>
       </div>
       {/* Header Chants */}
@@ -100,6 +110,8 @@ function Header() {
             </li>
           ))}
         </ul>
+        {/* Header Menu */}
+        <HeaderMenu open={open} onClose={() => setOpen(false)} setIsOpen={setIsOpen} isOpen={isOpen}/>
       </div>
       {/* Login Section */}
       {isOpen && (
