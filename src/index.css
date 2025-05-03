@@ -40,7 +40,7 @@
 
 @layer {
   .btn {
-    @apply flex items-center justify-center gap-x-4 w-full transition-colors duration-200 cursor-pointer dark:bg-light-purple border dark:border-dark-violet bg-mindaro border-soft-yellow rounded-md py-3.5 px-2 hover:border-strong-yellow hover:bg-soft-yellow dark:hover:bg-dark-violet dark:hover:border-dark-purple;
+    @apply flex items-center justify-center gap-x-4 w-full transition-colors duration-200 cursor-pointer dark:bg-inherit border dark:border-dark-violet bg-inherit border-sand rounded-md py-3.5 px-2 hover:border-strong-yellow hover:bg-sand dark:hover:bg-light-purple dark:hover:border-dark-purple;
   }
 
   .textField_input {

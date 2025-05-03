@@ -44,18 +44,22 @@ function HomePageCourses() {
 
   return (
     <div className="p-10">
-      <div className="container">
+      <div className="container mx-auto">
         <div className="mt-10 relative">
           <h1 className="opacity-70 text-xl">آخرین دوره های ما</h1>
           <div className="sectionTitle w-28"></div>
         </div>
-        <div className="flex items-center justify-between mt-3">
-          <h1 className="text-3xl font-black">سکوی پرتاب به سمت موفقیت</h1>
+        <div className="flex items-center justify-between mt-3 gap-x-3">
+          <h1 className="sm:text-3xl text-xs min-[315px]:max-[370px]:text-lg min-[370px]:max-sm:text-xl text-nowrap font-black">
+            سکوی پرتاب به سمت موفقیت
+          </h1>
           <Link
             to=""
             className="flex items-center gap-x-2 hover:text-dark-violet dark:hover:text-sand transition-colors duration-300 font-extrabold opacity-75"
           >
-            <span className="text-lg">همه دوره ها</span>
+            <span className="text-lg min-[200px]:max-[315px]:text-xs text-nowrap">
+              همه دوره ها
+            </span>
             <FiArrowUpLeft className="w-5 h-5" />
           </Link>
         </div>
@@ -66,21 +70,25 @@ function HomePageCourses() {
           ))}
         </div>
         {/* Artist Work */}
-        <div className="mt-20 relative">
-          <h1 className="opacity-70 text-xl">آثار هنرجویان</h1>
-          <div className="sectionTitle w-22"></div>
+        <div className="mt-10 relative">
+          <h1 className="opacity-70 text-xl">آخرین دوره های ما</h1>
+          <div className="sectionTitle w-28"></div>
         </div>
-        <div className="flex items-center justify-between mt-3">
-          <h1 className="text-3xl  font-black">سکوی پرتاب به سمت موفقیت</h1>
+        <div className="flex items-center justify-between mt-3 gap-x-3">
+          <h1 className="sm:text-3xl text-xs min-[315px]:max-[370px]:text-lg min-[370px]:max-sm:text-xl text-nowrap font-black">
+            سکوی پرتاب به سمت موفقیت
+          </h1>
           <Link
             to=""
             className="flex items-center gap-x-2 hover:text-dark-violet dark:hover:text-sand transition-colors duration-300 font-extrabold opacity-75"
           >
-            <span className="text-lg">همه دوره ها</span>
+            <span className="text-lg min-[200px]:max-[315px]:text-xs text-nowrap">
+              همه دوره ها
+            </span>
             <FiArrowUpLeft className="w-5 h-5" />
           </Link>
         </div>
-        {/* Last Courses */}
+        {/* Artist works */}
         <div className="grid grid-row-2 sm:grid-cols-2 lg:grid-cols3 xl:grid-cols-4 gap-6 sm:gap-7 mt-10">
           {lastCourses.map((course) => (
             <CourseCard key={course.id} course={course} />
