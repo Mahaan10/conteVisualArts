@@ -1,59 +1,9 @@
 @import "tailwindcss";
-@plugin "flowbite-react/plugin/tailwindcss";
-@source "../.flowbite-react/class-list.json";
-@custom-variant dark (&:where(.dark, .dark *));
 
-@font-face {
-  font-family: "b Nazanin";
-  font-style: normal;
-  font-weight: normal;
-  src: url("/fonts/B_NAZANIN/B-NAZANIN.TTF") format("truetype");
-}
 
-@font-face {
-  font-family: "b Mitra";
-  font-style: normal;
-  font-weight: normal;
-  src: url("/fonts/B-Mitra/B\ Mitra_0.ttf") format("truetype");
-}
-@font-face {
-  font-family: "iran sans";
-  font-style: normal;
-  font-weight: normal;
-  src: url("/fonts/A-Iranian-Sans/Iranian\ Sans.ttf") format("truetype");
-}
 
 @theme {
-  --color-twilight: #634c82;
-  --color-muted-purple: #654a73;
-  --color-dark-purple: #281c36;
-  --color-light-purple: #937cb9;
-  --color-dark-violet: #765d9c;
-  --color-sand: #e4d96f;
-  --color-mindaro: #e3f988;
-  --color-soft-yellow: #dcc643;
-  --color-strong-yellow: #d3ac2d;
-  --font-b-nazanin: "b Nazanin";
-  --font-b-mitra: "b Mitra";
-  --font-iran-sans: "iran sans";
+  --color-linen: #f0eadc;
+  --color-whitesmoke: #fcfbf9;
+  --color-golden-sand: #ffe5b4;
 }
-
-@layer {
-  .btn {
-    @apply flex items-center justify-center gap-x-4 w-full transition-colors duration-200 cursor-pointer dark:bg-inherit border dark:border-dark-violet bg-inherit border-sand rounded-md py-3.5 px-2 hover:border-strong-yellow hover:bg-sand dark:hover:bg-light-purple dark:hover:border-dark-purple;
-  }
-
-  .textField_input {
-    @apply w-full bg-white py-6 px-4 rounded-r-full rounded-l-full border border-gray-600 outline-none focus:bg-neutral-200 text-black transition-all duration-300 ease-in-out focus:shadow-lg focus:shadow-black placeholder:font-extrabold;
-  }
-
-  .sectionTitle {
-    @apply rounded-tl-full h-4 underline-offset-8 underline dark:bg-sand absolute -bottom-1 opacity-10 right-0 bg-dark-purple;
-  }
-
-  .stepperCircle {
-    @apply h-9 w-9 rounded-full bg-neutral-200 border-2 border-gray-400 text-gray-400 flex items-center justify-center font-bold transition-colors duration-300 opacity-70;
-  }
-}
-
-/* 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 */

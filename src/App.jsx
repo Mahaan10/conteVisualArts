@@ -1,14 +1,15 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
-import ThemeModeProvider from "./context/useThemeContext";
+import PagesLayout from "./ui/PagesLayout";
 
 function App() {
   return (
-    <ThemeModeProvider>
-      <Routes>
-        <Route path="/" element={<Home />} />
-      </Routes>
-    </ThemeModeProvider>
+    <Routes>
+      <Route path="/" element={<PagesLayout />}>
+        <Route index element={<Navigate to="home" replace />} />
+        <Route path="home" element={<Home />} />
+      </Route>
+    </Routes>
   );
 }
 
