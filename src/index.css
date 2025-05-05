@@ -1,9 +1,22 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
-
+@font-face {
+  font-family: "Iranian Sans";
+  font-style: normal;
+  src: url("/fonts/A-Iranian-Sans/Iranian\ Sans.ttf") format("truetype");
+}
 
 @theme {
   --color-linen: #f0eadc;
   --color-whitesmoke: #fcfbf9;
+  --color-light-shade-yellow: #dbcdac;
   --color-golden-sand: #ffe5b4;
+  --font-iranian-sans: "Iranian Sans";
+}
+
+@layer components {
+  .btn {
+    @apply flex items-center justify-between cursor-pointer text-xs rounded-md p-2 w-30;
+  }
 }
