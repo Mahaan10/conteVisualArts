@@ -1,55 +1,106 @@
-import { Drawer, DrawerHeader, DrawerItems } from "flowbite-react";
+import {
+  createTheme,
+  Drawer,
+  DrawerHeader,
+  DrawerItems,
+  Sidebar,
+  SidebarItem,
+  SidebarItemGroup,
+  SidebarItems,
+  ThemeProvider,
+} from "flowbite-react";
+import { PiGraduationCapLight, PiInfo } from "react-icons/pi";
+import { GiAbstract024 } from "react-icons/gi";
+import { BsCalendarEvent } from "react-icons/bs";
+import { FaUsers } from "react-icons/fa";
+import CustomNavlink from "./CustomNavlink";
+
+const customTheme = createTheme({
+  drawer: {
+    root: {
+      base: "fixed z-40 overflow-y-auto bg-whitesmoke p-4 transition-transform dark:bg-gray-950",
+      position: {
+        right: {
+          on: "left-0 right-0 top-0 w-full min-[300px]:max-sm:w-72 sm:max-md:w-76 md:w-80 transform-none",
+          off: "left-0 right-0 top-0 w-full min-[300px]:max-sm:w-72 sm:max-md:w-76 md:w-80 -translate-y-full",
+        },
+      },
+    },
+    header: {
+      inner: {
+        closeButton:
+          "absolute end-2.5 top-2.5 flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-gray-700 dark:text-gray-400 hover:bg-gray-300 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-whitesmoke cursor-pointer",
+        titleText:
+          "mb-4 inline-flex items-center text-sm font-medium text-gray-500 dark:text-gray-400",
+      },
+    },
+  },
+  sidebar: {
+    root: {
+      collapsed: {
+        off: "w-full",
+      },
+      inner:
+        "h-full overflow-y-auto overflow-x-hidden rounded-lg bg-gray-100 dark:bg-gray-900 px-3 py-4 mt-6 w-full",
+    },
+  },
+});
 
 function HeaderMenu({ isOpen, setIsOpen }) {
   return (
     <>
-      <div className="md:hidden">
-        <Drawer open={isOpen} onClose={() => setIsOpen(false)} position="right">
-          <DrawerHeader title="Drawer" />
-          <DrawerItems>
-            <p className="mb-6 text-sm text-gray-500 dark:text-gray-400">
-              Supercharge your hiring by taking advantage of our&nbsp;
-              <a
-                href="#"
-                className="text-cyan-600 underline hover:no-underline dark:text-cyan-500"
-              >
-                limited-time sale
-              </a>
-              &nbsp;for Flowbite Docs + Job Board. Unlimited access to over 190K
-              top-ranked candidates and the #1 design job board.
-            </p>
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              <a
-                href="#"
-                className="rounded-lg border border-gray-200 bg-white px-4 py-2 text-center text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-cyan-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
-              >
-                Learn more
-              </a>
-              <a
-                href="#"
-                className="inline-flex items-center rounded-lg bg-cyan-700 px-4 py-2 text-center text-sm font-medium text-white hover:bg-cyan-800 focus:outline-none focus:ring-4 focus:ring-cyan-300 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
-              >
-                Get access&nbsp;
-                <svg
-                  className="ms-2 h-3.5 w-3.5 rtl:rotate-180"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 14 10"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M1 5h12m0 0L9 1m4 4L9 9"
-                  />
-                </svg>
-              </a>
-            </div>
-          </DrawerItems>
-        </Drawer>
-      </div>
+      {isOpen && (
+        <ThemeProvider theme={customTheme}>
+          <Drawer
+            open={isOpen}
+            onClose={() => setIsOpen(false)}
+            position="right"
+          >
+            <DrawerHeader title="آموزشگاه هنرهای تجسمی کٌنته" />
+            <button className="w-full cursor-pointer text-xs py-4 rounded-lg bg-almond-cookie dark:bg-dark-cerulean mt-2">
+              ورود یا ثبت نام
+            </button>
+            <DrawerItems>
+              <Sidebar>
+                <SidebarItems>
+                  <SidebarItemGroup>
+                    <li className="text-sm rounded-lg transition-colors duration-300 py-1">
+                      <CustomNavlink to="/home">
+                        <PiGraduationCapLight className="w-5 h-5 dark:text-gray-400 text-gray-700" />
+                        <span>همه دوره ها</span>
+                      </CustomNavlink>
+                    </li>
+                    <li className="text-sm rounded-lg transition-colors duration-300 py-1">
+                      <CustomNavlink to="/artists-work">
+                        <GiAbstract024 className="w-5 h-5 dark:text-gray-400 text-gray-700" />
+                        <span>آثار هنرجویان</span>
+                      </CustomNavlink>
+                    </li>
+                    <li className="text-sm rounded-lg transition-colors duration-300 py-1">
+                      <CustomNavlink to="/news">
+                        <BsCalendarEvent className="w-5 h-5 dark:text-gray-400 text-gray-700" />
+                        <span>اخبار و رویدادها</span>
+                      </CustomNavlink>
+                    </li>
+                    <li className="text-sm rounded-lg transition-colors duration-300 py-1">
+                      <CustomNavlink to="/about">
+                        <FaUsers className="w-5 h-5 dark:text-gray-400 text-gray-700" />
+                        <span>درباره ما</span>
+                      </CustomNavlink>
+                    </li>
+                    <li className="text-sm rounded-lg transition-colors duration-300 py-1">
+                      <CustomNavlink to="/contact">
+                        <PiInfo className="w-5 h-5 dark:text-gray-400 text-gray-700" />
+                        <span>ارتباط با ما</span>
+                      </CustomNavlink>
+                    </li>
+                  </SidebarItemGroup>
+                </SidebarItems>
+              </Sidebar>
+            </DrawerItems>
+          </Drawer>
+        </ThemeProvider>
+      )}
     </>
   );
 }

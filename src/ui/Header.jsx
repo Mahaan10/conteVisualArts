@@ -19,10 +19,9 @@ function Header() {
       >
         <IoMenuOutline className="w-8 h-8" />
       </button>
-      <HeaderMenu isOpen={isDrawerOpen} setIsOpen={setIsDrawerOpen} />
-      <div className="flex items-center gap-x-2">
+      <div className="flex items-center justify-center">
         {/* Brand Logo */}
-        <Link to="/" className="">
+        <Link to="/" className="ml-2">
           <img
             src="images/Logo.jpg"
             alt=""
@@ -44,7 +43,7 @@ function Header() {
             <CustomNavlink to="/about">درباره ما</CustomNavlink>
           </li>
           <li>
-            <CustomNavlink to="/contact">تماس با ما</CustomNavlink>
+            <CustomNavlink to="/contact">ارتباط با ما</CustomNavlink>
           </li>
         </ul>
       </div>
@@ -53,7 +52,7 @@ function Header() {
         {/* Theme Mode buttons */}
         <ThemeMode />
         {/* Shopping Card button */}
-        <button className="cursor-pointer bg-almond-cookie p-2 rounded-full dark:bg-dark-cerulean transition-colors duration-300">
+        <button className="cursor-pointer bg-almond-cookie p-2 rounded-full dark:bg-dark-cerulean hover:bg-golden-sand dark:hover:bg-purple-plumeria transition-colors duration-300">
           <HiOutlineShoppingBag className="w-5 h-5" />
         </button>
         {/* Login or Sign up button */}
@@ -62,6 +61,7 @@ function Header() {
           <span>ورود|عضویت</span>
         </button>
       </div>
+      <HeaderMenu isOpen={isDrawerOpen} setIsOpen={setIsDrawerOpen} />
     </div>
   );
 }

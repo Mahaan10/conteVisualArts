@@ -14,15 +14,16 @@
   --color-whitesmoke: #fcfbf9;
   --color-light-shade-yellow: #dbcdac;
   --color-almond-cookie: #ecc779;
-  --color-golden-sand: #ffe5b4;
+  --color-golden-sand: #f0d697;
   --color-dark-cerulean: #634c82;
   --color-dark-purple: #281c36;
   --color-grayish-violet: #b4a2d0;
+  --color-purple-plumeria: #463758;
   --font-iranian-sans: "Iranian Sans";
 }
 
 @layer components {
   .btn {
-    @apply flex items-center justify-between cursor-pointer text-xs rounded-md p-2 w-30 bg-almond-cookie dark:bg-dark-cerulean transition-colors duration-300;
+    @apply flex items-center justify-between cursor-pointer text-xs rounded-md p-2 w-30 bg-almond-cookie dark:bg-dark-cerulean hover:bg-golden-sand dark:hover:bg-purple-plumeria transition-colors duration-300;
   }
 }
