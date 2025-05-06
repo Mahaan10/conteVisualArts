@@ -1,43 +1,67 @@
 import { Link } from "react-router-dom";
 import CustomNavlink from "./CustomNavlink";
 import { MdSignalCellularAlt2Bar } from "react-icons/md";
+import { HiOutlineShoppingBag } from "react-icons/hi2";
+import ThemeMode from "./ThemeMode";
+import HeaderMenu from "./HeaderMenu";
+import { useState } from "react";
+import { IoMenuOutline } from "react-icons/io5";
 
 function Header() {
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
   return (
-    <div className="flex items-center justify-between border-b border-light-shade-yellow">
+    <div className="flex items-center justify-between border-b border-light-shade-yellow dark:border-grayish-violet transition-colors duration-300">
+      {/* Header Menu */}
+      <button
+        className="md:hidden block mr-1 cursor-pointer"
+        onClick={() => setIsDrawerOpen(!isDrawerOpen)}
+      >
+        <IoMenuOutline className="w-8 h-8" />
+      </button>
+      <HeaderMenu isOpen={isDrawerOpen} setIsOpen={setIsDrawerOpen} />
       <div className="flex items-center gap-x-2">
         {/* Brand Logo */}
         <Link to="/" className="">
           <img
             src="images/Logo.jpg"
             alt=""
-            className="h-16 w-16 rounded-r-lg"
+            className="h-16 w-16 md:rounded-tr-lg"
           />
         </Link>
         {/* Header Navbar */}
-        <ul className="flex items-center gap-x-6 text-xs ml-2">
+        <ul className="hidden md:flex items-center gap-x-6 text-xs ml-2">
           <li>
-            <CustomNavlink to="/home">همه دوره ها</CustomNavlink>
+            <CustomNavlink to="/courses">همه دوره ها</CustomNavlink>
           </li>
           <li>
-            <CustomNavlink to="/home">آثار هنرجویان</CustomNavlink>
+            <CustomNavlink to="/artists-work">آثار هنرجویان</CustomNavlink>
           </li>
           <li>
-            <CustomNavlink to="/home">اخبار و رویداد ها</CustomNavlink>
+            <CustomNavlink to="/news">اخبار و رویداد ها</CustomNavlink>
           </li>
           <li>
-            <CustomNavlink to="/home">درباره ما</CustomNavlink>
+            <CustomNavlink to="/about">درباره ما</CustomNavlink>
           </li>
           <li>
-            <CustomNavlink to="/home">تماس با ما</CustomNavlink>
+            <CustomNavlink to="/contact">تماس با ما</CustomNavlink>
           </li>
         </ul>
       </div>
-      {/* Login or Sign up button */}
-      <button className="ml-2 btn">
-        <MdSignalCellularAlt2Bar className="w-5 h-5" />
-        <span>ورود|عضویت</span>
-      </button>
+      {/* Left Section */}
+      <div className="flex items-center justify-between gap-x-4 ml-2">
+        {/* Theme Mode buttons */}
+        <ThemeMode />
+        {/* Shopping Card button */}
+        <button className="cursor-pointer bg-almond-cookie p-2 rounded-full dark:bg-dark-cerulean transition-colors duration-300">
+          <HiOutlineShoppingBag className="w-5 h-5" />
+        </button>
+        {/* Login or Sign up button */}
+        <button className="btn md:flex hidden">
+          <MdSignalCellularAlt2Bar className="w-5 h-5" />
+          <span>ورود|عضویت</span>
+        </button>
+      </div>
     </div>
   );
 }

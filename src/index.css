@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@plugin "flowbite-react/plugin/tailwindcss";
+@source "../.flowbite-react/class-list.json";
 @custom-variant dark (&:where(.dark, .dark *));
 
 @font-face {
@@ -11,12 +13,16 @@
   --color-linen: #f0eadc;
   --color-whitesmoke: #fcfbf9;
   --color-light-shade-yellow: #dbcdac;
+  --color-almond-cookie: #ecc779;
   --color-golden-sand: #ffe5b4;
+  --color-dark-cerulean: #634c82;
+  --color-dark-purple: #281c36;
+  --color-grayish-violet: #b4a2d0;
   --font-iranian-sans: "Iranian Sans";
 }
 
 @layer components {
   .btn {
-    @apply flex items-center justify-between cursor-pointer text-xs rounded-md p-2 w-30;
+    @apply flex items-center justify-between cursor-pointer text-xs rounded-md p-2 w-30 bg-almond-cookie dark:bg-dark-cerulean transition-colors duration-300;
   }
 }
