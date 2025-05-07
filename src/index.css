@@ -26,4 +26,10 @@
   .btn {
     @apply flex items-center justify-between cursor-pointer text-xs rounded-md p-2 w-30 bg-almond-cookie dark:bg-dark-cerulean hover:bg-golden-sand dark:hover:bg-purple-plumeria transition-colors duration-300;
   }
+  .step-circle {
+    @apply w-10 h-10 rounded-full bg-almond-cookie dark:bg-gray-900 border border-gray-500 flex items-center justify-center transition-colors duration-300;
+  }
+  .step-line {
+    @apply flex-1 h-0.5 bg-gray-400 dark:bg-gray-700 mx-2 rounded;
+  }
 }

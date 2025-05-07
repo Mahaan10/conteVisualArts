@@ -46,7 +46,7 @@ const customTheme = createTheme({
   },
 });
 
-function HeaderMenu({ isOpen, setIsOpen }) {
+function HeaderMenu({ isOpen, setIsOpen, setIsModalOpen }) {
   return (
     <>
       {isOpen && (
@@ -57,7 +57,10 @@ function HeaderMenu({ isOpen, setIsOpen }) {
             position="right"
           >
             <DrawerHeader title="آموزشگاه هنرهای تجسمی کٌنته" />
-            <button className="w-full cursor-pointer text-xs py-4 rounded-lg bg-almond-cookie dark:bg-dark-cerulean mt-2">
+            <button
+              className="w-full cursor-pointer text-xs py-4 rounded-lg bg-almond-cookie dark:bg-dark-cerulean mt-2"
+              onClick={() => setIsModalOpen(true)}
+            >
               ورود یا ثبت نام
             </button>
             <DrawerItems>
@@ -65,7 +68,7 @@ function HeaderMenu({ isOpen, setIsOpen }) {
                 <SidebarItems>
                   <SidebarItemGroup>
                     <li className="text-sm rounded-lg transition-colors duration-300 py-1">
-                      <CustomNavlink to="/home">
+                      <CustomNavlink to="/courses">
                         <PiGraduationCapLight className="w-5 h-5 dark:text-gray-400 text-gray-700" />
                         <span>همه دوره ها</span>
                       </CustomNavlink>
