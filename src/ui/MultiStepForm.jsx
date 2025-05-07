@@ -1,75 +1,104 @@
-import { FloatingLabel } from "flowbite-react";
+import { createTheme, FloatingLabel, ThemeProvider } from "flowbite-react";
 import { useState } from "react";
+import { toPersianNumbers } from "../utils/toPersianNumbers";
+import OtpInput from "react-otp-input";
 
-function MultiStepForm() {
+const customTheme = createTheme({
+  floatingLabel: {
+    label: {
+      default: {
+        outlined: {
+          sm: "right-1 left-auto dark:bg-gray-950 bg-whitesmoke cursor-text",
+        },
+      },
+    },
+  },
+});
+
+const MultiStepForm = () => {
   const [step, setStep] = useState(1);
 
-  const nextStep = () => setStep(step + 1);
-  const prevStep = () => setStep(step - 1);
+  const nextStep = (e) => {
+    e.preventDefault();
+    setStep(step + 1);
+  };
+  const prevStep = (e) => {
+    e.preventDefault();
+    setStep(step - 1);
+  };
 
   return (
-    <form className="">
-      <div className="flex items-center justify-center mb-8">
-        <div
-          className={`step-circle ${
-            step === 1 && "border-red-700 text-cyan-500"
-          }`}
-        >
-          1
+    <form>
+      <div className="flex items-center justify-center mb-6">
+        <div className={`step-circle ${step === 1 && "opacity-100"}`}>
+          {toPersianNumbers(1)}
         </div>
-        <div className="step-line" />
-        <div
-          className={`step-circle ${
-            step === 2 && "border-red-700 text-cyan-500"
-          }`}
-        >
-          2
+        <div className="flex-1 h-0.5 bg-gray-400 my-2 rounded-xs" />
+        <div className={`step-circle ${step === 2 && "opacity-100"}`}>
+          {toPersianNumbers(2)}
         </div>
-        <div className="step-line" />
-        <div
-          className={`step-circle ${
-            step === 3 && "border-red-700 text-cyan-500"
-          }`}
-        >
-          3
+        <div className="flex-1 h-0.5 bg-gray-400 my-2 rounded-xs" />
+        <div className={`step-circle ${step === 3 && "opacity-100"}`}>
+          {toPersianNumbers(3)}
         </div>
       </div>
-      <div className="mb-7">
-        {step === 1 && (
-          <>
-            <p className="text-xs mb-8">شماره همراه خود را وارد کنید:</p>
+      {step === 1 && (
+        <>
+          <p className="text-xs mb-4">شماره همراه خود را وارد کنید:</p>
+          <ThemeProvider theme={customTheme}>
             <FloatingLabel
               variant="outlined"
               label="شماره همراه"
-            ></FloatingLabel>
-          </>
-        )}
-        {step === 2 && (
-          <>
-            <p className="text-xs mb-8">ایمیل خود را وارد کنید.</p>
-            <FloatingLabel
-              variant="outlined"
-              label="شماره همراه"
-            ></FloatingLabel>
-          </>
-        )}
-        {step === 3 && <p className="text-xs">آماده ارسال!</p>}
-      </div>
-      <div className="button-container stepper-btns">
-        {step < 3 && (
-          <button onClick={nextStep} className="stepper-btn next">
-            بعدی
-          </button>
-        )}
+              sizing="sm"
+              type="tel"
+            />
+          </ThemeProvider>
+        </>
+      )}
+      {step === 2 && (
+        <>
+          <p className="text-xs mb-4">کد تایید را وارد کنید:</p>
+          <OtpInput
+            value=""
+            onChange=""
+            numInputs={6}
+            renderSeparator={<span>-</span>}
+            renderInput={(props) => <input type="number" {...props} />}
+            containerStyle="flex flex-row-reverse gap-x-2 justify-center my-5"
+            inputStyle={{
+              width: "2.5rem",
+              padding: "0.5rem 0.2rem",
+              border: "1px solid gray",
+              borderRadius: "0.5rem",
+            }}
+          />
+        </>
+      )}
+      <div className="flex items-center justify-between gap-6">
         {step > 1 && (
-          <button onClick={prevStep} className="stepper-btn prev">
-            قبلی
+          <button
+            className="btn mt-4 justify-center items-center"
+            onClick={prevStep}
+          >
+            مرحله قبل
           </button>
         )}
-        {step === 3 && <button className="stepper-btn submit">ارسال</button>}
+        {step < 3 && (
+          <button
+            className="btn mt-4 justify-center items-center"
+            onClick={nextStep}
+          >
+            مرحله بعد
+          </button>
+        )}
+        {step === 3 && (
+          <button className="btn mt-4 justify-center items-center">
+            ثبت نام
+          </button>
+        )}
       </div>
     </form>
   );
-}
+};
 
 export default MultiStepForm;
