@@ -8,30 +8,44 @@
   font-style: normal;
   src: url("/fonts/A-Iranian-Sans/Iranian\ Sans.ttf") format("truetype");
 }
+@font-face {
+  font-family: "Hoda";
+  font-style: normal;
+  src: url("/fonts/HodaTorabikhah/HodaTorabikhah.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Iran Marker";
+  font-style: normal;
+  src: url("../public/fonts/iranmarker/IRANMarker.ttf") format("truetype");
+}
 
 @theme {
-  --color-linen: #f0eadc;
+  --color-linen: #dbcdac;
   --color-whitesmoke: #fcfbf9;
   --color-light-shade-yellow: #dbcdac;
   --color-almond-cookie: #ecc779;
   --color-golden-sand: #f0d697;
+  --color-butter-caramel: #a87e4e;
   --color-dark-cerulean: #634c82;
   --color-dark-purple: #281c36;
   --color-grayish-violet: #b4a2d0;
   --color-purple-plumeria: #463758;
+  --color-moderate-violet: #815da5;
   --font-iranian-sans: "Iranian Sans";
+  --font-hoda: "Hoda";
+  --font-iran-marker : "Iran Marker";
 }
 
 @layer components {
   .inputTextField {
-    @apply  block w-full appearance-none rounded-lg border border-gray-300 bg-transparent px-2.5 pb-2.5 pt-4 text-xs text-gray-900 focus:border-primary-600 focus:outline-none focus:ring-0 dark:border-gray-600 dark:text-white dark:focus:border-primary-500
+    @apply  w-full bg-whitesmoke border-none py-3 md:py-6 px-4 rounded-xl outline-none focus:bg-neutral-200 text-black transition-all duration-300 ease-in-out focus:shadow-lg focus:shadow-black placeholder:font-bold placeholder:text-sm md:placeholder:text-base;
   }
 
   .btn {
     @apply flex items-center justify-between cursor-pointer text-xs rounded-md p-2 w-30 bg-almond-cookie dark:bg-dark-cerulean hover:bg-golden-sand dark:hover:bg-purple-plumeria transition-colors duration-300;
   }
   .step-circle {
-    @apply w-10 h-10 rounded-full bg-almond-cookie dark:bg-gray-900 border border-gray-700 dark:border-gray-500 flex items-center justify-center transition-colors duration-300 opacity-50;
+    @apply w-9 h-9 text-xs font-hoda rounded-full bg-almond-cookie dark:bg-gray-900 border border-gray-700 dark:border-gray-500 flex items-center justify-center transition-colors duration-300 opacity-50;
   }
   .step-line {
     @apply flex-1 h-0.5 bg-gray-500 mx-2 rounded;

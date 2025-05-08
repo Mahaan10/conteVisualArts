@@ -4,7 +4,6 @@ import {
   DrawerHeader,
   DrawerItems,
   Sidebar,
-  SidebarItem,
   SidebarItemGroup,
   SidebarItems,
   ThemeProvider,
@@ -58,7 +57,7 @@ function HeaderMenu({ isOpen, setIsOpen, setIsModalOpen }) {
           >
             <DrawerHeader title="آموزشگاه هنرهای تجسمی کٌنته" />
             <button
-              className="w-full cursor-pointer text-xs py-4 rounded-lg bg-almond-cookie dark:bg-dark-cerulean mt-2"
+              className="w-full cursor-pointer text-xs py-4 rounded-lg bg-almond-cookie dark:bg-dark-cerulean mt-2 hover:bg-golden-sand dark:hover:bg-purple-plumeria transition-colors duration-300"
               onClick={() => setIsModalOpen(true)}
             >
               ورود یا ثبت نام

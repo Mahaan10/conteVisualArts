@@ -1,6 +1,5 @@
 import { createTheme, FloatingLabel, ThemeProvider } from "flowbite-react";
 import { useState } from "react";
-import { toPersianNumbers } from "../utils/toPersianNumbers";
 import OtpInput from "react-otp-input";
 
 const customTheme = createTheme({
@@ -30,17 +29,11 @@ const MultiStepForm = () => {
   return (
     <form>
       <div className="flex items-center justify-center mb-6">
-        <div className={`step-circle ${step === 1 && "opacity-100"}`}>
-          {toPersianNumbers(1)}
-        </div>
+        <div className={`step-circle ${step === 1 && "opacity-100"}`}>1</div>
         <div className="flex-1 h-0.5 bg-gray-400 my-2 rounded-xs" />
-        <div className={`step-circle ${step === 2 && "opacity-100"}`}>
-          {toPersianNumbers(2)}
-        </div>
+        <div className={`step-circle ${step === 2 && "opacity-100"}`}>2</div>
         <div className="flex-1 h-0.5 bg-gray-400 my-2 rounded-xs" />
-        <div className={`step-circle ${step === 3 && "opacity-100"}`}>
-          {toPersianNumbers(3)}
-        </div>
+        <div className={`step-circle ${step === 3 && "opacity-100"}`}>3</div>
       </div>
       {step === 1 && (
         <>
