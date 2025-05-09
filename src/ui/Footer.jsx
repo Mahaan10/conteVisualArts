@@ -1,10 +1,52 @@
 import { Link } from "react-router-dom";
+import {
+  createTheme,
+  Footer,
+  FooterBrand,
+  FooterCopyright,
+  FooterDivider,
+  FooterIcon,
+  FooterLink,
+  FooterLinkGroup,
+  FooterTitle,
+  ThemeProvider,
+} from "flowbite-react";
+import {
+  PiInstagramLogo,
+  PiTelegramLogo,
+  PiWhatsappLogo,
+} from "react-icons/pi";
 
-function Footer() {
+const customTheme = createTheme({
+  footer: {
+    root: {
+      base: "!bg-inherit rounded-none",
+    },
+    groupLink: {
+      base: "text-black",
+      link: {
+        base: "me-4 !mr-0",
+        href: "hover:opacity-80 opacity-50 hover:no-underline",
+      },
+    },
+    title: {
+      base: "text-base md:text-lg",
+    },
+    brand: {
+      img: "mr-0 h-32",
+    },
+    icon: {
+      base: "text-inherit",
+      size: "w-10 h-10 bg-almond-cookie hover:bg-golden-sand p-2 rounded-full dark:bg-dark-purple",
+    },
+  },
+});
+
+function FooterSection() {
   return (
     <div className="border-t border-light-shade-yellow dark:border-moderate-violet transition-colors duration-300">
-      <div className="flex flex-col">
-        <div className="-mb-20">
+      <div className="flex flex-col overflow-hidden">
+        <div className="mb-5">
           <img
             src="images/footer.png"
             loading="lazy"
@@ -14,8 +56,8 @@ function Footer() {
             className="object-cover w-full"
           />
         </div>
-        <div className="flex flex-col gap-5 w-full sm:gap-3">
-          <div className="w-full flex justify-between px-24 items-center sm:px-5">
+        {/* <div className="flex flex-col gap-5 w-full sm:gap-3 mb-10">
+          <div className="w-full flex justify-between items-center px-5">
             <div className="flex gap-10 sm:flex-wrap sm:gap-5">
               <div className="flex flex-col gap-y-2">
                 <p className="text-lg">دوره های پرطرفدار</p>
@@ -45,7 +87,7 @@ function Footer() {
                 </div>
               </div>
             </div>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 sm:self-center">
               <h1>صفحات اجتماعی</h1>
               <div className="flex flex-col gap-y-1">
                 <div className="">
@@ -56,17 +98,107 @@ function Footer() {
                   <span>ایمیل:</span>
                   <Link to="">conteschool@yahoo.com</Link>
                 </div>
-                <div className="">{/* Social Links */}</div>
+                <div className="">Social Links</div>
               </div>
             </div>
-            <div className="flex flex-col gap-2">
-              <img src="images/Logo.jpg" alt="" className="w-44" />
+            <div className="flex flex-col gap-y-7 sm:self-center">
+              <img src="images/Logo.jpg" alt="" className="w-24" />
             </div>
           </div>
-        </div>
+        </div> */}
+        <ThemeProvider theme={customTheme}>
+          <Footer container>
+            <div className="w-full">
+              <div className="grid w-full justify-between sm:flex sm:justify-between md:flex md:grid-cols-1 px-5 sm:px-10">
+                <div className="grid grid-cols-2 gap-8 sm:grid-cols-4 sm:gap-6">
+                  <div>
+                    <FooterTitle title="دوره های پرطرفدار" />
+                    <FooterLinkGroup col>
+                      <FooterLink href="/courses/portrait">
+                        نقاشی چهره
+                      </FooterLink>
+                      <FooterLink href="/courses/nature">
+                        نقاشی طبیعت
+                      </FooterLink>
+                      <FooterLink href="/courses/pictures">
+                        نقاشی از روی عکس
+                      </FooterLink>
+                      <FooterLink href="/courses/so-realism">
+                        نقاشی به سبک سورئالیسم
+                      </FooterLink>
+                      <FooterLink href="/courses/realism">
+                        نقاشی به سبک رئالیسم
+                      </FooterLink>
+                    </FooterLinkGroup>
+                  </div>
+                  <div>
+                    <FooterTitle title="دسترسی سریع" />
+                    <FooterLinkGroup col>
+                      <FooterLink href="/courses/portrait">
+                        همه دوره ها
+                      </FooterLink>
+                      <FooterLink href="/courses/portrait">
+                        آثار هنرجویان
+                      </FooterLink>
+                      <FooterLink href="/courses/portrait">
+                        اخبار و رویدادها
+                      </FooterLink>
+                      <FooterLink href="/courses/portrait">
+                        درباره ما
+                      </FooterLink>
+                      <FooterLink href="/courses/portrait">
+                        ارتباط با ما
+                      </FooterLink>
+                    </FooterLinkGroup>
+                  </div>
+                  <div>
+                    <FooterTitle title="راهنما و پشتیبانی" />
+                    <FooterLinkGroup col>
+                      <FooterLink href="/courses/portrait">
+                        سوالات متداول(FAQ)
+                      </FooterLink>
+                      <FooterLink href="/courses/portrait">
+                        قوانین و مقررات
+                      </FooterLink>
+                    </FooterLinkGroup>
+                  </div>
+                  <div>
+                    <FooterTitle title="راه های ارتباطی" />
+                    <div className="flex flex-col gap-y-4 text-sm">
+                      <div className="flex gap-x-2 opacity-50">
+                        <span>تلفن پشتیبانی:</span>
+                        <Link to="">66957831-021</Link>
+                      </div>
+                      <div className="flex gap-x-2 opacity-50">
+                        <span>ایمیل:</span>
+                        <Link to="">conteschool@yahoo.com</Link>
+                      </div>
+                      <div className="flex items-center gap-x-4">
+                        <FooterIcon href="/courses" icon={PiInstagramLogo} />
+                        <FooterIcon href="/courses" icon={PiTelegramLogo} />
+                        <FooterIcon href="/courses" icon={PiWhatsappLogo} />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <FooterBrand
+                    href="/"
+                    src="images/Logo.jpg"
+                    alt="Conte Logo"
+                  />
+                </div>
+              </div>
+              <FooterDivider />
+              <div className="flex gap-y-2 items-center justify-center">
+                <FooterCopyright by="کلیه حقوق متعلق به آموزشگاه کًنته می باشد." />
+              </div>
+            </div>
+          </Footer>
+        </ThemeProvider>
       </div>
     </div>
   );
 }
 
-export default Footer;
+export default FooterSection;
