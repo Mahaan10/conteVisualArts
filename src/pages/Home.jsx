@@ -47,7 +47,24 @@ function Home() {
           </Link>
         </div>
       </div>
-      <div className="grid grid-row-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-7 mt-10">
+      <div className="grid grid-row-2 grid-cols-1 min-[400px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 sm:gap-7 mt-10">
+        <HomePageCourses />
+      </div>
+      {/* Artists Works */}
+      <div className="border-t border-almond-cookie/50 dark:border-moderate-violet/20 mt-10"></div>
+      <div className="mt-10">
+        <div className="flex items-center justify-between">
+          <h1 className="text-lg">آثار هنرجویان</h1>
+          <Link
+            to="/artists-work"
+            className="text-xs flex items-center gap-x-1 hover:text-butter-caramel dark:hover:text-moderate-violet transition-colors duration-300"
+          >
+            <span>آثار هنرجویان</span>
+            <FiArrowUpLeft className="w-5 h-5" />
+          </Link>
+        </div>
+      </div>
+      <div className="grid grid-row-2 grid-cols-1 min-[400px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 sm:gap-7 mt-10">
         <HomePageCourses />
       </div>
     </div>

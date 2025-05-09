@@ -16,7 +16,7 @@
 @font-face {
   font-family: "Iran Marker";
   font-style: normal;
-  src: url("../public/fonts/iranmarker/IRANMarker.ttf") format("truetype");
+  src: url("/fonts/iranmarker/IRANMarker.ttf") format("truetype");
 }
 
 @theme {

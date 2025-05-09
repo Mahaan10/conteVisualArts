@@ -26,6 +26,12 @@ function HomePageCourses() {
       title: "نقاشی به سبک سورئالیسم",
       to: "/courses/so-realism",
     },
+    {
+      id: 5,
+      image: "images/halftone-monochrome-collage.jpg",
+      title: "نقاشی به سبک سورئالیسم",
+      to: "/courses/so-realism",
+    },
   ];
   return (
     <>
@@ -33,12 +39,14 @@ function HomePageCourses() {
         <Link
           key={course.id}
           to={course.to}
-          className="flex flex-col gap-y-2 w-40"
+          className="flex flex-col gap-y-2 items-center w-full"
         >
-          <div className="w-full h-40">
+          <div className="w-40 h-40">
             <img src={course.image} alt="" className="rounded-lg" />
           </div>
-          <h1 className="text-sm text-nowrap">{course.title}</h1>
+          <h1 className="text-sm text-nowrap w-40 text-right">
+            {course.title}
+          </h1>
         </Link>
       ))}
     </>

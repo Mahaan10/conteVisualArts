@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom";
 import Header from "./Header";
+import Footer from "./Footer";
 
 function PagesLayout() {
   return (
@@ -9,6 +10,7 @@ function PagesLayout() {
         <div className="max-w-[980px] mx-auto">
           <Outlet />
         </div>
+        <Footer />
       </div>
     </div>
   );
