@@ -28,9 +28,9 @@ function HomePageCourses() {
     },
     {
       id: 5,
-      image: "images/halftone-monochrome-collage.jpg",
-      title: "نقاشی به سبک سورئالیسم",
-      to: "/courses/so-realism",
+      image: "images/vintage-style-soldier-helmet-still-life.jpg",
+      title: "نقاشی به سبک رئالیسم",
+      to: "/courses/realism",
     },
   ];
   return (

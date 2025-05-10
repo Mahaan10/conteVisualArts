@@ -11,11 +11,8 @@ import {
   FooterTitle,
   ThemeProvider,
 } from "flowbite-react";
-import {
-  PiInstagramLogo,
-  PiTelegramLogo,
-  PiWhatsappLogo,
-} from "react-icons/pi";
+import { PiInstagramLogo, PiTelegramLogo } from "react-icons/pi";
+import { FaWhatsapp } from "react-icons/fa6";
 
 const customTheme = createTheme({
   footer: {
@@ -37,7 +34,7 @@ const customTheme = createTheme({
     },
     icon: {
       base: "text-inherit",
-      size: "w-10 h-10 bg-almond-cookie hover:bg-golden-sand p-2 rounded-full dark:bg-dark-purple",
+      size: "w-10 h-10 bg-almond-cookie hover:bg-golden-sand dark:hover:bg-purple-plumeria p-2 rounded-full dark:bg-dark-purple",
     },
   },
 });
@@ -167,7 +164,11 @@ function FooterSection() {
                     <div className="flex flex-col gap-y-4 text-sm">
                       <div className="flex gap-x-2 opacity-50">
                         <span>تلفن پشتیبانی:</span>
-                        <Link to="">66957831-021</Link>
+                        <Link to="">021-66957831</Link>
+                      </div>
+                      <div className="flex gap-x-2 opacity-50">
+                        <span>فکس:</span>
+                        <Link to="">021-66958237</Link>
                       </div>
                       <div className="flex gap-x-2 opacity-50">
                         <span>ایمیل:</span>
@@ -176,17 +177,23 @@ function FooterSection() {
                       <div className="flex items-center gap-x-4">
                         <FooterIcon href="/courses" icon={PiInstagramLogo} />
                         <FooterIcon href="/courses" icon={PiTelegramLogo} />
-                        <FooterIcon href="/courses" icon={PiWhatsappLogo} />
+                        <FooterIcon href="/courses" icon={FaWhatsapp} />
                       </div>
                     </div>
                   </div>
                 </div>
-                <div>
-                  <FooterBrand
-                    href="/"
-                    src="images/Logo.jpg"
-                    alt="Conte Logo"
-                  />
+                <div className="flex flex-row sm:flex-col gap-4 mt-4 sm:mt-0">
+                  <div>
+                    <FooterBrand
+                      href="/"
+                      src="images/Logo.jpg"
+                      alt="Conte Logo"
+                    />
+                  </div>
+                  <div className="w-12 h-12 flex gap-x-2">
+                    <img src="images/zarin.png" alt="" />
+                    <img src="images/enamad.jpg" alt="" />
+                  </div>
                 </div>
               </div>
               <FooterDivider />
