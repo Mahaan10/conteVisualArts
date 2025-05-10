@@ -1,48 +1,63 @@
+import { Button, Card, createTheme, ThemeProvider } from "flowbite-react";
 import { FiArrowLeft, FiArrowRight, FiArrowUpLeft } from "react-icons/fi";
 import { IoCalendar } from "react-icons/io5";
-import { FaRegUser } from "react-icons/fa6";
+import { FaArrowLeft, FaRegUser } from "react-icons/fa6";
 import { Link } from "react-router-dom";
+
+const customTheme = createTheme({
+  card: {
+    root: {
+      base: "border-gray-300 bg-gray-100 shadow-xl dark:bg-slate-900 dark:shadow-black",
+    },
+  },
+  button: {
+    base: "gap-x-3",
+    outlineColor: {
+      dark: "dark:hover:text-whitesmoke cursor-pointer transition-colors duration-300 text-xs",
+    },
+  },
+});
 
 function HomePageNewsSection() {
   const news = [
     {
       id: 1,
-      image: "images/812798_23813-NURJJK.jpg",
-      title: "شروع دوره نقاشی چهره",
+      //image: "images/812798_23813-NURJJK.jpg",
+      title: "تغییر تاریخ شروع دوره نقاشی چهره",
       description:
         "ما تو دنیایی زندگی میکنیم که همه چیز با دید هنری زیباتر و بهتر دیده میشه. چشم ها اسلحه ما برای فتح جنگ با دنیای زشت هستند.",
       master: "ماهان توکلی",
-      num: 128,
+      //num: 128,
       date: "1404/06/05",
     },
     {
       id: 2,
-      image: "images/nature.jpg",
-      title: "شروع دوره نقاشی طبیعت",
+      //image: "images/nature.jpg",
+      title: "جشنواره گالری نقاشی سبک مدرنیسم",
       description:
         "ما تو دنیایی زندگی میکنیم که همه چیز با دید هنری زیباتر و بهتر دیده میشه. چشم ها اسلحه ما برای فتح جنگ با دنیای زشت هستند.",
       master: "کیارش فیاض",
-      num: 257,
+      //num: 257,
       date: "1404/04/10",
     },
     {
       id: 3,
-      image: "images/4523044_2384322.jpg",
-      title: "آموزش سبک رئالیسم به سبک ونگوگ",
+      //image: "images/4523044_2384322.jpg",
+      title: "شروع ثبت نام سبک رئالیسم به سبک ونگوگ",
       description:
         "ما تو دنیایی زندگی میکنیم که همه چیز با دید هنری زیباتر و بهتر دیده میشه. چشم ها اسلحه ما برای فتح جنگ با دنیای زشت هستند.",
       master: "رضا توکلی",
-      num: 967,
+      //num: 967,
       date: "1404/07/20",
     },
     {
       id: 4,
-      image: "images/halftone-monochrome-collage.jpg",
-      title: "آموزش سبک رئالیسم",
+      //image: "images/halftone-monochrome-collage.jpg",
+      title: "روز جهانی عکاسی",
       description:
         "ما تو دنیایی زندگی میکنیم که همه چیز با دید هنری زیباتر و بهتر دیده میشه. چشم ها اسلحه ما برای فتح جنگ با دنیای زشت هستند.",
       master: "کیارش فیاض",
-      num: 361,
+      //num: 361,
       date: "1404/09/15",
     },
   ];
@@ -67,12 +82,37 @@ function HomePageNewsSection() {
         </button>
       </div>
       <div className="grid grid-row-2 grid-cols-1 min-[400px]:grid-cols-2 sm:grid-cols-3 gap-6 sm:gap-7 mt-10">
-        {news.map((coursesNews) => (
-          <div
+        <ThemeProvider theme={customTheme}>
+          {news.map((coursesNews) => (
+            <Card key={coursesNews.id} className="max-w-sm">
+              <div className="flex justify-between">
+                <h5 className="font-semibold text-base tracking-tight">
+                  {coursesNews.title}
+                </h5>
+                <span className="text-[8px]">{coursesNews.date}</span>
+              </div>
+              <p className="text-gray-700 dark:text-gray-400 text-xs">
+                {coursesNews.description}
+              </p>
+              <Button color="dark" outline>
+                اطلاعات بیشتر
+                <FaArrowLeft className="w-4 h-4" />
+              </Button>
+            </Card>
+          ))}
+        </ThemeProvider>
+      </div>
+    </div>
+  );
+}
+
+export default HomePageNewsSection;
+
+{
+  /* <div
             key={coursesNews.id}
             className="bg-slate-800 rounded-lg flex flex-col"
           >
-            {/* Course Image */}
             <div className="w-full">
               <img
                 src={coursesNews.image}
@@ -80,7 +120,6 @@ function HomePageNewsSection() {
                 className="w-full h-44 rounded-t-lg"
               />
             </div>
-            {/* Course Title and Description */}
             <div className="flex-grow px-4.5 py-4">
               <h1 className="line-clamp-2 text-base font-bold mb-3">
                 {coursesNews.title}
@@ -89,7 +128,6 @@ function HomePageNewsSection() {
                 {coursesNews.description}
               </p>
             </div>
-            {/* Course Master and num of attendence */}
             <div className="flex items-center justify-between px-4.5 py-1.5 border-t border-neutral-200/10">
               <Link
                 to=""
@@ -105,17 +143,10 @@ function HomePageNewsSection() {
                 <span className="text-[10px]">{coursesNews.date}</span>
               </div>
             </div>
-            {/* Course submit */}
             <div className="w-full text-center">
               <button className="btn text-xs font-bold !rounded-t-none !py-3">
                 ثبت نام
               </button>
             </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+          </div> */
 }
-
-export default HomePageNewsSection;
