@@ -2,6 +2,7 @@ import { PiMagnifyingGlassBold } from "react-icons/pi";
 import { FiArrowUpLeft } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import HomePageCourses from "../ui/HomePageCourses";
+import HomePageNewsSection from "../ui/HomePageNewsSection";
 
 function Home() {
   return (
@@ -14,7 +15,6 @@ function Home() {
             className="rounded-lg w-auto mx-auto h-auto"
           />
         </div>
-        {/*         <div className="bg-[url('images/photo_2025-05-08_00-14-50.jpg')] bg-center bg-no-repeat aspect-2/1 rounded-lg"></div> */}
         <div className="font-hoda mr-4 absolute top-1/3 md:top-1/3 text-whitesmoke">
           <h1 className="text-2xl md:text-5xl bg-clip-text font-black">
             کُنته، جایی برای تجلی هنر
@@ -67,6 +67,9 @@ function Home() {
       <div className="grid grid-row-2 grid-cols-1 min-[400px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 sm:gap-7 mt-10">
         <HomePageCourses />
       </div>
+      {/* News and Events */}
+      <div className="border-t border-almond-cookie/50 dark:border-moderate-violet/20 mt-10"></div>
+      <HomePageNewsSection />
     </div>
   );
 }

@@ -33,12 +33,12 @@
   --color-moderate-violet: #815da5;
   --font-iranian-sans: "Iranian Sans";
   --font-hoda: "Hoda";
-  --font-iran-marker : "Iran Marker";
+  --font-iran-marker: "Iran Marker";
 }
 
 @layer components {
   .inputTextField {
-    @apply  w-full bg-whitesmoke border-none py-3 md:py-6 px-4 rounded-xl outline-none focus:bg-neutral-200 text-black transition-all duration-300 ease-in-out focus:shadow-lg focus:shadow-black placeholder:font-bold placeholder:text-sm md:placeholder:text-base;
+    @apply w-full bg-whitesmoke border-none py-3 md:py-6 px-4 rounded-xl outline-none focus:bg-neutral-200 text-black transition-all duration-300 ease-in-out focus:shadow-lg focus:shadow-black placeholder:font-bold placeholder:text-sm md:placeholder:text-base;
   }
 
   .btn {
