@@ -114,7 +114,13 @@ function FooterSection() {
                     <div className="flex flex-col gap-y-4 text-sm">
                       <div className="flex gap-x-2 opacity-50">
                         <span>تلفن پشتیبانی:</span>
-                        <Link to="">021-66957831</Link>
+                        <Link
+                          to="tel:+9802166957831"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          021-66957831
+                        </Link>
                       </div>
                       <div className="flex gap-x-2 opacity-50">
                         <span>فکس:</span>
@@ -122,7 +128,13 @@ function FooterSection() {
                       </div>
                       <div className="flex gap-x-2 opacity-50">
                         <span>ایمیل:</span>
-                        <Link to="">conteschool@yahoo.com</Link>
+                        <Link
+                          to="mailto:conteschool@yahoo.com"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          conteschool@yahoo.com
+                        </Link>
                       </div>
                       <div className="flex items-center gap-x-4">
                         <FooterIcon href="/courses" icon={PiInstagramLogo} />

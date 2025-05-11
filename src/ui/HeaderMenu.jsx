@@ -13,6 +13,7 @@ import { GiAbstract024 } from "react-icons/gi";
 import { BsCalendarEvent } from "react-icons/bs";
 import { FaUsers } from "react-icons/fa";
 import CustomNavlink from "./CustomNavlink";
+import {IoHomeOutline} from "react-icons/io5"
 
 const customTheme = createTheme({
   drawer: {
@@ -66,6 +67,12 @@ function HeaderMenu({ isOpen, setIsOpen, setIsModalOpen }) {
               <Sidebar>
                 <SidebarItems>
                   <SidebarItemGroup>
+                    <li className="text-sm rounded-lg transition-colors duration-300 py-1">
+                      <CustomNavlink to="/home">
+                        <IoHomeOutline className="w-5 h-5 dark:text-gray-400 text-gray-700" />
+                        <span>صفحه اصلی</span>
+                      </CustomNavlink>
+                    </li>
                     <li className="text-sm rounded-lg transition-colors duration-300 py-1">
                       <CustomNavlink to="/courses">
                         <PiGraduationCapLight className="w-5 h-5 dark:text-gray-400 text-gray-700" />

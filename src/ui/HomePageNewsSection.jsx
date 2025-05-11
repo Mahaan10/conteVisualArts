@@ -81,7 +81,7 @@ function HomePageNewsSection() {
           <FiArrowLeft className="w-5 h-5" />
         </button>
       </div>
-      <div className="grid grid-row-2 grid-cols-1 min-[400px]:grid-cols-2 sm:grid-cols-3 gap-6 sm:gap-7 mt-10">
+      <div className="grid grid-row-2 grid-cols-1 min-[450px]:grid-cols-2 sm:grid-cols-3 gap-6 sm:gap-7 mt-10">
         <ThemeProvider theme={customTheme}>
           {news.map((coursesNews) => (
             <Card key={coursesNews.id} className="max-w-sm">
@@ -91,7 +91,7 @@ function HomePageNewsSection() {
                 </h5>
                 <span className="text-[8px]">{coursesNews.date}</span>
               </div>
-              <p className="text-gray-700 dark:text-gray-400 text-xs">
+              <p className="text-gray-700 dark:text-gray-400 text-xs text-ellipsis overflow-hidden line-clamp-3">
                 {coursesNews.description}
               </p>
               <Button color="dark" outline>
