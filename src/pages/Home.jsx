@@ -47,7 +47,7 @@ function Home() {
           </Link>
         </div>
       </div>
-      <div className="grid grid-row-2 grid-cols-1 min-[400px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 sm:gap-7 mt-10">
+      <div className="grid grid-row-2 grid-cols-1 min-[400px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 sm:gap-7 mt-10">
         <HomePageCourses />
       </div>
       {/* Artists Works */}
@@ -64,7 +64,7 @@ function Home() {
           </Link>
         </div>
       </div>
-      <div className="grid grid-row-2 grid-cols-1 min-[400px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 sm:gap-7 mt-10">
+      <div className="grid grid-row-2 grid-cols-1 min-[400px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 sm:gap-7 mt-10">
         <HomePageCourses />
       </div>
       {/* News and Events */}

@@ -13,7 +13,7 @@ import { GiAbstract024 } from "react-icons/gi";
 import { BsCalendarEvent } from "react-icons/bs";
 import { FaUsers } from "react-icons/fa";
 import CustomNavlink from "./CustomNavlink";
-import {IoHomeOutline} from "react-icons/io5"
+import { IoHomeOutline } from "react-icons/io5";
 
 const customTheme = createTheme({
   drawer: {

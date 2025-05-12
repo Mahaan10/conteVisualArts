@@ -81,16 +81,23 @@ function HomePageNewsSection() {
           <FiArrowLeft className="w-5 h-5" />
         </button>
       </div>
-      <div className="grid grid-row-2 grid-cols-1 min-[450px]:grid-cols-2 sm:grid-cols-3 gap-6 sm:gap-7 mt-10">
+      <div className="grid grid-row-2 grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-7 mt-10">
         <ThemeProvider theme={customTheme}>
           {news.map((coursesNews) => (
             <Card key={coursesNews.id} className="max-w-sm">
-              <div className="flex justify-between">
+              <div className="w-full">
+                <img
+                  src="https://flowbite.com/docs/images/blog/image-1.jpg"
+                  alt=""
+                  className="w-full h-44 rounded-t-lg"
+                />
+              </div>
+              <div className="flex line-clamp-2">
                 <h5 className="font-semibold text-base tracking-tight">
                   {coursesNews.title}
                 </h5>
-                <span className="text-[8px]">{coursesNews.date}</span>
               </div>
+              <p className="text-left text-[8px]">{coursesNews.date}</p>
               <p className="text-gray-700 dark:text-gray-400 text-xs text-ellipsis overflow-hidden line-clamp-3">
                 {coursesNews.description}
               </p>

@@ -43,16 +43,6 @@ function FooterSection() {
   return (
     <div className="border-t border-light-shade-yellow dark:border-moderate-violet transition-colors duration-300">
       <div className="flex flex-col overflow-hidden">
-        <div className="mb-5">
-          <img
-            src="images/footer.png"
-            loading="lazy"
-            width="1440"
-            height="400"
-            alt=""
-            className="object-cover w-full"
-          />
-        </div>
         <ThemeProvider theme={customTheme}>
           <Footer container>
             <div className="w-full">

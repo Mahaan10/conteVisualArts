@@ -32,6 +32,12 @@ function HomePageCourses() {
       title: "نقاشی به سبک رئالیسم",
       to: "/courses/realism",
     },
+    {
+      id: 6,
+      image: "images/vintage-style-soldier-helmet-still-life.jpg",
+      title: "نقاشی به سبک رئالیسم",
+      to: "/courses/realism",
+    },
   ];
   return (
     <>
