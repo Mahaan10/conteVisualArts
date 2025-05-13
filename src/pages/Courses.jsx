@@ -1,6 +1,18 @@
 import { PiGraduationCapLight } from "react-icons/pi";
 import CoursesSidebar from "../ui/CoursesSidebar";
 import HomePageCourses from "../ui/HomePageCourses";
+import { Button, createTheme, ThemeProvider } from "flowbite-react";
+import { TbFilters } from "react-icons/tb";
+import { FaSort } from "react-icons/fa6";
+
+const customTheme = createTheme({
+  button: {
+    base: "gap-x-3 w-40",
+    outlineColor: {
+      dark: "dark:hover:text-whitesmoke cursor-pointer transition-colors duration-300 text-xs",
+    },
+  },
+});
 
 function Courses() {
   return (
@@ -13,17 +25,26 @@ function Courses() {
         <p className="opacity-50">25 دوره آموزشی</p>
       </div>
       {/* ... */}
-      <div className="flex gap-x-4 md:hidden"></div>
+      <div className="flex items-center justify-center gap-x-4 md:hidden mb-8">
+        <ThemeProvider theme={customTheme}>
+          <Button color="dark" pill outline>
+            <TbFilters className="w-5 h-5" />
+            <span> فیلتر دوره ها</span>
+          </Button>
+          <Button color="dark" pill outline>
+            <FaSort className="w-5 h-5" />
+            <span>مرتب سازی</span>
+          </Button>
+        </ThemeProvider>
+      </div>
       <div className="grid grid-cols-12 gap-5 mx-4">
         {/* Sidebar */}
         <aside className="hidden lg:block col-span-12 lg:col-span-4 xl:col-span-3 order-2 lg:order-2 lg:pl-8">
           <CoursesSidebar />
         </aside>
-        <div className="col-span-12 lg:col-span-8 xl:col-span-9 order-1 lg:order-2">
-          <div className="grid grid-cols-12 gap-y-8 sm:gap-x-8 lg:gap-6 mb-10 lg:mb-0">
-            <div className="mb-14 col-span-12 sm:col-span-6 md:col-span-6 lg:col-span-6 xl:col-span-2">
-              <HomePageCourses />
-            </div>
+        <div className="col-span-12 lg:col-span-8 xl:col-span-9 order-1 lg:order-2 mb-10">
+          <div className="grid grid-cols-1 min-[400px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-y-8 sm:gap-x-8 lg:gap-6 lg:mb-0">
+            <HomePageCourses />
           </div>
         </div>
       </div>

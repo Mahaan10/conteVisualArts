@@ -27,13 +27,13 @@ const customTheme = createTheme({
     title: {
       base: "text-sm p-2 cursor-pointer",
       flush: {
-        off: "hover:bg-gray-200 focus:ring-0 dark:hover:bg-slate-900",
+        off: "hover:bg-gray-200 focus:ring-0 dark:hover:bg-slate-900 transition-colors duration-300",
         on: "bg-transparent dark:bg-transparent",
       },
       heading: "flex items-center gap-x-1",
     },
     content: {
-      base: "p-2 first:rounded-t-lg last:rounded-b-lg dark:bg-slate-900 bg-gray-100 text-xs cursor-pointer hover:bg-gray-200 dark:hover:bg-slate-950 flex items-center gap-x-2",
+      base: "p-2 first:rounded-t-lg last:rounded-b-lg dark:bg-slate-900 bg-gray-100 text-xs cursor-pointer hover:bg-gray-200 dark:hover:bg-slate-950 flex items-center gap-x-2 transition-colors duration-300",
     },
   },
 });
@@ -57,11 +57,11 @@ function CoursesSidebar() {
             </button>
           </form>
           {/* ... */}
-          <Accordion>
+          <Accordion collapseAll>
             <AccordionPanel>
               <AccordionTitle>
                 <TbCategory className="w-5 h-5" />
-                <span>دسته دوره</span>
+                <span>دسته بندی دوره ها</span>
               </AccordionTitle>
               <AccordionContent>
                 <input type="checkbox" />
@@ -74,7 +74,7 @@ function CoursesSidebar() {
             </AccordionPanel>
           </Accordion>
           {/* .... */}
-          <Accordion>
+          <Accordion collapseAll>
             <AccordionPanel>
               <AccordionTitle>
                 <TbBorderCorners className="w-5 h-5" />

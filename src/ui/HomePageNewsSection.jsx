@@ -92,15 +92,17 @@ function HomePageNewsSection() {
                   className="w-full h-44 rounded-t-lg"
                 />
               </div>
-              <div className="flex line-clamp-2">
-                <h5 className="font-semibold text-base tracking-tight">
-                  {coursesNews.title}
-                </h5>
+              <div className="flex flex-col grow gap-y-3">
+                <div className="flex line-clamp-2">
+                  <h5 className="font-semibold text-base tracking-tight">
+                    {coursesNews.title}
+                  </h5>
+                </div>
+                <p className="text-left text-[8px]">{coursesNews.date}</p>
+                <p className="text-gray-700 dark:text-gray-400 text-xs text-ellipsis overflow-hidden line-clamp-3">
+                  {coursesNews.description}
+                </p>
               </div>
-              <p className="text-left text-[8px]">{coursesNews.date}</p>
-              <p className="text-gray-700 dark:text-gray-400 text-xs text-ellipsis overflow-hidden line-clamp-3">
-                {coursesNews.description}
-              </p>
               <Button color="dark" outline>
                 اطلاعات بیشتر
                 <FaArrowLeft className="w-4 h-4" />
@@ -114,46 +116,3 @@ function HomePageNewsSection() {
 }
 
 export default HomePageNewsSection;
-
-{
-  /* <div
-            key={coursesNews.id}
-            className="bg-slate-800 rounded-lg flex flex-col"
-          >
-            <div className="w-full">
-              <img
-                src={coursesNews.image}
-                alt=""
-                className="w-full h-44 rounded-t-lg"
-              />
-            </div>
-            <div className="flex-grow px-4.5 py-4">
-              <h1 className="line-clamp-2 text-base font-bold mb-3">
-                {coursesNews.title}
-              </h1>
-              <p className="opacity-65 text-xs font-bold line-clamp-2">
-                {coursesNews.description}
-              </p>
-            </div>
-            <div className="flex items-center justify-between px-4.5 py-1.5 border-t border-neutral-200/10">
-              <Link
-                to=""
-                className="my-1 flex items-center justify-center gap-1 hover:text-sand cursor-pointer"
-              >
-                <FaRegUser className="w-4 h-4" />
-                <span className="text-xs opacity-80 font-bold">
-                  {coursesNews.master}
-                </span>
-              </Link>
-              <div className="flex items-center justify-center gap-x-1">
-                <IoCalendar className="w-4 h-4" />
-                <span className="text-[10px]">{coursesNews.date}</span>
-              </div>
-            </div>
-            <div className="w-full text-center">
-              <button className="btn text-xs font-bold !rounded-t-none !py-3">
-                ثبت نام
-              </button>
-            </div>
-          </div> */
-}
