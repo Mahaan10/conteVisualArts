@@ -20,14 +20,14 @@ const customTheme = createTheme({
       base: "!bg-inherit rounded-none",
     },
     groupLink: {
-      base: "text-black",
+      base: "text-black text-xs sm:text-base",
       link: {
         base: "me-4 !mr-0",
         href: "hover:opacity-80 opacity-50 hover:no-underline",
       },
     },
     title: {
-      base: "text-base md:text-lg",
+      base: "text-xs sm:text-base md:text-lg",
     },
     brand: {
       img: "mr-0 h-32",
@@ -35,6 +35,9 @@ const customTheme = createTheme({
     icon: {
       base: "text-inherit",
       size: "w-10 h-10 bg-almond-cookie hover:bg-golden-sand dark:hover:bg-purple-plumeria p-2 rounded-full dark:bg-dark-purple",
+    },
+    copyright: {
+      base: "text-xs min-[400px]:text-sm",
     },
   },
 });
@@ -101,7 +104,7 @@ function FooterSection() {
                   </div>
                   <div>
                     <FooterTitle title="راه های ارتباطی" />
-                    <div className="flex flex-col gap-y-4 text-sm">
+                    <div className="flex flex-col gap-y-4 text-xs sm:text-base">
                       <div className="flex gap-x-2 opacity-50">
                         <span>تلفن پشتیبانی:</span>
                         <Link
