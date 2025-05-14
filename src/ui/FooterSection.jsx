@@ -20,17 +20,17 @@ const customTheme = createTheme({
       base: "!bg-inherit rounded-none",
     },
     groupLink: {
-      base: "text-black text-xs sm:text-base",
+      base: "text-black text-xs sm:text-sm",
       link: {
         base: "me-4 !mr-0",
         href: "hover:opacity-80 opacity-50 hover:no-underline",
       },
     },
     title: {
-      base: "text-xs sm:text-base md:text-lg",
+      base: "",
     },
     brand: {
-      img: "mr-0 h-32",
+      img: "mr-0 h-32 w-32",
     },
     icon: {
       base: "text-inherit",
@@ -50,7 +50,7 @@ function FooterSection() {
           <Footer container>
             <div className="w-full">
               <div className="grid w-full justify-between sm:flex sm:justify-between md:flex md:grid-cols-1 px-5 sm:px-10">
-                <div className="grid grid-cols-2 gap-8 sm:grid-cols-4 sm:gap-6">
+                <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 sm:gap-6">
                   <div>
                     <FooterTitle title="دوره های پرطرفدار" />
                     <FooterLinkGroup col>
@@ -72,7 +72,7 @@ function FooterSection() {
                     </FooterLinkGroup>
                   </div>
                   <div>
-                    <FooterTitle title="دسترسی سریع" />
+                    <FooterTitle title="دسترسی سریع و پشتیبانی" />
                     <FooterLinkGroup col>
                       <FooterLink href="/courses/portrait">
                         همه دوره ها
@@ -89,9 +89,15 @@ function FooterSection() {
                       <FooterLink href="/courses/portrait">
                         ارتباط با ما
                       </FooterLink>
+                      <FooterLink href="/courses/portrait">
+                        سوالات متداول(FAQ)
+                      </FooterLink>
+                      <FooterLink href="/courses/portrait">
+                        قوانین و مقررات
+                      </FooterLink>
                     </FooterLinkGroup>
                   </div>
-                  <div>
+                  {/* <div>
                     <FooterTitle title="راهنما و پشتیبانی" />
                     <FooterLinkGroup col>
                       <FooterLink href="/courses/portrait">
@@ -101,12 +107,12 @@ function FooterSection() {
                         قوانین و مقررات
                       </FooterLink>
                     </FooterLinkGroup>
-                  </div>
+                  </div> */}
                   <div>
                     <FooterTitle title="راه های ارتباطی" />
-                    <div className="flex flex-col gap-y-4 text-xs sm:text-base">
+                    <div className="flex flex-col gap-y-4 text-xs sm:text-sm">
                       <div className="flex gap-x-2 opacity-50">
-                        <span>تلفن پشتیبانی:</span>
+                        <span>تلفن:</span>
                         <Link
                           to="tel:+9802166957831"
                           target="_blank"
@@ -145,9 +151,9 @@ function FooterSection() {
                       alt="Conte Logo"
                     />
                   </div>
-                  <div className="w-12 h-12 flex gap-x-2">
-                    <img src="images/zarin.png" alt="" />
-                    <img src="images/enamad.jpg" alt="" />
+                  <div className="flex flex-col sm:flex-row items-center justify-between">
+                    <img src="images/zarin.png" alt="" className="w-12 h-12" />
+                    <img src="images/enamad.jpg" alt="" className="w-12 h-12" />
                   </div>
                 </div>
               </div>
