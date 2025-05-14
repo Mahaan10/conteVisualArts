@@ -3,8 +3,11 @@ import { FiArrowUpLeft } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import HomePageCourses from "../ui/HomePageCourses";
 import HomePageNewsSection from "../ui/HomePageNewsSection";
+import useCourses from "../hooks/useCourses";
 
 function Home() {
+  const { courses, error, isError, isLoading } = useCourses();
+  console.log(courses);
   return (
     <div className="p-8 h-auto">
       <div className="max-w-[980px] mx-auto flex-1 relative">

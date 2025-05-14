@@ -1,11 +1,11 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const BASE_URL = "/api/v1";
+const BASE_URL = "http://127.0.0.1:3000/api/v1";
 
 const app = axios.create({
   baseURL: BASE_URL,
-  withCredentials: true,
+  //withCredentials: true,
 });
 
 app.interceptors.request.use(

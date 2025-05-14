@@ -8,8 +8,11 @@ import { useState } from "react";
 import { IoMenuOutline } from "react-icons/io5";
 import Modal from "./Modal";
 import MultiStepForm from "./MultiStepForm";
+import useUsers from "../hooks/useUsers";
 
 function Header() {
+  const { users, isLoading, isError, error } = useUsers();
+  console.log(users);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
