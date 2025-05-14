@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import Cards from "./Cards";
 
 function HomePageCourses() {
   const courses = [
@@ -55,6 +56,8 @@ function HomePageCourses() {
           </h1>
         </Link>
       ))}
+
+      {/*  <Cards array={courses} /> */}
     </>
   );
 }

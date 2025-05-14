@@ -1,7 +1,6 @@
 import { Button, Card, createTheme, ThemeProvider } from "flowbite-react";
 import { FiArrowLeft, FiArrowRight, FiArrowUpLeft } from "react-icons/fi";
-import { IoCalendar } from "react-icons/io5";
-import { FaArrowLeft, FaRegUser } from "react-icons/fa6";
+import { FaArrowLeft } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 
 const customTheme = createTheme({
