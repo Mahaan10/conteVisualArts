@@ -7,15 +7,14 @@ import HeaderMenu from "./HeaderMenu";
 import { useState } from "react";
 import { IoMenuOutline } from "react-icons/io5";
 import Modal from "./Modal";
-import MultiStepForm from "./MultiStepForm";
-import useUsers from "../hooks/useUsers";
+//import useUsers from "../hooks/useUsers";
+import AuthContainer from "../features/authentication/AuthContainer";
 
 function Header() {
-  const { users, isLoading, isError, error } = useUsers();
-  console.log(users);
+  /* const { users, isLoading, isError, error } = useUsers();
+  console.log(users); */
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   return (
     <>
       <div className="flex items-center justify-between border-b border-light-shade-yellow dark:border-moderate-violet transition-colors duration-300">
@@ -79,7 +78,7 @@ function Header() {
       </div>
       {isModalOpen && (
         <Modal title="ورود یا ثبت نام" onClose={() => setIsModalOpen(false)}>
-          <MultiStepForm />
+          <AuthContainer />
         </Modal>
       )}
     </>

@@ -1,40 +1,44 @@
+//import { useNavigate } from "react-router-dom";
 import { FloatingLabel } from "flowbite-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import * as Yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { toPersianNumbers } from "../../utils/toPersianNumbers";
 import SendOTPForm from "./SendOTPForm";
+//import useUsers from "../../hooks/useUsers";
+import CheckOTPForm from "./CheckOTPForm";
+import { useToast } from "../../context/useToastContext";
+import useSendOTP from "../../hooks/useSendOTP";
 
 function AuthContainer() {
+  // const { users, isLoading, isError, error } = useUsers();
   const [step, setStep] = useState(1);
-  const { handleSubmit, register, getValues } = useForm();
-  const { user } = useUser();
-  const navigate = useNavigate();
-
+  const { showToast } = useToast();
   const {
-    isPending,
-    mutateAsync,
-    data: otpResponse,
-  } = useMutation({
-    mutationFn: getOtp,
-  });
+    handleSubmit,
+    register,
+    getValues,
+    formState: { errors, isValid },
+  } = useForm({ mode: "onBlur" });
 
-  useEffect(() => {
-    if (user) navigate("/", { replace: true });
-  }, [user, navigate]);
+  //const navigate = useNavigate();
 
-  const sendOtpHandler = async (data) => {
-    try {
-      const { message } = await mutateAsync(data);
-      toast.success(message);
-      setStep(2);
-    } catch (error) {
-      toast.error(error?.response?.data?.message);
-    }
+  const { isPending, sendOtpHandler } = useSendOTP();
+
+  const onSubmit = async (data) => {
+    await sendOtpHandler(data, {
+      onSuccess: () => {
+        showToast("success", `کد به شماره همراه ${data.phone} ارسال شد.`);
+        setStep(2);
+      },
+      onError: (error) => {
+        showToast(
+          "error",
+          error?.response?.data?.message || "ارسال کد با خطا مواجه شد"
+        );
+      },
+    });
   };
 
-  const renderStep = () => {
+  const RenderStep = () => {
     switch (step) {
       case 1:
         return (
@@ -42,16 +46,18 @@ function AuthContainer() {
             setStep={setStep}
             register={register}
             isPending={isPending}
-            onSubmit={handleSubmit(sendOtpHandler)}
+            onSubmit={handleSubmit(onSubmit)}
+            errors={errors}
+            isValid={isValid}
           />
         );
       case 2:
         return (
           <CheckOTPForm
-            phoneNumber={getValues("phoneNumber")}
-            onBack={() => setStep((s) => s - 1)}
+            phone={getValues("phone")}
             onResendOTP={sendOtpHandler}
-            otpResponse={otpResponse}
+            onBack={() => setStep(1)}
+            //otpResponse={otpResponse}
           />
         );
       default:
@@ -59,7 +65,18 @@ function AuthContainer() {
     }
   };
 
-  return <div className="w-full sm:max-w-sm">{renderStep()}</div>;
+  return (
+    <>
+      <div className="flex items-center justify-center mb-6">
+        <div className={`step-circle ${step === 1 && "opacity-100"}`}>1</div>
+        <div className="flex-1 h-0.5 bg-gray-400 my-2 rounded-xs" />
+        <div className={`step-circle ${step === 2 && "opacity-100"}`}>2</div>
+        <div className="flex-1 h-0.5 bg-gray-400 my-2 rounded-xs" />
+        <div className={`step-circle ${step === 3 && "opacity-100"}`}>3</div>
+      </div>
+      <RenderStep />
+    </>
+  );
 }
 
 export default AuthContainer;
