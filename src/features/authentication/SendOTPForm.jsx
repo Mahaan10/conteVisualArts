@@ -16,24 +16,29 @@ function SendOTPForm({ onSubmit, isPending, register, isValid, errors }) {
   return (
     <>
       <form action="" className="space-y-5" onSubmit={onSubmit}>
-        <p className="text-xs mb-4">شماره همراه خود را وارد کنید:</p>
+        <p className="text-xs mb-4">
+          لطفاً شماره همراه یا ایمیل خود را وارد کنید:
+        </p>
         <ThemeProvider theme={customTheme}>
           <FloatingLabel
             variant="outlined"
-            label="شماره همراه"
+            label="شماره همراه یا ایمیل"
             sizing="sm"
-            type="tel"
-            {...register("phone", {
-              required: "وارد کردن شماره موبایل الزامی است",
-              pattern: {
-                value: /^09\d{9}$/,
-                message: "شماره موبایل معتبر نیست",
+            type="text"
+            {...register("contact", {
+              required: "وارد کردن شماره موبایل یا ایمیل الزامیست",
+              validate: (value) => {
+                const isPhone = /^09\d{9}$/.test(value);
+                const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+                return (
+                  isPhone || isEmail || "فرمت شماره موبایل یا ایمیل صحیح نیست"
+                );
               },
             })}
           />
         </ThemeProvider>
-        {errors.phone && (
-          <p className="text-red-500 text-xs mt-1">{errors.phone.message}</p>
+        {errors.contact && (
+          <p className="text-red-500 text-xs mt-1">{errors.contact.message}</p>
         )}
         <button
           className="btn mt-4 justify-center items-center"

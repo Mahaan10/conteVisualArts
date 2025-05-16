@@ -7,8 +7,9 @@ import SendOTPForm from "./SendOTPForm";
 import CheckOTPForm from "./CheckOTPForm";
 import { useToast } from "../../context/useToastContext";
 import useSendOTP from "../../hooks/useSendOTP";
+import CompleteProfile from "./CompleteProfile";
 
-function AuthContainer() {
+function AuthContainer({ onClose }) {
   // const { users, isLoading, isError, error } = useUsers();
   const [step, setStep] = useState(1);
   const { showToast } = useToast();
@@ -24,18 +25,27 @@ function AuthContainer() {
   const { isPending, sendOtpHandler } = useSendOTP();
 
   const onSubmit = async (data) => {
-    await sendOtpHandler(data, {
-      onSuccess: () => {
-        showToast("success", `کد به شماره همراه ${data.phone} ارسال شد.`);
-        setStep(2);
-      },
-      onError: (error) => {
-        showToast(
-          "error",
-          error?.response?.data?.message || "ارسال کد با خطا مواجه شد"
-        );
-      },
-    });
+    const contact = data.contact;
+
+    await sendOtpHandler(
+      { phone: contact },
+      {
+        onSuccess: () => {
+          const isPhone = /^09\d{9}$/.test(contact);
+          showToast(
+            "success",
+            `کد به ${isPhone ? "شماره همراه" : "ایمیل"} ${contact} ارسال شد.`
+          );
+          setStep(2);
+        },
+        onError: (error) => {
+          showToast(
+            "error",
+            error?.response?.data?.message || "ارسال کد با خطا مواجه شد"
+          );
+        },
+      }
+    );
   };
 
   const RenderStep = () => {
@@ -54,10 +64,19 @@ function AuthContainer() {
       case 2:
         return (
           <CheckOTPForm
-            phone={getValues("phone")}
+            contact={getValues("contact")}
             onResendOTP={sendOtpHandler}
             onBack={() => setStep(1)}
+            onClose={onClose}
+            setStep={setStep}
+            isValid={isValid}
             //otpResponse={otpResponse}
+          />
+        );
+      case 3:
+        return (
+          <CompleteProfile
+            contact={getValues("contact")} //otpResponse={otpResponse}
           />
         );
       default:

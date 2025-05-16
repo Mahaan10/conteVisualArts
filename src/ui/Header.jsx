@@ -78,7 +78,7 @@ function Header() {
       </div>
       {isModalOpen && (
         <Modal title="ورود یا ثبت نام" onClose={() => setIsModalOpen(false)}>
-          <AuthContainer />
+          <AuthContainer onClose={() => setIsModalOpen(false)} />
         </Modal>
       )}
     </>

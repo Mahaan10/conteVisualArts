@@ -1,23 +1,35 @@
 import { useEffect, useState } from "react";
 import OTPInput from "react-otp-input";
-import { useNavigate } from "react-router-dom";
-import { HiArrowRight } from "react-icons/hi";
-import { CiEdit } from "react-icons/ci";
+//import { useNavigate } from "react-router-dom";
 import { useToast } from "../../context/useToastContext";
+import useUsers from "../../hooks/useUsers";
+import useAuth from "../../hooks/useAuth";
 
 const RESEND_TIME = 90;
 
-function CheckOTPForm({ phone, onBack, onResendOTP, otpResponse = "123456" }) {
+function CheckOTPForm({
+  setStep,
+  isValid,
+  contact,
+  onBack,
+  onClose,
+  onResendOTP,
+  otpResponse = "123456",
+}) {
+  const { error, isError, isLoading, users } = useUsers();
+  const { getLoggedIn, isLoggedIn } = useAuth();
   const [otp, setOtp] = useState("");
   const [time, setTime] = useState(RESEND_TIME);
-
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   const { showToast } = useToast();
 
   useEffect(() => {
     const timer = time > 0 && setInterval(() => setTime((t) => t - 1), 1000);
     return () => timer && clearInterval(timer);
   }, [time]);
+
+  if (isError)
+    return showToast(error?.response?.data?.message || error?.message);
 
   const checkOtpHandler = (e) => {
     e.preventDefault();
@@ -27,32 +39,26 @@ function CheckOTPForm({ phone, onBack, onResendOTP, otpResponse = "123456" }) {
       return;
     }
 
-    // 👇 simulate or integrate actual OTP verification here
     if (otp === otpResponse) {
+      const isExistingUser = users.some(
+        (user) => user.phone === contact || user.email === contact
+      );
+
       showToast("success", "کد تایید صحیح است");
-      navigate("/home"); // or next step
+
+      if (isExistingUser) {
+        onClose();
+        getLoggedIn();
+      } else {
+        setStep(3);
+      }
     } else {
       showToast("error", "کد تایید اشتباه است");
     }
   };
 
   return (
-    <div>
-      {/* Back icon */}
-      <button onClick={onBack}>
-        <HiArrowRight className="w-6 h-6 text-secondary-500" />
-      </button>
-
-      {/* Phone message + edit */}
-      {otpResponse && (
-        <p className="flex items-center gap-x-2 my-2">
-          <span>{otpResponse?.message}</span>
-          <button onClick={onBack}>
-            <CiEdit className="w-6 h-6 text-primary-900" />
-          </button>
-        </p>
-      )}
-
+    <>
       {/* Resend countdown */}
       <div className="mb-4 text-secondary-500 text-sm">
         {time > 0 ? (
@@ -60,9 +66,18 @@ function CheckOTPForm({ phone, onBack, onResendOTP, otpResponse = "123456" }) {
         ) : (
           <button
             className="btn w-36 mt-4 justify-center items-center"
-            onClick={() => {
-              onResendOTP({ phone: phone });
-              setTime(RESEND_TIME); // reset timer
+            onClick={async () => {
+              try {
+                await onResendOTP({ phone: contact });
+                showToast("success", `کد تایید مجدد به ${contact} ارسال شد`);
+                setTime(RESEND_TIME);
+              } catch (error) {
+                showToast(
+                  "error",
+                  error?.response?.data?.message ||
+                    "ارسال مجدد کد با خطا مواجه شد"
+                );
+              }
             }}
           >
             ارسال مجدد کد تایید
@@ -73,7 +88,7 @@ function CheckOTPForm({ phone, onBack, onResendOTP, otpResponse = "123456" }) {
       {/* OTP Form */}
       <form className="space-y-6" onSubmit={checkOtpHandler}>
         <p className="text-xs mb-4">کد تایید را وارد کنید:</p>
-
+        {/* Get The OTPINPUT responsive!!!!!! */}
         <OTPInput
           value={otp}
           onChange={setOtp}
@@ -100,12 +115,13 @@ function CheckOTPForm({ phone, onBack, onResendOTP, otpResponse = "123456" }) {
           <button
             className="btn mt-4 justify-center items-center"
             type="submit"
+            disabled={!isValid /* || isPending */ || isLoggedIn}
           >
             مرحله بعد
           </button>
         </div>
       </form>
-    </div>
+    </>
   );
 }
 
