@@ -18,12 +18,12 @@ const customTheme = createTheme({
 function Cards({ array }) {
   return (
     <ThemeProvider theme={customTheme}>
-      {array.map((array) => (
-        <Card key={array.id} className="max-w-sm">
+      {array.map((arr) => (
+        <Card key={arr._id} className="max-w-sm">
           <div className="w-full">
             <img
               //src="https://flowbite.com/docs/images/blog/image-1.jpg"
-              src={array.image}
+              src={arr.image}
               alt=""
               className="w-full h-44 rounded-t-lg"
             />
@@ -31,12 +31,14 @@ function Cards({ array }) {
           <div className="flex flex-col grow gap-y-3">
             <div className="flex line-clamp-2">
               <h5 className="font-semibold text-base tracking-tight">
-                {array.title}
+                {arr.name}
               </h5>
             </div>
-            <p className="text-left text-[8px]">{array.date}</p>
+            <p className="text-left text-[8px]">
+              {formattedDate(arr.createdAt)}
+            </p>
             <p className="text-gray-700 dark:text-gray-400 text-xs text-ellipsis overflow-hidden line-clamp-3">
-              {array.description}
+              {arr.description}
             </p>
           </div>
           <Button color="dark" outline>
@@ -50,3 +52,11 @@ function Cards({ array }) {
 }
 
 export default Cards;
+
+function formattedDate(isoString) {
+  return new Date(isoString).toLocaleDateString("fa-IR", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  });
+}

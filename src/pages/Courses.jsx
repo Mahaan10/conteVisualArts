@@ -4,6 +4,7 @@ import HomePageCourses from "../ui/HomePageCourses";
 import { Button, createTheme, ThemeProvider } from "flowbite-react";
 import { TbFilters } from "react-icons/tb";
 import { FaSort } from "react-icons/fa6";
+import AllCourses from "../ui/AllCourses";
 
 const customTheme = createTheme({
   button: {
@@ -43,7 +44,7 @@ function Courses() {
         </aside>
         <div className="col-span-12 lg:col-span-8 xl:col-span-9 order-1 lg:order-2 mb-10">
           <div className="grid grid-cols-1 min-[400px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-y-8 sm:gap-x-8 lg:gap-6 lg:mb-0">
-            <HomePageCourses />
+            <AllCourses />
           </div>
         </div>
       </div>
