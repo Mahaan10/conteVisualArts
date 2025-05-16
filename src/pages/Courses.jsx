@@ -1,6 +1,5 @@
 import { PiGraduationCapLight } from "react-icons/pi";
 import CoursesSidebar from "../ui/CoursesSidebar";
-import HomePageCourses from "../ui/HomePageCourses";
 import { Button, createTheme, ThemeProvider } from "flowbite-react";
 import { TbFilters } from "react-icons/tb";
 import { FaSort } from "react-icons/fa6";
