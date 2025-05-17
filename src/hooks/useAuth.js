@@ -16,8 +16,6 @@ export default function useAuth() {
         sameSite: "Strict",
       });
 
-      console.log(data)
-
       if (data.token) {
         navigate("/home", { replace: true });
       }

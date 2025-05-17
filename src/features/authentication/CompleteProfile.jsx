@@ -1,7 +1,7 @@
 import { createTheme, FloatingLabel, ThemeProvider } from "flowbite-react";
 import { useForm } from "react-hook-form";
-import useCreateNewUser from "../../hooks/useCreateNewUser";
 import { Loader } from "../../ui/Loading";
+import useSignUp from "../../hooks/useSignUp";
 
 const customTheme = createTheme({
   floatingLabel: {
@@ -18,7 +18,7 @@ const customTheme = createTheme({
 function CompleteProfile({ contact, otp }) {
   const isPhone = /^09\d{9}$/.test(contact);
   const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact);
-  const { createNewUser, isCreatingUser } = useCreateNewUser();
+  const { createNewUser, isCreatingUser } = useSignUp();
   const {
     register,
     handleSubmit,
@@ -28,10 +28,15 @@ function CompleteProfile({ contact, otp }) {
   const onSubmit = async (data) => {
     const newUser = {
       name: data.name,
-      otp: otp,
+      otp,
       ...(isPhone ? { phone: contact } : { email: contact }),
-      ...(isPhone && data.email ? { email: data.email } : ""),
-      ...(isEmail && data.phone ? { phone: data.phone } : ""),
+      /* ...(isPhone && data.email ? { email: data.email } : ""),
+      ...(isEmail && data.phone ? { phone: data.phone } : ""), */
+      ...(isPhone && data.email
+        ? { email: data.email }
+        : isEmail && data.phone
+        ? { phone: data.phone }
+        : null),
     };
     console.log(newUser);
     await createNewUser(newUser);

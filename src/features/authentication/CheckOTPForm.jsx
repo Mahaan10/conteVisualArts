@@ -52,16 +52,19 @@ function CheckOTPForm({
       : { phone: contact, otp };
 
     try {
-      await getLoggedIn(data); // Success = user exists
-      onClose(); // Will navigate from inside useAuth
+      await getLoggedIn(data);
+      onClose();
     } catch (error) {
       const status = error?.response?.status;
 
       if (status === 404 || status === 409) {
         showToast("info", "لطفاً اطلاعات خود را تکمیل کنید");
-        onOTPVerified();
-      } else if (status === 401) {
-        showToast("error", "کد تایید اشتباه است");
+        onOTPVerified(otp);
+      } else if (status === 401 || status === 400) {
+        showToast(
+          "error",
+          error?.response?.data?.message || "کد تایید اشتباه است"
+        );
       } else {
         showToast(
           "error",
@@ -88,7 +91,6 @@ function CheckOTPForm({
 
       <form className="space-y-6" onSubmit={checkOtpHandler}>
         <p className="text-xs mb-4">کد تایید را وارد کنید:</p>
-
         <OTPInput
           value={otp}
           onChange={setOtp}
