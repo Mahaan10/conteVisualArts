@@ -8,7 +8,7 @@ function AllCourses() {
   const { showToast } = useToast();
   console.log(courses);
 
-  if (!isLoading) return <Loading />;
+  if (isLoading) return <Loading />;
   if (isError)
     return showToast("error", error?.response?.data?.message || error?.message);
 

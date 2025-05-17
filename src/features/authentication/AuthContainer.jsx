@@ -1,17 +1,14 @@
-//import { useNavigate } from "react-router-dom";
-import { FloatingLabel } from "flowbite-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import SendOTPForm from "./SendOTPForm";
-//import useUsers from "../../hooks/useUsers";
 import CheckOTPForm from "./CheckOTPForm";
 import { useToast } from "../../context/useToastContext";
 import useSendOTP from "../../hooks/useSendOTP";
 import CompleteProfile from "./CompleteProfile";
 
 function AuthContainer({ onClose }) {
-  // const { users, isLoading, isError, error } = useUsers();
   const [step, setStep] = useState(1);
+  const [otp, setOtp] = useState("");
   const { showToast } = useToast();
   const {
     handleSubmit,
@@ -24,9 +21,7 @@ function AuthContainer({ onClose }) {
 
   const { isPending, sendOtpHandler } = useSendOTP();
 
-  const onSubmit = async (data) => {
-    const contact = data.contact;
-
+  const onSubmit = async ({ contact }) => {
     await sendOtpHandler(
       { phone: contact },
       {
@@ -70,15 +65,12 @@ function AuthContainer({ onClose }) {
             onClose={onClose}
             setStep={setStep}
             isValid={isValid}
-            //otpResponse={otpResponse}
+            otp={otp}
+            setOtp={setOtp}
           />
         );
       case 3:
-        return (
-          <CompleteProfile
-            contact={getValues("contact")} //otpResponse={otpResponse}
-          />
-        );
+        return <CompleteProfile contact={getValues("contact")} otp={otp} />;
       default:
         return null;
     }

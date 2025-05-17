@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import OTPInput from "react-otp-input";
-//import { useNavigate } from "react-router-dom";
 import { useToast } from "../../context/useToastContext";
-import useUsers from "../../hooks/useUsers";
 import useAuth from "../../hooks/useAuth";
+import { Loader } from "../../ui/Loading";
 
 const RESEND_TIME = 90;
 
@@ -14,24 +13,20 @@ function CheckOTPForm({
   onBack,
   onClose,
   onResendOTP,
-  otpResponse = "123456",
+  otp,
+  setOtp,
 }) {
-  const { error, isError, isLoading, users } = useUsers();
-  const { getLoggedIn, isLoggedIn } = useAuth();
-  const [otp, setOtp] = useState("");
-  const [time, setTime] = useState(RESEND_TIME);
-  //const navigate = useNavigate();
   const { showToast } = useToast();
+  const { getLoggedIn, isLoggedInLoading } = useAuth();
+
+  const [time, setTime] = useState(RESEND_TIME);
 
   useEffect(() => {
     const timer = time > 0 && setInterval(() => setTime((t) => t - 1), 1000);
     return () => timer && clearInterval(timer);
   }, [time]);
 
-  if (isError)
-    return showToast(error?.response?.data?.message || error?.message);
-
-  const checkOtpHandler = (e) => {
+  const checkOtpHandler = async (e) => {
     e.preventDefault();
 
     if (otp.length !== 6) {
@@ -39,27 +34,35 @@ function CheckOTPForm({
       return;
     }
 
-    if (otp === otpResponse) {
-      const isExistingUser = users.some(
-        (user) => user.phone === contact || user.email === contact
-      );
+    const data = contact.includes("@")
+      ? { email: contact, otp }
+      : { phone: contact, otp };
 
-      showToast("success", "کد تایید صحیح است");
+    try {
+      await getLoggedIn(data); // Success = user exists
+      onClose(); // Will navigate from inside useAuth
+    } catch (error) {
+      const status = error?.response?.status;
 
-      if (isExistingUser) {
-        onClose();
-        getLoggedIn();
-      } else {
+      if (status === 404 || status === 409) {
+        showToast(
+          "info",
+          "حساب کاربری یافت نشد. لطفاً اطلاعات خود را کامل کنید"
+        );
         setStep(3);
+      } else if (status === 401) {
+        showToast("error", "کد تایید اشتباه است");
+      } else {
+        showToast(
+          "error",
+          error?.response?.data?.message || "ورود با خطا مواجه شد"
+        );
       }
-    } else {
-      showToast("error", "کد تایید اشتباه است");
     }
   };
 
   return (
     <>
-      {/* Resend countdown */}
       <div className="mb-4 text-secondary-500 text-sm">
         {time > 0 ? (
           <p>{time} ثانیه تا ارسال مجدد کد</p>
@@ -85,10 +88,9 @@ function CheckOTPForm({
         )}
       </div>
 
-      {/* OTP Form */}
       <form className="space-y-6" onSubmit={checkOtpHandler}>
         <p className="text-xs mb-4">کد تایید را وارد کنید:</p>
-        {/* Get The OTPINPUT responsive!!!!!! */}
+
         <OTPInput
           value={otp}
           onChange={setOtp}
@@ -115,9 +117,9 @@ function CheckOTPForm({
           <button
             className="btn mt-4 justify-center items-center"
             type="submit"
-            disabled={!isValid /* || isPending */ || isLoggedIn}
+            disabled={!isValid}
           >
-            مرحله بعد
+            {isLoggedInLoading ? <Loader /> : "تایید"}
           </button>
         </div>
       </form>

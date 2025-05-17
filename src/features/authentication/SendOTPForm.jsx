@@ -1,4 +1,5 @@
 import { createTheme, FloatingLabel, ThemeProvider } from "flowbite-react";
+import { Loader } from "../../ui/Loading";
 
 const customTheme = createTheme({
   floatingLabel: {
@@ -43,9 +44,9 @@ function SendOTPForm({ onSubmit, isPending, register, isValid, errors }) {
         <button
           className="btn mt-4 justify-center items-center"
           type="submit"
-          disabled={!isValid || isPending}
+          disabled={!isValid}
         >
-          مرحله بعد
+          {isPending ? <Loader /> : "تایید"}
         </button>
       </form>
     </>

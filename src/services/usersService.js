@@ -13,5 +13,5 @@ export function createUserApi(data) {
 }
 
 export function loginApi(data) {
-  return http.post("/users/login", data).then(({ data }) => data.data);
+  return http.post("/users/login", data).then(({ data }) => data);
 }

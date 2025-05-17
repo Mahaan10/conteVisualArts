@@ -14,7 +14,7 @@ const customTheme = createTheme({
   },
 });
 
-function CompleteProfile({ contact, otpResponse = "123456" }) {
+function CompleteProfile({ contact, otp }) {
   const isPhone = /^09\d{9}$/.test(contact);
   const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact);
   const { createNewUser, isCreatingUser } = useCreateNewUser();
@@ -27,9 +27,7 @@ function CompleteProfile({ contact, otpResponse = "123456" }) {
   const onSubmit = async (data) => {
     const newUser = {
       name: data.name,
-      otp: otpResponse,
-      password: "Test@1234",
-      passwordConfirm: "Test@1234",
+      otp: otp,
       ...(isPhone ? { phone: contact } : { email: contact }),
       ...(isPhone && data.email ? { email: data.email } : ""),
       ...(isEmail && data.phone ? { phone: data.phone } : ""),
