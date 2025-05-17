@@ -7,15 +7,15 @@ import { Loader } from "../../ui/Loading";
 const RESEND_TIME = 90;
 
 function CheckOTPForm({
-  setStep,
   isValid,
   contact,
   onBack,
   onClose,
   onResendOTP,
-  otp,
-  setOtp,
+  onOTPVerified,
+  isPending,
 }) {
+  const [otp, setOtp] = useState("");
   const { showToast } = useToast();
   const { getLoggedIn, isLoggedInLoading } = useAuth();
 
@@ -25,6 +25,19 @@ function CheckOTPForm({
     const timer = time > 0 && setInterval(() => setTime((t) => t - 1), 1000);
     return () => timer && clearInterval(timer);
   }, [time]);
+
+  const onResendOTPHandler = async () => {
+    try {
+      await onResendOTP({ phone: contact });
+      showToast("success", `کد تایید مجدد به ${contact} ارسال شد`);
+      setTime(RESEND_TIME);
+    } catch (error) {
+      showToast(
+        "error",
+        error?.response?.data?.message || "ارسال مجدد کد با خطا مواجه شد"
+      );
+    }
+  };
 
   const checkOtpHandler = async (e) => {
     e.preventDefault();
@@ -45,11 +58,8 @@ function CheckOTPForm({
       const status = error?.response?.status;
 
       if (status === 404 || status === 409) {
-        showToast(
-          "info",
-          "حساب کاربری یافت نشد. لطفاً اطلاعات خود را کامل کنید"
-        );
-        setStep(3);
+        showToast("info", "لطفاً اطلاعات خود را تکمیل کنید");
+        onOTPVerified();
       } else if (status === 401) {
         showToast("error", "کد تایید اشتباه است");
       } else {
@@ -69,21 +79,9 @@ function CheckOTPForm({
         ) : (
           <button
             className="btn w-36 mt-4 justify-center items-center"
-            onClick={async () => {
-              try {
-                await onResendOTP({ phone: contact });
-                showToast("success", `کد تایید مجدد به ${contact} ارسال شد`);
-                setTime(RESEND_TIME);
-              } catch (error) {
-                showToast(
-                  "error",
-                  error?.response?.data?.message ||
-                    "ارسال مجدد کد با خطا مواجه شد"
-                );
-              }
-            }}
+            onClick={onResendOTPHandler}
           >
-            ارسال مجدد کد تایید
+            {isPending ? <Loader /> : "ارسال مجدد کد تایید"}
           </button>
         )}
       </div>
@@ -96,7 +94,9 @@ function CheckOTPForm({
           onChange={setOtp}
           numInputs={6}
           renderSeparator={<span>-</span>}
-          renderInput={(props) => <input type="number" {...props} />}
+          renderInput={(props) => (
+            <input inputMode="numeric" type="tel" {...props} />
+          )}
           containerStyle="flex flex-row-reverse gap-x-2 justify-center my-5"
           inputStyle={{
             width: "2.5rem",

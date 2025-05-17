@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useCallback } from "react";
 import { Toast } from "flowbite-react";
-import { HiCheck, HiX } from "react-icons/hi";
+import { HiCheck, HiX, HiExclamation } from "react-icons/hi";
 
 const ToastContext = createContext();
 
@@ -25,13 +25,17 @@ export function ToastProvider({ children }) {
               className={`inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${
                 toast.type === "success"
                   ? "bg-green-100 text-green-500 dark:bg-green-800 dark:text-green-200"
-                  : "bg-red-100 text-red-500 dark:bg-red-800 dark:text-red-200"
+                  : toast.type === "error"
+                  ? "bg-red-100 text-red-500 dark:bg-red-800 dark:text-red-200"
+                  : "bg-amber-100 text-amber-500 dark:bg-amber-700 dark:text-amber-200"
               }`}
             >
               {toast.type === "success" ? (
-                <HiCheck className="h-5 w-5" />
+                <HiCheck className="mw-5 h-5" />
+              ) : toast.type === "error" ? (
+                <HiX className="w-5 h-5" />
               ) : (
-                <HiX className="h-5 w-5" />
+                <HiExclamation className="w-5 h-5" />
               )}
             </div>
             <div className="mr-3 text-xs font-normal">{toast.message}</div>

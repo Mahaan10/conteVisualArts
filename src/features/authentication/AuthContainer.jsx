@@ -63,10 +63,12 @@ function AuthContainer({ onClose }) {
             onResendOTP={sendOtpHandler}
             onBack={() => setStep(1)}
             onClose={onClose}
-            setStep={setStep}
+            //setStep={setStep}
             isValid={isValid}
-            otp={otp}
-            setOtp={setOtp}
+            onOTPVerified={(otp) => {
+              setOtp(otp), setStep(3);
+            }}
+            isPending={isPending}
           />
         );
       case 3:

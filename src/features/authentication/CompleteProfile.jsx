@@ -1,6 +1,7 @@
 import { createTheme, FloatingLabel, ThemeProvider } from "flowbite-react";
 import { useForm } from "react-hook-form";
 import useCreateNewUser from "../../hooks/useCreateNewUser";
+import { Loader } from "../../ui/Loading";
 
 const customTheme = createTheme({
   floatingLabel: {
@@ -100,7 +101,7 @@ function CompleteProfile({ contact, otp }) {
         type="submit"
         disabled={!isValid || isCreatingUser}
       >
-        {isCreatingUser ? "..." : "تایید"}
+        {isCreatingUser ? <Loader /> : "تایید"}
       </button>
     </form>
   );
