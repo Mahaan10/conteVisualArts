@@ -10,7 +10,7 @@ import {
 } from "flowbite-react";
 import { PiGraduationCapLight, PiInfo } from "react-icons/pi";
 import { GiAbstract024 } from "react-icons/gi";
-import { BsCalendarEvent } from "react-icons/bs";
+import { BsPen } from "react-icons/bs";
 import { FaUsers } from "react-icons/fa";
 import CustomNavlink from "./CustomNavlink";
 import { IoHomeOutline } from "react-icons/io5";
@@ -87,7 +87,7 @@ function HeaderMenu({ isOpen, setIsOpen, setIsModalOpen }) {
                     </li>
                     <li className="text-sm rounded-lg transition-colors duration-300 py-1">
                       <CustomNavlink to="/news">
-                        <BsCalendarEvent className="w-5 h-5 dark:text-gray-400 text-gray-700" />
+                        <BsPen className="w-5 h-5 dark:text-gray-400 text-gray-700" />
                         <span>اخبار و رویدادها</span>
                       </CustomNavlink>
                     </li>

@@ -3,11 +3,29 @@ import { FiArrowUpLeft } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import HomePageCourses from "../ui/HomePageCourses";
 import HomePageNewsSection from "../ui/HomePageNewsSection";
-//import useCourses from "../hooks/useCourses";
+import useCourses from "../hooks/useCourses";
+import { useToast } from "../context/useToastContext";
+import Loading from "../ui/Loading";
+import useNews from "../hooks/useNews";
 
 function Home() {
-  /* const { courses, error, isError, isLoading } = useCourses();
-  console.log(courses); */
+  const { error, isError, isLoading } = useCourses();
+  const {
+    error: newsError,
+    isError: newsIsError,
+    isLaoding: isNewsLoading,
+  } = useNews();
+
+  const { showToast } = useToast();
+
+  if (isLoading || isNewsLoading) return <Loading />;
+  if (isError || newsIsError)
+    return showToast(
+      "error",
+      (error || newsError)?.response?.data?.message ||
+        "بارگذاری با خطا مواجه شد"
+    );
+
   return (
     <div className="p-8 h-auto">
       <div className="max-w-[980px] mx-auto flex-1 relative">
@@ -16,6 +34,7 @@ function Home() {
             src="images/photo_2025-05-08_00-14-50 (2).jpg"
             alt=""
             className="rounded-lg w-auto mx-auto h-auto"
+            loading="eager"
           />
         </div>
         <div className="font-hoda mr-4 absolute top-1/3 md:top-1/3 text-whitesmoke">

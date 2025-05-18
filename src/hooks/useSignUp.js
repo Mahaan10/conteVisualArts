@@ -15,7 +15,7 @@ export default function useSignUp() {
         });
       },
       onError: (error) => {
-        showToast("error", error?.response?.data?.message || error?.message);
+        showToast("error", error?.response?.data?.message || "ثبت نام با موفقیت انجام نشد");
       },
     }
   );

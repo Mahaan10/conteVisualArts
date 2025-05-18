@@ -19,7 +19,7 @@ export function ToastProvider({ children }) {
       {children}
 
       {toast && (
-        <div className="fixed top-5 left-1/2 -translate-x-1/2 z-50 w-fit max-w-sm font-iran-marker">
+        <div className="fixed top-5 left-1/2 -translate-x-1/2 z-50 w-fit max-w-sm font-iranian-sans">
           <Toast>
             <div
               className={`inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${

@@ -1,6 +1,6 @@
 import { useToast } from "../context/useToastContext";
 import useCourses from "../hooks/useCourses";
-import Cards from "./Cards";
+import CourseCards from "./CourseCards";
 import Loading from "./Loading";
 
 function AllCourses() {
@@ -12,7 +12,7 @@ function AllCourses() {
   if (isError)
     return showToast("error", error?.response?.data?.message || error?.message);
 
-  return <Cards array={courses} />;
+  return <CourseCards array={courses} />;
 }
 
 export default AllCourses;

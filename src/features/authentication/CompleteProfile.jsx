@@ -75,7 +75,7 @@ function CompleteProfile({ contact, otp }) {
               })}
             />
             {errors.name && (
-              <p className="text-red-500 text-xs">{errors?.name?.message}</p>
+              <p className="text-red-500 text-xs">{errors?.phone?.message}</p>
             )}
           </>
         )}
