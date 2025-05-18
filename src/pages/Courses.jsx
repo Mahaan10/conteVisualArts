@@ -3,7 +3,10 @@ import CoursesSidebar from "../ui/CoursesSidebar";
 import { Button, createTheme, ThemeProvider } from "flowbite-react";
 import { TbFilters } from "react-icons/tb";
 import { FaSort } from "react-icons/fa6";
-import AllCourses from "../ui/AllCourses";
+import CourseCards from "../ui/CourseCards";
+import useCourses from "../hooks/useCourses";
+import { useToast } from "../context/useToastContext";
+import Loading from "../ui/Loading";
 
 const customTheme = createTheme({
   button: {
@@ -15,6 +18,17 @@ const customTheme = createTheme({
 });
 
 function Courses() {
+  const { courses, error, isError, isLoading } = useCourses();
+  const { showToast } = useToast();
+  console.log(courses);
+
+  if (isLoading) return <Loading />;
+  if (isError)
+    return showToast(
+      "error",
+      error?.response?.data?.message || "بارگذاری با خطا مواجه شد"
+    );
+
   return (
     <div className="container">
       <div className="my-10 flex items-center justify-between mx-4">
@@ -43,7 +57,7 @@ function Courses() {
         </aside>
         <div className="col-span-12 lg:col-span-8 xl:col-span-9 order-1 lg:order-2 mb-10">
           <div className="grid grid-cols-1 min-[400px]:grid-cols-2 sm:grid-cols-3  gap-y-8 sm:gap-x-8 lg:gap-6 lg:mb-0">
-            <AllCourses />
+            <CourseCards array={courses} />
           </div>
         </div>
       </div>
