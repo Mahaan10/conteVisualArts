@@ -40,7 +40,7 @@ function Header() {
               <CustomNavlink to="/courses">همه دوره ها</CustomNavlink>
             </li>
             <li>
-              <CustomNavlink to="/artists-work">آثار هنرجویان</CustomNavlink>
+              <CustomNavlink to="/student-works">آثار هنرجویان</CustomNavlink>
             </li>
             <li>
               <CustomNavlink to="/news">اخبار و رویداد ها</CustomNavlink>

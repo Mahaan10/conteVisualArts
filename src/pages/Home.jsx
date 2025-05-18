@@ -7,6 +7,8 @@ import useCourses from "../hooks/useCourses";
 import { useToast } from "../context/useToastContext";
 import Loading from "../ui/Loading";
 import useNews from "../hooks/useNews";
+import useStudentWorks from "../hooks/useStudentWorks";
+import HomePageStudentWorks from "../ui/HomePageStudentWorks";
 
 function Home() {
   const { error, isError, isLoading } = useCourses();
@@ -15,14 +17,19 @@ function Home() {
     isError: newsIsError,
     isLaoding: isNewsLoading,
   } = useNews();
+  const {
+    isLaoding: studentWorksLoading,
+    isError: studentWorksIsError,
+    error: studentWorksError,
+  } = useStudentWorks();
 
   const { showToast } = useToast();
 
-  if (isLoading || isNewsLoading) return <Loading />;
-  if (isError || newsIsError)
+  if (isLoading || isNewsLoading || studentWorksLoading) return <Loading />;
+  if (isError || newsIsError || studentWorksIsError)
     return showToast(
       "error",
-      (error || newsError)?.response?.data?.message ||
+      (error || newsError || studentWorksError)?.response?.data?.message ||
         "بارگذاری با خطا مواجه شد"
     );
 
@@ -72,13 +79,13 @@ function Home() {
       <div className="grid grid-row-2 grid-cols-1 min-[400px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 sm:gap-7 mt-10">
         <HomePageCourses />
       </div>
-      {/* Artists Works */}
+      {/* Student Works */}
       <div className="border-t border-almond-cookie/50 dark:border-moderate-violet/20 mt-10"></div>
       <div className="mt-10">
         <div className="flex items-center justify-between">
           <h1 className="text-lg">آثار هنرجویان</h1>
           <Link
-            to="/artists-work"
+            to="/student-works"
             className="text-xs flex items-center gap-x-1 hover:text-butter-caramel dark:hover:text-moderate-violet transition-colors duration-300"
           >
             <span>آثار هنرجویان</span>
@@ -87,7 +94,7 @@ function Home() {
         </div>
       </div>
       <div className="grid grid-row-2 grid-cols-1 min-[400px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 sm:gap-7 mt-10">
-        <HomePageCourses />
+        <HomePageStudentWorks />
       </div>
       {/* News and Events */}
       <div className="border-t border-almond-cookie/50 dark:border-moderate-violet/20 mt-10"></div>

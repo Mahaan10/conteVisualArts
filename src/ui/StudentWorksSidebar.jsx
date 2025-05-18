@@ -36,7 +36,7 @@ const customTheme = createTheme({
   },
 });
 
-function ArtistsWorkSidebar() {
+function StudentWorksSidebar() {
   return (
     <>
       {/* Sidebar */}
@@ -82,4 +82,4 @@ function ArtistsWorkSidebar() {
   );
 }
 
-export default ArtistsWorkSidebar;
+export default StudentWorksSidebar;

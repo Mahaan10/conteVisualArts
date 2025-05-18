@@ -80,7 +80,7 @@ function HeaderMenu({ isOpen, setIsOpen, setIsModalOpen }) {
                       </CustomNavlink>
                     </li>
                     <li className="text-sm rounded-lg transition-colors duration-300 py-1">
-                      <CustomNavlink to="/artists-work">
+                      <CustomNavlink to="/student-works">
                         <GiAbstract024 className="w-5 h-5 dark:text-gray-400 text-gray-700" />
                         <span>آثار هنرجویان</span>
                       </CustomNavlink>

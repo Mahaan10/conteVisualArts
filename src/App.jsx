@@ -3,10 +3,10 @@ import Home from "./pages/Home";
 import PagesLayout from "./ui/PagesLayout";
 import ThemeModeProvider from "./context/useThemeModeContext";
 import Courses from "./pages/Courses";
-import ArtistsWork from "./pages/ArtistsWork";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ToastProvider } from "./context/useToastContext";
 import News from "./pages/News";
+import StudentWorks from "./pages/StudentWorks";
 
 function App() {
   const queryClient = new QueryClient();
@@ -20,7 +20,7 @@ function App() {
               <Route index element={<Navigate to="home" replace />} />
               <Route path="/home" element={<Home />} />
               <Route path="/courses" element={<Courses />} />
-              <Route path="/artists-work" element={<ArtistsWork />} />
+              <Route path="/student-works" element={<StudentWorks />} />
               <Route path="/news" element={<News />} />
             </Route>
           </Routes>
