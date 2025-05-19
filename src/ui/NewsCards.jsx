@@ -5,7 +5,7 @@ import { BsCalendar2Range } from "react-icons/bs";
 const customTheme = createTheme({
   card: {
     root: {
-      base: "border-gray-300 bg-gray-100 shadow-xl dark:bg-slate-900 dark:shadow-black",
+      base: "border-gray-300 bg-gray-100 shadow-xl dark:bg-slate-900 dark:shadow-black transition-colors duration-300",
     },
   },
   button: {

@@ -1,11 +1,18 @@
-import { Button, Card, createTheme, ThemeProvider } from "flowbite-react";
+import {
+  Button,
+  Card,
+  createTheme,
+  Rating,
+  RatingStar,
+  ThemeProvider,
+} from "flowbite-react";
 import { FaArrowLeft, FaRegCalendarCheck } from "react-icons/fa6";
 import { PiStudent } from "react-icons/pi";
 
 const customTheme = createTheme({
   card: {
     root: {
-      base: "border-gray-300 bg-gray-100 shadow-xl dark:bg-slate-900 dark:shadow-black",
+      base: "border-gray-300 bg-gray-100 shadow-xl dark:bg-slate-900 dark:shadow-black transition-colors duration-300",
     },
   },
   button: {
@@ -20,39 +27,32 @@ function StudentWorksCards({ array }) {
   return (
     <ThemeProvider theme={customTheme}>
       {array.map((arr) => (
-        <Card key={arr._id} className="max-w-sm transition-all duration-300">
-          <div className="w-full">
-            <img
-              //src="https://flowbite.com/docs/images/blog/image-1.jpg"
-              src={arr.image}
-              alt={arr.title}
-              className="w-full h-44 rounded-t-lg"
-            />
+        <Card
+          key={arr._id}
+          className="max-w-sm text-xs"
+          imgAlt={arr.title}
+          imgSrc={arr.image}
+        >
+          <h5 className="text-xl font-semibold tracking-tight line-clamp-2">
+            {arr.title}
+          </h5>
+          <h1 className="line-clamp-2">{arr?.description}</h1>
+
+          <div className="flex items-center justify-between">
+            <p>{arr?.student?.name}</p>
+            <Rating>
+              <RatingStar />
+            </Rating>
           </div>
-          <div className="flex flex-col grow gap-y-3">
-            <div className="flex line-clamp-2">
-              <h5 className="font-semibold text-base tracking-tight">
-                {arr.title}
-              </h5>
-            </div>
-            <div className="flex text-[10px] space-x-1">
-              <FaRegCalendarCheck className="w-4 h-4" />
-              <span>تاریخ انتشار:</span>
-              <span>{formattedDate(arr.date)}</span>
-            </div>
-            <div className="flex text-[10px] space-x-1">
-              <PiStudent className="w-4 h-4" />
-              <span>هنرجو:</span>
-              <span>{arr?.student?.name}</span>
-            </div>
-            <p className="text-gray-700 dark:text-gray-400 text-xs text-ellipsis overflow-hidden line-clamp-3">
-              {arr.description}
-            </p>
+          <div className="flex items-center justify-center">
+            <Button
+              color="dark"
+              outline
+              className="transition-all duration-300"
+            >
+              پیش نمایش
+            </Button>
           </div>
-          <Button color="dark" outline className="transition-all duration-300">
-            اطلاعات بیشتر
-            <FaArrowLeft className="w-4 h-4" />
-          </Button>
         </Card>
       ))}
     </ThemeProvider>

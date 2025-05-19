@@ -5,7 +5,7 @@ import { PiStudent } from "react-icons/pi";
 const customTheme = createTheme({
   card: {
     root: {
-      base: "border-gray-300 bg-gray-100 shadow-xl dark:bg-slate-900 dark:shadow-black",
+      base: "border-gray-300 bg-gray-100 shadow-xl dark:bg-slate-900 dark:shadow-black transition-colors duration-300",
     },
   },
   button: {
@@ -34,7 +34,7 @@ function CourseCards({ array }) {
           {/* Badge for inactive courses */}
           {!arr.isActive && (
             <span className="absolute top-2 left-2 bg-red-500 text-whitesmoke text-xs px-2 py-1 rounded z-10">
-              غیرفعال
+              تکمیل ظرفیت
             </span>
           )}
           <div className="w-full">
@@ -61,7 +61,7 @@ function CourseCards({ array }) {
               <span>ظرفیت باقی مانده:</span>
               <span>{arr.availableSeats} نفر</span>
             </div>
-            <p className="text-gray-700 dark:text-gray-400 text-xs text-ellipsis overflow-hidden line-clamp-3">
+            <p className="text-gray-700 dark:text-gray-400 text-xs text-ellipsis overflow-hidden line-clamp-2">
               {arr.description}
             </p>
           </div>
