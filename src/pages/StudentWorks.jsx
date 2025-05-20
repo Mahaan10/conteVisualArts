@@ -5,6 +5,8 @@ import { FaSort } from "react-icons/fa6";
 import StudentWorksSidebar from "../ui/StudentWorksSidebar";
 import useStudentWorks from "../hooks/useStudentWorks";
 import StudentWorksCards from "../ui/StudentWorksCards";
+import Loading from "../ui/Loading";
+import { useToast } from "../context/useToastContext";
 
 const customTheme = createTheme({
   button: {
@@ -17,7 +19,15 @@ const customTheme = createTheme({
 
 function StudentWorks() {
   const { studentWorks, error, isError, isLoading } = useStudentWorks();
+  const { showToast } = useToast();
   console.log(studentWorks);
+
+  if (isLoading) return <Loading />;
+  if (isError)
+    return showToast(
+      "error",
+      error?.response?.data.message || "بارگذاری با خطا مواجه شد"
+    );
 
   return (
     <div className="container">
@@ -45,7 +55,7 @@ function StudentWorks() {
           <StudentWorksSidebar />
         </aside>
         <div className="col-span-12 lg:col-span-8 xl:col-span-9 order-1 lg:order-2 mb-10">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3  gap-y-8 sm:gap-x-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3  gap-y-8 sm:gap-x-8 bg-gray-100 dark:bg-gray-950 rounded-lg p-4">
             <StudentWorksCards array={studentWorks} />
           </div>
         </div>

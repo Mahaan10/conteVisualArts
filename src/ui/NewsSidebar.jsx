@@ -40,7 +40,7 @@ function NewsSidebar() {
   return (
     <>
       {/* Sidebar */}
-      <div className="space-y-2">
+      <div className="space-y-2 bg-gray-100 dark:bg-gray-950 rounded-lg p-4">
         <ThemeProvider theme={customTheme}>
           {/* .... */}
           <Accordion collapseAll>
