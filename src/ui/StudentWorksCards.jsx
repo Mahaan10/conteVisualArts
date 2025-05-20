@@ -6,8 +6,6 @@ import {
   RatingStar,
   ThemeProvider,
 } from "flowbite-react";
-import { FaArrowLeft, FaRegCalendarCheck } from "react-icons/fa6";
-import { PiStudent } from "react-icons/pi";
 
 const customTheme = createTheme({
   card: {
@@ -29,10 +27,19 @@ function StudentWorksCards({ array }) {
       {array.map((arr) => (
         <Card
           key={arr._id}
-          className="max-w-sm text-xs"
+          className="max-w-sm text-xs relative"
           imgAlt={arr.title}
           imgSrc={arr.image}
         >
+          {/* Rating Section */}
+          <span className="absolute top-2 right-2 bg-transparent px-2 py-1 z-10">
+            <Rating>
+              <RatingStar />
+              <RatingStar />
+              <RatingStar />
+              <RatingStar filled={false} />
+            </Rating>
+          </span>
           <h5 className="text-xl font-semibold tracking-tight line-clamp-2">
             {arr.title}
           </h5>
@@ -40,9 +47,6 @@ function StudentWorksCards({ array }) {
 
           <div className="flex items-center justify-between">
             <p>{arr?.student?.name}</p>
-            <Rating>
-              <RatingStar />
-            </Rating>
           </div>
           <div className="flex items-center justify-center">
             <Button

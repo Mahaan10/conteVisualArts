@@ -7,6 +7,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ToastProvider } from "./context/useToastContext";
 import News from "./pages/News";
 import StudentWorks from "./pages/StudentWorks";
+import Contact from "./pages/Contact";
 
 function App() {
   const queryClient = new QueryClient();
@@ -22,6 +23,7 @@ function App() {
               <Route path="/courses" element={<Courses />} />
               <Route path="/student-works" element={<StudentWorks />} />
               <Route path="/news" element={<News />} />
+              <Route path="/contact" element={<Contact />} />
             </Route>
           </Routes>
         </ToastProvider>

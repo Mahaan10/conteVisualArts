@@ -9,7 +9,6 @@ function HomePageNewsSection() {
   const { news, isLoading, isError, error } = useNews();
   const { showToast } = useToast();
 
-  console.log(news);
   if (isLoading) return <Loading />;
   if (isError)
     return showToast(

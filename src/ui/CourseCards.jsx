@@ -1,4 +1,11 @@
-import { Button, Card, createTheme, ThemeProvider } from "flowbite-react";
+import {
+  Button,
+  Card,
+  createTheme,
+  Rating,
+  RatingStar,
+  ThemeProvider,
+} from "flowbite-react";
 import { FaArrowLeft, FaRegCalendarCheck } from "react-icons/fa6";
 import { PiStudent } from "react-icons/pi";
 
@@ -27,7 +34,7 @@ function CourseCards({ array }) {
       {sortedArray.map((arr) => (
         <Card
           key={arr._id}
-          className={`max-w-sm transition-all duration-300 ${
+          className={`max-w-sm transition-all duration-300 relative ${
             !arr.isActive && "cursor-not-allowed grayscale-75 opacity-50"
           }`}
         >
@@ -37,6 +44,16 @@ function CourseCards({ array }) {
               تکمیل ظرفیت
             </span>
           )}
+          {/* Rating Section */}
+          <span className="absolute top-2 right-2 bg-transparent px-2 py-1 z-10">
+            <Rating>
+              <RatingStar />
+              <RatingStar />
+              <RatingStar />
+              <RatingStar />
+              <RatingStar filled={false} />
+            </Rating>
+          </span>
           <div className="w-full">
             <img
               //src="https://flowbite.com/docs/images/blog/image-1.jpg"

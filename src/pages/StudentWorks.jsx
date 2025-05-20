@@ -1,6 +1,5 @@
 import { GiAbstract024 } from "react-icons/gi";
 import { Button, createTheme, ThemeProvider } from "flowbite-react";
-import HomePageCourses from "../ui/HomePageCourses";
 import { TbFilters } from "react-icons/tb";
 import { FaSort } from "react-icons/fa6";
 import StudentWorksSidebar from "../ui/StudentWorksSidebar";
@@ -46,8 +45,8 @@ function StudentWorks() {
           <StudentWorksSidebar />
         </aside>
         <div className="col-span-12 lg:col-span-8 xl:col-span-9 order-1 lg:order-2 mb-10">
-          <div className="grid grid-cols-1 min-[400px]:grid-cols-2 sm:grid-cols-3 gap-y-8 sm:gap-x-8 lg:gap-6 lg:mb-0">
-            <StudentWorksCards array={studentWorks}/>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3  gap-y-8 sm:gap-x-8">
+            <StudentWorksCards array={studentWorks} />
           </div>
         </div>
       </div>
