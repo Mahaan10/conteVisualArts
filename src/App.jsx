@@ -8,6 +8,7 @@ import { ToastProvider } from "./context/useToastContext";
 import News from "./pages/News";
 import StudentWorks from "./pages/StudentWorks";
 import Contact from "./pages/Contact";
+import About from "./pages/About";
 
 function App() {
   const queryClient = new QueryClient();
@@ -24,6 +25,7 @@ function App() {
               <Route path="/student-works" element={<StudentWorks />} />
               <Route path="/news" element={<News />} />
               <Route path="/contact" element={<Contact />} />
+              <Route path="/about" element={<About />} />
             </Route>
           </Routes>
         </ToastProvider>

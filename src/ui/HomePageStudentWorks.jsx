@@ -25,6 +25,7 @@ function HomePageStudentWorks() {
             <img
               src={studentWork.image}
               alt={studentWork.title}
+              loading="lazy"
               className="rounded-lg"
             />
           </div>

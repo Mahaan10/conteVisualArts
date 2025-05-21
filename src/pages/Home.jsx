@@ -41,7 +41,7 @@ function Home() {
             src="images/photo_2025-05-08_00-14-50 (2).jpg"
             alt=""
             className="rounded-lg w-auto mx-auto h-auto"
-            loading="eager"
+            loading="lazy"
           />
         </div>
         <div className="font-hoda mr-4 absolute top-1/3 md:top-1/3 text-whitesmoke">

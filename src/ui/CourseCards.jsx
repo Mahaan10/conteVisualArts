@@ -59,6 +59,7 @@ function CourseCards({ array }) {
               //src="https://flowbite.com/docs/images/blog/image-1.jpg"
               src={arr.Image}
               alt={arr.name}
+              loading="lazy"
               className="w-full h-44 rounded-t-lg"
             />
           </div>

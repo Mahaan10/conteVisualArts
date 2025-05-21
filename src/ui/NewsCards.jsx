@@ -26,6 +26,7 @@ function NewsCards({ array }) {
               //src="https://flowbite.com/docs/images/blog/image-1.jpg"
               src={arr.image}
               alt={arr.title}
+              loading="lazy"
               className="w-full h-44 rounded-t-lg"
             />
           </div>

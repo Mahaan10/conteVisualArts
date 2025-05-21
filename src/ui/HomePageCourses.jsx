@@ -28,7 +28,12 @@ function HomePageCourses() {
           className="flex flex-col gap-y-2 items-center w-full"
         >
           <div className="w-40 h-40">
-            <img src={course.Image} alt={course.name} className="rounded-lg" />
+            <img
+              src={course.Image}
+              alt={course.name}
+              loading="lazy"
+              className="rounded-lg"
+            />
           </div>
           <h1 className="text-sm text-nowrap w-40 text-right">{course.name}</h1>
         </Link>

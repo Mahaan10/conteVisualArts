@@ -11,7 +11,7 @@ import {
 import { PiGraduationCapLight, PiInfo } from "react-icons/pi";
 import { GiAbstract024 } from "react-icons/gi";
 import { BsPen } from "react-icons/bs";
-import { FaUsers } from "react-icons/fa";
+import { HiOutlineUsers } from "react-icons/hi2";
 import CustomNavlink from "./CustomNavlink";
 import { IoHomeOutline } from "react-icons/io5";
 
@@ -93,7 +93,7 @@ function HeaderMenu({ isOpen, setIsOpen, setIsModalOpen }) {
                     </li>
                     <li className="text-sm rounded-lg transition-colors duration-300 py-1">
                       <CustomNavlink to="/about">
-                        <FaUsers className="w-5 h-5 dark:text-gray-400 text-gray-700" />
+                        <HiOutlineUsers className="w-5 h-5 dark:text-gray-400 text-gray-700" />
                         <span>درباره ما</span>
                       </CustomNavlink>
                     </li>
