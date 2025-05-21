@@ -147,13 +147,24 @@ function FooterSection() {
                   <div>
                     <FooterBrand
                       href="/"
-                      src="images/Logo.jpg"
+                      src="/images/Logo.jpg"
                       alt="Conte Logo"
+                      loading="lazy"
                     />
                   </div>
                   <div className="flex flex-col sm:flex-row items-center justify-between">
-                    <img src="images/zarin.png" alt="" className="w-12 h-12" />
-                    <img src="images/enamad.jpg" alt="" className="w-12 h-12" />
+                    <img
+                      src="/images/zarin.png"
+                      alt=""
+                      loading="lazy"
+                      className="w-12 h-12"
+                    />
+                    <img
+                      src="/images/enamad.jpg"
+                      alt=""
+                      loading="lazy"
+                      className="w-12 h-12"
+                    />
                   </div>
                 </div>
               </div>

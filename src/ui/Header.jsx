@@ -28,8 +28,9 @@ function Header() {
           {/* Brand Logo */}
           <Link to="/" className="ml-2">
             <img
-              src="images/Logo.jpg"
-              alt=""
+              src="/images/Logo.jpg"
+              alt="Conte School Logo"
+              loading="lazy"
               className="h-16 w-16 lg:rounded-tr-lg"
             />
           </Link>

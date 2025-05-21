@@ -9,6 +9,7 @@ import News from "./pages/News";
 import StudentWorks from "./pages/StudentWorks";
 import Contact from "./pages/Contact";
 import About from "./pages/About";
+import CoursePageLayout from "./features/course/CoursePageLayout";
 
 function App() {
   const queryClient = new QueryClient();
@@ -21,7 +22,9 @@ function App() {
             <Route path="/" element={<PagesLayout />}>
               <Route index element={<Navigate to="home" replace />} />
               <Route path="/home" element={<Home />} />
-              <Route path="/courses" element={<Courses />} />
+              <Route path="/courses" element={<Courses />}>
+                <Route path=":slug" element={<CoursePageLayout />} />
+              </Route>
               <Route path="/student-works" element={<StudentWorks />} />
               <Route path="/news" element={<News />} />
               <Route path="/contact" element={<Contact />} />
