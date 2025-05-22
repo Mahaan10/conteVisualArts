@@ -35,7 +35,7 @@ function CoursePageLayout() {
             <div className="flex justify-between mt-8">
               <div className="flex items-center gap-x-10">
                 <div className="flex flex-col gap-y-4 items-center">
-                  <div className="bg-dark-cerulean p-4 rounded-2xl">
+                  <div className="bg-almond-cookie transition-colors duration-300 dark:bg-dark-cerulean p-4 rounded-2xl">
                     <BsClockHistory className="w-6 h-6" />
                   </div>
                   <span className="text-sm font-bold">
@@ -43,7 +43,7 @@ function CoursePageLayout() {
                   </span>
                 </div>
                 <div className="flex flex-col gap-y-4 items-center">
-                  <div className="bg-dark-cerulean p-4 rounded-2xl">
+                  <div className="bg-almond-cookie transition-colors duration-300 dark:bg-dark-cerulean p-4 rounded-2xl">
                     <TbUsers className="w-6 h-6" />
                   </div>
                   <span className="text-sm font-bold">
@@ -51,7 +51,7 @@ function CoursePageLayout() {
                   </span>
                 </div>
                 <div className="flex flex-col gap-y-4 items-center">
-                  <div className="bg-dark-cerulean p-4 rounded-2xl">
+                  <div className="bg-almond-cookie transition-colors duration-300 dark:bg-dark-cerulean p-4 rounded-2xl">
                     <BsCheckAll className="w-6 h-6" />
                   </div>
                   <span className="text-sm font-bold">

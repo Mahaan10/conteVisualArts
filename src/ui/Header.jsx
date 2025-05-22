@@ -14,6 +14,7 @@ function Header() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isShoppingMenuOpen, setIsShoppingMenuOpen] = useState(false);
+
   return (
     <>
       <div className="flex items-center justify-between border-b border-light-shade-yellow dark:border-moderate-violet transition-colors duration-300">
