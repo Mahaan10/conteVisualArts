@@ -1,11 +1,13 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createUserApi } from "../services/usersService";
 import { useToast } from "../context/useToastContext";
-import useAuth from "./useAuth";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 export default function useSignUp() {
   const queryClient = useQueryClient();
   const { showToast } = useToast();
+  const navigate = useNavigate();
 
   const { isPending: isCreatingUser, mutateAsync: createNewUser } = useMutation(
     {
