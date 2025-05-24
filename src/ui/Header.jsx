@@ -1,20 +1,41 @@
 import { Link } from "react-router-dom";
 import CustomNavlink from "./CustomNavlink";
 import { MdSignalCellularAlt2Bar } from "react-icons/md";
-import { HiOutlineShoppingBag } from "react-icons/hi2";
+import { HiOutlineShoppingBag, HiUser } from "react-icons/hi2";
 import ThemeMode from "./ThemeMode";
 import HeaderMenu from "./HeaderMenu";
 import { useState } from "react";
 import { IoMenuOutline } from "react-icons/io5";
+import { TbSmartHome } from "react-icons/tb";
 import Modal from "./Modal";
 import AuthContainer from "../features/authentication/AuthContainer";
 import ShoppingMenu from "./ShoppingMenu";
+import useUser from "../hooks/useUser";
+import { useAuthUser } from "../context/useAuthContext";
+import { useToast } from "../context/useToastContext";
+import {
+  Dropdown,
+  DropdownDivider,
+  DropdownHeader,
+  DropdownItem,
+} from "flowbite-react";
 
 function Header() {
+  const { userId } = useAuthUser();
+  const { user, isLoading, isError, error } = useUser(userId);
+  const { showToast } = useToast();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isShoppingMenuOpen, setIsShoppingMenuOpen] = useState(false);
 
+  if (isError)
+    return showToast(
+      "error",
+      error?.response?.data?.message || "اطلاعات کاربری یافت نشد"
+    );
+
+  console.log("UserId:", userId);
+  console.log("User:", user);
   return (
     <>
       <div className="flex items-center justify-between border-b border-light-shade-yellow dark:border-moderate-violet transition-colors duration-300">
@@ -69,13 +90,29 @@ function Header() {
             <HiOutlineShoppingBag className="w-5 h-5" />
           </button>
           {/* Login or Sign up button */}
-          <button
-            className="btn lg:flex hidden"
-            onClick={() => setIsModalOpen(!isModalOpen)}
-          >
-            <MdSignalCellularAlt2Bar className="w-5 h-5" />
-            <span>ورود|عضویت</span>
-          </button>
+          {!userId ? (
+            <button
+              className="btn lg:flex hidden"
+              onClick={() => setIsModalOpen(!isModalOpen)}
+            >
+              <MdSignalCellularAlt2Bar className="w-5 h-5" />
+              <span>ورود|عضویت</span>
+            </button>
+          ) : (
+            <Dropdown label={<HiUser />} dismissOnClick={false}>
+              <DropdownHeader>
+                <span className="block text-sm">{user?.name}</span>
+                <span className="block truncate text-sm font-medium">
+                  {user?.phone}
+                </span>
+              </DropdownHeader>
+              <DropdownItem icon={TbSmartHome}>حساب کاربری</DropdownItem>
+              <DropdownItem icon={TbSmartHome}>دوره های من</DropdownItem>
+              <DropdownItem icon={TbSmartHome}>سفارش های من</DropdownItem>
+              <DropdownDivider />
+              <DropdownItem>خروج</DropdownItem>
+            </Dropdown>
+          )}
         </div>
         <HeaderMenu
           isOpen={isDrawerOpen}

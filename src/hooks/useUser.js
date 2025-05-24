@@ -6,6 +6,7 @@ export default function useUser(userId) {
     queryKey: ["user", userId],
     queryFn: () => getUserApi(userId),
     enabled: !!userId,
+    retry: false
   });
 
   const user = data?.user || {};

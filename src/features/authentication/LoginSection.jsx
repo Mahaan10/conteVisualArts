@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Loader } from "../../ui/Loading";
 import { createTheme, FloatingLabel, ThemeProvider } from "flowbite-react";
 import OTPInput from "react-otp-input";
+import { HiArrowRight } from "react-icons/hi";
 
 const RESEND_TIME = 60;
 const customTheme = createTheme({
@@ -127,7 +128,18 @@ function LoginSection({
 
       {contactSubmitted && (
         <>
-          <p className="text-xs mb-4">کد تایید را وارد کنید:</p>
+          <div className="flex items-center justify-between">
+            <p className="text-xs mb-4 flex items-center justify-center">
+              کد تایید را وارد کنید:
+            </p>
+            <button
+              className="btn flex items-center justify-center gap-x-6"
+              onClick={() => setContactSubmitted(false)}
+            >
+              <HiArrowRight className="w-5 h-5" />
+              ویرایش
+            </button>
+          </div>
           <OTPInput
             value={otp}
             onChange={setOtp}
