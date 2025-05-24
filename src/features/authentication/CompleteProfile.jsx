@@ -30,8 +30,6 @@ function CompleteProfile({ contact, otp }) {
       name: data.name,
       otp,
       ...(isPhone ? { phone: contact } : { email: contact }),
-      /* ...(isPhone && data.email ? { email: data.email } : ""),
-      ...(isEmail && data.phone ? { phone: data.phone } : ""), */
       ...(isPhone && data.email
         ? { email: data.email }
         : isEmail && data.phone

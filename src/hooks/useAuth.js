@@ -7,22 +7,23 @@ import { useToast } from "../context/useToastContext";
 export default function useAuth() {
   const navigate = useNavigate();
   const { showToast } = useToast();
-  const { isPending: isLoggedInLoading, mutateAsync: getLoggedIn } = useMutation({
-    mutationFn: loginApi,
-    onSuccess: (data) => {
-      Cookies.set("token", data?.token, {
-        expires: 30,
-        secure: true,
-        sameSite: "Strict",
-      });
+  const { isPending: isLoggedInLoading, mutateAsync: getLoggedIn } =
+    useMutation({
+      mutationFn: loginApi,
+      onSuccess: (data) => {
+        Cookies.set("token", data?.token, {
+          expires: 30,
+          secure: true,
+          sameSite: "Strict",
+        });
 
-      if (data.token) {
-        navigate("/home", { replace: true });
-      }
+        if (data?.token) {
+          navigate("/home", { replace: true });
+        }
 
-      showToast("success", `${data?.data?.user?.name}، خوش آمدید`);
-    },
-  });
+        showToast("success", `${data?.data?.user?.name}، خوش آمدید`);
+      },
+    });
 
   return { isLoggedInLoading, getLoggedIn };
 }
