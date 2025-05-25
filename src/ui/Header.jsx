@@ -27,6 +27,7 @@ import {
 import { useGetUser } from "../context/useGetUserContext";
 import { BsFolder2Open } from "react-icons/bs";
 import { Loader } from "./Loading";
+import useLogout from "../hooks/useLogout";
 
 const customTheme = createTheme({
   dropdown: {
@@ -55,6 +56,7 @@ const customTheme = createTheme({
 
 function Header() {
   const { user, isLoading, isError, error, token } = useGetUser();
+  const { isLoggedOut, logout } = useLogout();
   const { showToast } = useToast();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -65,6 +67,10 @@ function Header() {
       "error",
       error?.response?.data?.message || "اطلاعات کاربری یافت نشد"
     );
+
+  const logoutHandler = async () => {
+    await logout();
+  };
 
   return (
     <>
@@ -175,9 +181,10 @@ function Header() {
                 <DropdownDivider />
                 <DropdownItem
                   icon={HiOutlinePower}
+                  onClick={logoutHandler}
                   className="hover:!bg-red-600 dark:hover:!bg-red-800 !my-1.5"
                 >
-                  خروج
+                  {isLoggedOut ? <Loader /> : "خروج"}
                 </DropdownItem>
               </Dropdown>
             </ThemeProvider>

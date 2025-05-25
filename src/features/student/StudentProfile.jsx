@@ -17,7 +17,7 @@ function StudentProfile() {
       error?.response?.data?.message || "اطلاعات کاربری یافت نشد"
     );
 
-  if (isLoading || token === null) return <Loading />;
+  if (isLoading) return <Loading />;
   console.log(user);
   return (
     <div className="container">

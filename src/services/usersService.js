@@ -17,3 +17,7 @@ export function getUserApi(token) {
     .get("/users/me", { headers: { Authorization: `Bearer ${token}` } })
     .then(({ data }) => data.data);
 }
+
+export function logoutApi() {
+  return http.post("/users/logout").then(({ data }) => data.data);
+}

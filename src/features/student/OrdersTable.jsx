@@ -14,7 +14,7 @@ function OrdersTable() {
       error?.response?.data?.message || "اطلاعات کاربری یافت نشد"
     );
 
-  if (isLoading || token === null) return <Loader />;
+  if (isLoading) return <Loader />;
 
   return (
     <Table>

@@ -5,10 +5,12 @@ import { TbSmartHome } from "react-icons/tb";
 import { BsFolder2Open } from "react-icons/bs";
 import { HiOutlineAdjustmentsVertical, HiOutlinePower } from "react-icons/hi2";
 import { useToast } from "../context/useToastContext";
-import Loading from "./Loading";
+import Loading, { Loader } from "./Loading";
+import useLogout from "../hooks/useLogout";
 
 function AppLayout() {
   const { user, isLoading, isError, error, token } = useGetUser();
+  const { isLoggedOut, logout } = useLogout();
   const { showToast } = useToast();
 
   if (isError || !token)
@@ -17,7 +19,11 @@ function AppLayout() {
       error?.response?.data?.message || "اطلاعات کاربری یافت نشد"
     );
 
-  if (isLoading || token === null) return <Loading />;
+  if (isLoading) return <Loading />;
+
+  const logoutHandler = async () => {
+    await logout();
+  };
 
   return (
     <div className="grid h-screen transition-colors duration-300 grid-cols-1 md:grid-cols-[15rem_1fr]">
@@ -64,9 +70,12 @@ function AppLayout() {
             </NavLink>
           </li>
           <li className="flex w-[95%] mx-auto text-sm">
-            <button className="cursor-pointer px-2 py-3 rounded-lg transition-all duration-300 w-full text-right hover:bg-red-600 dark:hover:bg-red-800 flex gap-x-2 items-center">
+            <button
+              className="cursor-pointer px-2 py-3 rounded-lg transition-all duration-300 w-full text-right hover:bg-red-600 dark:hover:bg-red-800 flex gap-x-2 items-center"
+              onClick={logoutHandler}
+            >
               <HiOutlinePower className="w-5 h-5" />
-              <span>خروج</span>
+              <span>{isLoggedOut ? <Loader /> : "خروج"}</span>
             </button>
           </li>
         </ul>

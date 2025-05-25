@@ -7,12 +7,10 @@ function ProtectedRoute({ allowedRoles = "" }) {
   const { user, token, isLoading, isError, error } = useGetUser();
   const { showToast } = useToast();
 
-  if (isLoading || token === null) return <Loading />;
-  if (isError)
-    return showToast(
-      "error",
-      error?.response?.data?.message || "سطح دسترسی تعریف نشده"
-    );
+  if (isLoading) return <Loading />;
+
+  if (isError) return;
+  showToast("error", error?.response?.data?.message || "سطح دسترسی تعریف نشده");
 
   if (!token) {
     return <Navigate to="/" replace />;
