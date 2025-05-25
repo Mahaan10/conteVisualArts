@@ -1,28 +1,59 @@
 import { Link } from "react-router-dom";
 import CustomNavlink from "./CustomNavlink";
 import { MdSignalCellularAlt2Bar } from "react-icons/md";
-import { HiOutlineShoppingBag, HiUser } from "react-icons/hi2";
+import {
+  HiOutlineAdjustmentsVertical,
+  HiOutlinePower,
+  HiOutlineShoppingBag,
+} from "react-icons/hi2";
 import ThemeMode from "./ThemeMode";
 import HeaderMenu from "./HeaderMenu";
 import { useState } from "react";
 import { IoMenuOutline } from "react-icons/io5";
 import { TbSmartHome } from "react-icons/tb";
+import { PiUser } from "react-icons/pi";
 import Modal from "./Modal";
 import AuthContainer from "../features/authentication/AuthContainer";
 import ShoppingMenu from "./ShoppingMenu";
-import useUser from "../hooks/useUser";
-import { useAuthUser } from "../context/useAuthContext";
 import { useToast } from "../context/useToastContext";
 import {
+  createTheme,
   Dropdown,
   DropdownDivider,
   DropdownHeader,
   DropdownItem,
+  ThemeProvider,
 } from "flowbite-react";
+import { useGetUser } from "../context/useGetUserContext";
+import { BsFolder2Open } from "react-icons/bs";
+
+const customTheme = createTheme({
+  dropdown: {
+    arrowIcon: "mr-2",
+    content: "w-60",
+    floating: {
+      style: {
+        auto: "border border-gray-200 bg-whitesmoke text-black dark:border-gray-700 dark:bg-gray-900 dark:text-whitesmoke",
+      },
+      header:
+        "flex items-center gap-x-2 px-0 w-[90%] mx-auto py-2 text-xs text-black/70 dark:text-whitesmoke/80",
+      divider: "bg-gray-200/80 dark:bg-gray-800/50",
+      item: {
+        icon: "ml-2 w-5 h-5",
+        base: "flex w-[90%] mx-auto my-3 rounded-lg cursor-pointer items-center justify-start px-0 py-3 text-sm text-inherit hover:bg-almond-cookie focus:bg-almond-cookie focus:outline-none dark:text-gray-200 dark:hover:bg-purple-plumeria dark:hover:text-white dark:focus:bg-purple-plumeria dark:focus:text-white transition-all duration-150",
+      },
+    },
+  },
+  button: {
+    color: {
+      default:
+        "cursor-pointer bg-almond-cookie dark:bg-dark-cerulean hover:bg-golden-sand dark:hover:bg-purple-plumeria transition-colors duration-300 focus:ring-0 text-black dark:text-whitesmoke",
+    },
+  },
+});
 
 function Header() {
-  const { userId } = useAuthUser();
-  const { user, isLoading, isError, error } = useUser(userId);
+  const { user, isLoading, isError, error, token } = useGetUser();
   const { showToast } = useToast();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -34,7 +65,6 @@ function Header() {
       error?.response?.data?.message || "اطلاعات کاربری یافت نشد"
     );
 
-  console.log("UserId:", userId);
   console.log("User:", user);
   return (
     <>
@@ -59,7 +89,7 @@ function Header() {
           {/* Header Navbar */}
           <ul className="hidden lg:flex items-center gap-x-6 text-xs ml-2">
             <li>
-              <CustomNavlink to="/home">صفحه اصلی</CustomNavlink>
+              <CustomNavlink to="/">صفحه اصلی</CustomNavlink>
             </li>
             <li>
               <CustomNavlink to="/courses">همه دوره ها</CustomNavlink>
@@ -90,7 +120,7 @@ function Header() {
             <HiOutlineShoppingBag className="w-5 h-5" />
           </button>
           {/* Login or Sign up button */}
-          {!userId ? (
+          {!token ? (
             <button
               className="btn lg:flex hidden"
               onClick={() => setIsModalOpen(!isModalOpen)}
@@ -98,20 +128,108 @@ function Header() {
               <MdSignalCellularAlt2Bar className="w-5 h-5" />
               <span>ورود|عضویت</span>
             </button>
+          ) : user?.role === "student" ? (
+            <ThemeProvider theme={customTheme}>
+              <Dropdown
+                label={<PiUser className="w-5 h-5" />}
+                placement="bottom-start"
+                size="sm"
+                dismissOnClick={false}
+              >
+                <DropdownHeader>
+                  <img
+                    src={`${
+                      user?.profilePicture
+                        ? user?.profilePicture
+                        : "/images/user.jpg"
+                    }`}
+                    alt={user?.name}
+                    loading="lazy"
+                    className="w-10 h-10 rounded-full object-cover object-center"
+                  />
+                  <div className="flex flex-col gap-y-2">
+                    <span className="">{user?.name}</span>
+                    <span className="truncate font-medium">{user?.phone}</span>
+                  </div>
+                </DropdownHeader>
+                <DropdownDivider />
+                <DropdownItem as={Link} to="/profile" icon={TbSmartHome}>
+                  حساب کاربری
+                </DropdownItem>
+                <DropdownItem
+                  as={Link}
+                  to="/profile/courses"
+                  icon={BsFolder2Open}
+                >
+                  دوره های من
+                </DropdownItem>
+                <DropdownItem
+                  as={Link}
+                  to="/profile/payments"
+                  icon={HiOutlineAdjustmentsVertical}
+                >
+                  سفارش های من
+                </DropdownItem>
+                <DropdownDivider />
+                <DropdownItem
+                  icon={HiOutlinePower}
+                  className="hover:!bg-red-600 dark:hover:!bg-red-800 !my-1.5"
+                >
+                  خروج
+                </DropdownItem>
+              </Dropdown>
+            </ThemeProvider>
           ) : (
-            <Dropdown label={<HiUser />} dismissOnClick={false}>
-              <DropdownHeader>
-                <span className="block text-sm">{user?.name}</span>
-                <span className="block truncate text-sm font-medium">
-                  {user?.phone}
-                </span>
-              </DropdownHeader>
-              <DropdownItem icon={TbSmartHome}>حساب کاربری</DropdownItem>
-              <DropdownItem icon={TbSmartHome}>دوره های من</DropdownItem>
-              <DropdownItem icon={TbSmartHome}>سفارش های من</DropdownItem>
-              <DropdownDivider />
-              <DropdownItem>خروج</DropdownItem>
-            </Dropdown>
+            <ThemeProvider theme={customTheme}>
+              <Dropdown
+                label={<PiUser className="w-5 h-5" />}
+                placement="bottom-start"
+                size="sm"
+                dismissOnClick={false}
+              >
+                <DropdownHeader>
+                  <img
+                    src={`${
+                      user?.profilePicture
+                        ? user?.profilePicture
+                        : "/images/user.jpg"
+                    }`}
+                    alt={user?.name}
+                    loading="lazy"
+                    className="w-10 h-10 rounded-full object-cover object-center"
+                  />
+                  <div className="flex flex-col gap-y-2">
+                    <span className="">{user?.name}</span>
+                    <span className="truncate font-medium">{user?.phone}</span>
+                  </div>
+                </DropdownHeader>
+                <DropdownDivider />
+                <DropdownItem as={Link} to="/admin/dashboard" icon={TbSmartHome}>
+                   پیشخوان
+                </DropdownItem>
+                <DropdownItem
+                  as={Link}
+                  to="/admin/courses"
+                  icon={BsFolder2Open}
+                >
+                  دوره ها
+                </DropdownItem>
+                <DropdownItem
+                  as={Link}
+                  to="/admin/payments"
+                  icon={HiOutlineAdjustmentsVertical}
+                >
+                  جزئیات حساب
+                </DropdownItem>
+                <DropdownDivider />
+                <DropdownItem
+                  icon={HiOutlinePower}
+                  className="hover:!bg-red-600 dark:hover:!bg-red-800 !my-1.5"
+                >
+                  خروج
+                </DropdownItem>
+              </Dropdown>
+            </ThemeProvider>
           )}
         </div>
         <HeaderMenu

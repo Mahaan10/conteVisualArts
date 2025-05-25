@@ -3,9 +3,11 @@ import { createUserApi } from "../services/usersService";
 import { useToast } from "../context/useToastContext";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
+import { useGetUser } from "../context/useGetUserContext";
 
 export default function useSignUp() {
   const queryClient = useQueryClient();
+  const { setToken } = useGetUser();
   const { showToast } = useToast();
   const navigate = useNavigate();
 
@@ -22,7 +24,8 @@ export default function useSignUp() {
           sameSite: "Strict",
         });
         if (data?.token) {
-          navigate("/home", { replace: true });
+          setToken(data?.token);
+          navigate("/", { replace: true });
         }
 
         showToast("success", `${data?.data?.user?.name}، خوش آمدید`);

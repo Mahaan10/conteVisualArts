@@ -12,6 +12,8 @@ export function loginApi(data) {
   return http.post("/users/login", data).then(({ data }) => data);
 }
 
-export function getUserApi(userId) {
-  return http.get(`users/${userId}`).then(({ data }) => data.data);
+export function getUserApi(token) {
+  return http
+    .get("/users/me", { headers: { Authorization: `Bearer ${token}` } })
+    .then(({ data }) => data.data);
 }

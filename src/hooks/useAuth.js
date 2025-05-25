@@ -3,12 +3,12 @@ import { loginApi } from "../services/usersService";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "../context/useToastContext";
-import { useAuthUser } from "../context/useAuthContext";
+import { useGetUser } from "../context/useGetUserContext";
 
 export default function useAuth() {
-  const {setUserId} = useAuthUser()
   const navigate = useNavigate();
   const { showToast } = useToast();
+  const { setToken } = useGetUser();
   const { isPending: isLoggedInLoading, mutateAsync: getLoggedIn } =
     useMutation({
       mutationFn: loginApi,
@@ -19,13 +19,12 @@ export default function useAuth() {
           sameSite: "Strict",
         });
 
-        
         if (data?.token) {
-          setUserId(data?.data?.user?._id)
+          setToken(data?.token);
           if (data?.data?.user?.role === "admin") {
             navigate("/admin", { replace: true });
           } else {
-            navigate("/home", { replace: true });
+            navigate("/", { replace: true });
           }
         }
 

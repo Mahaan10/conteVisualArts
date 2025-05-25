@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useToast } from "../../context/useToastContext";
 import useAuth from "../../hooks/useAuth";
 import { useForm } from "react-hook-form";
 import LoginSection from "./LoginSection";
@@ -8,7 +7,6 @@ import CompleteProfile from "./CompleteProfile";
 function AuthContainer({ onClose }) {
   const [step, setStep] = useState(1);
   const [otp, setOtp] = useState("");
-  const { showToast } = useToast();
   const { getLoggedIn, isLoggedInLoading } = useAuth();
   const [contact, setContact] = useState("");
 
@@ -42,11 +40,18 @@ function AuthContainer({ onClose }) {
           isLoggedInLoading={isLoggedInLoading}
           onClose={onClose}
           getLoggedIn={getLoggedIn}
-          showToast={showToast}
           onLoginSuccess={handleLoginSuccess}
         />
       )}
-      {step === 2 && <CompleteProfile contact={contact} otp={otp} />}
+      {step === 2 && (
+        <CompleteProfile
+          contact={contact}
+          otp={otp}
+          onClose={onClose}
+          errors={errors}
+          isValid={isValid}
+        />
+      )}
     </>
   );
 }

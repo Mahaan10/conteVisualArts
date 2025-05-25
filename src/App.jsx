@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import PagesLayout from "./ui/PagesLayout";
 import ThemeModeProvider from "./context/useThemeModeContext";
@@ -10,6 +10,7 @@ import StudentWorks from "./pages/StudentWorks";
 import Contact from "./pages/Contact";
 import About from "./pages/About";
 import CoursePageLayout from "./features/course/CoursePageLayout";
+import ProtectedRoute from "./ui/ProtectedRoute";
 
 function App() {
   const queryClient = new QueryClient();
@@ -20,8 +21,8 @@ function App() {
         <ToastProvider>
           <Routes>
             <Route path="/" element={<PagesLayout />}>
-              <Route index element={<Navigate to="home" replace />} />
-              <Route path="/home" element={<Home />} />
+              <Route index element={<Home />} />
+              {/* <Route path="/home" element={<Home />} /> */}
               <Route path="/courses" element={<Courses />}>
                 <Route path=":slug" element={<CoursePageLayout />} />
               </Route>
@@ -29,6 +30,12 @@ function App() {
               <Route path="/news" element={<News />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/about" element={<About />} />
+              <Route
+                path="/profile"
+                element={
+                  <ProtectedRoute>{/* Student Layout */}</ProtectedRoute>
+                }
+              ></Route>
             </Route>
           </Routes>
         </ToastProvider>

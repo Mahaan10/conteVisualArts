@@ -15,7 +15,7 @@ const customTheme = createTheme({
   },
 });
 
-function CompleteProfile({ contact, otp }) {
+function CompleteProfile({ contact, otp, onClose }) {
   const isPhone = /^09\d{9}$/.test(contact);
   const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact);
   const { createNewUser, isCreatingUser } = useSignUp();
@@ -38,6 +38,8 @@ function CompleteProfile({ contact, otp }) {
     };
     console.log(newUser);
     await createNewUser(newUser);
+    console.log(newUser);
+    onClose();
     console.log(newUser);
   };
   return (

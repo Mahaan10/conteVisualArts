@@ -3,6 +3,7 @@ import { Loader } from "../../ui/Loading";
 import { createTheme, FloatingLabel, ThemeProvider } from "flowbite-react";
 import OTPInput from "react-otp-input";
 import { HiArrowRight } from "react-icons/hi";
+import { useToast } from "../../context/useToastContext";
 
 const RESEND_TIME = 60;
 const customTheme = createTheme({
@@ -26,9 +27,9 @@ function LoginSection({
   isLoggedInLoading,
   onClose,
   getLoggedIn,
-  showToast,
   onLoginSuccess,
 }) {
+  const { showToast } = useToast();
   const [contactSubmitted, setContactSubmitted] = useState(false);
   const [otp, setOtp] = useState("");
   const [resendTime, setResendTime] = useState(RESEND_TIME);

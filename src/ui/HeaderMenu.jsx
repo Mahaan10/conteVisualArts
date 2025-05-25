@@ -68,7 +68,7 @@ function HeaderMenu({ isOpen, setIsOpen, setIsModalOpen }) {
                 <SidebarItems>
                   <SidebarItemGroup>
                     <li className="text-sm rounded-lg transition-colors duration-300 py-1">
-                      <CustomNavlink to="/home">
+                      <CustomNavlink to="/">
                         <IoHomeOutline className="w-5 h-5 dark:text-gray-400 text-gray-700" />
                         <span>صفحه اصلی</span>
                       </CustomNavlink>
