@@ -128,7 +128,7 @@ function Header() {
               <MdSignalCellularAlt2Bar className="w-5 h-5" />
               <span>ورود|عضویت</span>
             </button>
-          ) : isLoading ? (
+          ) : isLoading || token === null ? (
             <Loader />
           ) : user?.role === "student" ? (
             <ThemeProvider theme={customTheme}>

@@ -7,7 +7,7 @@ function ProtectedRoute({ allowedRoles = "" }) {
   const { user, token, isLoading, isError, error } = useGetUser();
   const { showToast } = useToast();
 
-  if (isLoading) return <Loading />;
+  if (isLoading || token === null) return <Loading />;
   if (isError)
     return showToast(
       "error",
@@ -15,7 +15,7 @@ function ProtectedRoute({ allowedRoles = "" }) {
     );
 
   if (!token) {
-    return <Navigate to="/home" replace />;
+    return <Navigate to="/" replace />;
   }
 
   if (allowedRoles && !allowedRoles.includes(user?.role)) {

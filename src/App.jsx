@@ -25,23 +25,18 @@ function App() {
             <Route path="/" element={<PagesLayout />}>
               <Route index element={<Home />} />
               {/* <Route path="/home" element={<Home />} /> */}
-              <Route path="/courses" element={<Courses />}>
+              <Route path="courses" element={<Courses />}>
                 <Route path=":slug" element={<CoursePageLayout />} />
               </Route>
-              <Route path="/student-works" element={<StudentWorks />} />
-              <Route path="/news" element={<News />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/about" element={<About />} />
-              <Route
-                path="/student"
-                element={
-                  <ProtectedRoute>
-                    <AppLayout />
-                  </ProtectedRoute>
-                }
-              >
-                <Route index element={<Navigate to="/profile" replace />} />
-                <Route path="profile" element={<StudentProfile />} />
+              <Route path="student-works" element={<StudentWorks />} />
+              <Route path="news" element={<News />} />
+              <Route path="contact" element={<Contact />} />
+              <Route path="about" element={<About />} />
+              <Route path="student" element={<ProtectedRoute />}>
+                <Route element={<AppLayout />}>
+                  <Route index element={<Navigate to="profile" replace />} />
+                  <Route path="profile" element={<StudentProfile />} />
+                </Route>
               </Route>
             </Route>
           </Routes>
