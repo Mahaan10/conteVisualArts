@@ -14,6 +14,10 @@ import { BsPen } from "react-icons/bs";
 import { HiOutlineUsers } from "react-icons/hi2";
 import CustomNavlink from "./CustomNavlink";
 import { IoHomeOutline } from "react-icons/io5";
+import { useGetUser } from "../context/useGetUserContext";
+import { Link } from "react-router-dom";
+import { Loader } from "./Loading";
+import { useToast } from "../context/useToastContext";
 
 const customTheme = createTheme({
   drawer: {
@@ -47,6 +51,15 @@ const customTheme = createTheme({
 });
 
 function HeaderMenu({ isOpen, setIsOpen, setIsModalOpen }) {
+  const { token, isLoading, isError, error, user } = useGetUser();
+  const { showToast } = useToast();
+
+  if (isError)
+    return showToast(
+      "error",
+      error?.response?.data?.message || "اطلاعات کاربری یافت نشد"
+    );
+
   return (
     <>
       {isOpen && (
@@ -57,12 +70,27 @@ function HeaderMenu({ isOpen, setIsOpen, setIsModalOpen }) {
             position="right"
           >
             <DrawerHeader title="آموزشگاه هنرهای تجسمی کٌنته" />
-            <button
-              className="w-full cursor-pointer text-xs py-4 rounded-lg bg-almond-cookie dark:bg-dark-cerulean mt-2 hover:bg-golden-sand dark:hover:bg-purple-plumeria transition-colors duration-300"
-              onClick={() => setIsModalOpen(true)}
-            >
-              ورود یا ثبت نام
-            </button>
+            {!token ? (
+              <button
+                className="w-full cursor-pointer text-xs py-4 rounded-lg bg-almond-cookie dark:bg-dark-cerulean mt-2 hover:bg-golden-sand dark:hover:bg-purple-plumeria transition-colors duration-300"
+                onClick={() => setIsModalOpen(true)}
+              >
+                ورود یا ثبت نام
+              </button>
+            ) : (
+              <Link
+                to={`${user?.role === "student" ? "/student" : "/admin"}`}
+                className="w-full cursor-pointer text-xs py-4 rounded-lg bg-almond-cookie dark:bg-dark-cerulean mt-2 hover:bg-golden-sand dark:hover:bg-purple-plumeria transition-colors duration-300 flex items-center justify-center"
+              >
+                {isLoading ? (
+                  <Loader />
+                ) : user?.role === "student" ? (
+                  "حساب کاربری"
+                ) : (
+                  "پیشخوان"
+                )}
+              </Link>
+            )}
             <DrawerItems>
               <Sidebar>
                 <SidebarItems>

@@ -26,6 +26,7 @@ import {
 } from "flowbite-react";
 import { useGetUser } from "../context/useGetUserContext";
 import { BsFolder2Open } from "react-icons/bs";
+import { Loader } from "./Loading";
 
 const customTheme = createTheme({
   dropdown: {
@@ -65,7 +66,6 @@ function Header() {
       error?.response?.data?.message || "اطلاعات کاربری یافت نشد"
     );
 
-  console.log("User:", user);
   return (
     <>
       <div className="flex items-center justify-between border-b border-light-shade-yellow dark:border-moderate-violet transition-colors duration-300">
@@ -128,6 +128,8 @@ function Header() {
               <MdSignalCellularAlt2Bar className="w-5 h-5" />
               <span>ورود|عضویت</span>
             </button>
+          ) : isLoading ? (
+            <Loader />
           ) : user?.role === "student" ? (
             <ThemeProvider theme={customTheme}>
               <Dropdown
@@ -153,19 +155,19 @@ function Header() {
                   </div>
                 </DropdownHeader>
                 <DropdownDivider />
-                <DropdownItem as={Link} to="/profile" icon={TbSmartHome}>
+                <DropdownItem as={Link} to="/student" icon={TbSmartHome}>
                   حساب کاربری
                 </DropdownItem>
                 <DropdownItem
                   as={Link}
-                  to="/profile/courses"
+                  to="/student/courses"
                   icon={BsFolder2Open}
                 >
                   دوره های من
                 </DropdownItem>
                 <DropdownItem
                   as={Link}
-                  to="/profile/payments"
+                  to="/student/payments"
                   icon={HiOutlineAdjustmentsVertical}
                 >
                   سفارش های من
@@ -204,8 +206,12 @@ function Header() {
                   </div>
                 </DropdownHeader>
                 <DropdownDivider />
-                <DropdownItem as={Link} to="/admin/dashboard" icon={TbSmartHome}>
-                   پیشخوان
+                <DropdownItem
+                  as={Link}
+                  to="/admin/dashboard"
+                  icon={TbSmartHome}
+                >
+                  پیشخوان
                 </DropdownItem>
                 <DropdownItem
                   as={Link}

@@ -36,11 +36,8 @@ function CompleteProfile({ contact, otp, onClose }) {
         ? { phone: data.phone }
         : null),
     };
-    console.log(newUser);
     await createNewUser(newUser);
-    console.log(newUser);
     onClose();
-    console.log(newUser);
   };
   return (
     <form action="" className="space-y-5" onSubmit={handleSubmit(onSubmit)}>

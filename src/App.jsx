@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
 import PagesLayout from "./ui/PagesLayout";
 import ThemeModeProvider from "./context/useThemeModeContext";
@@ -11,6 +11,8 @@ import Contact from "./pages/Contact";
 import About from "./pages/About";
 import CoursePageLayout from "./features/course/CoursePageLayout";
 import ProtectedRoute from "./ui/ProtectedRoute";
+import AppLayout from "./ui/AppLayout";
+import StudentProfile from "./features/student/StudentProfile";
 
 function App() {
   const queryClient = new QueryClient();
@@ -31,11 +33,16 @@ function App() {
               <Route path="/contact" element={<Contact />} />
               <Route path="/about" element={<About />} />
               <Route
-                path="/profile"
+                path="/student"
                 element={
-                  <ProtectedRoute>{/* Student Layout */}</ProtectedRoute>
+                  <ProtectedRoute>
+                    <AppLayout />
+                  </ProtectedRoute>
                 }
-              ></Route>
+              >
+                <Route index element={<Navigate to="/profile" replace />} />
+                <Route path="profile" element={<StudentProfile />} />
+              </Route>
             </Route>
           </Routes>
         </ToastProvider>
