@@ -162,7 +162,7 @@ function Header() {
                 </DropdownHeader>
                 <DropdownDivider />
                 <DropdownItem as={Link} to="/student" icon={TbSmartHome}>
-                  حساب کاربری
+                  پنل کاربری
                 </DropdownItem>
                 <DropdownItem
                   as={Link}

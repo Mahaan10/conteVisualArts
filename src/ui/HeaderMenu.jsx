@@ -85,7 +85,7 @@ function HeaderMenu({ isOpen, setIsOpen, setIsModalOpen }) {
                 {isLoading ? (
                   <Loader />
                 ) : user?.role === "student" ? (
-                  "حساب کاربری"
+                  "پنل کاربری"
                 ) : (
                   "پیشخوان"
                 )}
