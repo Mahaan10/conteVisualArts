@@ -2,9 +2,9 @@ import { useGetUser } from "../../context/useGetUserContext";
 import { useToast } from "../../context/useToastContext";
 import { Loader } from "../../ui/Loading";
 import Table from "../../ui/Table";
-import OrdersRow from "./OrdersRow";
+import CoursesRow from "./CoursesRow";
 
-function OrdersTable() {
+function CoursesTable() {
   const { user, isLoading, isError, error, token } = useGetUser();
   const { showToast } = useToast();
 
@@ -20,19 +20,19 @@ function OrdersTable() {
     <Table>
       <Table.Header>
         <th className="py-2">#</th>
-        <th>شماره پیگیری</th>
-        <th>شرح سفارش</th>
-        <th>مبلغ</th>
-        <th>تاریخ</th>
-        <th>وضعیت پرداخت</th>
+        <th>عنوان دوره</th>
+        <th>تاریخ شروع</th>
+        <th>تعداد جلسات</th>
+        <th>ظرفیت</th>
+        <th>وضعیت دوره</th>
       </Table.Header>
       <Table.Body>
         {user?.enrolledCourses.map((course, index) => (
-          <OrdersRow key={course._id} course={course} index={index} />
+          <CoursesRow key={course._id} course={course} index={index} />
         ))}
       </Table.Body>
     </Table>
   );
 }
 
-export default OrdersTable;
+export default CoursesTable;

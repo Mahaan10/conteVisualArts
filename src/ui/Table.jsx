@@ -1,7 +1,7 @@
 function Table({ children }) {
   return (
-    <div className="bg-neutral-200 text-black overflow-auto text-sm">
-      <table className="w-full">{children}</table>
+    <div className="border border-gray-400/40 dark:border-grayish-violet/10 text-inherit overflow-auto text-sm rounded-xl">
+      <table className="w-full min-w-[800px]">{children}</table>
     </div>
   );
 }
@@ -11,18 +11,20 @@ export default Table;
 function TableHeader({ children }) {
   return (
     <thead>
-      <tr className="bg-neutral-400">{children}</tr>
+      <tr className="border-b border-gray-400/40 dark:border-grayish-violet/10">
+        {children}
+      </tr>
     </thead>
   );
 }
 
 function TableBody({ children }) {
-  return <tbody className="text-center">{children}</tbody>;
+  return <tbody className="text-center text-xs">{children}</tbody>;
 }
 
 function TableRow({ children }) {
   return (
-    <tr className="border-b border-gray-700 last:border-none font-iranian-sans text-sm">
+    <tr className="border-b border-gray-400/40 dark:border-grayish-violet/10 last:border-none">
       {children}
     </tr>
   );

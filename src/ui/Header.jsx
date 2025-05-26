@@ -237,9 +237,10 @@ function Header() {
                 <DropdownDivider />
                 <DropdownItem
                   icon={HiOutlinePower}
+                  onClick={logoutHandler}
                   className="hover:!bg-red-600 dark:hover:!bg-red-800 !my-1.5"
                 >
-                  خروج
+                  {isLoggedOut ? <Loader /> : "خروج"}
                 </DropdownItem>
               </Dropdown>
             </ThemeProvider>

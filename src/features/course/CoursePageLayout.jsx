@@ -10,9 +10,9 @@ import { PiCalendarCheck } from "react-icons/pi";
 import { Rating, RatingStar } from "flowbite-react";
 
 function CoursePageLayout() {
-  const { slug } = useParams();
+  const { id } = useParams();
   const { showToast } = useToast();
-  const { course, error, isError, isLoading } = useSingleCourse(slug);
+  const { course, error, isError, isLoading } = useSingleCourse(id);
   console.log(course);
 
   if (isLoading) return <Loading />;

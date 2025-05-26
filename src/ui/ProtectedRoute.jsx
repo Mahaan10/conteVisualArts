@@ -4,13 +4,17 @@ import { useToast } from "../context/useToastContext";
 import Loading from "./Loading";
 
 function ProtectedRoute({ allowedRoles = "" }) {
-  const { user, token, isLoading, isError, error } = useGetUser();
+  const { user, token, isLoading, isError, error, isTokenChecked } =
+    useGetUser();
   const { showToast } = useToast();
 
-  if (isLoading) return <Loading />;
+  if (isLoading || !isTokenChecked) return <Loading />;
 
-  if (isError) return;
-  showToast("error", error?.response?.data?.message || "سطح دسترسی تعریف نشده");
+  if (isError)
+    return showToast(
+      "error",
+      error?.response?.data?.message || "سطح دسترسی تعریف نشده"
+    );
 
   if (!token) {
     return <Navigate to="/" replace />;

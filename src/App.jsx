@@ -13,6 +13,8 @@ import CoursePageLayout from "./features/course/CoursePageLayout";
 import ProtectedRoute from "./ui/ProtectedRoute";
 import AppLayout from "./ui/AppLayout";
 import StudentProfile from "./features/student/StudentProfile";
+import StudentCourses from "./features/student/StudentCourses";
+import StudentPayments from "./features/student/StudentPayments";
 
 function App() {
   const queryClient = new QueryClient();
@@ -26,7 +28,7 @@ function App() {
               <Route index element={<Home />} />
               {/* <Route path="/home" element={<Home />} /> */}
               <Route path="courses" element={<Courses />}>
-                <Route path=":slug" element={<CoursePageLayout />} />
+                <Route path=":id" element={<CoursePageLayout />} />
               </Route>
               <Route path="student-works" element={<StudentWorks />} />
               <Route path="news" element={<News />} />
@@ -36,6 +38,8 @@ function App() {
                 <Route element={<AppLayout />}>
                   <Route index element={<Navigate to="profile" replace />} />
                   <Route path="profile" element={<StudentProfile />} />
+                  <Route path="courses" element={<StudentCourses />} />
+                  <Route path="payments" element={<StudentPayments />} />
                 </Route>
               </Route>
             </Route>
