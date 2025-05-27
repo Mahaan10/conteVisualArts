@@ -8,8 +8,12 @@ import { TbUsers, TbClockCheck } from "react-icons/tb";
 import { FaRegCommentDots } from "react-icons/fa6";
 import { PiCalendarCheck } from "react-icons/pi";
 import { Rating, RatingStar } from "flowbite-react";
+import { useState } from "react";
+import Modal from "../../ui/Modal";
+import Comments from "../../ui/Comments";
 
 function CoursePageLayout() {
+  const [isOpen, setIsOpen] = useState(false);
   const { id } = useParams();
   const { showToast } = useToast();
   const { course, error, isError, isLoading } = useSingleCourse(id);
@@ -29,12 +33,14 @@ function CoursePageLayout() {
           <PiGraduationCapLight className="w-7 h-7" />
           <p className="text-xl">{course?.name}</p>
         </div>
-        <div className="flex items-center justify-between">
-          <div className="flex flex-col">
-            <div className="text-sm">{course?.description}</div>
-            <div className="flex justify-between mt-8">
-              <div className="flex items-center gap-x-10">
-                <div className="flex flex-col gap-y-4 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-x-14 p-3 py-6 lg:p-5 mb-10">
+          <div className="col-span-1 lg:col-span-7 xl:col-span-6">
+            <p className="leading-7 md:leading-8 mb-7 text-sm md:text-base font-bold">
+              {course?.description}
+            </p>
+            <div className="flex flex-col gap-y-7 my-12 lg:justify-between lg:flex-row">
+              <div className="flex justify-between lg:justify-start lg:gap-x-20 items-center">
+                <div className="flex flex-col items-center gap-y-3">
                   <div className="bg-almond-cookie transition-colors duration-300 dark:bg-dark-cerulean p-4 rounded-2xl">
                     <BsClockHistory className="w-6 h-6" />
                   </div>
@@ -42,7 +48,7 @@ function CoursePageLayout() {
                     {course?.duration} جلسه
                   </span>
                 </div>
-                <div className="flex flex-col gap-y-4 items-center">
+                <div className="flex flex-col items-center gap-y-3">
                   <div className="bg-almond-cookie transition-colors duration-300 dark:bg-dark-cerulean p-4 rounded-2xl">
                     <TbUsers className="w-6 h-6" />
                   </div>
@@ -50,7 +56,7 @@ function CoursePageLayout() {
                     {course?.enrolledStudents.length} هنرجو
                   </span>
                 </div>
-                <div className="flex flex-col gap-y-4 items-center">
+                <div className="flex flex-col items-center gap-y-3">
                   <div className="bg-almond-cookie transition-colors duration-300 dark:bg-dark-cerulean p-4 rounded-2xl">
                     <BsCheckAll className="w-6 h-6" />
                   </div>
@@ -59,12 +65,12 @@ function CoursePageLayout() {
                   </span>
                 </div>
               </div>
-              <div className="flex flex-col gap-y-2">
+              <div className="flex items-center justify-between lg:flex-col lg:items-end gap-y-4">
                 <div className="flex items-center gap-x-1.5">
                   <span className="text-sm ">{19}</span>
                   <FaRegCommentDots className="w-4 h-4" />
                 </div>
-                <div className="flex flex-col gap-y-1.5">
+                <div className="flex flex-col items-center gap-y-1.5">
                   <Rating>
                     <RatingStar />
                     <RatingStar />
@@ -76,28 +82,48 @@ function CoursePageLayout() {
                 </div>
               </div>
             </div>
-            <div className="flex items-center justify-center gap-x-10 mt-8">
+            <div className="flex items-start gap-y-3 gap-x-6 flex-col md:flex-row md:items-center flex-wrap text-xs">
               <div className="flex items-center gap-x-1">
                 <TbClockCheck className="w-4 h-4" />
-                <div className="flex items-center text-xs gap-x-1">
+                <div className="flex items-center text-xs gap-x-1 dark:text-whitesmoke/75 text-black/75">
                   <p>تاریخ انتشار:</p>
                   <span>{formattedDate(course?.createdAt)}</span>
                 </div>
               </div>
               <div className="flex items-center gap-x-1">
                 <PiCalendarCheck className="w-4 h-4" />
-                <div className="flex items-center text-xs gap-x-1">
+                <div className="flex items-center text-xs gap-x-1 dark:text-whitesmoke/75 text-black/75">
                   <p>تاریخ شروع کلاس:</p>
                   <span>{formattedDate(course?.startDate)}</span>
                 </div>
               </div>
             </div>
           </div>
-          <div className="">
-            <img src={course?.Image} alt={course?.name} loading="lazy" />
+          <div className="col-span-1 lg:col-span-5 xl:col-span-6 order-1 md:order-2 self-center">
+            <div className="aspect-[16/9]">
+              <img
+                src={course?.Image}
+                alt={course?.name}
+                className="rounded-xl w-full h-full"
+              />
+            </div>
           </div>
         </div>
+        {/*  */}
+        <button
+          className="btn py-3.5 bg-transparent border dark:border-moderate-violet justify-center gap-x-4 dark:hover:bg-purple-plumeria hover:border-transparent border-butter-caramel hover:bg-golden-sand"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <FaRegCommentDots className="w-4 h-4" />
+          <span>ثبت دیدگاه</span>
+        </button>
       </div>
+
+      {isOpen && (
+        <Modal title="دیدگاه شما" onClose={() => setIsOpen(false)}>
+          <Comments />
+        </Modal>
+      )}
     </>
   );
 }

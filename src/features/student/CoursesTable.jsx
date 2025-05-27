@@ -30,23 +30,29 @@ function CoursesTable() {
   const filterUserCourses = courses.filter((course) =>
     userCourses.includes(course._id)
   );
-
+  console.log(user);
   return (
-    <Table>
-      <Table.Header>
-        <th className="py-2">#</th>
-        <th>عنوان دوره</th>
-        <th>تاریخ شروع</th>
-        <th>تعداد جلسات</th>
-        <th>ظرفیت</th>
-        <th>وضعیت دوره</th>
-      </Table.Header>
-      <Table.Body>
-        {filterUserCourses.map((course, index) => (
-          <CoursesRow key={course._id} course={course} index={index} />
-        ))}
-      </Table.Body>
-    </Table>
+    <>
+      {user?.enrolledCourses.length === 0 ? (
+        <p>شما هنوز در دوره ای ثبت نام نکرده اید.</p>
+      ) : (
+        <Table>
+          <Table.Header>
+            <th className="py-2">#</th>
+            <th>عنوان دوره</th>
+            <th>تاریخ شروع</th>
+            <th>تعداد جلسات</th>
+            <th>ظرفیت</th>
+            <th>وضعیت دوره</th>
+          </Table.Header>
+          <Table.Body>
+            {filterUserCourses.map((course, index) => (
+              <CoursesRow key={course._id} course={course} index={index} />
+            ))}
+          </Table.Body>
+        </Table>
+      )}
+    </>
   );
 }
 

@@ -15,7 +15,7 @@ function Modal({ onClose, children, title }) {
         <div className="flex items-center justify-between border-b border-gray-300 pb-2 mb-6">
           <div className="flex items-center gap-x-2">
             <div className="w-10">
-              <img src="images/Logo.jpg" alt="" />
+              <img src="/images/Logo.jpg" alt="Conte Logo" loading="lazy" />
             </div>
             <h1 className="font-bold text-sm md:text-lg">{title}</h1>
           </div>

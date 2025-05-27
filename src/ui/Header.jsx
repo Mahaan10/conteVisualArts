@@ -142,7 +142,7 @@ function Header() {
                 label={<PiUser className="w-5 h-5" />}
                 placement="bottom-start"
                 size="sm"
-                dismissOnClick={false}
+                dismissOnClick={true}
               >
                 <DropdownHeader>
                   <img
@@ -194,7 +194,7 @@ function Header() {
                 label={<PiUser className="w-5 h-5" />}
                 placement="bottom-start"
                 size="sm"
-                dismissOnClick={false}
+                dismissOnClick={true}
               >
                 <DropdownHeader>
                   <img

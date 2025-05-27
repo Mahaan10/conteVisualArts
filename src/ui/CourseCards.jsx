@@ -32,7 +32,7 @@ function CourseCards({ array }) {
       {sortedArray.map((arr) => (
         <Link
           key={arr._id}
-          to={`/courses/${arr._id}`}
+          to={`${arr.isActive ? `/courses/${arr._id}` : "/courses"}`}
           className="h-full block"
         >
           <Card

@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import { Loader } from "../../ui/Loading";
 import { createTheme, FloatingLabel, ThemeProvider } from "flowbite-react";
 import OTPInput from "react-otp-input";
-import { HiArrowRight } from "react-icons/hi";
 import { useToast } from "../../context/useToastContext";
+import { CiEdit } from "react-icons/ci";
 
 const RESEND_TIME = 60;
 const customTheme = createTheme({
@@ -71,12 +71,12 @@ function LoginSection({
 
     try {
       await getLoggedIn(data);
-      onClose(); // اگر ورود موفق بود
+      onClose();
     } catch (error) {
       const status = error?.response?.status;
       if (status === 404 || status === 409) {
         showToast("info", "لطفاً اطلاعات خود را تکمیل کنید");
-        onLoginSuccess(contact, otp); // رفتن به مرحله تکمیل پروفایل
+        onLoginSuccess(contact, otp);
       } else if (status === 401 || status === 400) {
         showToast(
           "error",
@@ -137,8 +137,8 @@ function LoginSection({
               className="btn flex items-center justify-center gap-x-6"
               onClick={() => setContactSubmitted(false)}
             >
-              <HiArrowRight className="w-5 h-5" />
               ویرایش
+              <CiEdit className="w-5 h-5" />
             </button>
           </div>
           <OTPInput

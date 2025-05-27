@@ -17,21 +17,27 @@ function OrdersTable() {
   if (isLoading) return <Loader />;
 
   return (
-    <Table>
-      <Table.Header>
-        <th className="py-2">#</th>
-        <th>شماره پیگیری</th>
-        <th>شرح سفارش</th>
-        <th>مبلغ</th>
-        <th>تاریخ</th>
-        <th>وضعیت پرداخت</th>
-      </Table.Header>
-      <Table.Body>
-        {user?.enrolledCourses.map((course, index) => (
-          <OrdersRow key={course._id} course={course} index={index} />
-        ))}
-      </Table.Body>
-    </Table>
+    <>
+      {user?.enrolledCourses.length === 0 ? (
+        <p>شما هنوز سفارشی ثبت نکرده اید.</p>
+      ) : (
+        <Table>
+          <Table.Header>
+            <th className="py-2">#</th>
+            <th>شماره پیگیری</th>
+            <th>شرح سفارش</th>
+            <th>مبلغ</th>
+            <th>تاریخ</th>
+            <th>وضعیت پرداخت</th>
+          </Table.Header>
+          <Table.Body>
+            {user?.enrolledCourses.map((course, index) => (
+              <OrdersRow key={course._id} course={course} index={index} />
+            ))}
+          </Table.Body>
+        </Table>
+      )}
+    </>
   );
 }
 

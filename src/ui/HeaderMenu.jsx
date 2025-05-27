@@ -18,6 +18,8 @@ import { useGetUser } from "../context/useGetUserContext";
 import { Link } from "react-router-dom";
 import { Loader } from "./Loading";
 import { useToast } from "../context/useToastContext";
+import { useEffect } from "react";
+import useOutsideClick from "../hooks/useOutsideClick";
 
 const customTheme = createTheme({
   drawer: {
@@ -25,8 +27,8 @@ const customTheme = createTheme({
       base: "fixed z-40 overflow-y-auto bg-whitesmoke p-4 transition-transform dark:bg-gray-950",
       position: {
         right: {
-          on: "left-0 right-0 top-0 w-full min-[300px]:max-sm:w-72 sm:max-md:w-76 md:w-80 transform-none",
-          off: "left-0 right-0 top-0 w-full min-[300px]:max-sm:w-72 sm:max-md:w-76 md:w-80 -translate-y-full",
+          on: "right-0 top-0 w-full min-[300px]:max-sm:w-72 sm:max-md:w-76 md:w-80 transition-x-0 transition-transform duration-300",
+          off: "right-0 top-0 w-full min-[300px]:max-sm:w-72 sm:max-md:w-76 md:w-80 translate-x-full transition-transform duration-300",
         },
       },
     },
@@ -54,6 +56,25 @@ function HeaderMenu({ isOpen, setIsOpen, setIsModalOpen }) {
   const { token, isLoading, isError, error, user } = useGetUser();
   const { showToast } = useToast();
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) {
+        setIsOpen(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, [setIsOpen]);
+
+  const sidebarRef = useOutsideClick(() => {
+    if (isOpen && window.innerWidth < 1024) {
+      setIsOpen(false);
+    }
+  });
+
   if (isError)
     return showToast(
       "error",
@@ -68,6 +89,7 @@ function HeaderMenu({ isOpen, setIsOpen, setIsModalOpen }) {
             open={isOpen}
             onClose={() => setIsOpen(false)}
             position="right"
+            ref={sidebarRef}
           >
             <DrawerHeader title="آموزشگاه هنرهای تجسمی کٌنته" />
             {!token ? (
@@ -79,6 +101,7 @@ function HeaderMenu({ isOpen, setIsOpen, setIsModalOpen }) {
               </button>
             ) : (
               <Link
+                onClick={() => setIsOpen(false)}
                 to={`${user?.role === "student" ? "/student" : "/admin"}`}
                 className="w-full cursor-pointer text-xs py-4 rounded-lg bg-almond-cookie dark:bg-dark-cerulean mt-2 hover:bg-golden-sand dark:hover:bg-purple-plumeria transition-colors duration-300 flex items-center justify-center"
               >
@@ -92,41 +115,56 @@ function HeaderMenu({ isOpen, setIsOpen, setIsModalOpen }) {
               </Link>
             )}
             <DrawerItems>
-              <Sidebar>
+              <Sidebar aria-label="Default sidebar example">
                 <SidebarItems>
                   <SidebarItemGroup>
                     <li className="text-sm rounded-lg transition-colors duration-300 py-1">
-                      <CustomNavlink to="/">
+                      <CustomNavlink onClose={() => setIsOpen(false)} to="/">
                         <IoHomeOutline className="w-5 h-5 dark:text-gray-400 text-gray-700" />
                         <span>صفحه اصلی</span>
                       </CustomNavlink>
                     </li>
                     <li className="text-sm rounded-lg transition-colors duration-300 py-1">
-                      <CustomNavlink to="/courses">
+                      <CustomNavlink
+                        onClose={() => setIsOpen(false)}
+                        to="/courses"
+                      >
                         <PiGraduationCapLight className="w-5 h-5 dark:text-gray-400 text-gray-700" />
                         <span>همه دوره ها</span>
                       </CustomNavlink>
                     </li>
                     <li className="text-sm rounded-lg transition-colors duration-300 py-1">
-                      <CustomNavlink to="/student-works">
+                      <CustomNavlink
+                        onClose={() => setIsOpen(false)}
+                        to="/student-works"
+                      >
                         <GiAbstract024 className="w-5 h-5 dark:text-gray-400 text-gray-700" />
                         <span>آثار هنرجویان</span>
                       </CustomNavlink>
                     </li>
                     <li className="text-sm rounded-lg transition-colors duration-300 py-1">
-                      <CustomNavlink to="/news">
+                      <CustomNavlink
+                        onClose={() => setIsOpen(false)}
+                        to="/news"
+                      >
                         <BsPen className="w-5 h-5 dark:text-gray-400 text-gray-700" />
                         <span>اخبار و رویدادها</span>
                       </CustomNavlink>
                     </li>
                     <li className="text-sm rounded-lg transition-colors duration-300 py-1">
-                      <CustomNavlink to="/about">
+                      <CustomNavlink
+                        onClose={() => setIsOpen(false)}
+                        to="/about"
+                      >
                         <HiOutlineUsers className="w-5 h-5 dark:text-gray-400 text-gray-700" />
                         <span>درباره ما</span>
                       </CustomNavlink>
                     </li>
                     <li className="text-sm rounded-lg transition-colors duration-300 py-1">
-                      <CustomNavlink to="/contact">
+                      <CustomNavlink
+                        onClose={() => setIsOpen(false)}
+                        to="/contact"
+                      >
                         <PiInfo className="w-5 h-5 dark:text-gray-400 text-gray-700" />
                         <span>ارتباط با ما</span>
                       </CustomNavlink>
