@@ -110,13 +110,18 @@ function CoursePageLayout() {
           </div>
         </div>
         {/*  */}
-        <button
-          className="btn py-3.5 bg-transparent border dark:border-moderate-violet justify-center gap-x-4 dark:hover:bg-purple-plumeria hover:border-transparent border-butter-caramel hover:bg-golden-sand"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          <FaRegCommentDots className="w-4 h-4" />
-          <span>ثبت دیدگاه</span>
-        </button>
+        <div className="flex items-center gap-x-6">
+          <button
+            className="btn py-3.5 bg-transparent border dark:border-moderate-violet justify-center gap-x-4 dark:hover:bg-purple-plumeria hover:border-transparent border-butter-caramel hover:bg-golden-sand w-48"
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            <FaRegCommentDots className="w-4 h-4" />
+            <span>ثبت دیدگاه</span>
+          </button>
+          <button className="btn py-3.5 bg-transparent border dark:border-moderate-violet justify-center gap-x-4 dark:hover:bg-purple-plumeria hover:border-transparent border-butter-caramel hover:bg-golden-sand w-48">
+            ثبت نام دوره
+          </button>
+        </div>
       </div>
 
       {isOpen && (
