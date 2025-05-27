@@ -24,13 +24,17 @@ const Comments = () => {
 
       {/* نقاط راهنما با Tooltip */}
       <div className="relative h-6">
-        <div className="absolute -bottom-4 w-full flex justify-between pointer-events-none">
+        <div className="absolute -bottom-[15.5px] w-full flex justify-between pointer-events-none px-2">
           {[1, 2, 3, 4, 5].map((num, idx) => (
             <div key={num} className="relative pointer-events-auto">
-              <Tooltip content={[1, 2, 3, 4, 5][idx]} placement="bottom">
+              <Tooltip
+                content={[1, 2, 3, 4, 5][idx]}
+                trigger="hover"
+                placement="top"
+              >
                 <span
                   className={`w-1 h-1 rounded-full block transition-transform ${
-                    value == num ? "bg-blue-600 scale-125" : "bg-gray-400"
+                    value == num ? "bg-gray-500 scale-125" : "bg-gray-400"
                   }`}
                 />
               </Tooltip>
@@ -48,7 +52,7 @@ const Comments = () => {
         step="1"
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        className="w-full h-1 bg-gray-200 rounded-lg cursor-pointer dark:bg-gray-700 transition-discrete duration-300"
+        className="w-full h-2 bg-gray-200 rounded-lg cursor-pointer dark:bg-gray-700 transition-discrete duration-300"
       />
 
       {/* لیبل‌ها */}
