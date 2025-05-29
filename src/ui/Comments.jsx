@@ -6,6 +6,10 @@ import {
   ThemeProvider,
   Tooltip,
 } from "flowbite-react";
+import useCreateReview from "../hooks/useCreateReview";
+import { useForm } from "react-hook-form";
+import { useParams } from "react-router-dom";
+import { Loader } from "./Loading";
 
 const customTheme = createTheme({
   floatingLabel: {
@@ -24,36 +28,45 @@ const customTheme = createTheme({
   },
 });
 
-const Comments = () => {
+const rates = ["خیلی بد", "بد", "متوسط", "خوب", "عالی"];
+
+const Comments = ({ onClose }) => {
+  const { id } = useParams();
+  const { createReview, isCreatingReview } = useCreateReview();
   const [value, setValue] = useState(3);
-  const rates = ["خیلی بد", "بد", "متوسط", "خوب", "عالی"];
+
+  const {
+    handleSubmit,
+    register,
+    formState: { errors, isValid },
+  } = useForm({ mode: "onBlur" });
+
+  const onSubmit = async (data) => {
+    const newComment = {
+      courseId: id,
+      rating: value,
+      review: data?.review,
+    };
+    await createReview(newComment);
+    onClose();
+  };
 
   return (
     <>
-      <form className="w-full max-w-md mx-auto p-4">
+      <form
+        className="w-full max-w-md mx-auto p-4"
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <label htmlFor="range" className="block mb-2 text-sm font-medium">
           امتیاز دهید:
-          <span className="mx-2">
-            {value === "1"
-              ? "خیلی بد"
-              : value === "2"
-              ? "بد"
-              : value === "3"
-              ? "متوسط"
-              : value === "4"
-              ? "خوب"
-              : "عالی"}
-          </span>
+          <span className="mx-2">{rates[value - 1]}</span>
         </label>
+
         <div className="relative h-6">
           <div className="absolute -bottom-[17px] w-full flex justify-between pointer-events-none px-2">
-            {[1, 2, 3, 4, 5].map((num, idx) => (
+            {[1, 2, 3, 4, 5].map((num) => (
               <div key={num} className="relative pointer-events-auto">
-                <Tooltip
-                  content={[1, 2, 3, 4, 5][idx]}
-                  trigger="hover"
-                  placement="top"
-                >
+                <Tooltip content={num} trigger="hover" placement="top">
                   <span
                     className={`w-1 h-1 rounded-full block transition-transform ${
                       value == num ? "bg-gray-500 scale-125" : "bg-gray-400"
@@ -64,6 +77,7 @@ const Comments = () => {
             ))}
           </div>
         </div>
+
         <input
           id="range"
           type="range"
@@ -71,45 +85,61 @@ const Comments = () => {
           max="5"
           step="1"
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={(e) => setValue(Number(e.target.value))}
           className="w-full h-1 bg-gray-200 rounded-lg cursor-pointer dark:bg-gray-700 transition-discrete duration-300"
         />
+
         <div className="flex justify-between text-[10px] sm:text-xs text-gray-500 mt-2 mb-8">
           {rates.map((rate) => (
             <span key={rate}>{rate}</span>
           ))}
         </div>
+
         <div className="space-y-6">
           <ThemeProvider theme={customTheme}>
             <FloatingLabel
               variant="outlined"
+              name="title"
               label="عنوان دیدگاه"
               sizing="sm"
               type="text"
+              {...register("title")}
             />
             <FloatingLabel
               variant="outlined"
+              name="pros"
               label="نکات مثبت"
               sizing="sm"
               type="text"
+              {...register("pros")}
             />
             <FloatingLabel
               variant="outlined"
+              name="cons"
               label="نکات منفی"
               sizing="sm"
               type="text"
+              {...register("cons")}
             />
             <Textarea
-              id=""
               placeholder="توضیحات"
-              required
+              name="review"
               rows={4}
               className="resize-none"
+              {...register("review", { required: "لطفا توضیحات را وارد کنید" })}
             />
+            {errors.review && (
+              <p className="text-red-500 text-sm">{errors.review.message}</p>
+            )}
           </ThemeProvider>
         </div>
-        <button className="w-full mt-6 rounded-xl bg-almond-cookie hover:bg-golden-sand dark:bg-dark-cerulean dark:hover:bg-purple-plumeria py-3 cursor-pointer text-sm transition-all duration-300">
-          ثبت دیدگاه
+
+        <button
+          type="submit"
+          disabled={isCreatingReview || !isValid}
+          className="w-full mt-6 rounded-xl bg-almond-cookie hover:bg-golden-sand dark:bg-dark-cerulean dark:hover:bg-purple-plumeria py-3 cursor-pointer text-sm transition-all duration-300"
+        >
+          {isCreatingReview ? <Loader /> : "ثبت دیدگاه"}
         </button>
       </form>
     </>

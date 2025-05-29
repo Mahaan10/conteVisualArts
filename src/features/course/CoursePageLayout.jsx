@@ -126,7 +126,7 @@ function CoursePageLayout() {
 
       {isOpen && (
         <Modal title="دیدگاه شما" onClose={() => setIsOpen(false)}>
-          <Comments />
+          <Comments onClose={() => setIsOpen(false)} />
         </Modal>
       )}
     </>
