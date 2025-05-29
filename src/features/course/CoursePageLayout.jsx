@@ -17,7 +17,7 @@ function CoursePageLayout() {
   const { id } = useParams();
   const { showToast } = useToast();
   const { course, error, isError, isLoading } = useSingleCourse(id);
-  console.log(course);
+  //console.log(course);
 
   if (isLoading) return <Loading />;
   if (isError)
@@ -25,6 +25,13 @@ function CoursePageLayout() {
       "error",
       error?.response?.data?.message || "خطا در بارگذاری"
     );
+
+  const rating = course?.reviews.map((courseRate) => courseRate.rating) || [];
+
+  const courseRating =
+    rating.length > 0
+      ? Math.ceil(rating.reduce((acc, curr) => acc + curr, 0) / rating.length)
+      : 0;
 
   return (
     <>
@@ -67,19 +74,23 @@ function CoursePageLayout() {
               </div>
               <div className="flex items-center justify-between lg:flex-col lg:items-end gap-y-4">
                 <div className="flex items-center gap-x-1.5">
-                  <span className="text-sm ">{19}</span>
+                  <span className="text-sm ">{course?.reviews.length} نظر</span>
                   <FaRegCommentDots className="w-4 h-4" />
                 </div>
-                <div className="flex flex-col items-center gap-y-1.5">
-                  <Rating>
-                    <RatingStar />
-                    <RatingStar />
-                    <RatingStar />
-                    <RatingStar />
-                    <RatingStar filled={false} />
-                  </Rating>
-                  <p className="text-xs">5 از 11 رای</p>
-                </div>
+                {rating.length > 0 ? (
+                  <div className="flex flex-col items-center gap-y-1.5">
+                    <Rating>
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <RatingStar key={star} filled={star <= courseRating} />
+                      ))}
+                    </Rating>
+                    <p className="text-xs">
+                      {courseRating} از {course?.reviews.length} رای
+                    </p>
+                  </div>
+                ) : (
+                  <p className="text-xs text-gray-400">بدون امتیاز</p>
+                )}
               </div>
             </div>
             <div className="flex items-start gap-y-3 gap-x-6 flex-col md:flex-row md:items-center flex-wrap text-xs">

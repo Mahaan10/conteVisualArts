@@ -9,7 +9,10 @@ import {
 import useCreateReview from "../hooks/useCreateReview";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
-import { Loader } from "./Loading";
+import Loading, { Loader } from "./Loading";
+import useSingleCourse from "../hooks/useSingleCourse";
+import { useToast } from "../context/useToastContext";
+import { useGetUser } from "../context/useGetUserContext";
 
 const customTheme = createTheme({
   floatingLabel: {
@@ -33,13 +36,24 @@ const rates = ["خیلی بد", "بد", "متوسط", "خوب", "عالی"];
 const Comments = ({ onClose }) => {
   const { id } = useParams();
   const { createReview, isCreatingReview } = useCreateReview();
+  const { course, error, isError, isLoading } = useSingleCourse(id);
+  const {
+    user,
+    isLoading: isUserLoading,
+    isError: isUserError,
+    token,
+  } = useGetUser();
   const [value, setValue] = useState(3);
-
+  const { showToast } = useToast();
   const {
     handleSubmit,
     register,
     formState: { errors, isValid },
   } = useForm({ mode: "onBlur" });
+
+  const isEnrolledStudent = course.enrolledStudents.some(
+    (student) => student === user._id
+  );
 
   const onSubmit = async (data) => {
     const newComment = {
@@ -47,9 +61,22 @@ const Comments = ({ onClose }) => {
       rating: value,
       review: data?.review,
     };
-    await createReview(newComment);
+    if (isEnrolledStudent) {
+      await createReview(newComment);
+    } else if (!token) {
+      showToast("error", "برای ارسال دیدگاه لطفاً لاگین کنید");
+    } else {
+      showToast("error", "شما عضو این دوره نیستید");
+    }
     onClose();
   };
+
+  if (isLoading || isUserLoading) return <Loading />;
+  if (isError || isUserError)
+    return showToast(
+      "error",
+      error?.response?.data?.message || "خطا در بارگذاری"
+    );
 
   return (
     <>

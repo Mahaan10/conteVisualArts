@@ -143,6 +143,7 @@ function Header() {
                 placement="bottom-start"
                 size="sm"
                 dismissOnClick={true}
+                className="z-20"
               >
                 <DropdownHeader>
                   <img
@@ -195,6 +196,7 @@ function Header() {
                 placement="bottom-start"
                 size="sm"
                 dismissOnClick={true}
+                className="z-20"
               >
                 <DropdownHeader>
                   <img
