@@ -1,15 +1,59 @@
+import { useForm } from "react-hook-form";
 import { useGetUser } from "../../context/useGetUserContext";
 import { useToast } from "../../context/useToastContext";
 import Loading from "../../ui/Loading";
-import { TbClockCheck } from "react-icons/tb";
-import { BsCheckAll } from "react-icons/bs";
-import { SlBookOpen } from "react-icons/sl";
+import {
+  createTheme,
+  FileInput,
+  FloatingLabel,
+  ThemeProvider,
+} from "flowbite-react";
+import { CiEdit } from "react-icons/ci";
+import { useState } from "react";
 
-import { FaRegComments } from "react-icons/fa6";
+const customTheme = createTheme({
+  floatingLabel: {
+    label: {
+      default: {
+        outlined: {
+          sm: "right-1 left-auto dark:bg-gray-950 bg-whitesmoke cursor-text",
+        },
+      },
+    },
+    input: {
+      default: {
+        outlined: {
+          sm: "min-w-3xs max-w-2xs",
+        },
+      },
+    },
+  },
+  fileInput: {
+    sizes: {
+      sm: "max-w-2xs min-w-3xs bg-inherit dark:bg-inherit",
+    },
+  },
+});
 
 function StudentProfile() {
   const { user, isLoading, isError, error, token } = useGetUser();
   const { showToast } = useToast();
+  const [isNameEditable, setIsNameEditable] = useState(false);
+  const [isPhoneEditable, setIsPhoneEditable] = useState(false);
+  const [isEmailEditable, setIsEmailEditable] = useState(false);
+  const {
+    handleSubmit,
+    register,
+    getValues,
+    formState: { errors, isValid },
+  } = useForm({
+    mode: "onBlur",
+    defaultValues: {
+      name: user?.name,
+      phone: user?.phone,
+      email: user?.email,
+    },
+  });
 
   if (isError || !token)
     return showToast(
@@ -21,57 +65,92 @@ function StudentProfile() {
 
   return (
     <div className="container">
-      <h1 className="text-xl font-bold">سوابق من</h1>
+      <h1 className="text-xl font-bold">اطلاعات کاربری</h1>
       <div className="w-full h-[0.5px] my-10 bg-light-shade-yellow dark:bg-dark-purple transition-colors duration-300"></div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-10 sm:items-center mt-8 text-xs">
-        <div className="flex items-center gap-x-4">
-          <div className="bg-almond-cookie dark:bg-dark-cerulean p-5 rounded-2xl transition-colors duration-300">
-            <TbClockCheck className="w-8 h-8" />
+      <form action="">
+        <ThemeProvider theme={customTheme}>
+          <div className="flex flex-col gap-6">
+            <div className="flex items-center gap-6 flex-col sm:flex-row">
+              <div className="flex relative">
+                <FloatingLabel
+                  variant="outlined"
+                  label="نام و نام خانوادگی"
+                  sizing="sm"
+                  type="text"
+                  disabled={!isNameEditable}
+                  {...register("name", {
+                    required: "وارد کردن نام و نام خانوادگی الزامیست",
+                    validate: (value) => {
+                      const name = String(value);
+                      return name || "فرمت شماره نام و نام خانوادگی صحیح نیست";
+                    },
+                  })}
+                />
+                <button
+                  type="button"
+                  className="absolute left-2 top-1/3 cursor-pointer"
+                  onClick={() => setIsNameEditable(!isNameEditable)}
+                >
+                  <CiEdit className="w-4 h-4" />
+                </button>
+              </div>
+              <div className="flex relative">
+                <FloatingLabel
+                  variant="outlined"
+                  label="شماره همراه"
+                  sizing="sm"
+                  type="text"
+                  disabled={!isPhoneEditable}
+                  {...register("phone", {
+                    required: "وارد کردن شماره همراه الزامیست",
+                    validate: (value) => {
+                      const isPhone = /^09\d{9}$/.test(value);
+                      return isPhone || "فرمت شماره موبایل صحیح نیست";
+                    },
+                  })}
+                />
+                <button
+                  type="button"
+                  className="absolute left-2 top-1/3 cursor-pointer"
+                  onClick={() => setIsPhoneEditable(!isPhoneEditable)}
+                >
+                  <CiEdit className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+            <div className="flex items-center gap-6 flex-col sm:flex-row">
+              <div className="flex relative">
+                <FloatingLabel
+                  variant="outlined"
+                  label="ایمیل"
+                  sizing="sm"
+                  type="text"
+                  disabled={!isEmailEditable}
+                  {...register("email", {
+                    required: "وارد کردن ایمیل الزامیست",
+                    validate: (value) => {
+                      const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+                      return isEmail || "فرمت ایمیل صحیح نیست";
+                    },
+                  })}
+                />
+                <button
+                  type="button"
+                  className="absolute left-2 top-1/3 cursor-pointer"
+                >
+                  <CiEdit
+                    className="w-4 h-4"
+                    onClick={() => setIsEmailEditable(!isEmailEditable)}
+                  />
+                </button>
+              </div>
+              <div id="fileUpload">
+                <FileInput sizing="sm" />
+              </div>
+            </div>
           </div>
-          <div className="flex flex-col gap-y-5">
-            <span className="opacity-50 text-base">تاریخ پیوستن</span>
-            <p className="">{formattedDate(user?.createdAt)}</p>
-          </div>
-        </div>
-        <div className="flex items-center gap-x-4">
-          <div className="bg-almond-cookie dark:bg-dark-cerulean p-5 rounded-2xl transition-colors duration-300">
-            <SlBookOpen className="w-8 h-8" />
-          </div>
-          <div className="flex flex-col gap-y-5">
-            <span className="opacity-50 text-base">دوره ها</span>
-            <p className="">{user?.enrolledCourses.length} دوره</p>
-          </div>
-        </div>
-        <div className="flex items-center gap-x-4">
-          <div className="bg-almond-cookie dark:bg-dark-cerulean p-5 rounded-2xl transition-colors duration-300">
-            <BsCheckAll className="w-8 h-8" />
-          </div>
-          <div className="flex flex-col gap-y-5">
-            <span className="opacity-50 text-base">سفارش ها</span>
-            <p className="">{user?.enrolledCourses.length} سفارش</p>
-          </div>
-        </div>
-        <div className="flex items-center gap-x-4">
-          <div className="bg-almond-cookie dark:bg-dark-cerulean p-5 rounded-2xl transition-colors duration-300">
-            <FaRegComments className="w-8 h-8" />
-          </div>
-          <div className="flex flex-col gap-y-5">
-            <span className="opacity-50 text-base">نظرات</span>
-            <p className="">{user?.reviews.length} نظر</p>
-          </div>
-        </div>
-      </div>
-      {/* <div className="flex flex-col sm:flex-row gap-y-4 sm:items-center justify-between mb-8">
-        <h1>آخرین سفارش های من</h1>
-        <Link
-          to="/student/payments"
-          className="text-xs flex items-center gap-x-1 hover:text-butter-caramel dark:hover:text-moderate-violet transition-colors duration-300"
-        >
-          <span>مشاهده همه سفارش ها</span>
-          <BsArrowLeft className="w-4 h-4" />
-        </Link>
-      </div>
-      <OrdersTable /> */}
+        </ThemeProvider>
+      </form>
     </div>
   );
 }

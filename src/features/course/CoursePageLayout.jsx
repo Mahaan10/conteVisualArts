@@ -5,19 +5,23 @@ import Loading from "../../ui/Loading";
 import { useToast } from "../../context/useToastContext";
 import { BsClockHistory, BsCheckAll } from "react-icons/bs";
 import { TbUsers, TbClockCheck } from "react-icons/tb";
-import { FaRegCommentDots } from "react-icons/fa6";
+import { FaArrowLeft, FaArrowRight, FaRegCommentDots } from "react-icons/fa6";
 import { PiCalendarCheck } from "react-icons/pi";
 import { Rating, RatingStar } from "flowbite-react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Modal from "../../ui/Modal";
 import Comments from "../../ui/Comments";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import { Autoplay } from "swiper/modules";
 
 function CoursePageLayout() {
   const [isOpen, setIsOpen] = useState(false);
+  const swiperRef = useRef(null);
   const { id } = useParams();
   const { showToast } = useToast();
   const { course, error, isError, isLoading } = useSingleCourse(id);
-  //console.log(course);
+  // console.log(course.reviews);
 
   if (isLoading) return <Loading />;
   if (isError)
@@ -130,9 +134,77 @@ function CoursePageLayout() {
             <span>ثبت دیدگاه</span>
           </button>
           <button className="btn py-3.5 bg-transparent border dark:border-moderate-violet justify-center gap-x-4 dark:hover:bg-purple-plumeria hover:border-transparent border-butter-caramel hover:bg-golden-sand w-48">
-            ثبت نام دوره
+            افزودن به سبد خرید
           </button>
         </div>
+        {course?.reviews?.length > 0 ? (
+          <div className="my-10">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-bold mb-4">نظرات هنرجویان</h3>
+              <div className="flex items-center justify-center gap-x-2 mb-6">
+                <button
+                  className="border border-almond-cookie hover:bg-almond-cookie dark:hover:bg-dark-cerulean transition-colors duration-300 dark:border-dark-cerulean/50 p-2 rounded-full cursor-pointer"
+                  onClick={() => swiperRef.current?.slidePrev()}
+                >
+                  <FaArrowRight className="w-5 h-5" />
+                </button>
+                <button
+                  className="border border-almond-cookie hover:bg-almond-cookie dark:hover:bg-dark-cerulean transition-colors duration-300 dark:border-dark-cerulean/50 p-2 rounded-full cursor-pointer"
+                  onClick={() => swiperRef.current?.slideNext()}
+                >
+                  <FaArrowLeft className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+            <Swiper
+              modules={[Autoplay]}
+              onSwiper={(swiper) => (swiperRef.current = swiper)}
+              autoplay={{ delay: 8000, disableOnInteraction: true }}
+              spaceBetween={25}
+              loop
+              breakpoints={{
+                0: {
+                  slidesPerView: 1,
+                },
+                640: {
+                  slidesPerView: 2,
+                },
+                768: {
+                  slidesPerView: 3,
+                },
+                1024: {
+                  slidesPerView: 4
+                }
+              }}
+            >
+              {course?.reviews.map((review) => (
+                <SwiperSlide key={review?._id}>
+                  <div className="p-4 bg-transparent rounded-lg border text-sm shadow-xl dark:shadow-black dark:border-grayish-violet/50 border-almond-cookie/50 h-64 flex flex-col">
+                    <div className="flex items-center justify-between gap-x-2">
+                      <span className="font-bold">{review.user.name}</span>
+                      <Rating>
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <RatingStar
+                            key={star}
+                            filled={star <= review.rating}
+                          />
+                        ))}
+                      </Rating>
+                    </div>
+                    <div className="text-left mt-4 text-xs">
+                      {formattedDate(review?.createdAt)}
+                    </div>
+                    <div className="mt-6 text-sm flex-1 overflow-y-auto">
+                      {review?.review}
+                    </div>
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
+        ) : (
+          <p className="text-center text-sm">هنوز دیدگاهی ثبت نشده است</p>
+        )}
       </div>
 
       {isOpen && (

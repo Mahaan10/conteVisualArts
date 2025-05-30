@@ -79,7 +79,7 @@ function AppLayout() {
             </button>
           </li>
         </ul>
-        <div className="flex items-center justify-between text-xs w-[95%] mx-auto mt-6">
+        {/* <div className="flex items-center justify-between text-xs w-[95%] mx-auto mt-6">
           <div className="flex items-center gap-x-4">
             <img
               src="/images/user.jpg"
@@ -94,7 +94,7 @@ function AppLayout() {
           <button className="cursor-pointer">
             <CiEdit className="w-5 h-5" />
           </button>
-        </div>
+        </div> */}
       </div>
 
       {/* Main content */}
