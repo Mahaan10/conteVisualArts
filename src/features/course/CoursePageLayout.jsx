@@ -5,7 +5,7 @@ import Loading from "../../ui/Loading";
 import { useToast } from "../../context/useToastContext";
 import { BsClockHistory, BsCheckAll } from "react-icons/bs";
 import { TbUsers, TbClockCheck } from "react-icons/tb";
-import { FaArrowLeft, FaArrowRight, FaRegCommentDots } from "react-icons/fa6";
+import { FaRegCommentDots } from "react-icons/fa6";
 import { PiCalendarCheck } from "react-icons/pi";
 import { Rating, RatingStar } from "flowbite-react";
 import { useRef, useState } from "react";
@@ -14,6 +14,7 @@ import Comments from "../../ui/Comments";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { Autoplay } from "swiper/modules";
+import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 function CoursePageLayout() {
   const [isOpen, setIsOpen] = useState(false);
@@ -146,20 +147,20 @@ function CoursePageLayout() {
                   className="border border-almond-cookie hover:bg-almond-cookie dark:hover:bg-dark-cerulean transition-colors duration-300 dark:border-dark-cerulean/50 p-2 rounded-full cursor-pointer"
                   onClick={() => swiperRef.current?.slidePrev()}
                 >
-                  <FaArrowRight className="w-5 h-5" />
+                  <FiChevronRight className="w-5 h-5" />
                 </button>
                 <button
                   className="border border-almond-cookie hover:bg-almond-cookie dark:hover:bg-dark-cerulean transition-colors duration-300 dark:border-dark-cerulean/50 p-2 rounded-full cursor-pointer"
                   onClick={() => swiperRef.current?.slideNext()}
                 >
-                  <FaArrowLeft className="w-5 h-5" />
+                  <FiChevronLeft className="w-5 h-5" />
                 </button>
               </div>
             </div>
             <Swiper
               modules={[Autoplay]}
               onSwiper={(swiper) => (swiperRef.current = swiper)}
-              autoplay={{ delay: 8000, disableOnInteraction: true }}
+              autoplay={{ delay: 8000, disableOnInteraction: false }}
               spaceBetween={25}
               loop
               breakpoints={{
@@ -173,8 +174,8 @@ function CoursePageLayout() {
                   slidesPerView: 3,
                 },
                 1024: {
-                  slidesPerView: 4
-                }
+                  slidesPerView: 4,
+                },
               }}
             >
               {course?.reviews.map((review) => (

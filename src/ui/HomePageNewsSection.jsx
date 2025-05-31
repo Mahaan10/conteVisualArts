@@ -1,43 +1,65 @@
-import { FiArrowLeft, FiArrowRight, FiArrowUpLeft } from "react-icons/fi";
+import { FiChevronRight, FiChevronLeft, FiArrowUpLeft } from "react-icons/fi";
 import { Link } from "react-router-dom";
-import useNews from "../hooks/useNews";
-import { useToast } from "../context/useToastContext";
-import Loading from "./Loading";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay } from "swiper/modules";
+import { useRef } from "react";
+import "swiper/css";
 import NewsCards from "./NewsCards";
 
-function HomePageNewsSection() {
-  const { news, isLoading, isError, error } = useNews();
-  const { showToast } = useToast();
+function HomePageNewsSection({ news }) {
+  const swiperRef = useRef(null);
 
-  if (isLoading) return <Loading />;
-  if (isError)
-    return showToast(
-      "error",
-      error?.response?.data?.message || "بارگذاری با خطا مواجه شد"
-    );
+  if (!news || news.length === 0) {
+    return <div className="text-center mt-4">هیچ رویدادی یافت نشد</div>;
+  }
 
   return (
-    <div className="mt-10">
-      <div className="flex items-center justify-between">
+    <div className="mt-10 overflow-hidden max-w-full">
+      <div className="flex items-center justify-between mb-4">
         <h1 className="text-lg">اخبار و رویدادها</h1>
-        <Link to="/news" className="text-xs flex flex-col items-center gap-y-3">
-          <div className="flex items-center gap-x-1 duration-300 transition-colors hover:text-butter-caramel dark:hover:text-moderate-violet">
-            <span>اخبار و رویدادها</span>
-            <FiArrowUpLeft className="w-5 h-5" />
-          </div>
+        <Link
+          to="/news"
+          className="text-xs flex items-center gap-x-1 hover:text-butter-caramel dark:hover:text-moderate-violet transition-colors"
+        >
+          <span>همه رویدادها</span>
+          <FiArrowUpLeft className="w-5 h-5" />
         </Link>
       </div>
+
       <div className="flex items-center justify-end gap-x-2 mt-2">
-        <button className="cursor-pointer p-3 rounded-full border border-almond-cookie dark:border-moderate-violet hover:bg-almond-cookie dark:hover:bg-moderate-violet transition-colors duration-300">
-          <FiArrowRight className="w-5 h-5" />
+        <button
+          onClick={() => swiperRef.current?.slidePrev()}
+          className="cursor-pointer p-3 rounded-full border border-almond-cookie dark:border-moderate-violet hover:bg-almond-cookie dark:hover:bg-moderate-violet transition-colors duration-300"
+        >
+          <FiChevronRight className="w-5 h-5" />
         </button>
-        <button className="cursor-pointer p-3 rounded-full border border-almond-cookie dark:border-moderate-violet hover:bg-almond-cookie dark:hover:bg-moderate-violet transition-colors duration-300">
-          <FiArrowLeft className="w-5 h-5" />
+        <button
+          onClick={() => swiperRef.current?.slideNext()}
+          className="cursor-pointer p-3 rounded-full border border-almond-cookie dark:border-moderate-violet hover:bg-almond-cookie dark:hover:bg-moderate-violet transition-colors duration-300"
+        >
+          <FiChevronLeft className="w-5 h-5" />
         </button>
       </div>
-      <div className="grid grid-row-2 grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-7 mt-10">
-        <NewsCards array={news} />
-      </div>
+
+      <Swiper
+        modules={[Autoplay]}
+        autoplay={{ delay: 4000, disableOnInteraction: false }}
+        spaceBetween={25}
+        loop
+        breakpoints={{
+          0: { slidesPerView: 1 },
+          400: { slidesPerView: 2 },
+          640: { slidesPerView: 3 },
+          1024: { slidesPerView: 4 },
+        }}
+        onSwiper={(swiper) => (swiperRef.current = swiper)}
+      >
+        {news.map((item) => (
+          <SwiperSlide key={item._id}>
+            <NewsCards array={[item]} />
+          </SwiperSlide>
+        ))}
+      </Swiper>
     </div>
   );
 }
