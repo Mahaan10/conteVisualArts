@@ -1,11 +1,5 @@
-import {
-  Button,
-  Card,
-  createTheme,
-  Rating,
-  RatingStar,
-  ThemeProvider,
-} from "flowbite-react";
+import { Button, Card, createTheme, ThemeProvider } from "flowbite-react";
+import { useState } from "react";
 
 const customTheme = createTheme({
   card: {
@@ -22,24 +16,24 @@ const customTheme = createTheme({
 });
 
 function StudentWorksCards({ array }) {
+  const [visibleCount, setVisibleCount] = useState(6);
+
+  const handleLoadMore = () => {
+    setVisibleCount((prev) => prev + 6);
+  };
+  console.log(array);
+
+  const visibleStudentWorks = array.slice(0, visibleCount);
+
   return (
     <ThemeProvider theme={customTheme}>
-      {array.map((arr) => (
+      {visibleStudentWorks.map((arr) => (
         <Card
           key={arr._id}
           className="max-w-sm text-xs relative"
           imgAlt={arr.title}
           imgSrc={arr.image}
         >
-          {/* Rating Section */}
-          <span className="absolute top-2 right-2 bg-transparent px-2 py-1 z-10">
-            <Rating>
-              <RatingStar />
-              <RatingStar />
-              <RatingStar />
-              <RatingStar filled={false} />
-            </Rating>
-          </span>
           <h5 className="text-xl font-semibold tracking-tight line-clamp-2">
             {arr.title}
           </h5>
@@ -59,6 +53,18 @@ function StudentWorksCards({ array }) {
           </div>
         </Card>
       ))}
+      {visibleCount < array.length && (
+        <div className="col-span-full flex justify-center mt-6">
+          <Button
+            onClick={handleLoadMore}
+            color="dark"
+            outline
+            className="text-sm"
+          >
+            مشاهده آثار بیشتر
+          </Button>
+        </div>
+      )}
     </ThemeProvider>
   );
 }

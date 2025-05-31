@@ -6,6 +6,7 @@ import {
   RatingStar,
   ThemeProvider,
 } from "flowbite-react";
+import { useState } from "react";
 import { FaArrowLeft, FaRegCalendarCheck } from "react-icons/fa6";
 import { PiStudent } from "react-icons/pi";
 import { Link } from "react-router-dom";
@@ -25,11 +26,19 @@ const customTheme = createTheme({
 });
 
 function CourseCards({ array }) {
+  const [visibleCount, setVisibleCount] = useState(6);
+
   const sortedArray = [...array].sort((a, b) => b.isActive - a.isActive);
+
+  const handleLoadMore = () => {
+    setVisibleCount((prev) => prev + 6);
+  };
+
+  const visibleCourses = sortedArray.slice(0, visibleCount);
 
   return (
     <ThemeProvider theme={customTheme}>
-      {sortedArray.map((arr) => (
+      {visibleCourses.map((arr) => (
         <Link
           key={arr._id}
           to={`${arr.isActive ? `/courses/${arr._id}` : "/courses"}`}
@@ -47,11 +56,12 @@ function CourseCards({ array }) {
             )}
             <span className="absolute top-2 right-2 bg-transparent px-2 py-1 z-10">
               <Rating>
-                <RatingStar />
-                <RatingStar />
-                <RatingStar />
-                <RatingStar />
-                <RatingStar filled={false} />
+                {[1, 2, 3, 4, 5].map((_, index) => (
+                  <RatingStar
+                    key={index}
+                    filled={index < averageRatingRounded(arr.reviews)}
+                  />
+                ))}
               </Rating>
             </span>
 
@@ -99,6 +109,18 @@ function CourseCards({ array }) {
           </Card>
         </Link>
       ))}
+      {visibleCount < sortedArray.length && (
+        <div className="col-span-full flex justify-center mt-6">
+          <Button
+            onClick={handleLoadMore}
+            color="dark"
+            outline
+            className="text-sm"
+          >
+            مشاهده دوره های بیشتر
+          </Button>
+        </div>
+      )}
     </ThemeProvider>
   );
 }
@@ -111,4 +133,10 @@ function formattedDate(isoString) {
     month: "2-digit",
     day: "2-digit",
   });
+}
+
+function averageRatingRounded(reviews) {
+  if (!reviews || reviews.length === 0) return 0;
+  const total = reviews.reduce((sum, review) => sum + review.rating, 0);
+  return Math.ceil(total / reviews.length);
 }

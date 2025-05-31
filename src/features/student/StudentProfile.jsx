@@ -56,7 +56,6 @@ function StudentProfile() {
     },
   });
 
-  // هوک‌های useOutsideClick برای هر بخش
   const nameRef = useOutsideClick(() => setIsNameEditable(false));
   const phoneRef = useOutsideClick(() => setIsPhoneEditable(false));
   const emailRef = useOutsideClick(() => setIsEmailEditable(false));
@@ -77,7 +76,7 @@ function StudentProfile() {
         <ThemeProvider theme={customTheme}>
           <div className="flex flex-col gap-6">
             <div className="flex items-center gap-6 flex-col sm:flex-row">
-              {/* نام */}
+              {/* Name */}
               <div className="flex relative" ref={nameRef}>
                 <FloatingLabel
                   variant="outlined"
@@ -102,7 +101,7 @@ function StudentProfile() {
                 </button>
               </div>
 
-              {/* تلفن */}
+              {/* Phone */}
               <div className="flex relative" ref={phoneRef}>
                 <FloatingLabel
                   variant="outlined"
@@ -130,7 +129,7 @@ function StudentProfile() {
             </div>
 
             <div className="flex items-center gap-6 flex-col sm:flex-row">
-              {/* ایمیل */}
+              {/* Email */}
               <div className="flex relative" ref={emailRef}>
                 <FloatingLabel
                   variant="outlined"
@@ -162,7 +161,12 @@ function StudentProfile() {
               </div>
             </div>
           </div>
-          <Button color="dark" outline className="mt-4">
+          <Button
+            color="dark"
+            outline
+            className="mt-4 cursor-pointer transition-colors duration-300"
+            disabled={!isValid}
+          >
             تایید
           </Button>
         </ThemeProvider>

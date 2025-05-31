@@ -1,6 +1,7 @@
 import { Button, Card, createTheme, ThemeProvider } from "flowbite-react";
 import { FaArrowLeft, FaRegCalendarCheck } from "react-icons/fa6";
 import { BsCalendar2Range } from "react-icons/bs";
+import { useState } from "react";
 
 const customTheme = createTheme({
   card: {
@@ -17,9 +18,17 @@ const customTheme = createTheme({
 });
 
 function NewsCards({ array }) {
+  const [visibleCount, setVisibleCount] = useState(6);
+
+  const handleLoadMore = () => {
+    setVisibleCount((prev) => prev + 6);
+  };
+
+  const visibleNews = array.slice(0, visibleCount);
+
   return (
     <ThemeProvider theme={customTheme}>
-      {array.map((arr) => (
+      {visibleNews.map((arr) => (
         <Card key={arr._id} className="max-w-sm transition-all duration-300">
           <div className="w-full">
             <img
@@ -56,6 +65,18 @@ function NewsCards({ array }) {
           </Button>
         </Card>
       ))}
+      {visibleCount < array.length && (
+        <div className="col-span-full flex justify-center mt-6">
+          <Button
+            onClick={handleLoadMore}
+            color="dark"
+            outline
+            className="text-sm"
+          >
+            مشاهده اخبار بیشتر
+          </Button>
+        </div>
+      )}
     </ThemeProvider>
   );
 }

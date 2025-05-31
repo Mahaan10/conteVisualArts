@@ -1,30 +1,15 @@
 import { Link } from "react-router-dom";
-import useCourses from "../hooks/useCourses";
-import Loading from "./Loading";
-import { useToast } from "../context/useToastContext";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import "swiper/css";
 import { useRef } from "react";
 import { FiArrowUpLeft, FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
-function HomePageCourses() {
-  const { courses, error, isError, isLoading } = useCourses();
-  const { showToast } = useToast();
+function HomePageCourses({ courses }) {
   const swiperRef = useRef(null);
-
-  if (isLoading) return <Loading />;
-  if (isError) {
-    showToast(
-      "error",
-      error?.response?.data?.message || "بارگذاری با خطا مواجه شد"
-    );
-    return <div className="text-red-500">خطا در بارگذاری کورس‌ها</div>;
-  }
-
   const filteredCourses = courses?.filter((c) => c.isActive) || [];
 
-  if (filteredCourses.length === 0) {
+  if (courses.length === 0 || !courses) {
     return <div className="text-center mt-4">دوره‌ای یافت نشد</div>;
   }
 
