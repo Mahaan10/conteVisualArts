@@ -1,6 +1,4 @@
 import { PiMagnifyingGlassBold } from "react-icons/pi";
-import { FiArrowUpLeft } from "react-icons/fi";
-import { Link } from "react-router-dom";
 import HomePageCourses from "../ui/HomePageCourses";
 import HomePageNewsSection from "../ui/HomePageNewsSection";
 import useCourses from "../hooks/useCourses";
