@@ -115,12 +115,13 @@ function CoursePageLayout() {
               </div>
             </div>
           </div>
-          <div className="col-span-1 lg:col-span-5 xl:col-span-6 order-1 md:order-2 self-center">
+          <div className="col-span-1 lg:col-span-5 xl:col-span-6 order-1 md:order-2 self-start">
             <div className="aspect-[16/9]">
               <img
                 src={course?.Image}
                 alt={course?.name}
                 className="rounded-xl w-full h-full"
+                loading="lazy"
               />
             </div>
           </div>
