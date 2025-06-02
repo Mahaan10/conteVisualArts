@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { editUserApi } from "../services/usersService";
 import { useToast } from "../context/useToastContext";
 
-export default function useEditUser() {
+export default function useEditUser(token) {
   const queryClient = useQueryClient();
   const { showToast } = useToast();
 
@@ -10,7 +10,7 @@ export default function useEditUser() {
     mutationFn: editUserApi,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["users"],
+        queryKey: ["user", token],
       });
     },
     onError: (error) => {

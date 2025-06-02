@@ -35,8 +35,8 @@ function Home() {
 
   return (
     <div className="p-8 h-auto">
-      <div className="max-w-[980px] mx-auto flex-1 relative">
-        <div className=" max-h-[655px] mx-auto">
+      <div className="w-full h-full mx-auto flex-1 relative">
+        <div className=" aspect-[16/9] mx-auto">
           <img
             src="images/photo_2025-05-08_00-14-50 (2).jpg"
             alt=""

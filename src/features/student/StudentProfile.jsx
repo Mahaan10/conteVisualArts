@@ -10,7 +10,7 @@ import {
   ThemeProvider,
 } from "flowbite-react";
 import { CiEdit } from "react-icons/ci";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useOutsideClick from "../../hooks/useOutsideClick";
 import useEditUser from "../../hooks/useEditUser";
 import * as yup from "yup";
@@ -26,12 +26,12 @@ const schema = yup.object().shape({
     .string()
     .email("فرمت ایمیل صحیح نیست")
     .required("وارد کردن ایمیل الزامیست"),
-  file: yup
+  profilePicture: yup
     .mixed()
     .nullable()
     .test("fileSize", "حجم فایل نباید بیش از 1 مگابایت باشد", (value) => {
       if (!value?.[0]) return true;
-      return value[0].size <= 2000000;
+      return value[0].size <= 1000000;
     }),
 });
 
@@ -61,8 +61,9 @@ const customTheme = createTheme({
 
 function StudentProfile() {
   const { user, isLoading, isError, error, token } = useGetUser();
-  const { editUser, isUserEditing } = useEditUser();
+  const { editUser, isUserEditing } = useEditUser(token);
   const { showToast } = useToast();
+  const [preview, setPreview] = useState(null);
   const [isNameEditable, setIsNameEditable] = useState(false);
   const [isPhoneEditable, setIsPhoneEditable] = useState(false);
   const [isEmailEditable, setIsEmailEditable] = useState(false);
@@ -72,32 +73,76 @@ function StudentProfile() {
     formState: { errors, isValid },
     setValue,
     watch,
+    reset,
   } = useForm({
     mode: "onBlur",
     resolver: yupResolver(schema),
     defaultValues: {
-      name: user?.name || "",
-      phone: user?.phone || "",
-      email: user?.email || "",
-      file: null,
+      name: "",
+      phone: "",
+      email: "",
+      profilePicture: null,
     },
   });
+
+  const profilePicture = watch("profilePicture");
+  const watchedName = watch("name");
+  const watchedPhone = watch("phone");
+  const watchedEmail = watch("email");
+
+  const isFormChanged =
+    watchedName !== user?.name ||
+    watchedPhone !== user?.phone ||
+    watchedEmail !== user?.email ||
+    profilePicture?.[0];
 
   const nameRef = useOutsideClick(() => setIsNameEditable(false));
   const phoneRef = useOutsideClick(() => setIsPhoneEditable(false));
   const emailRef = useOutsideClick(() => setIsEmailEditable(false));
+
+  useEffect(() => {
+    if (user) {
+      reset({
+        name: user?.name || "",
+        phone: user?.phone || "",
+        email: user?.email || "",
+        profilePicture: null,
+      });
+    }
+  }, [reset, user]);
+
+  useEffect(() => {
+    if (profilePicture?.[0]) {
+      const objectUrl = URL.createObjectURL(profilePicture[0]);
+      setPreview(objectUrl);
+
+      return () => URL.revokeObjectURL(objectUrl);
+    } else {
+      setPreview(null);
+    }
+  }, [profilePicture]);
 
   const onSubmit = async (data) => {
     const formData = new FormData();
     formData.append("name", data?.name);
     formData.append("phone", data?.phone);
     formData.append("email", data?.email);
-    if (data?.file && data?.file[0]) {
-      formData.append("file", data?.file[0]);
+    if (data?.profilePicture && data?.profilePicture[0]) {
+      formData.append("profilePicture", data?.profilePicture[0]);
     }
-    await editUser(formData);
+    await editUser({ userId: user?._id, updatedUser: formData });
     showToast("success", "اطلاعات با موفقیت ویرایش شد");
   };
+  /* console.log(data);
+
+    const updatedUser = {
+      name: data?.name,
+      email: data?.email,
+      phone: data?.phone,
+    };
+    await editUser({ userId: user?._id, updatedUser });
+    showToast("success", "موفق");
+  }; */
 
   if (isError || !token)
     return showToast(
@@ -198,24 +243,38 @@ function StudentProfile() {
                 )}
               </div>
 
-              <div id="fileUpload">
+              <div id="fileUpload" className="relative">
                 <FileInput
                   sizing="sm"
-                  onChange={(e) => setValue("file", e.target.files)}
+                  onChange={(e) => setValue("profilePicture", e.target.files)}
                 />
-                {errors?.file && (
+                {errors?.profilePicture && (
                   <p className="text-red-500 text-sm">
-                    {errors?.file?.message}
+                    {errors?.profilePicture?.message}
                   </p>
                 )}
+                {preview ? (
+                  <img
+                    src={preview}
+                    alt={user?.name}
+                    className="w-8 h-8 absolute top-1 left-2 rounded-full object-cover"
+                  />
+                ) : user?.profilePicture ? (
+                  <img
+                    src={user?.profilePicture}
+                    alt={user?.name}
+                    className="w-8 h-8 absolute top-1 left-2 rounded-full object-cover"
+                  />
+                ) : null}
               </div>
             </div>
           </div>
           <Button
             color="dark"
             outline
+            type="submit"
             className="mt-4 cursor-pointer transition-colors duration-300"
-            disabled={!isValid || isUserEditing}
+            disabled={!isValid || isUserEditing || !isFormChanged}
           >
             {isUserEditing ? <Loader /> : "تایید"}
           </Button>
