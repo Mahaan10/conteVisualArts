@@ -21,3 +21,9 @@ export function getUserApi(token) {
 export function logoutApi() {
   return http.post("/users/logout").then(({ data }) => data.data);
 }
+
+export function editUserApi({ userId, updatedUser }) {
+  return http
+    .patch(`/users/${userId}`, updatedUser)
+    .then(({ data }) => data.data);
+}
