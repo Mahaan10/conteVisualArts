@@ -40,7 +40,11 @@ function NewsSidebar() {
   return (
     <>
       {/* Sidebar */}
-      <div className="space-y-2 bg-gray-100 dark:bg-gray-950 rounded-lg p-4">
+      <div
+        className="space-y-2 bg-gray-100 dark:bg-gray-950 rounded-lg p-4"
+        data-aos="fade-down"
+        data-aos-duration="1200"
+      >
         <ThemeProvider theme={customTheme}>
           {/* .... */}
           <Accordion collapseAll>

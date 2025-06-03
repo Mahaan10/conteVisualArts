@@ -15,8 +15,14 @@ function HomePageStudentWorks({ studentWorks }) {
   return (
     <div className="overflow-hidden max-w-full">
       <div className="flex items-center justify-between mb-4">
-        <h1 className="text-lg">آثار هنرجویان</h1>
-        <div className="flex items-center gap-2">
+        <h1 className="text-lg" data-aos="fade-right" data-aos-duration="1500">
+          آثار هنرجویان
+        </h1>
+        <div
+          className="flex items-center gap-2"
+          data-aos="fade-left"
+          data-aos-duration="1500"
+        >
           <Link
             to="/courses"
             className="text-xs flex items-center gap-x-1 hover:text-butter-caramel dark:hover:text-moderate-violet transition-colors duration-300"
@@ -26,7 +32,11 @@ function HomePageStudentWorks({ studentWorks }) {
           </Link>
         </div>
       </div>
-      <div className="mb-4 md:flex items-center justify-end gap-x-2 hidden">
+      <div
+        className="mb-4 md:flex items-center justify-end gap-x-2 hidden"
+        data-aos="fade-down"
+        data-aos-duration="1500"
+      >
         <button
           onClick={() => swiperRef.current?.slidePrev()}
           className="p-3 hover:bg-almond-cookie dark:hover:bg-dark-cerulean rounded-full transition-colors duration-300 cursor-pointer border border-almond-cookie dark:border-dark-cerulean"

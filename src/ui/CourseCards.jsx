@@ -43,6 +43,8 @@ function CourseCards({ array }) {
           key={arr._id}
           to={`${arr.isActive ? `/courses/${arr._id}` : "/courses"}`}
           className="h-full block"
+          data-aos="fade-up"
+          data-aos-duration="1000"
         >
           <Card
             className={`h-full flex flex-col justify-between transition-all duration-300 relative ${

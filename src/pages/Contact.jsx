@@ -60,7 +60,11 @@ function Contact() {
   return (
     <div className="container">
       <div className="my-10 mx-4">
-        <div className="flex items-center gap-x-2">
+        <div
+          className="flex items-center gap-x-2"
+          data-aos="fade-right"
+          data-aos-duration="1000"
+        >
           <PiInfo className="w-7 h-7" />
           <p className="text-xl">ارتباط با ما</p>
         </div>
@@ -68,7 +72,11 @@ function Contact() {
         {/* Grid layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8 bg-gray-100 dark:bg-gray-950 rounded-lg p-4">
           {/* Map */}
-          <div className="w-full h-[300px] md:h-[400px]">
+          <div
+            className="w-full h-[300px] md:h-[400px]"
+            data-aos="fade-down"
+            data-aos-duration="1000"
+          >
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d742.1623561773503!2d51.440924030625744!3d35.767144374428554!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f8e05103fcbdb05%3A0x4df68982b54cc0d9!2z2KLZhdmI2LLYtNqv2KfZhyDZh9mG2LHZh9in24wg2KrYrNiz2YXbjCDaqdmG2KrZhw!5e0!3m2!1sen!2s!4v1747742787956!5m2!1sen!2s"
               className="border-0 w-full h-full rounded-lg"
@@ -79,7 +87,11 @@ function Contact() {
           </div>
 
           {/* Social Links */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 px-4">
+          <div
+            className="grid grid-cols-1 sm:grid-cols-2 gap-6 px-4"
+            data-aos="fade-up"
+            data-aos-duration="1000"
+          >
             <div className="flex flex-col gap-y-6">
               {socialLinks1.map((social) => (
                 <Link key={social.id} to={social.to} className="group">

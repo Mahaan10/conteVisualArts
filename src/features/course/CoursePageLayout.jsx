@@ -41,17 +41,29 @@ function CoursePageLayout() {
   return (
     <>
       <div className="my-10 mx-4">
-        <div className="flex items-center gap-x-2 mb-10">
+        <div
+          className="flex items-center gap-x-2 mb-10"
+          data-aos="fade-right"
+          data-aos-duration="1000"
+        >
           <PiGraduationCapLight className="w-7 h-7" />
           <p className="text-xl">{course?.name}</p>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-x-14 p-3 py-6 lg:p-5 mb-10">
           <div className="col-span-1 lg:col-span-7 xl:col-span-6">
-            <p className="leading-7 md:leading-8 mb-7 text-sm md:text-base font-bold">
+            <p
+              className="leading-7 md:leading-8 mb-7 text-sm md:text-base font-bold"
+              data-aos="fade-left"
+              data-aos-duration="1000"
+            >
               {course?.description}
             </p>
             <div className="flex flex-col gap-y-7 my-12 lg:justify-between lg:flex-row">
-              <div className="flex justify-between lg:justify-start lg:gap-x-20 items-center">
+              <div
+                className="flex justify-between lg:justify-start lg:gap-x-20 items-center"
+                data-aos="zoom-in"
+                data-aos-duration="1000"
+              >
                 <div className="flex flex-col items-center gap-y-3">
                   <div className="bg-almond-cookie transition-colors duration-300 dark:bg-dark-cerulean p-4 rounded-2xl">
                     <BsClockHistory className="w-6 h-6" />
@@ -77,7 +89,11 @@ function CoursePageLayout() {
                   </span>
                 </div>
               </div>
-              <div className="flex items-center justify-between lg:flex-col lg:items-end gap-y-4">
+              <div
+                className="flex items-center justify-between lg:flex-col lg:items-end gap-y-4"
+                data-aos="zoom-out"
+                data-aos-duration="1000"
+              >
                 <div className="flex items-center gap-x-1.5">
                   <span className="text-sm ">{course?.reviews.length} نظر</span>
                   <FaRegCommentDots className="w-4 h-4" />
@@ -98,7 +114,11 @@ function CoursePageLayout() {
                 )}
               </div>
             </div>
-            <div className="flex items-start gap-y-3 gap-x-6 flex-col md:flex-row md:items-center flex-wrap text-xs">
+            <div
+              className="flex items-start gap-y-3 gap-x-6 flex-col md:flex-row md:items-center flex-wrap text-xs"
+              data-aos="fade-left"
+              data-aos-duration="1000"
+            >
               <div className="flex items-center gap-x-1">
                 <TbClockCheck className="w-4 h-4" />
                 <div className="flex items-center text-xs gap-x-1 dark:text-whitesmoke/75 text-black/75">
@@ -116,7 +136,11 @@ function CoursePageLayout() {
             </div>
           </div>
           <div className="col-span-1 lg:col-span-5 xl:col-span-6 order-1 md:order-2 self-start">
-            <div className="aspect-[12/9]">
+            <div
+              className="aspect-[12/9]"
+              data-aos="zoom-in"
+              data-aos-duration="1000"
+            >
               <img
                 src={course?.Image}
                 alt={course?.name}
@@ -127,7 +151,11 @@ function CoursePageLayout() {
           </div>
         </div>
         {/*  */}
-        <div className="flex items-center gap-x-6">
+        <div
+          className="flex items-center gap-x-6"
+          data-aos="fade-left"
+          data-aos-duration="1000"
+        >
           <button
             className="btn py-3.5 bg-transparent border dark:border-moderate-violet justify-center gap-x-4 dark:hover:bg-purple-plumeria hover:border-transparent border-butter-caramel hover:bg-golden-sand w-48"
             onClick={() => setIsOpen(!isOpen)}
@@ -142,8 +170,18 @@ function CoursePageLayout() {
         {course?.reviews?.length > 0 ? (
           <div className="my-10">
             <div className="flex items-center justify-between">
-              <h3 className="text-lg font-bold mb-4">نظرات هنرجویان</h3>
-              <div className="flex items-center justify-center gap-x-2 mb-6">
+              <h3
+                className="text-lg font-bold mb-4"
+                data-aos="fade-right"
+                data-aos-duration="1000"
+              >
+                نظرات هنرجویان
+              </h3>
+              <div
+                className="flex items-center justify-center gap-x-2 mb-6"
+                data-aos="fade-up"
+                data-aos-duration="1000"
+              >
                 <button
                   className="border border-almond-cookie hover:bg-almond-cookie dark:hover:bg-dark-cerulean transition-colors duration-300 dark:border-dark-cerulean/50 p-2 rounded-full cursor-pointer"
                   onClick={() => swiperRef.current?.slidePrev()}

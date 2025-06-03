@@ -14,19 +14,31 @@ function HomePageNewsSection({ news }) {
   }
 
   return (
-    <div className="mt-10 overflow-hidden max-w-full">
+    <div className="overflow-hidden max-w-full">
       <div className="flex items-center justify-between mb-4">
-        <h1 className="text-lg">اخبار و رویدادها</h1>
-        <Link
-          to="/news"
-          className="text-xs flex items-center gap-x-1 hover:text-butter-caramel dark:hover:text-moderate-violet transition-colors"
+        <h1 className="text-lg" data-aos="fade-right" data-aos-duration="2000">
+          اخبار و رویدادها
+        </h1>
+        <div
+          className="flex items-center gap-2"
+          data-aos="fade-left"
+          data-aos-duration="2000"
         >
-          <span>همه رویدادها</span>
-          <FiArrowUpLeft className="w-5 h-5" />
-        </Link>
+          <Link
+            to="/news"
+            className="text-xs flex items-center gap-x-1 hover:text-butter-caramel dark:hover:text-moderate-violet transition-colors duration-300"
+          >
+            <span>همه رویدادها</span>
+            <FiArrowUpLeft className="w-5 h-5" />
+          </Link>
+        </div>
       </div>
 
-      <div className="flex items-center justify-end gap-x-2 mt-2">
+      <div
+        className="flex items-center justify-end gap-x-2 mt-2"
+        data-aos="fade-down"
+        data-aos-duration="2000"
+      >
         <button
           onClick={() => swiperRef.current?.slidePrev()}
           className="cursor-pointer p-3 rounded-full border border-almond-cookie dark:border-moderate-violet hover:bg-almond-cookie dark:hover:bg-moderate-violet transition-colors duration-300"

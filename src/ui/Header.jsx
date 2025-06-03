@@ -74,7 +74,11 @@ function Header() {
 
   return (
     <>
-      <div className="flex items-center justify-between border-b border-light-shade-yellow dark:border-moderate-violet transition-colors duration-300">
+      <div
+        className="flex items-center justify-between border-b border-light-shade-yellow dark:border-moderate-violet transition-colors duration-300"
+        data-aos="fade-right"
+        data-aos-duration="1500"
+      >
         {/* Header Menu */}
         <button
           className="lg:hidden block mr-5 cursor-pointer"

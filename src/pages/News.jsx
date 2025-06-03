@@ -30,13 +30,21 @@ function News() {
   return (
     <div className="container">
       <div className="my-10 flex items-center justify-between mx-4">
-        <div className="flex items-center gap-x-2">
+        <div
+          className="flex items-center gap-x-2"
+          data-aos="fade-right"
+          data-aos-duration="1000"
+        >
           <BsPen className="w-7 h-7" />
           <p className="text-xl">اخبار و رویدادها</p>
         </div>
       </div>
       {/* ... */}
-      <div className="flex items-center justify-center gap-x-4 md:hidden mb-8">
+      <div
+        className="flex items-center justify-center gap-x-4 md:hidden mb-8"
+        data-aos="zoom-in"
+        data-aos-duration="1000"
+      >
         <ThemeProvider theme={customTheme}>
           <Button color="dark" pill outline>
             <FaSort className="w-5 h-5" />

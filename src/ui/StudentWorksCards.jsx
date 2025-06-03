@@ -65,6 +65,8 @@ function StudentWorksCards({ array }) {
           imgAlt={arr.title}
           imgSrc={arr.image}
           onClick={() => handleCardClick(arr)}
+          data-aos="fade-up"
+          data-aos-duration="1000"
         >
           <h5 className="text-xl font-semibold tracking-tight line-clamp-2">
             {arr.title}

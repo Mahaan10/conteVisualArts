@@ -29,7 +29,12 @@ function NewsCards({ array }) {
   return (
     <ThemeProvider theme={customTheme}>
       {visibleNews.map((arr) => (
-        <Card key={arr._id} className="max-w-sm transition-all duration-300">
+        <Card
+          key={arr._id}
+          className="max-w-sm transition-all duration-300"
+          data-aos="fade-up"
+          data-aos-duration="1000"
+        >
           <div className="w-full">
             <img
               //src="https://flowbite.com/docs/images/blog/image-1.jpg"
