@@ -19,7 +19,7 @@ function TableHeader({ children }) {
 }
 
 function TableBody({ children }) {
-  return <tbody className="text-center text-xs">{children}</tbody>;
+  return <tbody className="text-center text-xs table-body">{children}</tbody>;
 }
 
 function TableRow({ children }) {
