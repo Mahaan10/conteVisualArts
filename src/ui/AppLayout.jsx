@@ -2,11 +2,12 @@ import { NavLink, Outlet } from "react-router-dom";
 import { useGetUser } from "../context/useGetUserContext";
 import { CiEdit } from "react-icons/ci";
 import { TbSmartHome } from "react-icons/tb";
-import { BsFolder2Open } from "react-icons/bs";
+import { BsCalendar3Event, BsFolder2Open } from "react-icons/bs";
 import { HiOutlineAdjustmentsVertical, HiOutlinePower } from "react-icons/hi2";
 import { useToast } from "../context/useToastContext";
 import Loading, { Loader } from "./Loading";
 import useLogout from "../hooks/useLogout";
+import { SiCountingworkspro } from "react-icons/si";
 
 function AppLayout() {
   const { user, isLoading, isError, error, token } = useGetUser();
@@ -32,7 +33,11 @@ function AppLayout() {
         <ul className="flex flex-col gap-y-3">
           <li className="flex items-center w-[95%] mx-auto text-sm">
             <NavLink
-              to="/student/profile"
+              to={`${
+                user?.role === "student"
+                  ? "/student/profile"
+                  : "/admin/dashboard"
+              }`}
               className={({ isActive }) =>
                 isActive
                   ? "bg-almond-cookie dark:bg-dark-cerulean flex items-center gap-x-2 hover:bg-golden-sand dark:hover:bg-purple-plumeria px-2 py-3 rounded-lg transition-all duration-300 w-full"
@@ -45,7 +50,9 @@ function AppLayout() {
           </li>
           <li className="flex items-center w-[95%] mx-auto text-sm">
             <NavLink
-              to="/student/courses"
+              to={`${
+                user?.role === "student" ? "/student/courses" : "/admin/courses"
+              }`}
               className={({ isActive }) =>
                 isActive
                   ? "bg-almond-cookie dark:bg-dark-cerulean flex items-center gap-x-2 hover:bg-golden-sand dark:hover:bg-purple-plumeria px-2 py-3 rounded-lg transition-all duration-300 w-full"
@@ -53,12 +60,48 @@ function AppLayout() {
               }
             >
               <BsFolder2Open className="w-5 h-5" />
-              <span>دوره های من</span>
+              <span>
+                {user?.role === "student" ? "دوره های من" : "دوره ها"}
+              </span>
             </NavLink>
           </li>
+          {user?.role === "admin" && (
+            <li className="flex items-center w-[95%] mx-auto text-sm">
+              <NavLink
+                to="/admin/studentWorks"
+                className={({ isActive }) =>
+                  isActive
+                    ? "bg-almond-cookie dark:bg-dark-cerulean flex items-center gap-x-2 hover:bg-golden-sand dark:hover:bg-purple-plumeria px-2 py-3 rounded-lg transition-all duration-300 w-full"
+                    : "hover:bg-golden-sand dark:hover:bg-purple-plumeria flex items-center gap-x-2 px-2 py-3 rounded-lg transition-all duration-300 w-full"
+                }
+              >
+                <SiCountingworkspro className="w-5 h-5" />
+                <span>آثار هنرجویان</span>
+              </NavLink>
+            </li>
+          )}
+          {user?.role === "admin" && (
+            <li className="flex items-center w-[95%] mx-auto text-sm">
+              <NavLink
+                to="/admin/news"
+                className={({ isActive }) =>
+                  isActive
+                    ? "bg-almond-cookie dark:bg-dark-cerulean flex items-center gap-x-2 hover:bg-golden-sand dark:hover:bg-purple-plumeria px-2 py-3 rounded-lg transition-all duration-300 w-full"
+                    : "hover:bg-golden-sand dark:hover:bg-purple-plumeria flex items-center gap-x-2 px-2 py-3 rounded-lg transition-all duration-300 w-full"
+                }
+              >
+                <BsCalendar3Event className="w-5 h-5" />
+                <span>رویداد ها</span>
+              </NavLink>
+            </li>
+          )}
           <li className="flex items-center w-[95%] mx-auto text-sm">
             <NavLink
-              to="/student/payments"
+              to={`${
+                user?.role === "student"
+                  ? "/student/payments"
+                  : "/admin/payments"
+              }`}
               className={({ isActive }) =>
                 isActive
                   ? "bg-almond-cookie dark:bg-dark-cerulean flex items-center gap-x-2 hover:bg-golden-sand dark:hover:bg-purple-plumeria px-2 py-3 rounded-lg transition-all duration-300 w-full"
@@ -66,7 +109,9 @@ function AppLayout() {
               }
             >
               <HiOutlineAdjustmentsVertical className="w-5 h-5" />
-              <span>سفارش های من</span>
+              <span>
+                {user?.role === "student" ? "سفارش های من" : "جزئیات حساب"}
+              </span>
             </NavLink>
           </li>
           <li className="flex w-[95%] mx-auto text-sm">

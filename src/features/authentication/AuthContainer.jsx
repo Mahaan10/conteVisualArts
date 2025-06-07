@@ -43,15 +43,7 @@ function AuthContainer({ onClose }) {
           onLoginSuccess={handleLoginSuccess}
         />
       )}
-      {step === 2 && (
-        <CompleteProfile
-          contact={contact}
-          otp={otp}
-          onClose={onClose}
-          errors={errors}
-          isValid={isValid}
-        />
-      )}
+      {step === 2 && <CompleteProfile contact={contact} onClose={onClose} />}
     </>
   );
 }

@@ -1,5 +1,7 @@
 import { createTheme, FloatingLabel, ThemeProvider } from "flowbite-react";
 import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 import { Loader } from "../../ui/Loading";
 import useSignUp from "../../hooks/useSignUp";
 
@@ -19,11 +21,31 @@ function CompleteProfile({ contact, onClose }) {
   const isPhone = /^09\d{9}$/.test(contact);
   const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact);
   const { createNewUser, isCreatingUser } = useSignUp();
+
+  const schema = yup.object().shape({
+    name: yup.string().required("نام و نام خانوادگی الزامیست"),
+    ...(isPhone && {
+      email: yup
+        .string()
+        .required("ایمیل الزامیست")
+        .email("فرمت ایمیل معتبر نیست"),
+    }),
+    ...(isEmail && {
+      phone: yup
+        .string()
+        .required("شماره موبایل الزامیست")
+        .matches(/^09\d{9}$/, "فرمت شماره همراه صحیح نیست"),
+    }),
+  });
+
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm({ mode: "onBlur" });
+  } = useForm({
+    mode: "onBlur",
+    resolver: yupResolver(schema),
+  });
 
   const onSubmit = async (data) => {
     const newUser = {
@@ -38,8 +60,9 @@ function CompleteProfile({ contact, onClose }) {
     await createNewUser(newUser);
     onClose();
   };
+
   return (
-    <form action="" className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
+    <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
       <p className="text-xs mb-4">لطفاً اطلاعات زیر را تکمیل کنید:</p>
       <ThemeProvider theme={customTheme}>
         {/* Full name input */}
@@ -48,13 +71,12 @@ function CompleteProfile({ contact, onClose }) {
           label="نام و نام خانوادگی"
           sizing="sm"
           type="text"
-          {...register("name", { required: "نام و نام خانوادگی الزامیست" })}
+          {...register("name")}
         />
         {errors.name && (
-          <p className="text-red-500 text-xs">{errors?.name?.message}</p>
+          <p className="text-red-500 text-xs">{errors.name.message}</p>
         )}
 
-        {/* Conditionally render phone or email */}
         {isEmail && (
           <>
             <FloatingLabel
@@ -62,16 +84,10 @@ function CompleteProfile({ contact, onClose }) {
               label="شماره همراه"
               sizing="sm"
               type="tel"
-              {...register("phone", {
-                required: "شماره موبایل الزامیست",
-                pattern: {
-                  value: /^09\d{9}$/,
-                  message: "فرمت شماره همراه صحیح نیست",
-                },
-              })}
+              {...register("phone")}
             />
-            {errors.name && (
-              <p className="text-red-500 text-xs">{errors?.phone?.message}</p>
+            {errors.phone && (
+              <p className="text-red-500 text-xs">{errors.phone.message}</p>
             )}
           </>
         )}
@@ -82,16 +98,10 @@ function CompleteProfile({ contact, onClose }) {
               label="ایمیل"
               sizing="sm"
               type="email"
-              {...register("email", {
-                required: "ایمیل الزامیست",
-                pattern: {
-                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                  message: "فرمت ایمیل معتبر نیست",
-                },
-              })}
+              {...register("email")}
             />
             {errors.email && (
-              <p className="text-red-500 text-xs">{errors?.email?.message}</p>
+              <p className="text-red-500 text-xs">{errors.email.message}</p>
             )}
           </>
         )}

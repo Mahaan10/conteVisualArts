@@ -12,6 +12,7 @@ import { useState } from "react";
 import { IoMenuOutline } from "react-icons/io5";
 import { TbSmartHome } from "react-icons/tb";
 import { PiUser } from "react-icons/pi";
+import { SiCountingworkspro } from "react-icons/si";
 import Modal from "./Modal";
 import AuthContainer from "../features/authentication/AuthContainer";
 import ShoppingMenu from "./ShoppingMenu";
@@ -25,7 +26,7 @@ import {
   ThemeProvider,
 } from "flowbite-react";
 import { useGetUser } from "../context/useGetUserContext";
-import { BsFolder2Open } from "react-icons/bs";
+import { BsCalendar3Event, BsFolder2Open } from "react-icons/bs";
 import { Loader } from "./Loading";
 import useLogout from "../hooks/useLogout";
 
@@ -75,7 +76,7 @@ function Header() {
   return (
     <>
       <div
-        className="flex items-center justify-between border-b border-light-shade-yellow dark:border-moderate-violet transition-colors duration-300"
+        className="z-50 relative flex items-center justify-between border-b border-light-shade-yellow dark:border-moderate-violet transition-colors duration-300"
         data-aos="fade-right"
         data-aos-duration="1500"
       >
@@ -232,6 +233,20 @@ function Header() {
                   icon={BsFolder2Open}
                 >
                   دوره ها
+                </DropdownItem>
+                <DropdownItem
+                  as={Link}
+                  to="/admin/studentWorks"
+                  icon={SiCountingworkspro}
+                >
+                  آثار هنرجویان
+                </DropdownItem>
+                <DropdownItem
+                  as={Link}
+                  to="/admin/news"
+                  icon={BsCalendar3Event}
+                >
+                  رویدادها
                 </DropdownItem>
                 <DropdownItem
                   as={Link}

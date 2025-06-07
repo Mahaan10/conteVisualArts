@@ -48,7 +48,7 @@ function Home() {
   return (
     <div className="p-8 h-auto">
       <div className="w-full h-full mx-auto flex-1 relative">
-        <div className="aspect-auto">
+        <div className="aspect-16/9 relative z-0">
           <img
             src="images/photo_2025-05-08_00-14-50 (2).jpg"
             alt=""
