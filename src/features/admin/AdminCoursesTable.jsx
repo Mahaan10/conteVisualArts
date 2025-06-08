@@ -8,6 +8,7 @@ import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import { useToast } from "../../context/useToastContext";
 import CoursesForm from "./CoursesForm";
+import { Loader } from "../../ui/Loading";
 
 function AdminCoursesTable() {
   const { courses, error, isError, isLoading } = useCourses();
@@ -17,6 +18,13 @@ function AdminCoursesTable() {
   const [isOpen, setIsOpen] = useState(false);
   const { showToast } = useToast();
   console.log(courses);
+
+  if (isLoading) return <Loader />;
+  if (isError)
+    return showToast(
+      "error",
+      error?.response?.data?.message || "اطلاعات یافت نشد"
+    );
 
   return (
     <>
@@ -63,7 +71,7 @@ function AdminCoursesTable() {
       {/* Delete Course */}
       {courseToDelete && (
         <Modal
-          title={`حذف دوره ${courseToDelete?.name}`}
+          title={`حذف ${courseToDelete?.name}`}
           onClose={() => setCourseToDelete(null)}
         >
           <ConfirmDelete

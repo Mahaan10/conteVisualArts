@@ -5,7 +5,7 @@ import { Loader } from "./Loading";
 function ConfirmDelete({ name, onClose, disabled, onConfirm, isDeleting }) {
   return (
     <div className="mb-4 mx-5">
-      <h2 className="mb-4">{`آیا از حذف آیتم ${name} مطمئن هستید ؟`}</h2>
+      <h2 className="mb-4">{`آیا از حذف ${name} مطمئن هستید ؟`}</h2>
       <div className="flex justify-between items-center gap-x-16">
         <button
           className="btn w-24 cursor-pointer flex items-center justify-between flex-1 bg-red-600"
