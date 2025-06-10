@@ -10,11 +10,7 @@ function Calendar({ value, onChange }) {
         calendar={persian}
         locale={persian_fa}
         value={value}
-        onChange={(date) => {
-          // لاگ بگیر ببینی واقعاً چیه
-          console.log("📅 picked date:", date);
-          onChange(date); // باید instance از DateObject باشه
-        }}
+        onChange={onChange}
         calendarPosition="top"
         portal={false}
         minDate={new DateObject({ calendar: persian })}

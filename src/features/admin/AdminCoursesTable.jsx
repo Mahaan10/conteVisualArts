@@ -18,7 +18,6 @@ function AdminCoursesTable() {
   const [isOpen, setIsOpen] = useState(false);
   const { showToast } = useToast();
   console.log(courses);
-
   if (isLoading) return <Loader />;
   if (isError)
     return showToast(
@@ -85,7 +84,7 @@ function AdminCoursesTable() {
                   setCourseToDelete(null);
                   showToast(
                     "success",
-                    `دوره ${courseToDelete?.name} با موفقیت حذف شد`
+                    `${courseToDelete?.name} با موفقیت حذف شد`
                   );
                 },
               })
@@ -94,6 +93,14 @@ function AdminCoursesTable() {
         </Modal>
       )}
       {/* Edit Course */}
+      {courseToEdit && (
+        <Modal title="ویرایش دوره" onClose={() => setCourseToEdit(null)}>
+          <CoursesForm
+            courseToEdit={courseToEdit}
+            onClose={() => setCourseToEdit(null)}
+          />
+        </Modal>
+      )}
     </>
   );
 }

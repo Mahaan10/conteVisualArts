@@ -64,11 +64,15 @@ const schema = Yup.object().shape({
         !!value.toDate()
       );
     }),
-  Image: Yup.mixed()
+  image: Yup.mixed()
     .nullable()
     .test("fileSize", "حجم فایل نباید بیش از 8 مگابایت باشد", (value) => {
-      if (!value?.[0]) return true;
-      return value[0].size <= 8000000;
+      if (!value || value.length === 0) return true;
+      return value[0].size <= 8 * 1024 * 1024;
+    })
+    .test("fileFormat", "فقط فرمت‌های jpeg, jpg, png مجاز است", (value) => {
+      if (!value || value.length === 0) return true;
+      return ["image/jpeg", "image/jpg", "image/png"].includes(value[0].type);
     }),
   isActive: Yup.string().required("وضعیت دوره الزامی است"),
 });
@@ -93,11 +97,10 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
     resolver: yupResolver(schema),
     defaultValues: {
       startDate: null,
-      isActive: "true",
     },
   });
 
-  const Image = watch("Image");
+  const image = watch("image");
 
   useEffect(() => {
     if (editCourseId) {
@@ -110,42 +113,40 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
         startDate: courseToEdit.startDate
           ? new DateObject(new Date(courseToEdit.startDate))
           : null,
-        isActive: courseToEdit.isActive ? "true" : "false",
+        isActive: courseToEdit.isActive === true ? "true" : "false",
       });
     }
   }, [reset, editCourseId, courseToEdit]);
 
   useEffect(() => {
-    if (Image?.[0]) {
-      const objectUrl = URL.createObjectURL(Image[0]);
+    if (image?.[0]) {
+      const objectUrl = URL.createObjectURL(image[0]);
       setPreview(objectUrl);
 
       return () => URL.revokeObjectURL(objectUrl);
     } else {
       setPreview(null);
     }
-  }, [Image]);
-
-  useEffect(() => {
-    console.log("🟡 startDate value is: ", watch("startDate"));
-  }, [watch]);
+  }, [image]);
 
   const onSubmit = async (data) => {
+    const startDateToISO = data?.startDate.toDate().toISOString();
     console.log(data);
+
     const formData = new FormData();
     formData.append("name", data?.name);
     formData.append("description", data?.description);
     formData.append("duration", data?.duration);
     formData.append("price", data?.price);
     formData.append("availableSeats", data?.availableSeats);
-    formData.append("startDate", data?.startDate?.toDate().toISOString());
-    formData.append("isActive", data?.isActive);
-    if (data?.Image && data?.Image[0]) {
-      formData.append("Image", data?.Image[0]);
+    formData.append("startDate", startDateToISO);
+    formData.append("isActive", data?.isActive === "true");
+    if (data?.image && data?.image[0]) {
+      formData.append("image", data?.image[0]);
     }
     console.log(formData);
 
-    const updatedCourse = {
+    /* const updatedCourse = {
       ...formData,
       name: data?.name,
       description: data?.description,
@@ -154,10 +155,10 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
       availableSeats: data?.availableSeats,
       startDate: data?.startDate?.toDate().toISOString(),
       isActive: data?.isActive,
-    };
+    }; */
     if (editCourseId) {
       await editCourse(
-        { courseId: editCourseId, newCourse: updatedCourse },
+        { courseId: editCourseId, newCourse: formData },
         {
           onSuccess: () => {
             showToast("success", `${data?.name} با موفقیت ویرایش شد`);
@@ -233,7 +234,7 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
               variant="outlined"
               label="تعداد جلسات"
               sizing="sm"
-              type="text"
+              type="number"
               className="transition-all duration-300"
               {...register("duration")}
             />
@@ -250,7 +251,7 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
               variant="outlined"
               label="قیمت"
               sizing="sm"
-              type="text"
+              type="number"
               className="transition-all duration-300"
               {...register("price")}
             />
@@ -265,11 +266,15 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
           <div id="fileUpload" className="relative">
             <FileInput
               sizing="sm"
-              onChange={(e) => setValue("Image", e.target.files)}
+              accept="image/*"
+              name="image"
+              onChange={(e) =>
+                setValue("image", e.target.files, { shouldValidate: true })
+              }
             />
-            {errors?.Image && (
+            {errors?.image && (
               <p className="text-red-500 text-xs mt-2">
-                {errors?.Image?.message}
+                {errors?.image?.message}
               </p>
             )}
             {preview ? (
@@ -293,7 +298,7 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
               variant="outlined"
               label="ظرفیت"
               sizing="sm"
-              type="text"
+              type="number"
               className="transition-all duration-300"
               {...register("availableSeats")}
             />
@@ -309,8 +314,8 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
             <Controller
               name="startDate"
               control={control}
-              render={({ field }) => (
-                <Calendar value={field.value} onChange={field.onChange} />
+              render={({ field: { onChange, value } }) => (
+                <Calendar value={value} onChange={(date) => onChange(date)} />
               )}
             />
             {errors.startDate && (
@@ -353,8 +358,9 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
           color="dark"
           outline
           type="submit"
+          pill
           className="mt-4"
-          disabled={!isValid}
+          disabled={!isValid || isCreatingCourse || isEditingCourse}
         >
           {isEditingCourse || isCreatingCourse ? <Loader /> : "تایید"}
         </Button>
