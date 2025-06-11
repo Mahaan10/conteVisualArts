@@ -45,6 +45,12 @@ function AdminDashboard() {
         "اطلاعات یافت نشد"
     );
 
+  const totalEnrolledStudents = courses.reduce(
+    (total, course) => total + course.enrolledStudents.length,
+    0
+  );
+
+
   return (
     <div className="container">
       <h1 className="text-xl font-bold">داشبورد</h1>
@@ -92,7 +98,7 @@ function AdminDashboard() {
           </div>
           <div className="flex flex-col gap-y-5">
             <span className="opacity-50 text-base">جزئیات حساب</span>
-            <p className="">{19} سفارش</p>
+            <p className="">{totalEnrolledStudents} پرداخت</p>
           </div>
         </div>
       </div>

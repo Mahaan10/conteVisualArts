@@ -9,6 +9,8 @@ import ConfirmDelete from "../../ui/ConfirmDelete";
 import { useToast } from "../../context/useToastContext";
 import CoursesForm from "./CoursesForm";
 import { Loader } from "../../ui/Loading";
+import usePagination from "../../hooks/usePagination";
+import Pagination from "../../ui/Pagination";
 
 function AdminCoursesTable() {
   const { courses, error, isError, isLoading } = useCourses();
@@ -17,6 +19,10 @@ function AdminCoursesTable() {
   const [courseToDelete, setCourseToDelete] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const { showToast } = useToast();
+  const { currentData, currentPage, totalPages, goToPage } = usePagination(
+    courses,
+    6
+  );
   console.log(courses);
   if (isLoading) return <Loader />;
   if (isError)
@@ -36,30 +42,39 @@ function AdminCoursesTable() {
       {courses?.length === 0 ? (
         <p>هنوز دوره ای تعریف نشده است</p>
       ) : (
-        <Table>
-          <Table.Header>
-            <th className="py-2">#</th>
-            <th>عنوان</th>
-            <th>تاریخ شروع</th>
-            <th>وضعیت</th>
-            <th>جلسات</th>
-            <th>ظرفیت</th>
-            <th>هنرجویان</th>
-            <th>قیمت</th>
-            <th>عملیات</th>
-          </Table.Header>
-          <Table.Body>
-            {courses.map((course, index) => (
-              <AdminCoursesRow
-                key={course._id}
-                course={course}
-                index={index}
-                onEdit={() => setCourseToEdit(course)}
-                onDelete={() => setCourseToDelete(course)}
-              />
-            ))}
-          </Table.Body>
-        </Table>
+        <>
+          <Table>
+            <Table.Header>
+              <th className="py-2">#</th>
+              <th>عنوان</th>
+              <th>تاریخ شروع</th>
+              <th>وضعیت</th>
+              <th>جلسات</th>
+              <th>ظرفیت</th>
+              <th>هنرجویان</th>
+              <th>قیمت</th>
+              <th>عملیات</th>
+            </Table.Header>
+            <Table.Body>
+              {currentData.map((course, index) => (
+                <AdminCoursesRow
+                  key={course._id}
+                  course={course}
+                  index={(currentPage - 1) * 6 + index}
+                  onEdit={() => setCourseToEdit(course)}
+                  onDelete={() => setCourseToDelete(course)}
+                />
+              ))}
+            </Table.Body>
+          </Table>
+          <div className="flex justify-center mt-4">
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={goToPage}
+            />
+          </div>
+        </>
       )}
       {/* Add New Course */}
       {isOpen && (

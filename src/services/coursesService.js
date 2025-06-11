@@ -23,11 +23,15 @@ export function createNewCourseApi(newCourse) {
 }
 
 export function editCourseApi({ courseId, newCourse }) {
+  const isFormData = newCourse instanceof FormData;
   return http
     .patch(`/courses/${courseId}`, newCourse, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
+      headers:
+        isFormData && newCourse.has("image")
+          ? {
+              "Content-Type": "multipart/form-data",
+            }
+          : undefined,
     })
     .then(({ data }) => data.data);
 }
