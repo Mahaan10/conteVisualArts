@@ -1,7 +1,6 @@
-import React from "react";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
 
-function PersianPagination({ currentPage, totalPages, onPageChange }) {
+function Pagination({ currentPage, totalPages, onPageChange }) {
   if (totalPages === 0) return null;
 
   const handlePrev = () => {
@@ -20,10 +19,12 @@ function PersianPagination({ currentPage, totalPages, onPageChange }) {
         <button
           key={i}
           onClick={() => onPageChange(i)}
-          className={`mx-1 px-3 py-1 rounded ${
+          className={`px-3 py-1 text-center font-hoda text-base cursor-pointer border border-gray-500
+          ${i !== totalPages ? "border-r-0" : ""}
+          ${
             i === currentPage
-              ? "bg-purple-600 text-white"
-              : "bg-gray-200 text-gray-700 hover:bg-purple-100"
+              ? "bg-gray-300 hover:bg-gray-200 dark:bg-gray-600 dark:hover:bg-gray-700"
+              : "hover:bg-gray-400 dark:hover:bg-gray-800"
           }`}
           aria-current={i === currentPage ? "page" : undefined}
           aria-label={`صفحه ${i}`}
@@ -33,21 +34,22 @@ function PersianPagination({ currentPage, totalPages, onPageChange }) {
         </button>
       );
     }
+
     return pages;
   };
 
   return (
     <nav
-      aria-label="ناوبری صفحات"
-      className="flex items-center justify-center space-x-2 rtl:flex-row-reverse"
+      aria-label="صفحات"
+      className="flex items-center justify-center rtl:flex-row-reverse"
     >
       <button
         onClick={handlePrev}
         disabled={currentPage === 1}
-        className={`flex items-center gap-1 px-3 py-1 rounded ${
+        className={`flex items-center gap-1 text-sm px-3 py-1.5 rounded-l-md border border-gray-500 border-r-0 cursor-pointer ${
           currentPage === 1
-            ? "text-gray-400 cursor-not-allowed"
-            : "text-purple-600 hover:bg-purple-100"
+            ? "!cursor-not-allowed hover:bg-gray-200 dark:hover:bg-gray-700"
+            : "hover:bg-gray-400 dark:hover:bg-gray-800"
         }`}
         aria-label="صفحه قبلی"
         type="button"
@@ -61,10 +63,10 @@ function PersianPagination({ currentPage, totalPages, onPageChange }) {
       <button
         onClick={handleNext}
         disabled={currentPage === totalPages}
-        className={`flex items-center gap-1 px-3 py-1 rounded ${
+        className={`flex items-center gap-1 text-sm px-3 py-1.5 rounded-r-md border border-gray-500 border-l-0 cursor-pointer ${
           currentPage === totalPages
-            ? "text-gray-400 cursor-not-allowed"
-            : "text-purple-600 hover:bg-purple-100"
+            ? "!cursor-not-allowed hover:bg-gray-200 dark:hover:bg-gray-700"
+            : "hover:bg-gray-400 dark:hover:bg-gray-800"
         }`}
         aria-label="صفحه بعدی"
         type="button"
@@ -76,4 +78,4 @@ function PersianPagination({ currentPage, totalPages, onPageChange }) {
   );
 }
 
-export default PersianPagination;
+export default Pagination;

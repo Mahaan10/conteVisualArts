@@ -1,9 +1,9 @@
-import Table from "../../ui/Table";
 import { CiEdit } from "react-icons/ci";
 import { PiTrash } from "react-icons/pi";
 import { createTheme, ThemeProvider, ToggleSwitch } from "flowbite-react";
-import { useToast } from "../../context/useToastContext";
-import useEditCourse from "../../hooks/useEditCourse";
+import useEditCourse from "../../../hooks/useEditCourse";
+import { useToast } from "../../../context/useToastContext";
+import Table from "../../../ui/Table";
 
 const customTheme = createTheme({
   toggleSwitch: {

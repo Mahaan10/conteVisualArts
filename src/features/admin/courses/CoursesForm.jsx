@@ -1,6 +1,4 @@
 import { useForm, Controller } from "react-hook-form";
-import useCreateCourse from "../../hooks/useCreateCourse";
-import useEditCourse from "../../hooks/useEditCourse";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useState } from "react";
@@ -11,10 +9,12 @@ import {
   FloatingLabel,
   ThemeProvider,
 } from "flowbite-react";
-import { Loader } from "../../ui/Loading";
-import Calendar from "../../ui/Calendar";
-import { useToast } from "../../context/useToastContext";
 import { DateObject } from "react-multi-date-picker";
+import { useToast } from "../../../context/useToastContext";
+import useCreateCourse from "../../../hooks/useCreateCourse";
+import useEditCourse from "../../../hooks/useEditCourse";
+import Calendar from "../../../ui/Calendar";
+import { Loader } from "../../../ui/Loading";
 
 const customTheme = createTheme({
   floatingLabel: {

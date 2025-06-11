@@ -16,7 +16,8 @@ import StudentProfile from "./features/student/StudentProfile";
 import StudentCourses from "./features/student/StudentCourses";
 import StudentPayments from "./features/student/StudentPayments";
 import AdminDashboard from "./features/admin/AdminDashboard";
-import AdminCourses from "./features/admin/AdminCourses";
+import AdminCourses from "./features/admin/courses/AdminCourses";
+import AdminStudentWorks from "./features/admin/studentWorks/AdminStudentWorks";
 
 function App() {
   const queryClient = new QueryClient();
@@ -52,6 +53,7 @@ function App() {
                   <Route index element={<Navigate to="dashboard" replace />} />
                   <Route path="dashboard" element={<AdminDashboard />} />
                   <Route path="courses" element={<AdminCourses />} />
+                  <Route path="studentWorks" element={<AdminStudentWorks />} />
                 </Route>
               </Route>
             </Route>

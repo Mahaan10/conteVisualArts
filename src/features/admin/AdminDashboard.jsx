@@ -50,7 +50,6 @@ function AdminDashboard() {
     0
   );
 
-
   return (
     <div className="container">
       <h1 className="text-xl font-bold">داشبورد</h1>
