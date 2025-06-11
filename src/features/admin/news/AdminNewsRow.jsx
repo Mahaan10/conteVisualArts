@@ -2,21 +2,14 @@ import { CiEdit } from "react-icons/ci";
 import { PiTrash } from "react-icons/pi";
 import Table from "../../../ui/Table";
 
-function AdminStudentWorksRow({ studentWork, index, onEdit, onDelete }) {
+function AdminNewsRow({ news, index, onEdit, onDelete }) {
   return (
     <Table.Row>
       <td>{index + 1}</td>
-      <td>{studentWork.title}</td>
-      <td>{formattedDate(studentWork.date)}</td>
-      <td>{studentWork.student.name}</td>
+      <td>{news.title}</td>
+      <td>{formattedDate(news.createdAt)}</td>
       <td>
-        <div className="flex items-center justify-center">
-          <img
-            src={studentWork.image}
-            alt={studentWork.title}
-            className="w-10 h-10 rounded-md object-cover"
-          />
-        </div>
+        {formattedDate(news.updatedAt)}
       </td>
       <td className="flex gap-x-4 justify-center">
         <button
@@ -38,7 +31,7 @@ function AdminStudentWorksRow({ studentWork, index, onEdit, onDelete }) {
   );
 }
 
-export default AdminStudentWorksRow;
+export default AdminNewsRow;
 
 function formattedDate(isoString) {
   return new Date(isoString).toLocaleDateString("fa-IR", {

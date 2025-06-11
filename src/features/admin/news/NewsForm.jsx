@@ -10,9 +10,9 @@ import {
   ThemeProvider,
 } from "flowbite-react";
 import { useToast } from "../../../context/useToastContext";
-import useCreateStudentWorks from "../../../hooks/useCreateStudentWorks";
-import useEditStudentWorks from "../../../hooks/useEditStudentWorks";
 import { Loader } from "../../../ui/Loading";
+import useCreateNews from "../../../hooks/useCreateNews";
+import useEditNews from "../../../hooks/useEditNews";
 
 const customTheme = createTheme({
   floatingLabel: {
@@ -53,12 +53,12 @@ const schema = Yup.object().shape({
     }),
 });
 
-function StudentWorksForm({ onClose, artWorkToEdit = {} }) {
+function NewsForm({ onClose, newsToEdit = {} }) {
   const [preview, setPreview] = useState(null);
   const { showToast } = useToast();
-  const { createArtWork, isCreatingArtWork } = useCreateStudentWorks();
-  const { editArtWork, isEditingStudentWorks } = useEditStudentWorks();
-  const { _id: editArtWorkId } = artWorkToEdit;
+  const { createNews, isCreatingNews } = useCreateNews();
+  const { editNews, isEditingNews } = useEditNews();
+  const { _id: editNewsId } = newsToEdit;
 
   const {
     register,
@@ -75,13 +75,13 @@ function StudentWorksForm({ onClose, artWorkToEdit = {} }) {
   const image = watch("image");
 
   useEffect(() => {
-    if (editArtWorkId) {
+    if (editNewsId) {
       reset({
-        title: artWorkToEdit.title,
-        description: artWorkToEdit.description,
+        title: newsToEdit.title,
+        description: newsToEdit.description,
       });
     }
-  }, [reset, editArtWorkId, artWorkToEdit]);
+  }, [reset, editNewsId, newsToEdit]);
 
   useEffect(() => {
     if (image?.[0]) {
@@ -115,9 +115,9 @@ function StudentWorksForm({ onClose, artWorkToEdit = {} }) {
       startDate: data?.startDate?.toDate().toISOString(),
       isActive: data?.isActive,
     }; */
-    if (editArtWorkId) {
-      await editArtWork(
-        { artWorkId: editArtWorkId, newArtWork: formData },
+    if (editNewsId) {
+      await editNews(
+        { newsId: editNewsId, newNews: formData },
         {
           onSuccess: () => {
             showToast("success", `${data?.title} با موفقیت ویرایش شد`);
@@ -133,7 +133,7 @@ function StudentWorksForm({ onClose, artWorkToEdit = {} }) {
         }
       );
     } else {
-      await createArtWork(formData, {
+      await createNews(formData, {
         onSuccess: () => {
           showToast("success", `${data?.title} با موفقیت ایجاد شد`);
           onClose();
@@ -208,10 +208,10 @@ function StudentWorksForm({ onClose, artWorkToEdit = {} }) {
                 alt=""
                 className="w-8 h-8 absolute top-1 left-2 rounded-full object-cover"
               />
-            ) : artWorkToEdit?.image ? (
+            ) : newsToEdit?.image ? (
               <img
-                src={artWorkToEdit?.image}
-                alt={artWorkToEdit?.title}
+                src={newsToEdit?.image}
+                alt={newsToEdit?.title}
                 className="w-8 h-8 absolute top-1 left-2 rounded-full object-cover"
               />
             ) : null}
@@ -223,13 +223,13 @@ function StudentWorksForm({ onClose, artWorkToEdit = {} }) {
           type="submit"
           pill
           className="mt-4"
-          disabled={!isValid || isCreatingArtWork || isEditingStudentWorks}
+          disabled={!isValid || isCreatingNews || isEditingNews}
         >
-          {isEditingStudentWorks || isCreatingArtWork ? <Loader /> : "تایید"}
+          {isEditingNews || isCreatingNews ? <Loader /> : "تایید"}
         </Button>
       </ThemeProvider>
     </form>
   );
 }
 
-export default StudentWorksForm;
+export default NewsForm;
