@@ -8,10 +8,6 @@ export function getSingleCourseApi(id) {
   return http.get(`/courses/${id}`).then(({ data }) => data.data);
 }
 
-export function createReviewApi(newReview) {
-  return http.post("/reviews", newReview).then(({ data }) => data.data);
-}
-
 export function createNewCourseApi(newCourse) {
   return http
     .post("/courses", newCourse, {

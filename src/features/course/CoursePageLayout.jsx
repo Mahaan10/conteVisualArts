@@ -22,7 +22,7 @@ function CoursePageLayout() {
   const { id } = useParams();
   const { showToast } = useToast();
   const { course, error, isError, isLoading } = useSingleCourse(id);
-  // console.log(course.reviews);
+  console.log(course);
 
   if (isLoading) return <Loading />;
   if (isError)
@@ -30,13 +30,6 @@ function CoursePageLayout() {
       "error",
       error?.response?.data?.message || "خطا در بارگذاری"
     );
-
-  const rating = course?.reviews.map((courseRate) => courseRate.rating) || [];
-
-  const courseRating =
-    rating.length > 0
-      ? Math.ceil(rating.reduce((acc, curr) => acc + curr, 0) / rating.length)
-      : 0;
 
   return (
     <>
@@ -98,15 +91,18 @@ function CoursePageLayout() {
                   <span className="text-sm ">{course?.reviews.length} نظر</span>
                   <FaRegCommentDots className="w-4 h-4" />
                 </div>
-                {rating.length > 0 ? (
+                {course?.ratingsQuantity > 0 ? (
                   <div className="flex flex-col items-center gap-y-1.5">
                     <Rating>
                       {[1, 2, 3, 4, 5].map((star) => (
-                        <RatingStar key={star} filled={star <= courseRating} />
+                        <RatingStar
+                          key={star}
+                          filled={star <= course?.ratingsAverage}
+                        />
                       ))}
                     </Rating>
                     <p className="text-xs">
-                      {courseRating} از {course?.reviews.length} رای
+                      {course?.ratingsAverage} از {course?.ratingsQuantity} رای
                     </p>
                   </div>
                 ) : (

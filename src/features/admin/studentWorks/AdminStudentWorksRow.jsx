@@ -3,12 +3,13 @@ import { PiTrash } from "react-icons/pi";
 import Table from "../../../ui/Table";
 
 function AdminStudentWorksRow({ studentWork, index, onEdit, onDelete }) {
+  console.log(studentWork);
+
   return (
     <Table.Row>
       <td>{index + 1}</td>
       <td>{studentWork.title}</td>
       <td>{formattedDate(studentWork.date)}</td>
-      <td>{studentWork.student.name}</td>
       <td>
         <div className="flex items-center justify-center">
           <img

@@ -58,11 +58,8 @@ function CourseCards({ array }) {
             )}
             <span className="absolute top-2 right-2 bg-transparent px-2 py-1 z-10">
               <Rating>
-                {[1, 2, 3, 4, 5].map((_, index) => (
-                  <RatingStar
-                    key={index}
-                    filled={index < averageRatingRounded(arr.reviews)}
-                  />
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <RatingStar key={star} filled={star <= arr?.ratingsAverage} />
                 ))}
               </Rating>
             </span>
@@ -135,10 +132,4 @@ function formattedDate(isoString) {
     month: "2-digit",
     day: "2-digit",
   });
-}
-
-function averageRatingRounded(reviews) {
-  if (!reviews || reviews.length === 0) return 0;
-  const total = reviews.reduce((sum, review) => sum + review.rating, 0);
-  return Math.ceil(total / reviews.length);
 }

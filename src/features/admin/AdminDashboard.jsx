@@ -5,10 +5,12 @@ import { BsPen } from "react-icons/bs";
 import { FiUsers } from "react-icons/fi";
 import { GiAbstract024 } from "react-icons/gi";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
+import { FaRegCommentDots } from "react-icons/fa";
 import useStudentWorks from "../../hooks/useStudentWorks";
 import useNews from "../../hooks/useNews";
 import { Loader } from "../../ui/Loading";
 import { useToast } from "../../context/useToastContext";
+import useReviews from "../../hooks/useReviews";
 
 function AdminDashboard() {
   const { users, error, isError, isLoading } = useUsers();
@@ -30,18 +32,37 @@ function AdminDashboard() {
     isError: newsIsError,
     isLoading: newsIsLoading,
   } = useNews();
+  const {
+    reviews,
+    isLoading: reviewsIsLoading,
+    isError: reviewsIsError,
+    errro: reviewsError,
+  } = useReviews();
   const { showToast } = useToast();
 
-  if (isLoading || coursesIsLoading || studentWorksIsLoading || newsIsLoading)
+  if (
+    isLoading ||
+    coursesIsLoading ||
+    studentWorksIsLoading ||
+    newsIsLoading ||
+    reviewsIsLoading
+  )
     return <Loader />;
 
-  if (isError || coursesIsError || studentWorksIsError || newsIsError)
+  if (
+    isError ||
+    coursesIsError ||
+    studentWorksIsError ||
+    newsIsError ||
+    reviewsIsError
+  )
     return showToast(
       "error",
       error?.response?.data?.message ||
         newsError?.response?.data?.message ||
         studentWorksError?.response?.data?.message ||
         coursesError?.response?.data?.message ||
+        reviewsError?.response?.data?.message ||
         "اطلاعات یافت نشد"
     );
 
@@ -98,6 +119,15 @@ function AdminDashboard() {
           <div className="flex flex-col gap-y-5">
             <span className="opacity-50 text-base">جزئیات حساب</span>
             <p className="">{totalEnrolledStudents} پرداخت</p>
+          </div>
+        </div>
+        <div className="flex items-center gap-x-4">
+          <div className="bg-almond-cookie dark:bg-dark-cerulean p-5 rounded-2xl transition-colors duration-300">
+            <FaRegCommentDots className="w-8 h-8" />
+          </div>
+          <div className="flex flex-col gap-y-5">
+            <span className="opacity-50 text-base">نظرات</span>
+            <p className="">{reviews?.length} نظر</p>
           </div>
         </div>
       </div>

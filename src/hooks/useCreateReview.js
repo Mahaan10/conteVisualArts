@@ -1,12 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "../context/useToastContext";
-import { createReviewApi } from "../services/coursesService";
+import { createReviewApi } from "../services/reviewsService";
 
 export default function useCreateReview() {
   const queryClient = useQueryClient();
   const { showToast } = useToast();
  
-
   const { isPending: isCreatingReview, mutateAsync: createReview } = useMutation({
       mutationFn: createReviewApi,
       onSuccess: (data) => {

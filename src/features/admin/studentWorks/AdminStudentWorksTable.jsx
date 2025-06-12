@@ -40,7 +40,6 @@ function AdminStudentWorksTable() {
               <th className="py-2">#</th>
               <th>عنوان</th>
               <th>تاریخ</th>
-              <th>هنرجو</th>
               <th>عکس اثر</th>
               <th>عملیات</th>
             </Table.Header>

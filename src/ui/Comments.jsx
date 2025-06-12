@@ -57,12 +57,11 @@ const Comments = ({ onClose }) => {
 
   const onSubmit = async (data) => {
     const newComment = {
-      courseId: id,
       rating: value,
       review: data?.review,
     };
     if (isEnrolledStudent) {
-      await createReview(newComment);
+      await createReview({ courseId: id, newReview: newComment });
     } else if (!token) {
       showToast("error", "برای ارسال دیدگاه لطفاً لاگین کنید");
     } else {
@@ -90,12 +89,12 @@ const Comments = ({ onClose }) => {
         </label>
 
         <div className="relative h-6">
-          <div className="absolute -bottom-[17px] w-full flex justify-between pointer-events-none px-2">
+          <div className="absolute -bottom-[15.5px] w-full flex justify-between pointer-events-none px-2">
             {[1, 2, 3, 4, 5].map((num) => (
               <div key={num} className="relative pointer-events-auto">
                 <Tooltip content={num} trigger="hover" placement="top">
                   <span
-                    className={`w-1 h-1 rounded-full block transition-transform ${
+                    className={`w-0.5 h-0.5 rounded-full block transition-transform ${
                       value == num ? "bg-gray-500 scale-125" : "bg-gray-400"
                     }`}
                   />
@@ -124,30 +123,6 @@ const Comments = ({ onClose }) => {
 
         <div className="space-y-6">
           <ThemeProvider theme={customTheme}>
-            <FloatingLabel
-              variant="outlined"
-              name="title"
-              label="عنوان دیدگاه"
-              sizing="sm"
-              type="text"
-              {...register("title")}
-            />
-            <FloatingLabel
-              variant="outlined"
-              name="pros"
-              label="نکات مثبت"
-              sizing="sm"
-              type="text"
-              {...register("pros")}
-            />
-            <FloatingLabel
-              variant="outlined"
-              name="cons"
-              label="نکات منفی"
-              sizing="sm"
-              type="text"
-              {...register("cons")}
-            />
             <Textarea
               placeholder="توضیحات"
               name="review"
