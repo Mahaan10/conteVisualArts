@@ -80,6 +80,17 @@ function Home() {
           </div>
         </div>
       </div>
+      {/* News and Events */}
+      <div className="mt-10 overflow-hidden max-w-full">
+        <HomePageNewsSection news={news} />
+      </div>
+      {/* Popular Courses */}
+      <div
+        className="border-t border-almond-cookie/50 dark:border-moderate-violet/20 mt-10"
+        data-aos="fade-right"
+        data-aos-easing="ease-in-out"
+        data-aos-duratin="2000"
+      ></div>
       <div className="mt-10 overflow-hidden max-w-full">
         <HomePageCourses courses={courses} />
       </div>
@@ -92,16 +103,6 @@ function Home() {
       ></div>
       <div className="mt-10 overflow-hidden max-w-full">
         <HomePageStudentWorks studentWorks={studentWorks} />
-      </div>
-      {/* News and Events */}
-      <div
-        className="border-t border-almond-cookie/50 dark:border-moderate-violet/20 mt-10"
-        data-aos="fade-right"
-        data-aos-easing="ease-in-out"
-        data-aos-duratin="2000"
-      ></div>
-      <div className="mt-10 overflow-hidden max-w-full">
-        <HomePageNewsSection news={news} />
       </div>
     </div>
   );

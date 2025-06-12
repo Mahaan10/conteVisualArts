@@ -74,11 +74,24 @@ const schema = Yup.object().shape({
       if (!value || value.length === 0) return true;
       return ["image/jpeg", "image/jpg", "image/png"].includes(value[0].type);
     }),
+  courseImages: Yup.mixed()
+    .nullable()
+    .test("is-image-array", "فرمت فایل نامعتبر است", (value) => {
+      if (!value || value.length === 0) return true;
+      return Array.from(value).every((file) =>
+        ["image/jpeg", "image/jpg", "image/png"].includes(file.type)
+      );
+    })
+    .test("image-size", "هر تصویر باید کمتر از ۸ مگابایت باشد", (value) => {
+      if (!value || value.length === 0) return true;
+      return Array.from(value).every((file) => file.size <= 8 * 1024 * 1024);
+    }),
   isActive: Yup.string().required("وضعیت دوره الزامی است"),
 });
 
 function CoursesForm({ onClose, courseToEdit = {} }) {
   const [preview, setPreview] = useState(null);
+  const [courseImagesPreview, setCourseImagesPreview] = useState([]);
   const { showToast } = useToast();
   const { createCourse, isCreatingCourse } = useCreateCourse();
   const { editCourse, isEditingCourse } = useEditCourse();
@@ -101,6 +114,7 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
   });
 
   const image = watch("image");
+  const courseImages = watch("courseImages");
 
   useEffect(() => {
     if (editCourseId) {
@@ -129,6 +143,21 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
     }
   }, [image]);
 
+  useEffect(() => {
+    if (courseImages?.length > 0) {
+      const urls = Array.from(courseImages).map((file) =>
+        URL.createObjectURL(file)
+      );
+      setCourseImagesPreview(urls);
+
+      return () => {
+        urls.forEach((url) => URL.revokeObjectURL(url));
+      };
+    } else {
+      setCourseImagesPreview([]);
+    }
+  }, [courseImages]);
+
   const onSubmit = async (data) => {
     const startDateToISO = data?.startDate.toDate().toISOString();
     console.log(data);
@@ -143,6 +172,11 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
     formData.append("isActive", data?.isActive === "true");
     if (data?.image && data?.image[0]) {
       formData.append("image", data?.image[0]);
+    }
+    if (data?.courseImages && data?.courseImages.length > 0) {
+      Array.from(data.courseImages).forEach((file) => {
+        formData.append("courseImages", file);
+      });
     }
     console.log(formData);
 
@@ -262,7 +296,7 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
             )}
           </div>
 
-          {/* File Upload */}
+          {/* image Upload */}
           <div id="fileUpload" className="relative">
             <FileInput
               sizing="sm"
@@ -290,6 +324,49 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
                 className="w-8 h-8 absolute top-1 left-2 rounded-full object-cover"
               />
             ) : null}
+          </div>
+
+          {/* courseImages Upload */}
+          <div id="filesUpload" className="relative">
+            <FileInput
+              sizing="sm"
+              accept="image/*"
+              name="courseImages"
+              multiple
+              onChange={(e) =>
+                setValue("courseImages", e.target.files, {
+                  shouldValidate: true,
+                })
+              }
+            />
+            {errors?.courseImages && (
+              <p className="text-red-500 text-xs mt-2">
+                {errors?.courseImages?.message}
+              </p>
+            )}
+            {/* {courseImagesPreview ? (
+              <img
+                src={courseImagesPreview}
+                alt=""
+                className="w-8 h-8 absolute top-1 left-2 rounded-full object-cover"
+              />
+            ) : courseToEdit?.Image ? (
+              <img
+                src={courseToEdit?.Image}
+                alt={courseToEdit?.name}
+                className="w-8 h-8 absolute top-1 left-2 rounded-full object-cover"
+              />
+            ) : null} */}
+            {courseImagesPreview.length > 0
+              ? courseImagesPreview.map((url, i) => (
+                  <img
+                    key={i}
+                    src={url}
+                    alt={`course-img-${i}`}
+                    className="w-8 h-8 absolute top-1 left-2 rounded-full object-cover"
+                  />
+                ))
+              : null}
           </div>
 
           {/* Available Seats */}

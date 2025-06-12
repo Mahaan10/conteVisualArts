@@ -23,9 +23,15 @@ export function logoutApi() {
 }
 
 export function editUserApi({ userId, updatedUser }) {
-  return http.patch(`/users/${userId}`, updatedUser, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  }).then(({ data }) => data.data);
+  return http
+    .patch(`/users/${userId}`, updatedUser, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+    .then(({ data }) => data.data);
+}
+
+export function deleteUserApi(userId) {
+  return http.delete(`/users/${userId}`).then(({ data }) => data.data);
 }

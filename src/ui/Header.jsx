@@ -12,6 +12,7 @@ import { useState } from "react";
 import { IoMenuOutline } from "react-icons/io5";
 import { TbSmartHome } from "react-icons/tb";
 import { PiUser } from "react-icons/pi";
+import { FiUsers } from "react-icons/fi";
 import { SiCountingworkspro } from "react-icons/si";
 import Modal from "./Modal";
 import AuthContainer from "../features/authentication/AuthContainer";
@@ -233,6 +234,9 @@ function Header() {
                   icon={BsFolder2Open}
                 >
                   دوره ها
+                </DropdownItem>
+                <DropdownItem as={Link} to="/admin/users" icon={FiUsers}>
+                  کاربران
                 </DropdownItem>
                 <DropdownItem
                   as={Link}

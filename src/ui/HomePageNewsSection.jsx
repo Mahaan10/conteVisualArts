@@ -16,13 +16,13 @@ function HomePageNewsSection({ news }) {
   return (
     <div className="overflow-hidden max-w-full">
       <div className="flex items-center justify-between mb-4">
-        <h1 className="text-lg" data-aos="fade-right" data-aos-duration="2000">
+        <h1 className="text-lg" data-aos="fade-right" data-aos-duration="1000">
           اخبار و رویدادها
         </h1>
         <div
           className="flex items-center gap-2"
           data-aos="fade-left"
-          data-aos-duration="2000"
+          data-aos-duration="1000"
         >
           <Link
             to="/news"
@@ -37,7 +37,7 @@ function HomePageNewsSection({ news }) {
       <div
         className="flex items-center justify-end gap-x-2 mt-2"
         data-aos="fade-down"
-        data-aos-duration="2000"
+        data-aos-duration="1000"
       >
         <button
           onClick={() => swiperRef.current?.slidePrev()}

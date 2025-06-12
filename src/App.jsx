@@ -19,6 +19,7 @@ import AdminDashboard from "./features/admin/AdminDashboard";
 import AdminCourses from "./features/admin/courses/AdminCourses";
 import AdminStudentWorks from "./features/admin/studentWorks/AdminStudentWorks";
 import AdminNews from "./features/admin/news/AdminNews";
+import AdminUsers from "./features/admin/users/AdminUsers";
 
 function App() {
   const queryClient = new QueryClient();
@@ -54,6 +55,7 @@ function App() {
                   <Route index element={<Navigate to="dashboard" replace />} />
                   <Route path="dashboard" element={<AdminDashboard />} />
                   <Route path="courses" element={<AdminCourses />} />
+                  <Route path="users" element={<AdminUsers />} />
                   <Route path="studentWorks" element={<AdminStudentWorks />} />
                   <Route path="news" element={<AdminNews />} />
                 </Route>

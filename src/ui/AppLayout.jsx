@@ -8,6 +8,7 @@ import { useToast } from "../context/useToastContext";
 import Loading, { Loader } from "./Loading";
 import useLogout from "../hooks/useLogout";
 import { SiCountingworkspro } from "react-icons/si";
+import { FiUsers } from "react-icons/fi";
 
 function AppLayout() {
   const { user, isLoading, isError, error, token } = useGetUser();
@@ -65,6 +66,21 @@ function AppLayout() {
               </span>
             </NavLink>
           </li>
+          {user?.role === "admin" && (
+            <li className="flex items-center w-[95%] mx-auto text-sm">
+              <NavLink
+                to="/admin/users"
+                className={({ isActive }) =>
+                  isActive
+                    ? "bg-almond-cookie dark:bg-dark-cerulean flex items-center gap-x-2 hover:bg-golden-sand dark:hover:bg-purple-plumeria px-2 py-3 rounded-lg transition-all duration-300 w-full"
+                    : "hover:bg-golden-sand dark:hover:bg-purple-plumeria flex items-center gap-x-2 px-2 py-3 rounded-lg transition-all duration-300 w-full"
+                }
+              >
+                <FiUsers className="w-5 h-5" />
+                <span>کاربران</span>
+              </NavLink>
+            </li>
+          )}
           {user?.role === "admin" && (
             <li className="flex items-center w-[95%] mx-auto text-sm">
               <NavLink

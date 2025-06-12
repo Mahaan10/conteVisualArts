@@ -10,4 +10,12 @@ export function createReviewApi({ courseId, newReview }) {
     .then(({ data }) => data.data);
 }
 
-//export function editReviewApi
+export function editReviewApi({ reviewId, newReview }) {
+  return http
+    .patch(`/reviews/${reviewId}`, newReview)
+    .then(({ data }) => data.data);
+}
+
+export function deleteReviewApi(reviewId) {
+  return http.delete(`/reviews/${reviewId}`).then(({ data }) => data.data);
+}
