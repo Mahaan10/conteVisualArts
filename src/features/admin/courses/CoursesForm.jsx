@@ -64,7 +64,7 @@ const schema = Yup.object().shape({
         !!value.toDate()
       );
     }),
-  image: Yup.mixed()
+  Image: Yup.mixed()
     .nullable()
     .test("fileSize", "حجم فایل نباید بیش از 8 مگابایت باشد", (value) => {
       if (!value || value.length === 0) return true;
@@ -85,6 +85,10 @@ const schema = Yup.object().shape({
     .test("image-size", "هر تصویر باید کمتر از ۸ مگابایت باشد", (value) => {
       if (!value || value.length === 0) return true;
       return Array.from(value).every((file) => file.size <= 8 * 1024 * 1024);
+    })
+    .test("max-images", "حداکثر ۷ تصویر مجاز است", (value) => {
+      if (!value || value.length === 0) return true;
+      return value.length <= 7;
     }),
   isActive: Yup.string().required("وضعیت دوره الزامی است"),
 });
@@ -113,7 +117,7 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
     },
   });
 
-  const image = watch("image");
+  const Image = watch("Image");
   const courseImages = watch("courseImages");
 
   useEffect(() => {
@@ -133,15 +137,15 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
   }, [reset, editCourseId, courseToEdit]);
 
   useEffect(() => {
-    if (image?.[0]) {
-      const objectUrl = URL.createObjectURL(image[0]);
+    if (Image?.[0]) {
+      const objectUrl = URL.createObjectURL(Image[0]);
       setPreview(objectUrl);
 
       return () => URL.revokeObjectURL(objectUrl);
     } else {
       setPreview(null);
     }
-  }, [image]);
+  }, [Image]);
 
   useEffect(() => {
     if (courseImages?.length > 0) {
@@ -170,8 +174,8 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
     formData.append("availableSeats", data?.availableSeats);
     formData.append("startDate", startDateToISO);
     formData.append("isActive", data?.isActive === "true");
-    if (data?.image && data?.image[0]) {
-      formData.append("image", data?.image[0]);
+    if (data?.Image && data?.Image[0]) {
+      formData.append("Image", data?.Image[0]);
     }
     if (data?.courseImages && data?.courseImages.length > 0) {
       Array.from(data.courseImages).forEach((file) => {
@@ -300,15 +304,15 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
           <div id="fileUpload" className="relative">
             <FileInput
               sizing="sm"
-              accept="image/*"
-              name="image"
+              accept="Image/*"
+              name="Image"
               onChange={(e) =>
-                setValue("image", e.target.files, { shouldValidate: true })
+                setValue("Image", e.target.files, { shouldValidate: true })
               }
             />
-            {errors?.image && (
+            {errors?.Image && (
               <p className="text-red-500 text-xs mt-2">
-                {errors?.image?.message}
+                {errors?.Image?.message}
               </p>
             )}
             {preview ? (
@@ -344,19 +348,7 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
                 {errors?.courseImages?.message}
               </p>
             )}
-            {/* {courseImagesPreview ? (
-              <img
-                src={courseImagesPreview}
-                alt=""
-                className="w-8 h-8 absolute top-1 left-2 rounded-full object-cover"
-              />
-            ) : courseToEdit?.Image ? (
-              <img
-                src={courseToEdit?.Image}
-                alt={courseToEdit?.name}
-                className="w-8 h-8 absolute top-1 left-2 rounded-full object-cover"
-              />
-            ) : null} */}
+
             {courseImagesPreview.length > 0
               ? courseImagesPreview.map((url, i) => (
                   <img
@@ -364,6 +356,18 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
                     src={url}
                     alt={`course-img-${i}`}
                     className="w-8 h-8 absolute top-1 left-2 rounded-full object-cover"
+                    style={{ left: `${2 + i * 36}px` }}
+                  />
+                ))
+              : courseToEdit?.courseImages &&
+                courseToEdit.courseImages.length > 0
+              ? courseToEdit.courseImages.map((imgUrl, i) => (
+                  <img
+                    key={i}
+                    src={imgUrl}
+                    alt={`existing-course-img-${i}`}
+                    className="w-8 h-8 absolute top-1 left-2 rounded-full object-cover"
+                    style={{ left: `${2 + i * 36}px` }}
                   />
                 ))
               : null}

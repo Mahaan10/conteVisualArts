@@ -1,4 +1,4 @@
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
 import useSingleCourse from "../../hooks/useSingleCourse";
 import { PiGraduationCapLight } from "react-icons/pi";
 import Loading from "../../ui/Loading";
@@ -7,7 +7,15 @@ import { BsClockHistory, BsCheckAll } from "react-icons/bs";
 import { TbUsers, TbClockCheck } from "react-icons/tb";
 import { FaRegCommentDots } from "react-icons/fa6";
 import { PiCalendarCheck } from "react-icons/pi";
-import { Rating, RatingStar } from "flowbite-react";
+import {
+  createTheme,
+  Modal as FlowbiteModal,
+  ModalBody,
+  ModalHeader,
+  Rating,
+  RatingStar,
+  ThemeProvider,
+} from "flowbite-react";
 import { useRef, useState } from "react";
 import Modal from "../../ui/Modal";
 import Comments from "../../ui/Comments";
@@ -15,14 +23,34 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { Autoplay } from "swiper/modules";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import Zoom from "react-medium-image-zoom";
+import "react-medium-image-zoom/dist/styles.css";
+
+const customTheme = createTheme({
+  modal: {
+    content: {
+      inner: "bg-gray-200 dark:bg-slate-950",
+    },
+    header: {
+      base: "border-gray-400/80",
+      title:
+        "dark:text-whitesmoke text-black font-bold font-iranian-sans text-xs/6 line-clamp-2 sm:text-lg",
+      close: {
+        base: "ml-0 cursor-pointer text-gray-600 hover:bg-gray-400 dark:text-gray-300 transition-colors duration-300",
+      },
+    },
+  },
+});
 
 function CoursePageLayout() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+  const [preview, setPreview] = useState(null);
   const swiperRef = useRef(null);
   const { id } = useParams();
   const { showToast } = useToast();
   const { course, error, isError, isLoading } = useSingleCourse(id);
-  console.log(course);
+  //console.log(course);
 
   if (isLoading) return <Loading />;
   if (isError)
@@ -163,6 +191,73 @@ function CoursePageLayout() {
             افزودن به سبد خرید
           </button>
         </div>
+
+        {course?.courseImages.length > 0 ? (
+          <>
+            <div className="my-10">
+              <div className="flex items-center justify-between">
+                <h3
+                  className="text-lg font-bold justify-between"
+                  data-aos="fade-right"
+                  data-aos-duration="1000"
+                >
+                  عکس های دوره
+                </h3>
+                <div
+                  className="flex items-center justify-center gap-x-2"
+                  data-aos="fade-up"
+                  data-aos-duration="1000"
+                >
+                  <button
+                    className="border border-almond-cookie hover:bg-almond-cookie dark:hover:bg-dark-cerulean transition-colors duration-300 dark:border-dark-cerulean/50 p-2 rounded-full cursor-pointer"
+                    onClick={() => swiperRef.current?.slidePrev()}
+                  >
+                    <FiChevronRight className="w-5 h-5" />
+                  </button>
+                  <button
+                    className="border border-almond-cookie hover:bg-almond-cookie dark:hover:bg-dark-cerulean transition-colors duration-300 dark:border-dark-cerulean/50 p-2 rounded-full cursor-pointer"
+                    onClick={() => swiperRef.current?.slideNext()}
+                  >
+                    <FiChevronLeft className="w-5 h-5" />
+                  </button>
+                </div>
+              </div>
+            </div>
+            <Swiper
+              modules={[Autoplay]}
+              onSwiper={(swiper) => (swiperRef.current = swiper)}
+              autoplay={{ delay: 8000, disableOnInteraction: false }}
+              spaceBetween={25}
+              loop
+              breakpoints={{
+                0: { slidesPerView: 1 },
+                400: { slidesPerView: 2 },
+                640: { slidesPerView: 3 },
+                768: { slidesPerView: 4 },
+                1000: { slidesPerView: 5 },
+                1180: { slidesPerView: 6 },
+              }}
+            >
+              {course?.courseImages.map((courseImage, index) => (
+                <SwiperSlide key={index}>
+                  <img
+                    src={courseImage}
+                    loading="lazy"
+                    alt="Course Images"
+                    onClick={() => {
+                      setPreview(courseImage);
+                      setIsPreviewOpen(true);
+                    }}
+                    className="w-40 h-40 mx-auto object-cover rounded-md cursor-pointer hover:opacity-90 transition"
+                  />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </>
+        ) : (
+          ""
+        )}
+
         {course?.reviews?.length > 0 ? (
           <div className="my-10">
             <div className="flex items-center justify-between">
@@ -239,9 +334,29 @@ function CoursePageLayout() {
             </Swiper>
           </div>
         ) : (
-          <p className="text-center text-sm">هنوز دیدگاهی ثبت نشده است</p>
+          <p className="text-center text-sm my-10">هنوز دیدگاهی ثبت نشده است</p>
         )}
       </div>
+
+      <ThemeProvider theme={customTheme}>
+        <FlowbiteModal
+          show={isPreviewOpen}
+          size="6xl"
+          onClose={() => setIsPreviewOpen(false)}
+        >
+          <ModalHeader>عکس های دوره</ModalHeader>
+          <ModalBody>
+            <Zoom>
+              <img
+                src={preview}
+                alt="Preview"
+                loading="lazy"
+                className="w-full sm:h-auto h-96 object-cover  rounded-lg"
+              />
+            </Zoom>
+          </ModalBody>
+        </FlowbiteModal>
+      </ThemeProvider>
 
       {isOpen && (
         <Modal title="دیدگاه شما" onClose={() => setIsOpen(false)}>

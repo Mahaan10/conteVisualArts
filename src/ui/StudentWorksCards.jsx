@@ -9,6 +9,8 @@ import {
 } from "flowbite-react";
 import { useState } from "react";
 import useOutsideClick from "../hooks/useOutsideClick";
+import Zoom from "react-medium-image-zoom";
+import "react-medium-image-zoom/dist/styles.css";
 
 const customTheme = createTheme({
   card: {
@@ -103,11 +105,14 @@ function StudentWorksCards({ array }) {
         </ModalHeader>
         <ModalBody ref={modalRef}>
           {selectedStudentWork && (
-            <img
-              src={selectedStudentWork?.image}
-              alt={selectedStudentWork?.title}
-              className="w-full sm:h-auto h-96 object-cover  rounded-lg"
-            />
+            <Zoom>
+              <img
+                src={selectedStudentWork?.image}
+                alt={selectedStudentWork?.title}
+                loading="lazy"
+                className="w-full sm:h-auto h-96 object-cover  rounded-lg"
+              />
+            </Zoom>
           )}
         </ModalBody>
       </Modal>
