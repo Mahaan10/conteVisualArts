@@ -46,11 +46,27 @@ function CoursePageLayout() {
   const [isOpen, setIsOpen] = useState(false);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [preview, setPreview] = useState(null);
+  const [previewIndex, setPreviewIndex] = useState(0);
   const swiperRef = useRef(null);
   const { id } = useParams();
   const { showToast } = useToast();
   const { course, error, isError, isLoading } = useSingleCourse(id);
-  //console.log(course);
+
+  const handlePrev = () => {
+    if (!course?.courseImages.length > 0) return;
+    const newIndex =
+      (previewIndex - 1 + course.courseImages.length) %
+      course.courseImages.length;
+    setPreviewIndex(newIndex);
+    setPreview(course?.courseImages[newIndex]);
+  };
+
+  const handleNext = () => {
+    if (!course?.courseImages.length > 0) return;
+    const newIndex = (previewIndex + 1) % course.courseImages.length;
+    setPreviewIndex(newIndex);
+    setPreview(course?.courseImages[newIndex]);
+  };
 
   if (isLoading) return <Loading />;
   if (isError)
@@ -246,6 +262,7 @@ function CoursePageLayout() {
                     alt="Course Images"
                     onClick={() => {
                       setPreview(courseImage);
+                      setPreviewIndex(index);
                       setIsPreviewOpen(true);
                     }}
                     className="w-40 h-40 mx-auto object-cover rounded-md cursor-pointer hover:opacity-90 transition"
@@ -354,6 +371,18 @@ function CoursePageLayout() {
                 className="w-full sm:h-auto h-96 object-cover  rounded-lg"
               />
             </Zoom>
+            <button
+              onClick={handleNext}
+              className="absolute left-2 top-1/2 transform -translate-y-1/2 p-2 rounded-full shadow-lg bg-gray-700 dark:bg-whitesmoke"
+            >
+              <FiChevronLeft className="w-5 h-5 text-whitesmoke" />
+            </button>
+            <button
+              onClick={handlePrev}
+              className="absolute right-2 top-1/2 transform -translate-y-1/2 p-2 rounded-full shadow-lg bg-gray-700 dark:bg-whitesmoke"
+            >
+              <FiChevronRight className="w-5 h-5 text-whitesmoke" />
+            </button>
           </ModalBody>
         </FlowbiteModal>
       </ThemeProvider>
