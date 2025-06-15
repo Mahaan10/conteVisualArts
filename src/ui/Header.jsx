@@ -92,6 +92,10 @@ function Header() {
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta httpEquiv="Content-Language" content="fa" />
+        <link rel="canonical" href="https://contevisualarts.ir/" />
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="manifest" href="/site.webmanifest" />
+        <meta name="theme-color" content="#ffffff" />
 
         {/* Open Graph */}
         <meta
@@ -146,25 +150,30 @@ function Header() {
         data-aos="fade-right"
         data-aos-duration="1500"
       >
-        {/* Header Menu */}
+        {/* Mobile Menu Button */}
         <button
           className="lg:hidden block mr-5 cursor-pointer"
+          aria-label="منوی موبایل"
           onClick={() => setIsDrawerOpen(!isDrawerOpen)}
         >
           <IoMenuOutline className="w-8 h-8" />
         </button>
+
+        {/* Brand + Nav */}
         <div className="flex items-center justify-center">
-          {/* Brand Logo */}
           <Link to="/" className="ml-2">
             <img
               src="/images/Logo.jpg"
-              alt="Conte School Logo"
+              alt="مدرسه هنری کنته - لوگو رسمی آموزشگاه هنرهای تجسمی"
               loading="lazy"
               className="h-16 w-16 lg:rounded-tr-lg"
             />
           </Link>
-          {/* Header Navbar */}
-          <ul className="hidden lg:flex items-center gap-x-6 text-xs ml-2">
+
+          <nav
+            className="hidden lg:flex items-center gap-x-6 text-xs ml-2"
+            aria-label="ناوبری اصلی"
+          >
             <li>
               <CustomNavlink to="/">صفحه اصلی</CustomNavlink>
             </li>
@@ -183,13 +192,16 @@ function Header() {
             <li>
               <CustomNavlink to="/contact">ارتباط با ما</CustomNavlink>
             </li>
-          </ul>
+          </nav>
         </div>
-        {/* Left Section */}
+
+        {/* Right Section */}
         <div className="flex items-center justify-between gap-x-2 lg:gap-x-4 lg:ml-5 ml-3.5">
           <ThemeMode />
+
           <button
             className="cursor-pointer bg-almond-cookie p-2 rounded-full dark:bg-dark-cerulean hover:bg-golden-sand dark:hover:bg-purple-plumeria transition-colors duration-300"
+            aria-label="سبد خرید"
             onClick={() => setIsShoppingMenuOpen(!isShoppingMenuOpen)}
           >
             <HiOutlineShoppingBag className="w-5 h-5" />
@@ -199,6 +211,7 @@ function Header() {
             <button
               className="btn lg:flex hidden"
               onClick={() => setIsModalOpen(!isModalOpen)}
+              aria-label="ورود یا ثبت نام"
             >
               <MdSignalCellularAlt2Bar className="w-5 h-5" />
               <span>ورود|عضویت</span>
@@ -216,17 +229,13 @@ function Header() {
               >
                 <DropdownHeader>
                   <img
-                    src={
-                      user?.profilePicture
-                        ? user.profilePicture
-                        : "/images/user.jpg"
-                    }
+                    src={user?.profilePicture || "/images/user.jpg"}
                     alt={user?.name}
                     loading="lazy"
                     className="w-10 h-10 rounded-full object-cover object-center"
                   />
                   <div className="flex flex-col gap-y-2">
-                    <span className="">{user?.name}</span>
+                    <span>{user?.name}</span>
                     <span className="truncate font-medium">{user?.phone}</span>
                   </div>
                 </DropdownHeader>
