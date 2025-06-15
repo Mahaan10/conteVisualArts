@@ -20,6 +20,7 @@ import AdminCourses from "./features/admin/courses/AdminCourses";
 import AdminStudentWorks from "./features/admin/studentWorks/AdminStudentWorks";
 import AdminNews from "./features/admin/news/AdminNews";
 import AdminUsers from "./features/admin/users/AdminUsers";
+import { HelmetProvider } from "react-helmet-async";
 
 function App() {
   const queryClient = new QueryClient();
@@ -28,40 +29,47 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <ThemeModeProvider>
         <ToastProvider>
-          <Routes>
-            <Route path="/" element={<PagesLayout />}>
-              <Route index element={<Home />} />
-              {/* <Route path="/home" element={<Home />} /> */}
-              <Route path="courses" element={<Courses />}>
-                <Route path=":id" element={<CoursePageLayout />} />
-              </Route>
-              <Route path="student-works" element={<StudentWorks />} />
-              <Route path="news" element={<News />} />
-              <Route path="contact" element={<Contact />} />
-              <Route path="about" element={<About />} />
-              <Route path="student" element={<ProtectedRoute />}>
-                <Route element={<AppLayout />}>
-                  <Route index element={<Navigate to="profile" replace />} />
-                  <Route path="profile" element={<StudentProfile />} />
-                  <Route path="courses" element={<StudentCourses />} />
-                  <Route path="payments" element={<StudentPayments />} />
+          <HelmetProvider>
+            <Routes>
+              <Route path="/" element={<PagesLayout />}>
+                <Route index element={<Home />} />
+                <Route path="courses" element={<Courses />}>
+                  <Route path=":id" element={<CoursePageLayout />} />
+                </Route>
+                <Route path="student-works" element={<StudentWorks />} />
+                <Route path="news" element={<News />} />
+                <Route path="contact" element={<Contact />} />
+                <Route path="about" element={<About />} />
+                <Route path="student" element={<ProtectedRoute />}>
+                  <Route element={<AppLayout />}>
+                    <Route index element={<Navigate to="profile" replace />} />
+                    <Route path="profile" element={<StudentProfile />} />
+                    <Route path="courses" element={<StudentCourses />} />
+                    <Route path="payments" element={<StudentPayments />} />
+                  </Route>
+                </Route>
+                <Route
+                  path="admin"
+                  element={<ProtectedRoute allowedRoles="admin" />}
+                >
+                  <Route element={<AppLayout />}>
+                    <Route
+                      index
+                      element={<Navigate to="dashboard" replace />}
+                    />
+                    <Route path="dashboard" element={<AdminDashboard />} />
+                    <Route path="courses" element={<AdminCourses />} />
+                    <Route path="users" element={<AdminUsers />} />
+                    <Route
+                      path="studentWorks"
+                      element={<AdminStudentWorks />}
+                    />
+                    <Route path="news" element={<AdminNews />} />
+                  </Route>
                 </Route>
               </Route>
-              <Route
-                path="admin"
-                element={<ProtectedRoute allowedRoles="admin" />}
-              >
-                <Route element={<AppLayout />}>
-                  <Route index element={<Navigate to="dashboard" replace />} />
-                  <Route path="dashboard" element={<AdminDashboard />} />
-                  <Route path="courses" element={<AdminCourses />} />
-                  <Route path="users" element={<AdminUsers />} />
-                  <Route path="studentWorks" element={<AdminStudentWorks />} />
-                  <Route path="news" element={<AdminNews />} />
-                </Route>
-              </Route>
-            </Route>
-          </Routes>
+            </Routes>
+          </HelmetProvider>
         </ToastProvider>
       </ThemeModeProvider>
     </QueryClientProvider>
