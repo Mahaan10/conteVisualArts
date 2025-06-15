@@ -30,6 +30,7 @@ import { useGetUser } from "../context/useGetUserContext";
 import { BsCalendar3Event, BsFolder2Open } from "react-icons/bs";
 import { Loader } from "./Loading";
 import useLogout from "../hooks/useLogout";
+import { Helmet } from "react-helmet-async";
 
 const customTheme = createTheme({
   dropdown: {
@@ -44,7 +45,7 @@ const customTheme = createTheme({
       divider: "bg-gray-200/80 dark:bg-gray-800/50",
       item: {
         icon: "ml-2 w-5 h-5",
-        base: "flex w-[90%] mx-auto my-3 rounded-lg cursor-pointer items-center justify-start px-0 py-3 text-sm text-inherit hover:bg-almond-cookie focus:bg-almond-cookie focus:outline-none dark:text-gray-200 dark:hover:bg-purple-plumeria dark:hover:text-white dark:focus:bg-purple-plumeria dark:focus:text-white transition-all duration-150",
+        base: "flex w-[90%] mx-auto my-3 rounded-lg cursor-pointer items-center justify-start px-0 py-3 text-sm text-inherit hover:bg-almond-cookie focus:bg-almond-cookie focus:outline-none dark:text-gray-200 dark:hover:bg-purple-plumeria dark:focus:bg-purple-plumeria dark:focus:text-white transition-all duration-150",
       },
     },
   },
@@ -76,7 +77,71 @@ function Header() {
 
   return (
     <>
-      <div
+      <Helmet>
+        <title>مدرسه هنری کنته | آموزش تخصصی هنرهای تجسمی</title>
+        <meta
+          name="description"
+          content="آموزش طراحی و نقاشی در مدرسه هنری کنته، برای هنرجویان در همه سطوح."
+        />
+        <meta
+          name="keywords"
+          content="آموزش نقاشی, طراحی, مدرسه هنری, هنرهای تجسمی, دوره هنری"
+        />
+        <meta name="author" content="مدرسه هنری کنته" />
+        <meta name="robots" content="index, follow" />
+        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta httpEquiv="Content-Language" content="fa" />
+
+        {/* Open Graph */}
+        <meta
+          property="og:title"
+          content="مدرسه هنری کنته | آموزش هنرهای تجسمی"
+        />
+        <meta
+          property="og:description"
+          content="دوره‌های تخصصی نقاشی و طراحی برای تمام سطوح هنرجویان."
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://contevisualarts.ir/" />
+        <meta
+          property="og:image"
+          content="https://contevisualarts.ir/images/og-image.jpg"
+        />
+        <meta property="og:locale" content="fa_IR" />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="مدرسه هنری کنته" />
+        <meta
+          name="twitter:description"
+          content="آموزش تخصصی طراحی و نقاشی برای همه سنین."
+        />
+        <meta
+          name="twitter:image"
+          content="https://contevisualarts.ir/images/og-image.jpg"
+        />
+
+        {/* JSON-LD Structured Data */}
+        <script type="application/ld+json">
+          {`
+            {
+              "@context": "https://schema.org",
+              "@type": "EducationalOrganization",
+              "name": "مدرسه هنری کنته",
+              "url": "https://contevisualarts.ir",
+              "logo": "https://contevisualarts.ir/images/logo.jpg",
+              "description": "مدرسه تخصصی آموزش هنرهای تجسمی، طراحی و نقاشی برای هنرجویان در همه سطوح.",
+              "address": {
+                "@type": "PostalAddress",
+                "addressCountry": "IR"
+              }
+            }
+          `}
+        </script>
+      </Helmet>
+
+      <header
         className="z-50 relative flex items-center justify-between border-b border-light-shade-yellow dark:border-moderate-violet transition-colors duration-300"
         data-aos="fade-right"
         data-aos-duration="1500"
@@ -122,16 +187,14 @@ function Header() {
         </div>
         {/* Left Section */}
         <div className="flex items-center justify-between gap-x-2 lg:gap-x-4 lg:ml-5 ml-3.5">
-          {/* Theme Mode buttons */}
           <ThemeMode />
-          {/* Shopping Card button */}
           <button
             className="cursor-pointer bg-almond-cookie p-2 rounded-full dark:bg-dark-cerulean hover:bg-golden-sand dark:hover:bg-purple-plumeria transition-colors duration-300"
             onClick={() => setIsShoppingMenuOpen(!isShoppingMenuOpen)}
           >
             <HiOutlineShoppingBag className="w-5 h-5" />
           </button>
-          {/* Login or Sign up button */}
+
           {!token ? (
             <button
               className="btn lg:flex hidden"
@@ -142,59 +205,6 @@ function Header() {
             </button>
           ) : isLoading || token === null ? (
             <Loader />
-          ) : user?.role === "student" ? (
-            <ThemeProvider theme={customTheme}>
-              <Dropdown
-                label={<PiUser className="w-5 h-5" />}
-                placement="bottom-start"
-                size="sm"
-                dismissOnClick={true}
-                className="z-20"
-              >
-                <DropdownHeader>
-                  <img
-                    src={`${
-                      user?.profilePicture
-                        ? user?.profilePicture
-                        : "/images/user.jpg"
-                    }`}
-                    alt={user?.name}
-                    loading="lazy"
-                    className="w-10 h-10 rounded-full object-cover object-center"
-                  />
-                  <div className="flex flex-col gap-y-2">
-                    <span className="">{user?.name}</span>
-                    <span className="truncate font-medium">{user?.phone}</span>
-                  </div>
-                </DropdownHeader>
-                <DropdownDivider />
-                <DropdownItem as={Link} to="/student" icon={TbSmartHome}>
-                  پنل کاربری
-                </DropdownItem>
-                <DropdownItem
-                  as={Link}
-                  to="/student/courses"
-                  icon={BsFolder2Open}
-                >
-                  دوره های من
-                </DropdownItem>
-                <DropdownItem
-                  as={Link}
-                  to="/student/payments"
-                  icon={HiOutlineAdjustmentsVertical}
-                >
-                  سفارش های من
-                </DropdownItem>
-                <DropdownDivider />
-                <DropdownItem
-                  icon={HiOutlinePower}
-                  onClick={logoutHandler}
-                  className="hover:!bg-red-600 dark:hover:!bg-red-800 !my-1.5"
-                >
-                  {isLoggedOut ? <Loader /> : "خروج"}
-                </DropdownItem>
-              </Dropdown>
-            </ThemeProvider>
           ) : (
             <ThemeProvider theme={customTheme}>
               <Dropdown
@@ -206,11 +216,11 @@ function Header() {
               >
                 <DropdownHeader>
                   <img
-                    src={`${
+                    src={
                       user?.profilePicture
-                        ? user?.profilePicture
+                        ? user.profilePicture
                         : "/images/user.jpg"
-                    }`}
+                    }
                     alt={user?.name}
                     loading="lazy"
                     className="w-10 h-10 rounded-full object-cover object-center"
@@ -221,44 +231,68 @@ function Header() {
                   </div>
                 </DropdownHeader>
                 <DropdownDivider />
-                <DropdownItem
-                  as={Link}
-                  to="/admin/dashboard"
-                  icon={TbSmartHome}
-                >
-                  پیشخوان
-                </DropdownItem>
-                <DropdownItem
-                  as={Link}
-                  to="/admin/courses"
-                  icon={BsFolder2Open}
-                >
-                  دوره ها
-                </DropdownItem>
-                <DropdownItem as={Link} to="/admin/users" icon={FiUsers}>
-                  کاربران
-                </DropdownItem>
-                <DropdownItem
-                  as={Link}
-                  to="/admin/studentWorks"
-                  icon={SiCountingworkspro}
-                >
-                  آثار هنرجویان
-                </DropdownItem>
-                <DropdownItem
-                  as={Link}
-                  to="/admin/news"
-                  icon={BsCalendar3Event}
-                >
-                  رویدادها
-                </DropdownItem>
-                <DropdownItem
-                  as={Link}
-                  to="/admin/payments"
-                  icon={HiOutlineAdjustmentsVertical}
-                >
-                  جزئیات حساب
-                </DropdownItem>
+                {user?.role === "student" ? (
+                  <>
+                    <DropdownItem as={Link} to="/student" icon={TbSmartHome}>
+                      پنل کاربری
+                    </DropdownItem>
+                    <DropdownItem
+                      as={Link}
+                      to="/student/courses"
+                      icon={BsFolder2Open}
+                    >
+                      دوره های من
+                    </DropdownItem>
+                    <DropdownItem
+                      as={Link}
+                      to="/student/payments"
+                      icon={HiOutlineAdjustmentsVertical}
+                    >
+                      سفارش های من
+                    </DropdownItem>
+                  </>
+                ) : (
+                  <>
+                    <DropdownItem
+                      as={Link}
+                      to="/admin/dashboard"
+                      icon={TbSmartHome}
+                    >
+                      پیشخوان
+                    </DropdownItem>
+                    <DropdownItem
+                      as={Link}
+                      to="/admin/courses"
+                      icon={BsFolder2Open}
+                    >
+                      دوره ها
+                    </DropdownItem>
+                    <DropdownItem as={Link} to="/admin/users" icon={FiUsers}>
+                      کاربران
+                    </DropdownItem>
+                    <DropdownItem
+                      as={Link}
+                      to="/admin/studentWorks"
+                      icon={SiCountingworkspro}
+                    >
+                      آثار هنرجویان
+                    </DropdownItem>
+                    <DropdownItem
+                      as={Link}
+                      to="/admin/news"
+                      icon={BsCalendar3Event}
+                    >
+                      رویدادها
+                    </DropdownItem>
+                    <DropdownItem
+                      as={Link}
+                      to="/admin/payments"
+                      icon={HiOutlineAdjustmentsVertical}
+                    >
+                      جزئیات حساب
+                    </DropdownItem>
+                  </>
+                )}
                 <DropdownDivider />
                 <DropdownItem
                   icon={HiOutlinePower}
@@ -271,6 +305,7 @@ function Header() {
             </ThemeProvider>
           )}
         </div>
+
         <HeaderMenu
           isOpen={isDrawerOpen}
           setIsOpen={setIsDrawerOpen}
@@ -280,7 +315,8 @@ function Header() {
           isOpen={isShoppingMenuOpen}
           setIsOpen={setIsShoppingMenuOpen}
         />
-      </div>
+      </header>
+
       {isModalOpen && (
         <Modal title="ورود یا ثبت نام" onClose={() => setIsModalOpen(false)}>
           <AuthContainer onClose={() => setIsModalOpen(false)} />
