@@ -171,7 +171,7 @@ function Header() {
           </Link>
 
           <nav
-            className="hidden lg:flex items-center gap-x-6 text-xs ml-2"
+            className="hidden lg:flex items-center gap-x-6 text-xs ml-2 list-none"
             aria-label="ناوبری اصلی"
           >
             <li>

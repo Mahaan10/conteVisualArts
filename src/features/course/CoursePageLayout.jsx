@@ -25,6 +25,7 @@ import { Autoplay } from "swiper/modules";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
+import useOutsideClick from "../../hooks/useOutsideClick";
 
 const customTheme = createTheme({
   modal: {
@@ -51,6 +52,9 @@ function CoursePageLayout() {
   const { id } = useParams();
   const { showToast } = useToast();
   const { course, error, isError, isLoading } = useSingleCourse(id);
+  const modalRef = useOutsideClick(() => {
+    if (isPreviewOpen) setIsPreviewOpen(false);
+  });
 
   const handlePrev = () => {
     if (!course?.courseImages.length > 0) return;
@@ -360,6 +364,7 @@ function CoursePageLayout() {
           show={isPreviewOpen}
           size="6xl"
           onClose={() => setIsPreviewOpen(false)}
+          ref={modalRef}
         >
           <ModalHeader>عکس های دوره</ModalHeader>
           <ModalBody>
@@ -375,13 +380,13 @@ function CoursePageLayout() {
               onClick={handleNext}
               className="absolute left-2 top-1/2 transform -translate-y-1/2 p-2 rounded-full shadow-lg bg-gray-700 dark:bg-whitesmoke"
             >
-              <FiChevronLeft className="w-5 h-5 text-whitesmoke" />
+              <FiChevronLeft className="w-5 h-5 text-whitesmoke dark:text-gray-700" />
             </button>
             <button
               onClick={handlePrev}
               className="absolute right-2 top-1/2 transform -translate-y-1/2 p-2 rounded-full shadow-lg bg-gray-700 dark:bg-whitesmoke"
             >
-              <FiChevronRight className="w-5 h-5 text-whitesmoke" />
+              <FiChevronRight className="w-5 h-5 text-whitesmoke dark:text-gray-700" />
             </button>
           </ModalBody>
         </FlowbiteModal>

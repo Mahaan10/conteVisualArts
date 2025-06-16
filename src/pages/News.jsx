@@ -19,7 +19,7 @@ const customTheme = createTheme({
 function News() {
   const { news, error, isError, isLoading } = useNews();
   const { showToast } = useToast();
-
+  console.log(news);
   if (isLoading) return <Loading />;
   if (isError)
     return showToast(
