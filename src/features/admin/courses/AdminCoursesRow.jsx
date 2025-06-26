@@ -71,6 +71,16 @@ function AdminCoursesRow({ course, index, onEdit, onDelete }) {
       <td>{course.duration} جلسه</td>
       <td>{course.availableSeats} نفر</td>
       <td>{course.enrolledStudents.length} هنرجو</td>
+      <td>{course.age}</td>
+      <td>
+        {course.badge === "summer"
+          ? "تابستانی"
+          : course.badge === "special"
+          ? "ویژه"
+          : course.badge === "autumn"
+          ? "پائیزی"
+          : ""}
+      </td>
       <td>{course.price} تومان</td>
       <td className="flex gap-x-4">
         <button

@@ -51,11 +51,32 @@ function CourseCards({ array }) {
               !arr.isActive && "cursor-not-allowed grayscale-75 opacity-50"
             }`}
           >
-            {!arr.isActive && (
+            {!arr.isActive ? (
               <span className="absolute top-2 left-2 bg-red-500 text-whitesmoke text-xs px-2 py-1 rounded z-10">
                 تکمیل ظرفیت
               </span>
+            ) : (
+              <span
+                className={`absolute top-2 left-2 text-whitesmoke text-xs px-2 py-1 rounded z-10 ${
+                  arr.badge === "summer"
+                    ? "bg-yellow-400"
+                    : arr.badge === "special"
+                    ? "bg-emerald-600"
+                    : arr.badge === "autumn"
+                    ? "bg-amber-800"
+                    : "hidden"
+                }`}
+              >
+                {arr.badge === "summer"
+                  ? "تابستانی"
+                  : arr.badge === "special"
+                  ? "ویژه"
+                  : arr.badge === "autumn"
+                  ? "پائیزی"
+                  : ""}
+              </span>
             )}
+
             <span className="absolute top-2 right-2 bg-transparent px-2 py-1 z-10">
               <Rating>
                 {[1, 2, 3, 4, 5].map((star) => (

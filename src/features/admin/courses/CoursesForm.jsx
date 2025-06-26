@@ -7,6 +7,7 @@ import {
   createTheme,
   FileInput,
   FloatingLabel,
+  Select,
   ThemeProvider,
 } from "flowbite-react";
 import { DateObject } from "react-multi-date-picker";
@@ -15,6 +16,7 @@ import useCreateCourse from "../../../hooks/useCreateCourse";
 import useEditCourse from "../../../hooks/useEditCourse";
 import Calendar from "../../../ui/Calendar";
 import { Loader } from "../../../ui/Loading";
+import { HiChevronDown } from "react-icons/hi";
 
 const customTheme = createTheme({
   floatingLabel: {
@@ -91,6 +93,8 @@ const schema = Yup.object().shape({
       return value.length <= 7;
     }),
   isActive: Yup.string().required("وضعیت دوره الزامی است"),
+  age: Yup.string().required("رده سنی الزامی است"),
+  badge: Yup.string().required("برچسب الزامی است"),
 });
 
 function CoursesForm({ onClose, courseToEdit = {} }) {
@@ -132,6 +136,8 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
           ? new DateObject(new Date(courseToEdit.startDate))
           : null,
         isActive: courseToEdit.isActive === true ? "true" : "false",
+        age: courseToEdit.age || "",
+        badge: courseToEdit.badge || "",
       });
     }
   }, [reset, editCourseId, courseToEdit]);
@@ -174,6 +180,8 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
     formData.append("availableSeats", data?.availableSeats);
     formData.append("startDate", startDateToISO);
     formData.append("isActive", data?.isActive === "true");
+    formData.append("age", data?.age);
+    formData.append("badge", data?.badge);
     if (data?.Image && data?.Image[0]) {
       formData.append("Image", data?.Image[0]);
     }
@@ -386,6 +394,45 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
             {errors?.availableSeats && (
               <p className="text-red-500 text-xs mt-2">
                 {errors?.availableSeats?.message}
+              </p>
+            )}
+          </div>
+          {/* Age */}
+          <div className="w-full flex justify-between items-center relative">
+            <Select
+              {...register("age")}
+              className="w-full mx-auto px-2 appearance-none"
+            >
+              <option value="child">کودکان</option>
+              <option value="adult">بزرگسالان</option>
+            </Select>
+
+            <HiChevronDown className="w-5 h-5 absolute left-3.5" />
+
+            {errors?.age && (
+              <p className="text-red-500 text-xs mt-2">
+                {errors?.age?.message}
+              </p>
+            )}
+          </div>
+
+          {/* Badge */}
+          <div className="w-full flex justify-between items-center relative">
+            <Select
+              className="w-full mx-auto px-2 appearance-none"
+              id="badge"
+              {...register("badge")}
+            >
+              <option value="special">ویژه</option>
+              <option value="summer">تابستانی</option>
+              <option value="autumn">پائیزی</option>
+            </Select>
+
+            <HiChevronDown className="w-5 h-5 absolute left-3.5" />
+
+            {errors?.badge && (
+              <p className="text-red-500 text-xs mt-2">
+                {errors?.badge?.message}
               </p>
             )}
           </div>

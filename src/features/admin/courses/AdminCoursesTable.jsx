@@ -44,6 +44,8 @@ function AdminCoursesTable() {
               <th>جلسات</th>
               <th>ظرفیت</th>
               <th>هنرجویان</th>
+              <th>رده سنی</th>
+              <th>آیتم</th>
               <th>قیمت</th>
               <th>عملیات</th>
             </Table.Header>
