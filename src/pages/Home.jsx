@@ -46,7 +46,7 @@ function Home() {
     );
 
   return (
-    <div className="p-8 h-auto">
+    <div className="p-8 h-auto max-w-screen-xl mx-auto">
       <div className="w-full h-full mx-auto flex-1 relative">
         <div className="aspect-16/9 relative z-0">
           <img

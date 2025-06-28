@@ -4,6 +4,8 @@ import { createTheme, ThemeProvider, ToggleSwitch } from "flowbite-react";
 import useEditCourse from "../../../hooks/useEditCourse";
 import { useToast } from "../../../context/useToastContext";
 import Table from "../../../ui/Table";
+import formattedDate from "../../../utils/formattedDate";
+import toPersianNumbersWithComma from "../../../utils/toPersianNumbers";
 
 const customTheme = createTheme({
   toggleSwitch: {
@@ -81,7 +83,7 @@ function AdminCoursesRow({ course, index, onEdit, onDelete }) {
           ? "پائیزی"
           : ""}
       </td>
-      <td>{course.price} تومان</td>
+      <td>{toPersianNumbersWithComma(course.price)} تومان</td>
       <td className="flex gap-x-4">
         <button
           className="btn text-whitesmoke w-24 bg-cyan-700 hover:bg-cyan-800"
@@ -103,11 +105,3 @@ function AdminCoursesRow({ course, index, onEdit, onDelete }) {
 }
 
 export default AdminCoursesRow;
-
-function formattedDate(isoString) {
-  return new Date(isoString).toLocaleDateString("fa-IR", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  });
-}

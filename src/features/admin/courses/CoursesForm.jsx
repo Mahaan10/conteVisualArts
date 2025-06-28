@@ -17,6 +17,7 @@ import useEditCourse from "../../../hooks/useEditCourse";
 import Calendar from "../../../ui/Calendar";
 import { Loader } from "../../../ui/Loading";
 import { HiChevronDown } from "react-icons/hi";
+import { numberWithCommas } from "../../../utils/toPersianNumbers";
 
 const customTheme = createTheme({
   floatingLabel: {
@@ -93,13 +94,14 @@ const schema = Yup.object().shape({
       return value.length <= 7;
     }),
   isActive: Yup.string().required("وضعیت دوره الزامی است"),
-  age: Yup.string().required("رده سنی الزامی است"),
-  badge: Yup.string().required("برچسب الزامی است"),
+  age: Yup.string(),
+  badge: Yup.string(),
 });
 
 function CoursesForm({ onClose, courseToEdit = {} }) {
   const [preview, setPreview] = useState(null);
   const [courseImagesPreview, setCourseImagesPreview] = useState([]);
+  const [rawPrice, setRawPrice] = useState("");
   const { showToast } = useToast();
   const { createCourse, isCreatingCourse } = useCreateCourse();
   const { editCourse, isEditingCourse } = useEditCourse();
@@ -118,6 +120,7 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
     resolver: yupResolver(schema),
     defaultValues: {
       startDate: null,
+      price: 0,
     },
   });
 
@@ -139,8 +142,12 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
         age: courseToEdit.age || "",
         badge: courseToEdit.badge || "",
       });
+      const priceStr = courseToEdit.price.toString() || "";
+      const formattedPrice = numberWithCommas(priceStr);
+      setRawPrice(formattedPrice);
+      setValue("price", Number(priceStr), { shouldValidate: true });
     }
-  }, [reset, editCourseId, courseToEdit]);
+  }, [reset, editCourseId, courseToEdit, setValue]);
 
   useEffect(() => {
     if (Image?.[0]) {
@@ -292,15 +299,22 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
           </div>
 
           {/* Price */}
-          <div className="flex relative flex-col">
+          <div className="flex flex-col">
             <FloatingLabel
               variant="outlined"
-              label="قیمت"
+              label="قیمت (تومان)"
               sizing="sm"
-              type="number"
+              type="text"
+              value={rawPrice}
+              onChange={(e) => {
+                const onlyDigits = e.target.value.replace(/\D/g, "");
+                const formatted = numberWithCommas(onlyDigits);
+                setRawPrice(formatted);
+                setValue("price", Number(onlyDigits), { shouldValidate: true });
+              }}
               className="transition-all duration-300"
-              {...register("price")}
             />
+
             {errors?.price && (
               <p className="text-red-500 text-xs mt-2">
                 {errors?.price?.message}
@@ -399,10 +413,8 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
           </div>
           {/* Age */}
           <div className="w-full flex justify-between items-center relative">
-            <Select
-              {...register("age")}
-              className="w-full mx-auto px-2 appearance-none"
-            >
+            <Select {...register("age")} className="w-full mx-auto px-2">
+              <option value="">-- رده سنی --</option>
               <option value="child">کودکان</option>
               <option value="adult">بزرگسالان</option>
             </Select>
@@ -419,10 +431,11 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
           {/* Badge */}
           <div className="w-full flex justify-between items-center relative">
             <Select
-              className="w-full mx-auto px-2 appearance-none"
+              className="w-full mx-auto px-2 appearance-none !bg-none"
               id="badge"
               {...register("badge")}
             >
+              <option value="">-- آیتم --</option>
               <option value="special">ویژه</option>
               <option value="summer">تابستانی</option>
               <option value="autumn">پائیزی</option>

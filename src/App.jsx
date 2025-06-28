@@ -21,6 +21,8 @@ import AdminStudentWorks from "./features/admin/studentWorks/AdminStudentWorks";
 import AdminNews from "./features/admin/news/AdminNews";
 import AdminUsers from "./features/admin/users/AdminUsers";
 import { HelmetProvider } from "react-helmet-async";
+import AppInitializer from "./ui/AppInitializer";
+import NewsPageLayout from "./ui/NewsPageLayout";
 
 function App() {
   const queryClient = new QueryClient();
@@ -30,45 +32,52 @@ function App() {
       <ThemeModeProvider>
         <ToastProvider>
           <HelmetProvider>
-            <Routes>
-              <Route path="/" element={<PagesLayout />}>
-                <Route index element={<Home />} />
-                <Route path="courses" element={<Courses />}>
-                  <Route path=":id" element={<CoursePageLayout />} />
-                </Route>
-                <Route path="student-works" element={<StudentWorks />} />
-                <Route path="news" element={<News />} />
-                <Route path="contact" element={<Contact />} />
-                <Route path="about" element={<About />} />
-                <Route path="student" element={<ProtectedRoute />}>
-                  <Route element={<AppLayout />}>
-                    <Route index element={<Navigate to="profile" replace />} />
-                    <Route path="profile" element={<StudentProfile />} />
-                    <Route path="courses" element={<StudentCourses />} />
-                    <Route path="payments" element={<StudentPayments />} />
+            <AppInitializer>
+              <Routes>
+                <Route path="/" element={<PagesLayout />}>
+                  <Route index element={<Home />} />
+                  <Route path="courses" element={<Courses />}>
+                    <Route path=":id" element={<CoursePageLayout />} />
+                  </Route>
+                  <Route path="student-works" element={<StudentWorks />} />
+                  <Route path="news" element={<News />}>
+                    <Route path=":id" element={<NewsPageLayout />} />
+                  </Route>
+                  <Route path="contact" element={<Contact />} />
+                  <Route path="about" element={<About />} />
+                  <Route path="student" element={<ProtectedRoute />}>
+                    <Route element={<AppLayout />}>
+                      <Route
+                        index
+                        element={<Navigate to="profile" replace />}
+                      />
+                      <Route path="profile" element={<StudentProfile />} />
+                      <Route path="courses" element={<StudentCourses />} />
+                      <Route path="payments" element={<StudentPayments />} />
+                    </Route>
+                  </Route>
+                  <Route
+                    path="admin"
+                    element={<ProtectedRoute allowedRoles="admin" />}
+                  >
+                    <Route element={<AppLayout />}>
+                      <Route
+                        index
+                        element={<Navigate to="dashboard" replace />}
+                      />
+                      <Route path="dashboard" element={<AdminDashboard />} />
+                      <Route path="courses" element={<AdminCourses />} />
+                      <Route path="users" element={<AdminUsers />} />
+                      <Route
+                        path="studentWorks"
+                        element={<AdminStudentWorks />}
+                      />
+                      <Route path="news" element={<AdminNews />} />
+                    </Route>
                   </Route>
                 </Route>
-                <Route
-                  path="admin"
-                  element={<ProtectedRoute allowedRoles="admin" />}
-                >
-                  <Route element={<AppLayout />}>
-                    <Route
-                      index
-                      element={<Navigate to="dashboard" replace />}
-                    />
-                    <Route path="dashboard" element={<AdminDashboard />} />
-                    <Route path="courses" element={<AdminCourses />} />
-                    <Route path="users" element={<AdminUsers />} />
-                    <Route
-                      path="studentWorks"
-                      element={<AdminStudentWorks />}
-                    />
-                    <Route path="news" element={<AdminNews />} />
-                  </Route>
-                </Route>
-              </Route>
-            </Routes>
+              </Routes>
+            </AppInitializer>
           </HelmetProvider>
         </ToastProvider>
       </ThemeModeProvider>
