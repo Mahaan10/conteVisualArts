@@ -26,14 +26,14 @@ const customTheme = createTheme({
     input: {
       default: {
         outlined: {
-          sm: "min-w-md max-w-lg",
+          sm: "w-full sm:min-w-md max-w-lg",
         },
       },
     },
   },
   fileInput: {
     sizes: {
-      sm: "min-w-md max-w-lg bg-inherit dark:bg-inherit",
+      sm: "w-full sm:min-w-md max-w-lg bg-inherit dark:bg-inherit",
     },
   },
 });
@@ -154,7 +154,7 @@ function NewsForm({ onClose, newsToEdit = {} }) {
       <ThemeProvider theme={customTheme}>
         <div className="flex flex-col gap-6 items-center">
           {/* Title */}
-          <div className="flex relative flex-col">
+          <div className="flex relative flex-col w-full max-w-md">
             <FloatingLabel
               variant="outlined"
               label="عنوان"
@@ -171,7 +171,7 @@ function NewsForm({ onClose, newsToEdit = {} }) {
           </div>
 
           {/* Description */}
-          <div className="flex relative flex-col">
+          <div className="flex relative flex-col w-full max-w-md">
             <FloatingLabel
               variant="outlined"
               label="توضیحات"
@@ -188,7 +188,7 @@ function NewsForm({ onClose, newsToEdit = {} }) {
           </div>
 
           {/* File Upload */}
-          <div id="fileUpload" className="relative">
+          <div id="fileUpload" className="relative w-full max-w-md">
             <FileInput
               sizing="sm"
               accept="image/*"

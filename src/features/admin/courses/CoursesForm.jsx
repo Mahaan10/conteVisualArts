@@ -31,14 +31,14 @@ const customTheme = createTheme({
     input: {
       default: {
         outlined: {
-          sm: "min-w-md max-w-lg",
+          sm: "w-full sm:min-w-md max-w-lg",
         },
       },
     },
   },
   fileInput: {
     sizes: {
-      sm: "min-w-md max-w-lg bg-inherit dark:bg-inherit",
+      sm: "w-full sm:min-w-md max-w-lg bg-inherit dark:bg-inherit",
     },
   },
 });
@@ -248,7 +248,7 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
       <ThemeProvider theme={customTheme}>
         <div className="flex flex-col gap-6 items-center">
           {/* Name */}
-          <div className="flex relative flex-col">
+          <div className="flex relative flex-col w-full max-w-md">
             <FloatingLabel
               variant="outlined"
               label="عنوان"
@@ -265,7 +265,7 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
           </div>
 
           {/* Description */}
-          <div className="flex relative flex-col">
+          <div className="flex relative flex-col w-full max-w-md">
             <FloatingLabel
               variant="outlined"
               label="توضیحات"
@@ -282,7 +282,7 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
           </div>
 
           {/* Duration */}
-          <div className="flex relative flex-col">
+          <div className="flex relative flex-col w-full max-w-md">
             <FloatingLabel
               variant="outlined"
               label="تعداد جلسات"
@@ -299,7 +299,7 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
           </div>
 
           {/* Price */}
-          <div className="flex flex-col">
+          <div className="flex flex-col w-full max-w-md">
             <FloatingLabel
               variant="outlined"
               label="قیمت (تومان)"
@@ -323,7 +323,7 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
           </div>
 
           {/* image Upload */}
-          <div id="fileUpload" className="relative">
+          <div id="fileUpload" className="relative w-full max-w-md">
             <FileInput
               sizing="sm"
               accept="Image/*"
@@ -353,7 +353,7 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
           </div>
 
           {/* courseImages Upload */}
-          <div id="filesUpload" className="relative">
+          <div id="filesUpload" className="relative w-full max-w-md">
             <FileInput
               sizing="sm"
               accept="image/*"
@@ -396,7 +396,7 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
           </div>
 
           {/* Available Seats */}
-          <div className="flex relative flex-col">
+          <div className="flex relative flex-col w-full max-w-md">
             <FloatingLabel
               variant="outlined"
               label="ظرفیت"
@@ -412,8 +412,11 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
             )}
           </div>
           {/* Age */}
-          <div className="w-full flex justify-between items-center relative">
-            <Select {...register("age")} className="w-full mx-auto px-2">
+          <div className="w-full flex justify-between items-center relative max-w-md">
+            <Select
+              {...register("age")}
+              className="w-full mx-auto px-2 max-w-md"
+            >
               <option value="">-- رده سنی --</option>
               <option value="child">کودکان</option>
               <option value="adult">بزرگسالان</option>
@@ -429,9 +432,9 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
           </div>
 
           {/* Badge */}
-          <div className="w-full flex justify-between items-center relative">
+          <div className="w-full flex justify-between items-center relative max-w-md">
             <Select
-              className="w-full mx-auto px-2 appearance-none !bg-none"
+              className="w-full mx-auto px-2 appearance-none !bg-none max-w-md"
               id="badge"
               {...register("badge")}
             >
@@ -451,7 +454,7 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
           </div>
 
           {/* Calendar */}
-          <div className="flex relative flex-col w-full">
+          <div className="flex relative flex-col w-full max-w-md">
             <Controller
               name="startDate"
               control={control}
