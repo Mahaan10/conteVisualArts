@@ -2,6 +2,7 @@ import { Button, Card, createTheme, ThemeProvider } from "flowbite-react";
 import { FaArrowLeft, FaRegCalendarCheck } from "react-icons/fa6";
 import { BsCalendar2Range } from "react-icons/bs";
 import { useState } from "react";
+import formattedDate from "../utils/formattedDate";
 
 const customTheme = createTheme({
   card: {
@@ -46,7 +47,7 @@ function NewsCards({ array }) {
           </div>
           <div className="flex flex-col grow gap-y-3">
             <div className="flex line-clamp-2">
-              <h5 className="font-semibold text-base tracking-tight">
+              <h5 className="font-semibold text-sm sm:text-base tracking-tight">
                 {arr.title}
               </h5>
             </div>
@@ -87,11 +88,3 @@ function NewsCards({ array }) {
 }
 
 export default NewsCards;
-
-function formattedDate(isoString) {
-  return new Date(isoString).toLocaleDateString("fa-IR", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  });
-}

@@ -1,6 +1,7 @@
 import { CiEdit } from "react-icons/ci";
 import { PiTrash } from "react-icons/pi";
 import Table from "../../../ui/Table";
+import formattedDate from "../../../utils/formattedDate";
 
 function AdminStudentWorksRow({ studentWork, index, onEdit, onDelete }) {
   console.log(studentWork);
@@ -40,11 +41,3 @@ function AdminStudentWorksRow({ studentWork, index, onEdit, onDelete }) {
 }
 
 export default AdminStudentWorksRow;
-
-function formattedDate(isoString) {
-  return new Date(isoString).toLocaleDateString("fa-IR", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  });
-}

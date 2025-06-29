@@ -36,6 +36,9 @@ const customTheme = createTheme({
       sm: "w-full sm:min-w-md max-w-lg bg-inherit dark:bg-inherit",
     },
   },
+  button: {
+    base: "w-full max-w-md mx-auto rounded-lg",
+  },
 });
 
 const schema = Yup.object().shape({
@@ -221,8 +224,7 @@ function NewsForm({ onClose, newsToEdit = {} }) {
           color="dark"
           outline
           type="submit"
-          pill
-          className="mt-4"
+          className="mt-8"
           disabled={!isValid || isCreatingNews || isEditingNews}
         >
           {isEditingNews || isCreatingNews ? <Loader /> : "تایید"}

@@ -41,6 +41,19 @@ const customTheme = createTheme({
       sm: "w-full sm:min-w-md max-w-lg bg-inherit dark:bg-inherit",
     },
   },
+  button: {
+    base: "w-full max-w-md mx-auto rounded-lg",
+  },
+  select: {
+    field: {
+      select: {
+        base: " bg-none",
+        colors: {
+          gray: "bg-whitesmoke dark:bg-gray-950",
+        },
+      },
+    },
+  },
 });
 
 const schema = Yup.object().shape({
@@ -414,15 +427,17 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
           {/* Age */}
           <div className="w-full flex justify-between items-center relative max-w-md">
             <Select
+              color="gray"
+              id="age"
               {...register("age")}
-              className="w-full mx-auto px-2 max-w-md"
+              className="w-full max-w-md mx-auto"
             >
               <option value="">-- رده سنی --</option>
               <option value="child">کودکان</option>
               <option value="adult">بزرگسالان</option>
             </Select>
 
-            <HiChevronDown className="w-5 h-5 absolute left-3.5" />
+            <HiChevronDown className="w-5 h-5 absolute left-2" />
 
             {errors?.age && (
               <p className="text-red-500 text-xs mt-2">
@@ -434,7 +449,8 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
           {/* Badge */}
           <div className="w-full flex justify-between items-center relative max-w-md">
             <Select
-              className="w-full mx-auto px-2 appearance-none !bg-none max-w-md"
+              color="gray"
+              className="w-full max-w-md mx-auto"
               id="badge"
               {...register("badge")}
             >
@@ -444,7 +460,7 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
               <option value="autumn">پائیزی</option>
             </Select>
 
-            <HiChevronDown className="w-5 h-5 absolute left-3.5" />
+            <HiChevronDown className="w-5 h-5 absolute left-2" />
 
             {errors?.badge && (
               <p className="text-red-500 text-xs mt-2">
@@ -502,8 +518,7 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
           color="dark"
           outline
           type="submit"
-          pill
-          className="mt-4"
+          className="mt-8"
           disabled={!isValid || isCreatingCourse || isEditingCourse}
         >
           {isEditingCourse || isCreatingCourse ? <Loader /> : "تایید"}

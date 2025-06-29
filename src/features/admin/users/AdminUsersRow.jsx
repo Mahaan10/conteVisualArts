@@ -1,6 +1,7 @@
 import { CiEdit } from "react-icons/ci";
 import { PiTrash } from "react-icons/pi";
 import Table from "../../../ui/Table";
+import formattedDate from "../../../utils/formattedDate";
 
 function AdminUsersRow({ user, index, onEdit, onDelete }) {
   console.log(user);
@@ -36,11 +37,3 @@ function AdminUsersRow({ user, index, onEdit, onDelete }) {
 }
 
 export default AdminUsersRow;
-
-function formattedDate(isoString) {
-  return new Date(isoString).toLocaleDateString("fa-IR", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  });
-}

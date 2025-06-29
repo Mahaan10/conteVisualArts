@@ -10,7 +10,7 @@ function CustomNavlink({ children, to, onClose }) {
       className={({ isActive }) =>
         isActive
           ? `${navlinkClass} bg-almond-cookie dark:bg-dark-cerulean rounded-lg`
-          : `${navlinkClass} text-black dark:text-whitesmoke hover:bg-golden-sand dark:hover:bg-purple-plumeria`
+          : `${navlinkClass} hover:bg-golden-sand dark:hover:bg-purple-plumeria`
       }
     >
       {children}

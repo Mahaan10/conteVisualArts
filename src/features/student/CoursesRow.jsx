@@ -1,4 +1,5 @@
 import Table from "../../ui/Table";
+import formattedDate from "../../utils/formattedDate";
 
 function CoursesRow({ course, index }) {
   return (
@@ -14,11 +15,3 @@ function CoursesRow({ course, index }) {
 }
 
 export default CoursesRow;
-
-function formattedDate(isoString) {
-  return new Date(isoString).toLocaleDateString("fa-IR", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  });
-}

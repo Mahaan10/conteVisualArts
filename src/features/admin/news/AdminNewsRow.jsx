@@ -1,6 +1,7 @@
 import { CiEdit } from "react-icons/ci";
 import { PiTrash } from "react-icons/pi";
 import Table from "../../../ui/Table";
+import formattedDate from "../../../utils/formattedDate";
 
 function AdminNewsRow({ news, index, onEdit, onDelete }) {
   return (
@@ -8,9 +9,7 @@ function AdminNewsRow({ news, index, onEdit, onDelete }) {
       <td>{index + 1}</td>
       <td>{news.title}</td>
       <td>{formattedDate(news.createdAt)}</td>
-      <td>
-        {formattedDate(news.updatedAt)}
-      </td>
+      <td>{formattedDate(news.updatedAt)}</td>
       <td className="flex gap-x-4 justify-center">
         <button
           className="btn text-whitesmoke w-24 bg-cyan-700 hover:bg-cyan-800"
@@ -32,11 +31,3 @@ function AdminNewsRow({ news, index, onEdit, onDelete }) {
 }
 
 export default AdminNewsRow;
-
-function formattedDate(isoString) {
-  return new Date(isoString).toLocaleDateString("fa-IR", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  });
-}

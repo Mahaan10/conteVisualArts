@@ -16,7 +16,11 @@ function HomePageCourses({ courses }) {
   return (
     <div className="overflow-hidden max-w-full">
       <div className="flex items-center justify-between mb-4">
-        <h1 className="text-lg" data-aos="fade-right" data-aos-duration="2000">
+        <h1
+          className="text-sm sm:text-base md:text-lg"
+          data-aos="fade-right"
+          data-aos-duration="2000"
+        >
           دوره‌های محبوب
         </h1>
         <div
@@ -34,21 +38,21 @@ function HomePageCourses({ courses }) {
         </div>
       </div>
       <div
-        className="mb-4 md:flex items-center justify-end gap-x-2 hidden"
+        className="flex items-center justify-end gap-x-2 mt-2 mb-4"
         data-aos="fade-down"
         data-aos-duration="2000"
       >
         <button
           onClick={() => swiperRef.current?.slidePrev()}
-          className="p-3 hover:bg-almond-cookie dark:hover:bg-dark-cerulean rounded-full transition-colors duration-300 cursor-pointer border border-almond-cookie dark:border-dark-cerulean"
+          className="cursor-pointer p-1 sm:p-2 md:p-3 rounded-full border border-almond-cookie dark:border-moderate-violet hover:bg-almond-cookie dark:hover:bg-moderate-violet transition-colors duration-300"
         >
-          <FiChevronRight className="w-5 h-5" />
+          <FiChevronRight className="md:size-5 size-4" />
         </button>
         <button
           onClick={() => swiperRef.current?.slideNext()}
-          className="p-3 hover:bg-almond-cookie dark:hover:bg-dark-cerulean rounded-full transition-colors duration-300 cursor-pointer border border-almond-cookie dark:border-dark-cerulean"
+          className="cursor-pointer p-1 sm:p-2 md:p-3 rounded-full border border-almond-cookie dark:border-moderate-violet hover:bg-almond-cookie dark:hover:bg-moderate-violet transition-colors duration-300"
         >
-          <FiChevronLeft className="w-5 h-5" />
+          <FiChevronLeft className="md:size-5 size-4" />
         </button>
       </div>
       <Swiper

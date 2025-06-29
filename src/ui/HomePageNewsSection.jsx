@@ -16,7 +16,11 @@ function HomePageNewsSection({ news }) {
   return (
     <div className="overflow-hidden max-w-full">
       <div className="flex items-center justify-between mb-4">
-        <h1 className="text-lg" data-aos="fade-right" data-aos-duration="1000">
+        <h1
+          className="text-sm sm:text-base md:text-lg"
+          data-aos="fade-right"
+          data-aos-duration="1000"
+        >
           اخبار و رویدادها
         </h1>
         <div
@@ -35,21 +39,21 @@ function HomePageNewsSection({ news }) {
       </div>
 
       <div
-        className="flex items-center justify-end gap-x-2 mt-2"
+        className="flex items-center justify-end gap-x-2 mt-2 mb-4"
         data-aos="fade-down"
         data-aos-duration="1000"
       >
         <button
           onClick={() => swiperRef.current?.slidePrev()}
-          className="cursor-pointer p-3 rounded-full border border-almond-cookie dark:border-moderate-violet hover:bg-almond-cookie dark:hover:bg-moderate-violet transition-colors duration-300"
+          className="cursor-pointer p-1 sm:p-2 md:p-3 rounded-full border border-almond-cookie dark:border-moderate-violet hover:bg-almond-cookie dark:hover:bg-moderate-violet transition-colors duration-300"
         >
-          <FiChevronRight className="w-5 h-5" />
+          <FiChevronRight className="md:size-5 size-4" />
         </button>
         <button
           onClick={() => swiperRef.current?.slideNext()}
-          className="cursor-pointer p-3 rounded-full border border-almond-cookie dark:border-moderate-violet hover:bg-almond-cookie dark:hover:bg-moderate-violet transition-colors duration-300"
+          className="cursor-pointer p-1 sm:p-2 md:p-3 rounded-full border border-almond-cookie dark:border-moderate-violet hover:bg-almond-cookie dark:hover:bg-moderate-violet transition-colors duration-300"
         >
-          <FiChevronLeft className="w-5 h-5" />
+          <FiChevronLeft className="md:size-5 size-4" />
         </button>
       </div>
 

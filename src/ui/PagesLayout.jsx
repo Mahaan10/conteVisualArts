@@ -19,7 +19,7 @@ function PagesLayout() {
   return (
     <div className="bg-linen max-w-screen p-2 md:p-10 font-iran-marker dark:text-whitesmoke dark:bg-dark-purple transition-colors duration-300">
       <GetUserProvider>
-        <div className="bg-whitesmoke dark:bg-slate-950 dark:text-white rounded-lg transition-colors duration-300 overflow-x-hidden">
+        <div className="bg-whitesmoke dark:bg-slate-950 dark:text-whitesmoke text-gray-900 rounded-lg transition-colors duration-300 overflow-x-hidden">
           <Header />
           <div className="max-w-[1920px] mx-auto">
             <Outlet />

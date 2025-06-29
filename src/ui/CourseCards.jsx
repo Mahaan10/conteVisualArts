@@ -10,6 +10,7 @@ import { useState } from "react";
 import { FaArrowLeft, FaRegCalendarCheck } from "react-icons/fa6";
 import { PiStudent } from "react-icons/pi";
 import { Link } from "react-router-dom";
+import formattedDate from "../utils/formattedDate";
 
 const customTheme = createTheme({
   card: {
@@ -146,11 +147,3 @@ function CourseCards({ array }) {
 }
 
 export default CourseCards;
-
-function formattedDate(isoString) {
-  return new Date(isoString).toLocaleDateString("fa-IR", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  });
-}

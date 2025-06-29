@@ -26,6 +26,7 @@ import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
 import useOutsideClick from "../../hooks/useOutsideClick";
+import formattedDate from "../../utils/formattedDate";
 
 const customTheme = createTheme({
   modal: {
@@ -402,11 +403,3 @@ function CoursePageLayout() {
 }
 
 export default CoursePageLayout;
-
-function formattedDate(isoString) {
-  return new Date(isoString).toLocaleDateString("fa-IR", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  });
-}

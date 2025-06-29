@@ -36,6 +36,9 @@ const customTheme = createTheme({
       sm: "w-full sm:min-w-md max-w-lg bg-inherit dark:bg-inherit",
     },
   },
+  button: {
+    base: "w-full max-w-md mx-auto rounded-lg",
+  },
 });
 
 const schema = Yup.object().shape({
@@ -221,8 +224,7 @@ function StudentWorksForm({ onClose, artWorkToEdit = {} }) {
           color="dark"
           outline
           type="submit"
-          pill
-          className="mt-4"
+          className="mt-8"
           disabled={!isValid || isCreatingArtWork || isEditingStudentWorks}
         >
           {isEditingStudentWorks || isCreatingArtWork ? <Loader /> : "تایید"}

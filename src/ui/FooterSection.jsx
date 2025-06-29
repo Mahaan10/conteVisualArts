@@ -13,6 +13,9 @@ import {
 } from "flowbite-react";
 import { PiInstagramLogo, PiTelegramLogo } from "react-icons/pi";
 import { FaWhatsapp } from "react-icons/fa6";
+import useCourses from "../hooks/useCourses";
+import { Loader } from "./Loading";
+import { useToast } from "../context/useToastContext";
 
 const customTheme = createTheme({
   footer: {
@@ -27,10 +30,10 @@ const customTheme = createTheme({
       },
     },
     title: {
-      base: "",
+      base: "text-xs sm:text-sm text-gray-700 dark:text-whitesmoke",
     },
     brand: {
-      img: "mr-0 h-32 w-32",
+      img: "mr-0 h-32 w-full",
     },
     icon: {
       base: "text-inherit",
@@ -43,6 +46,24 @@ const customTheme = createTheme({
 });
 
 function FooterSection() {
+  const { courses, error, isError, isLoading } = useCourses();
+  const { showToast } = useToast();
+
+  if (isLoading) return <Loader />;
+  if (isError)
+    return showToast(
+      "error",
+      error?.response?.data?.message || "خطا در بارگذاری"
+    );
+
+  if (courses.length === 0 || !courses) {
+    return <div className="text-center mt-4">دوره‌ای یافت نشد</div>;
+  }
+
+  const filteredCourses = courses?.filter((c) => c.isActive) || [];
+
+  const slicedCourses = filteredCourses.slice(0, 5);
+
   return (
     <div className="border-t border-light-shade-yellow dark:border-moderate-violet transition-colors duration-300">
       <div className="flex flex-col overflow-hidden">
@@ -54,41 +75,26 @@ function FooterSection() {
                   <div>
                     <FooterTitle title="دوره های پرطرفدار" />
                     <FooterLinkGroup col>
-                      <FooterLink href="/courses/portrait">
-                        نقاشی چهره
-                      </FooterLink>
-                      <FooterLink href="/courses/nature">
-                        نقاشی طبیعت
-                      </FooterLink>
-                      <FooterLink href="/courses/pictures">
-                        نقاشی از روی عکس
-                      </FooterLink>
-                      <FooterLink href="/courses/so-realism">
-                        نقاشی به سبک سورئالیسم
-                      </FooterLink>
-                      <FooterLink href="/courses/realism">
-                        نقاشی به سبک رئالیسم
-                      </FooterLink>
+                      {slicedCourses.map((course) => (
+                        <FooterLink
+                          key={course._id}
+                          href={`/courses/${course._id}`}
+                        >
+                          {course.name}
+                        </FooterLink>
+                      ))}
                     </FooterLinkGroup>
                   </div>
                   <div>
                     <FooterTitle title="دسترسی سریع و پشتیبانی" />
                     <FooterLinkGroup col>
-                      <FooterLink href="/courses/portrait">
-                        همه دوره ها
-                      </FooterLink>
-                      <FooterLink href="/courses/portrait">
+                      <FooterLink href="/courses">همه دوره ها</FooterLink>
+                      <FooterLink href="/student-works">
                         آثار هنرجویان
                       </FooterLink>
-                      <FooterLink href="/courses/portrait">
-                        اخبار و رویدادها
-                      </FooterLink>
-                      <FooterLink href="/courses/portrait">
-                        درباره ما
-                      </FooterLink>
-                      <FooterLink href="/courses/portrait">
-                        ارتباط با ما
-                      </FooterLink>
+                      <FooterLink href="/news">اخبار و رویدادها</FooterLink>
+                      <FooterLink href="/about">درباره ما</FooterLink>
+                      <FooterLink href="/contact">ارتباط با ما</FooterLink>
                       <FooterLink href="/courses/portrait">
                         سوالات متداول(FAQ)
                       </FooterLink>
@@ -143,7 +149,7 @@ function FooterSection() {
                     </div>
                   </div>
                 </div>
-                <div className="flex flex-row sm:flex-col gap-4 mt-4 sm:mt-0">
+                <div className="flex flex-row sm:flex-col gap-4 mt-4 sm:mt-0 h-32 my-auto">
                   <div>
                     <FooterBrand
                       href="/"
