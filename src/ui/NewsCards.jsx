@@ -11,9 +11,9 @@ const customTheme = createTheme({
     },
   },
   button: {
-    base: "gap-x-3",
+    base: "w-full max-w-md mx-auto rounded-lg cursor-pointer gap-x-3",
     outlineColor: {
-      dark: "dark:hover:text-whitesmoke cursor-pointer transition-colors duration-300 text-xs",
+      dark: "dark:hover:text-whitesmoke hover:text-gray-800 hover:bg-golden-sand transition-colors duration-300 text-xs",
     },
   },
 });
@@ -32,14 +32,14 @@ function NewsCards({ array }) {
       {visibleNews.map((arr) => (
         <Card
           key={arr._id}
-          className="max-w-sm transition-all duration-300"
+          className="max-w-sm transition-all duration-300 cursor-pointer"
           data-aos="fade-up"
           data-aos-duration="1000"
         >
           <div className="w-full">
             <img
               //src="https://flowbite.com/docs/images/blog/image-1.jpg"
-              src={arr.image}
+              src={arr.Image}
               alt={arr.title}
               loading="lazy"
               className="w-full h-44 rounded-t-lg"
@@ -61,7 +61,7 @@ function NewsCards({ array }) {
               <span>تاریخ آپدیت:</span>
               <span>{formattedDate(arr.updatedAt)}</span>
             </div>
-            <p className="text-gray-700 dark:text-gray-400 text-xs text-ellipsis overflow-hidden line-clamp-3">
+            <p className="text-gray-700 dark:text-gray-400 text-xs line-clamp-3">
               {arr.description}
             </p>
           </div>

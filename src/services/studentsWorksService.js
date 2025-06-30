@@ -16,7 +16,7 @@ export function createNewArtWorksApi(newArtWork) {
 
 export function editArtWorksApi({ artWorkId, newArtWork }) {
   return http
-    .post(`/studentWorks/${artWorkId}`, newArtWork, {
+    .patch(`/studentWorks/${artWorkId}`, newArtWork, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

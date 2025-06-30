@@ -37,14 +37,14 @@ const customTheme = createTheme({
     },
   },
   button: {
-    base: "w-full max-w-md mx-auto rounded-lg",
+    base: "w-full max-w-md mx-auto rounded-lg cursor-pointer",
   },
 });
 
 const schema = Yup.object().shape({
   title: Yup.string().required("عنوان الزامی است"),
   description: Yup.string().required("توضیحات الزامی است"),
-  image: Yup.mixed()
+  Image: Yup.mixed()
     .nullable()
     .test("fileSize", "حجم فایل نباید بیش از 8 مگابایت باشد", (value) => {
       if (!value || value.length === 0) return true;
@@ -75,7 +75,7 @@ function StudentWorksForm({ onClose, artWorkToEdit = {} }) {
     resolver: yupResolver(schema),
   });
 
-  const image = watch("image");
+  const Image = watch("Image");
 
   useEffect(() => {
     if (editArtWorkId) {
@@ -87,15 +87,15 @@ function StudentWorksForm({ onClose, artWorkToEdit = {} }) {
   }, [reset, editArtWorkId, artWorkToEdit]);
 
   useEffect(() => {
-    if (image?.[0]) {
-      const objectUrl = URL.createObjectURL(image[0]);
+    if (Image?.[0]) {
+      const objectUrl = URL.createObjectURL(Image[0]);
       setPreview(objectUrl);
 
       return () => URL.revokeObjectURL(objectUrl);
     } else {
       setPreview(null);
     }
-  }, [image]);
+  }, [Image]);
 
   const onSubmit = async (data) => {
     console.log(data);
@@ -103,8 +103,8 @@ function StudentWorksForm({ onClose, artWorkToEdit = {} }) {
     const formData = new FormData();
     formData.append("title", data?.title);
     formData.append("description", data?.description);
-    if (data?.image && data?.image[0]) {
-      formData.append("image", data?.image[0]);
+    if (data?.Image && data?.Image[0]) {
+      formData.append("Image", data?.Image[0]);
     }
     console.log(formData);
 
@@ -194,15 +194,15 @@ function StudentWorksForm({ onClose, artWorkToEdit = {} }) {
           <div id="fileUpload" className="relative w-full max-w-md">
             <FileInput
               sizing="sm"
-              accept="image/*"
-              name="image"
+              accept="Image/*"
+              name="Image"
               onChange={(e) =>
-                setValue("image", e.target.files, { shouldValidate: true })
+                setValue("Image", e.target.files, { shouldValidate: true })
               }
             />
-            {errors?.image && (
+            {errors?.Image && (
               <p className="text-red-500 text-xs mt-2">
-                {errors?.image?.message}
+                {errors?.Image?.message}
               </p>
             )}
             {preview ? (
@@ -211,9 +211,9 @@ function StudentWorksForm({ onClose, artWorkToEdit = {} }) {
                 alt=""
                 className="w-8 h-8 absolute top-1 left-2 rounded-full object-cover"
               />
-            ) : artWorkToEdit?.image ? (
+            ) : artWorkToEdit?.Image ? (
               <img
-                src={artWorkToEdit?.image}
+                src={artWorkToEdit?.Image}
                 alt={artWorkToEdit?.title}
                 className="w-8 h-8 absolute top-1 left-2 rounded-full object-cover"
               />

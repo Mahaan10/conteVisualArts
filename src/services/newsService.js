@@ -16,7 +16,7 @@ export function createNewNewsApi(newNews) {
 
 export function editNewsApi({ newsId, newNews }) {
   return http
-    .post(`/news/${newsId}`, newNews, {
+    .patch(`/news/${newsId}`, newNews, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

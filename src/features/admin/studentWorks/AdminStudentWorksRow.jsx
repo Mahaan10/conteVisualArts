@@ -14,7 +14,7 @@ function AdminStudentWorksRow({ studentWork, index, onEdit, onDelete }) {
       <td>
         <div className="flex items-center justify-center">
           <img
-            src={studentWork.image}
+            src={studentWork.Image}
             alt={studentWork.title}
             className="w-10 h-10 rounded-md object-cover"
           />

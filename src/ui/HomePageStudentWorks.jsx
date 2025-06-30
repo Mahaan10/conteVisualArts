@@ -76,7 +76,7 @@ function HomePageStudentWorks({ studentWorks }) {
             >
               <div className="w-40 h-40">
                 <img
-                  src={work.image}
+                  src={work.Image}
                   alt={work.title}
                   loading="lazy"
                   className="rounded-lg w-full h-full object-cover"

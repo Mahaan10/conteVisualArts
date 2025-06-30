@@ -19,9 +19,9 @@ const customTheme = createTheme({
     },
   },
   button: {
-    base: "gap-x-3",
+    base: "w-full max-w-md mx-auto rounded-lg cursor-pointer",
     outlineColor: {
-      dark: "dark:hover:text-whitesmoke cursor-pointer transition-colors duration-300 text-xs",
+      dark: "dark:hover:text-whitesmoke hover:text-gray-800 hover:bg-golden-sand transition-colors duration-300 text-xs",
     },
   },
   modal: {
@@ -65,7 +65,7 @@ function StudentWorksCards({ array }) {
           key={arr._id}
           className="max-w-sm text-xs relative cursor-pointer"
           imgAlt={arr.title}
-          imgSrc={arr.image}
+          imgSrc={arr.Image}
           onClick={() => handleCardClick(arr)}
           data-aos="fade-up"
           data-aos-duration="1000"
@@ -73,7 +73,9 @@ function StudentWorksCards({ array }) {
           <h5 className="text-xl font-semibold tracking-tight line-clamp-2">
             {arr.title}
           </h5>
-          <h1 className="line-clamp-2">{arr?.description}</h1>
+          <h1 className="text-gray-700 dark:text-gray-400 text-xs text-ellipsis overflow-hidden line-clamp-2">
+            {arr?.description}
+          </h1>
 
           <div className="flex items-center justify-between">
             <p>{arr?.student?.name}</p>
@@ -107,7 +109,7 @@ function StudentWorksCards({ array }) {
           {selectedStudentWork && (
             <Zoom>
               <img
-                src={selectedStudentWork?.image}
+                src={selectedStudentWork?.Image}
                 alt={selectedStudentWork?.title}
                 loading="lazy"
                 className="w-full sm:h-auto h-96 object-cover  rounded-lg"

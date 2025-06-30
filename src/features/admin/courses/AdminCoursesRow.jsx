@@ -73,7 +73,13 @@ function AdminCoursesRow({ course, index, onEdit, onDelete }) {
       <td>{course.duration} جلسه</td>
       <td>{course.availableSeats} نفر</td>
       <td>{course.enrolledStudents.length} هنرجو</td>
-      <td>{course.age}</td>
+      <td>
+        {course.ageGroup === "child"
+          ? "کودکان"
+          : course.ageGroup === "adult"
+          ? "بزرگسالان"
+          : ""}
+      </td>
       <td>
         {course.badge === "summer"
           ? "تابستانی"

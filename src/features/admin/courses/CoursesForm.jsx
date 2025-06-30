@@ -42,7 +42,7 @@ const customTheme = createTheme({
     },
   },
   button: {
-    base: "w-full max-w-md mx-auto rounded-lg",
+    base: "w-full max-w-md mx-auto rounded-lg cursor-pointer",
   },
   select: {
     field: {
@@ -107,7 +107,7 @@ const schema = Yup.object().shape({
       return value.length <= 7;
     }),
   isActive: Yup.string().required("وضعیت دوره الزامی است"),
-  age: Yup.string(),
+  ageGroup: Yup.string(),
   badge: Yup.string(),
 });
 
@@ -152,7 +152,7 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
           ? new DateObject(new Date(courseToEdit.startDate))
           : null,
         isActive: courseToEdit.isActive === true ? "true" : "false",
-        age: courseToEdit.age || "",
+        ageGroup: courseToEdit.ageGroup || "",
         badge: courseToEdit.badge || "",
       });
       const priceStr = courseToEdit.price.toString() || "";
@@ -200,7 +200,7 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
     formData.append("availableSeats", data?.availableSeats);
     formData.append("startDate", startDateToISO);
     formData.append("isActive", data?.isActive === "true");
-    formData.append("age", data?.age);
+    formData.append("ageGroup", data?.ageGroup);
     formData.append("badge", data?.badge);
     if (data?.Image && data?.Image[0]) {
       formData.append("Image", data?.Image[0]);
@@ -424,12 +424,11 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
               </p>
             )}
           </div>
-          {/* Age */}
+          {/* ageGroup */}
           <div className="w-full flex justify-between items-center relative max-w-md">
             <Select
               color="gray"
-              id="age"
-              {...register("age")}
+              {...register("ageGroup")}
               className="w-full max-w-md mx-auto"
             >
               <option value="">-- رده سنی --</option>
@@ -439,9 +438,9 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
 
             <HiChevronDown className="w-5 h-5 absolute left-2" />
 
-            {errors?.age && (
+            {errors?.ageGroup && (
               <p className="text-red-500 text-xs mt-2">
-                {errors?.age?.message}
+                {errors?.ageGroup?.message}
               </p>
             )}
           </div>
