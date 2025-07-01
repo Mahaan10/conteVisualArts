@@ -1,9 +1,16 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 const ShoppingCardContext = createContext();
 
 export default function ShoppingCardProvider({ children }) {
-  const [cardItems, setCardItems] = useState([]);
+  const [cardItems, setCardItems] = useState(() => {
+    const stored = localStorage.getItem("shoppingCard");
+    return stored ? JSON.parse(stored) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem("shoppingCard", JSON.stringify(cardItems));
+  }, [cardItems]);
 
   const addToCard = (course) => {
     setCardItems((prev) => {

@@ -98,7 +98,7 @@ function ShoppingMenu({ isOpen, setIsOpen }) {
                         </div>
                         <button
                           onClick={() => removeFromCard(item._id)}
-                          className="text-red-500 text-xs"
+                          className="bg-red-500 p-2 rounded-lg text-xs cursor-pointer hover:bg-red-400 dark:hover:bg-red-600 transition-colors duration-300"
                         >
                           حذف
                         </button>
@@ -113,7 +113,7 @@ function ShoppingMenu({ isOpen, setIsOpen }) {
                       <span>{totalPrice.toLocaleString()} تومان</span>
                     </div>
                     <button
-                      className="w-full bg-golden-sand hover:bg-yellow-400 text-black font-bold py-2 rounded-lg transition-colors duration-300 dark:bg-purple-plumeria dark:text-white dark:hover:bg-purple-800"
+                      className="w-full bg-almond-cookie hover:bg-golden-sand text-black font-bold py-2 rounded-lg transition-colors duration-300 dark:bg-dark-cerulean cursor-pointer dark:text-white dark:hover:bg-purple-plumeria"
                       onClick={() => alert("درگاه پرداخت پیاده‌سازی شود")}
                     >
                       پرداخت
