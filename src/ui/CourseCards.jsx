@@ -91,7 +91,7 @@ function CourseCards({ array }) {
                 src={arr.Image}
                 alt={arr.name}
                 loading="lazy"
-                className="w-full h-44 rounded-t-lg object-cover"
+                className="w-full h-55 rounded-t-lg object-cover"
               />
             </div>
 

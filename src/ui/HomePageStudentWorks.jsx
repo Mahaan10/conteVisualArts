@@ -64,14 +64,16 @@ function HomePageStudentWorks({ studentWorks }) {
           0: { slidesPerView: 1 },
           400: { slidesPerView: 2 },
           640: { slidesPerView: 3 },
-          1024: { slidesPerView: 5 },
+          768: { slidesPerView: 4 },
+          1000: { slidesPerView: 5 },
+          1180: { slidesPerView: 6 },
         }}
         onSwiper={(swiper) => (swiperRef.current = swiper)}
       >
         {studentWorks.map((work) => (
           <SwiperSlide key={work._id}>
             <Link
-              to={work.title}
+              to="/student-works"
               className="flex flex-col gap-y-2 items-center w-full"
             >
               <div className="w-40 h-40">

@@ -64,15 +64,17 @@ function HomePageNewsSection({ news }) {
         loop
         breakpoints={{
           0: { slidesPerView: 1 },
-          400: { slidesPerView: 2 },
-          640: { slidesPerView: 3 },
-          1024: { slidesPerView: 4 },
+          500: { slidesPerView: 2 },
+          900: { slidesPerView: 3 },
+          1170: { slidesPerView: 4 },
         }}
         onSwiper={(swiper) => (swiperRef.current = swiper)}
       >
         {news.map((item) => (
           <SwiperSlide key={item._id}>
-            <NewsCards array={[item]} />
+            <div className="grid grid-rows-2 gap-6 sm:gap-7 ">
+              <NewsCards array={[item]} />
+            </div>
           </SwiperSlide>
         ))}
       </Swiper>

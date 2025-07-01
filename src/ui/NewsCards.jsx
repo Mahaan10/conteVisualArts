@@ -42,7 +42,7 @@ function NewsCards({ array }) {
               src={arr.Image}
               alt={arr.title}
               loading="lazy"
-              className="w-full h-44 rounded-t-lg"
+              className="w-full h-55 rounded-t-lg"
             />
           </div>
           <div className="flex flex-col grow gap-y-3">

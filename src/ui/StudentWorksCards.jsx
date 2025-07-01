@@ -64,8 +64,11 @@ function StudentWorksCards({ array }) {
         <Card
           key={arr._id}
           className="max-w-sm text-xs relative cursor-pointer"
-          imgAlt={arr.title}
-          imgSrc={arr.Image}
+          //imgAlt={arr.title}
+          //imgSrc={arr.Image}
+          renderImage={() => (
+            <img className="h-60 w-full" src={arr.Image} alt={arr.title} />
+          )}
           onClick={() => handleCardClick(arr)}
           data-aos="fade-up"
           data-aos-duration="1000"
