@@ -72,7 +72,7 @@ function HomePageNewsSection({ news }) {
       >
         {news.map((item) => (
           <SwiperSlide key={item._id}>
-            <div className="grid grid-rows-2 gap-6 sm:gap-7 ">
+            <div className="">
               <NewsCards array={[item]} />
             </div>
           </SwiperSlide>

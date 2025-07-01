@@ -46,7 +46,7 @@ function NewsCards({ array }) {
             />
           </div>
           <div className="flex flex-col grow gap-y-3">
-            <div className="flex line-clamp-2">
+            <div className="line-clamp-2 min-h-[3.2rem]">
               <h5 className="font-semibold text-sm sm:text-base tracking-tight">
                 {arr.title}
               </h5>
@@ -61,7 +61,7 @@ function NewsCards({ array }) {
               <span>تاریخ آپدیت:</span>
               <span>{formattedDate(arr.updatedAt)}</span>
             </div>
-            <p className="text-gray-700 dark:text-gray-400 text-xs line-clamp-3">
+            <p className="text-gray-700 dark:text-gray-400 text-xs line-clamp-3 min-h-[3rem]">
               {arr.description}
             </p>
           </div>

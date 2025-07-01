@@ -3,17 +3,9 @@ import {
   Drawer,
   DrawerHeader,
   DrawerItems,
-  Sidebar,
-  SidebarItemGroup,
-  SidebarItems,
   ThemeProvider,
 } from "flowbite-react";
-import { PiGraduationCapLight, PiInfo } from "react-icons/pi";
-import { GiAbstract024 } from "react-icons/gi";
-import { BsPen } from "react-icons/bs";
-import { FaUsers } from "react-icons/fa";
-import CustomNavlink from "./CustomNavlink";
-import { IoHomeOutline } from "react-icons/io5";
+import { useCart } from "../context/useShoppingCardContext";
 
 const customTheme = createTheme({
   drawer: {
@@ -46,7 +38,8 @@ const customTheme = createTheme({
   },
 });
 
-function ShoppingMenu({ isOpen, setIsOpen, setIsModalOpen }) {
+function ShoppingMenu({ isOpen, setIsOpen }) {
+  const { cardItems, removeFromCard, totalPrice } = useCart();
   return (
     <>
       {isOpen && (
@@ -57,50 +50,77 @@ function ShoppingMenu({ isOpen, setIsOpen, setIsModalOpen }) {
             position="left"
           >
             <DrawerHeader title="آموزشگاه هنرهای تجسمی کٌنته" />
+            {/* <DrawerItems>
+              {cardItems.length === 0 ? (
+                <p className="text-center text-sm">سبد خرید شما خالیست :(</p>
+              ) : (
+                <ul className="space-y-3">
+                  {cardItems.map((item) => (
+                    <li
+                      key={item._id}
+                      className="border p-3 rounded-md dark:border-gray-700 flex items-center justify-between"
+                    >
+                      <div>
+                        <p className="font-bold text-sm">{item.name}</p>
+                        <p className="text-xs text-gray-600 dark:text-gray-300 mt-1">
+                          {item.duration} جلسه | {item.price?.toLocaleString()}
+                          <span className="mr-1">تومان</span>
+                        </p>
+                      </div>
+                      <button
+                        onClick={() => removeFromCard(item._id)}
+                        className="text-xs bg-red-500 py-2 px-3 rounded-lg cursor-pointer"
+                      >
+                        حذف
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </DrawerItems> */}
             <DrawerItems>
-              {/* <Sidebar>
-                <SidebarItems>
-                  <SidebarItemGroup>
-                    <li className="text-sm rounded-lg transition-colors duration-300 py-1">
-                      <CustomNavlink to="/home">
-                        <IoHomeOutline className="w-5 h-5 dark:text-gray-400 text-gray-700" />
-                        <span>صفحه اصلی</span>
-                      </CustomNavlink>
-                    </li>
-                    <li className="text-sm rounded-lg transition-colors duration-300 py-1">
-                      <CustomNavlink to="/courses">
-                        <PiGraduationCapLight className="w-5 h-5 dark:text-gray-400 text-gray-700" />
-                        <span>همه دوره ها</span>
-                      </CustomNavlink>
-                    </li>
-                    <li className="text-sm rounded-lg transition-colors duration-300 py-1">
-                      <CustomNavlink to="/student-works">
-                        <GiAbstract024 className="w-5 h-5 dark:text-gray-400 text-gray-700" />
-                        <span>آثار هنرجویان</span>
-                      </CustomNavlink>
-                    </li>
-                    <li className="text-sm rounded-lg transition-colors duration-300 py-1">
-                      <CustomNavlink to="/news">
-                        <BsPen className="w-5 h-5 dark:text-gray-400 text-gray-700" />
-                        <span>اخبار و رویدادها</span>
-                      </CustomNavlink>
-                    </li>
-                    <li className="text-sm rounded-lg transition-colors duration-300 py-1">
-                      <CustomNavlink to="/about">
-                        <FaUsers className="w-5 h-5 dark:text-gray-400 text-gray-700" />
-                        <span>درباره ما</span>
-                      </CustomNavlink>
-                    </li>
-                    <li className="text-sm rounded-lg transition-colors duration-300 py-1">
-                      <CustomNavlink to="/contact">
-                        <PiInfo className="w-5 h-5 dark:text-gray-400 text-gray-700" />
-                        <span>ارتباط با ما</span>
-                      </CustomNavlink>
-                    </li>
-                  </SidebarItemGroup>
-                </SidebarItems>
-              </Sidebar> */}
-              <p>سبد خرید شما خالیست :(</p>
+              {cardItems.length === 0 ? (
+                <p className="text-center text-sm">سبد خرید شما خالیست :(</p>
+              ) : (
+                <>
+                  <ul className="space-y-4">
+                    {cardItems.map((item) => (
+                      <li
+                        key={item._id}
+                        className="border p-3 rounded-md dark:border-gray-700 flex items-center justify-between"
+                      >
+                        <div>
+                          <p className="font-bold text-sm">{item.name}</p>
+                          <p className="text-xs text-gray-600 dark:text-gray-300 mt-1">
+                            {item.duration} جلسه |{" "}
+                            {item.price?.toLocaleString()} تومان
+                          </p>
+                        </div>
+                        <button
+                          onClick={() => removeFromCard(item._id)}
+                          className="text-red-500 text-xs"
+                        >
+                          حذف
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+
+                  {/* مجموع و دکمه پرداخت */}
+                  <div className="mt-6 border-t pt-4 space-y-3">
+                    <div className="flex items-center justify-between text-sm font-semibold">
+                      <span>مجموع:</span>
+                      <span>{totalPrice.toLocaleString()} تومان</span>
+                    </div>
+                    <button
+                      className="w-full bg-golden-sand hover:bg-yellow-400 text-black font-bold py-2 rounded-lg transition-colors duration-300 dark:bg-purple-plumeria dark:text-white dark:hover:bg-purple-800"
+                      onClick={() => alert("درگاه پرداخت پیاده‌سازی شود")}
+                    >
+                      پرداخت
+                    </button>
+                  </div>
+                </>
+              )}
             </DrawerItems>
           </Drawer>
         </ThemeProvider>

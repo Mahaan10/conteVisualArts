@@ -31,6 +31,7 @@ import { BsCalendar3Event, BsFolder2Open } from "react-icons/bs";
 import { Loader } from "./Loading";
 import useLogout from "../hooks/useLogout";
 import { Helmet } from "react-helmet-async";
+import { useCart } from "../context/useShoppingCardContext";
 
 const customTheme = createTheme({
   dropdown: {
@@ -60,6 +61,7 @@ const customTheme = createTheme({
 function Header() {
   const { user, isLoading, isError, error, token } = useGetUser();
   const { isLoggedOut, logout } = useLogout();
+  const { cardItems } = useCart();
   const { showToast } = useToast();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -199,13 +201,27 @@ function Header() {
         <div className="flex items-center justify-between gap-x-2 lg:gap-x-4 lg:ml-5 ml-3.5">
           <ThemeMode />
 
-          <button
+          {/* <button
             className="cursor-pointer bg-almond-cookie p-2 rounded-full dark:bg-dark-cerulean hover:bg-golden-sand dark:hover:bg-purple-plumeria transition-colors duration-300"
             aria-label="سبد خرید"
             onClick={() => setIsShoppingMenuOpen(!isShoppingMenuOpen)}
           >
             <HiOutlineShoppingBag className="w-5 h-5" />
-          </button>
+          </button> */}
+          <div className="relative">
+            <button
+              className="cursor-pointer bg-almond-cookie p-2 rounded-full dark:bg-dark-cerulean hover:bg-golden-sand dark:hover:bg-purple-plumeria transition-colors duration-300"
+              aria-label="سبد خرید"
+              onClick={() => setIsShoppingMenuOpen(!isShoppingMenuOpen)}
+            >
+              <HiOutlineShoppingBag className="w-5 h-5" />
+              {cardItems.length > 0 && (
+                <span className="absolute -top-1.5 -right-1.5 bg-red-500 text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center">
+                  {cardItems.length}
+                </span>
+              )}
+            </button>
+          </div>
 
           {!token ? (
             <button

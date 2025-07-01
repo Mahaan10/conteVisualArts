@@ -27,6 +27,7 @@ import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
 import useOutsideClick from "../../hooks/useOutsideClick";
 import formattedDate from "../../utils/formattedDate";
+import { useCart } from "../../context/useShoppingCardContext";
 
 const customTheme = createTheme({
   modal: {
@@ -45,6 +46,7 @@ const customTheme = createTheme({
 });
 
 function CoursePageLayout() {
+  const { addToCard } = useCart();
   const [isOpen, setIsOpen] = useState(false);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [preview, setPreview] = useState(null);
@@ -208,7 +210,10 @@ function CoursePageLayout() {
             <FaRegCommentDots className="w-4 h-4" />
             <span>ثبت دیدگاه</span>
           </button>
-          <button className="btn py-3.5 bg-transparent border dark:border-moderate-violet justify-center gap-x-4 dark:hover:bg-purple-plumeria hover:border-transparent border-butter-caramel hover:bg-golden-sand w-48">
+          <button
+            className="btn py-3.5 bg-transparent border dark:border-moderate-violet justify-center gap-x-4 dark:hover:bg-purple-plumeria hover:border-transparent border-butter-caramel hover:bg-golden-sand w-48"
+            onClick={() => addToCard(course)}
+          >
             افزودن به سبد خرید
           </button>
         </div>
