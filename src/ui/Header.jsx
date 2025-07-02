@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import CustomNavlink from "./CustomNavlink";
 import { MdSignalCellularAlt2Bar } from "react-icons/md";
@@ -8,7 +9,6 @@ import {
 } from "react-icons/hi2";
 import ThemeMode from "./ThemeMode";
 import HeaderMenu from "./HeaderMenu";
-import { useState } from "react";
 import { IoMenuOutline } from "react-icons/io5";
 import { TbSmartHome } from "react-icons/tb";
 import { PiUser } from "react-icons/pi";
@@ -63,18 +63,84 @@ function Header() {
   const { isLoggedOut, logout } = useLogout();
   const { cardItems } = useCart();
   const { showToast } = useToast();
+
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isShoppingMenuOpen, setIsShoppingMenuOpen] = useState(false);
 
-  if (isError)
-    return showToast(
-      "error",
-      error?.response?.data?.message || "اطلاعات کاربری یافت نشد"
-    );
+  // Show toast for error and render fallback UI
+  useEffect(() => {
+    if (isError) {
+      showToast(
+        "error",
+        error?.response?.data?.message || "اطلاعات کاربری یافت نشد"
+      );
+    }
+  }, [isError, error, showToast]);
+
+  if (isError) {
+    return null;
+  }
 
   const logoutHandler = async () => {
     await logout();
+  };
+
+  // نقش کاربر برای نمایش منو
+  const renderUserMenu = () => {
+    if (!user) return null;
+
+    if (user?.role === "student") {
+      return (
+        <>
+          <DropdownItem as={Link} to="/student" icon={TbSmartHome}>
+            پنل کاربری
+          </DropdownItem>
+          <DropdownItem as={Link} to="/student/courses" icon={BsFolder2Open}>
+            دوره های من
+          </DropdownItem>
+          <DropdownItem
+            as={Link}
+            to="/student/payments"
+            icon={HiOutlineAdjustmentsVertical}
+          >
+            سفارش های من
+          </DropdownItem>
+        </>
+      );
+    }
+
+    // Admin or other roles
+    return (
+      <>
+        <DropdownItem as={Link} to="/admin/dashboard" icon={TbSmartHome}>
+          پیشخوان
+        </DropdownItem>
+        <DropdownItem as={Link} to="/admin/courses" icon={BsFolder2Open}>
+          دوره ها
+        </DropdownItem>
+        <DropdownItem as={Link} to="/admin/users" icon={FiUsers}>
+          کاربران
+        </DropdownItem>
+        <DropdownItem
+          as={Link}
+          to="/admin/studentWorks"
+          icon={SiCountingworkspro}
+        >
+          آثار هنرجویان
+        </DropdownItem>
+        <DropdownItem as={Link} to="/admin/news" icon={BsCalendar3Event}>
+          رویدادها
+        </DropdownItem>
+        <DropdownItem
+          as={Link}
+          to="/admin/payments"
+          icon={HiOutlineAdjustmentsVertical}
+        >
+          جزئیات حساب
+        </DropdownItem>
+      </>
+    );
   };
 
   return (
@@ -156,6 +222,7 @@ function Header() {
         <button
           className="lg:hidden block mr-5 cursor-pointer"
           aria-label="منوی موبایل"
+          aria-expanded={isDrawerOpen}
           onClick={() => setIsDrawerOpen(!isDrawerOpen)}
         >
           <IoMenuOutline className="w-8 h-8" />
@@ -201,18 +268,12 @@ function Header() {
         <div className="flex items-center justify-between gap-x-2 lg:gap-x-4 lg:ml-5 ml-3.5">
           <ThemeMode />
 
-          {/* <button
-            className="cursor-pointer bg-almond-cookie p-2 rounded-full dark:bg-dark-cerulean hover:bg-golden-sand dark:hover:bg-purple-plumeria transition-colors duration-300"
-            aria-label="سبد خرید"
-            onClick={() => setIsShoppingMenuOpen(!isShoppingMenuOpen)}
-          >
-            <HiOutlineShoppingBag className="w-5 h-5" />
-          </button> */}
           <div className="relative">
             <button
               className="cursor-pointer bg-almond-cookie p-2 rounded-full dark:bg-dark-cerulean hover:bg-golden-sand dark:hover:bg-purple-plumeria transition-colors duration-300"
               aria-label="سبد خرید"
               onClick={() => setIsShoppingMenuOpen(!isShoppingMenuOpen)}
+              aria-expanded={isShoppingMenuOpen}
             >
               <HiOutlineShoppingBag className="w-5 h-5" />
               {cardItems.length > 0 && (
@@ -226,7 +287,7 @@ function Header() {
           {!token ? (
             <button
               className="btn lg:flex hidden"
-              onClick={() => setIsModalOpen(!isModalOpen)}
+              onClick={() => setIsModalOpen(true)}
               aria-label="ورود یا ثبت نام"
             >
               <MdSignalCellularAlt2Bar className="w-5 h-5" />
@@ -256,68 +317,7 @@ function Header() {
                   </div>
                 </DropdownHeader>
                 <DropdownDivider />
-                {user?.role === "student" ? (
-                  <>
-                    <DropdownItem as={Link} to="/student" icon={TbSmartHome}>
-                      پنل کاربری
-                    </DropdownItem>
-                    <DropdownItem
-                      as={Link}
-                      to="/student/courses"
-                      icon={BsFolder2Open}
-                    >
-                      دوره های من
-                    </DropdownItem>
-                    <DropdownItem
-                      as={Link}
-                      to="/student/payments"
-                      icon={HiOutlineAdjustmentsVertical}
-                    >
-                      سفارش های من
-                    </DropdownItem>
-                  </>
-                ) : (
-                  <>
-                    <DropdownItem
-                      as={Link}
-                      to="/admin/dashboard"
-                      icon={TbSmartHome}
-                    >
-                      پیشخوان
-                    </DropdownItem>
-                    <DropdownItem
-                      as={Link}
-                      to="/admin/courses"
-                      icon={BsFolder2Open}
-                    >
-                      دوره ها
-                    </DropdownItem>
-                    <DropdownItem as={Link} to="/admin/users" icon={FiUsers}>
-                      کاربران
-                    </DropdownItem>
-                    <DropdownItem
-                      as={Link}
-                      to="/admin/studentWorks"
-                      icon={SiCountingworkspro}
-                    >
-                      آثار هنرجویان
-                    </DropdownItem>
-                    <DropdownItem
-                      as={Link}
-                      to="/admin/news"
-                      icon={BsCalendar3Event}
-                    >
-                      رویدادها
-                    </DropdownItem>
-                    <DropdownItem
-                      as={Link}
-                      to="/admin/payments"
-                      icon={HiOutlineAdjustmentsVertical}
-                    >
-                      جزئیات حساب
-                    </DropdownItem>
-                  </>
-                )}
+                {renderUserMenu()}
                 <DropdownDivider />
                 <DropdownItem
                   icon={HiOutlinePower}

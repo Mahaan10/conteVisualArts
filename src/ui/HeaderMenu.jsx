@@ -57,6 +57,15 @@ function HeaderMenu({ isOpen, setIsOpen, setIsModalOpen }) {
   const { showToast } = useToast();
 
   useEffect(() => {
+    if (isError) {
+      showToast(
+        "error",
+        error?.response?.data?.message || "اطلاعات کاربری یافت نشد"
+      );
+    }
+  }, [isError, error, showToast]);
+
+  useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 1024) {
         setIsOpen(false);
@@ -75,11 +84,9 @@ function HeaderMenu({ isOpen, setIsOpen, setIsModalOpen }) {
     }
   });
 
-  if (isError)
-    return showToast(
-      "error",
-      error?.response?.data?.message || "اطلاعات کاربری یافت نشد"
-    );
+  if (isError) {
+    return null;
+  }
 
   return (
     <>

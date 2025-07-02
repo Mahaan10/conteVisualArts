@@ -7,6 +7,7 @@ import { Button, createTheme, ThemeProvider } from "flowbite-react";
 import { FaSort } from "react-icons/fa6";
 import NewsSidebar from "../ui/NewsSidebar";
 import { Outlet, useLocation } from "react-router-dom";
+import NotFound from "../ui/NotFound";
 
 const customTheme = createTheme({
   button: {
@@ -25,11 +26,13 @@ function News() {
   const isNewsDetailPage = location.pathname !== "/news";
 
   if (isLoading) return <Loading />;
-  if (isError)
-    return showToast(
+  if (isError) {
+    showToast(
       "error",
       error?.response?.data?.message || "بارگذاری با خطا مواجه شد"
     );
+    return <NotFound />;
+  }
 
   return (
     <div className="container">
@@ -67,7 +70,13 @@ function News() {
             </aside>
             <div className="col-span-12 lg:col-span-8 xl:col-span-9 order-1 lg:order-2 mb-10">
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3  gap-y-8 sm:gap-x-8 bg-gray-100 dark:bg-gray-950 rounded-lg p-4">
-                <NewsCards array={news} />
+                {news.length === 0 ? (
+                  <p className="text-center text-sm col-span-12">
+                    هیچ خبری ثبت نشده است
+                  </p>
+                ) : (
+                  <NewsCards array={news} />
+                )}
               </div>
             </div>
           </div>

@@ -25,7 +25,7 @@ function AppInitializer({ children }) {
           tasks.push(
             queryClient.prefetchQuery({
               queryKey: ["studentWorks"],
-              queryFn: getAllStudentsWorksApi(),
+              queryFn: getAllStudentsWorksApi,
             }),
             queryClient.prefetchQuery({
               queryKey: ["news"],

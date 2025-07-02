@@ -10,6 +10,7 @@ import Pagination from "../../../ui/Pagination";
 import Modal from "../../../ui/Modal";
 import ConfirmDelete from "../../../ui/ConfirmDelete";
 import CoursesForm from "./CoursesForm";
+import NotFound from "../../../ui/NotFound";
 
 function AdminCoursesTable() {
   const { courses, error, isError, isLoading } = useCourses();
@@ -23,11 +24,22 @@ function AdminCoursesTable() {
   );
   console.log(courses);
   if (isLoading) return <Loader />;
-  if (isError)
-    return showToast(
-      "error",
-      error?.response?.data?.message || "اطلاعات یافت نشد"
-    );
+
+  if (isError) {
+    showToast("error", error?.response?.data?.message || "اطلاعات یافت نشد");
+    return <NotFound />;
+  }
+
+  const handleDelete = async () => {
+    await deleteCourse(courseToDelete?._id, {
+      onSuccess: () => {
+        showToast("success", `${courseToDelete?.name} با موفقیت حذف شد`);
+        setCourseToDelete(null);
+      },
+      onError: (err) =>
+        showToast("error", err?.response?.data?.message || "حذف انجام نشد"),
+    });
+  };
 
   return (
     <>
@@ -81,17 +93,7 @@ function AdminCoursesTable() {
             isDeleting={isDeletingCourse}
             disabled={false}
             onClose={() => setCourseToDelete(null)}
-            onConfirm={async () =>
-              await deleteCourse(courseToDelete?._id, {
-                onSuccess: () => {
-                  setCourseToDelete(null);
-                  showToast(
-                    "success",
-                    `${courseToDelete?.name} با موفقیت حذف شد`
-                  );
-                },
-              })
-            }
+            onConfirm={handleDelete}
           />
         </Modal>
       )}

@@ -8,6 +8,7 @@ import useCourses from "../hooks/useCourses";
 import { useToast } from "../context/useToastContext";
 import Loading from "../ui/Loading";
 import { Outlet, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
 const customTheme = createTheme({
   button: {
@@ -23,14 +24,18 @@ function Courses() {
   const { showToast } = useToast();
   const location = useLocation();
 
-  const isCourseDetailPage = location.pathname !== "/courses";
+  const isCourseDetailPage = location.pathname.startsWith("/courses/");
+
+  useEffect(() => {
+    if (isError) {
+      showToast(
+        "error",
+        error?.response?.data?.message || "بارگذاری با خطا مواجه شد"
+      );
+    }
+  }, [isError, error, showToast]);
 
   if (isLoading) return <Loading />;
-  if (isError)
-    return showToast(
-      "error",
-      error?.response?.data?.message || "بارگذاری با خطا مواجه شد"
-    );
 
   return (
     <div className="container">

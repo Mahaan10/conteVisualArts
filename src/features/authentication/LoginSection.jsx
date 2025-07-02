@@ -121,7 +121,11 @@ function LoginSection({
               {errors.contact.message}
             </p>
           )}
-          <button className="btn mt-4" type="submit" disabled={!isValid}>
+          <button
+            className="btn mt-4"
+            type="submit"
+            disabled={!isValid || isLoggedInLoading}
+          >
             {isLoggedInLoading ? <Loader /> : "ارسال کد تایید"}
           </button>
         </>
@@ -135,7 +139,10 @@ function LoginSection({
             </p>
             <button
               className="btn flex items-center justify-center gap-x-6"
-              onClick={() => setContactSubmitted(false)}
+              onClick={() => {
+                setContactSubmitted(false);
+                setOtp("");
+              }}
             >
               ویرایش
               <CiEdit className="w-5 h-5" />
@@ -163,7 +170,7 @@ function LoginSection({
             <button
               className="btn mt-2"
               onClick={() => {
-                handleSendOTP({ contact });
+                handleSendOTP({ contact: getValues("contact") });
                 setResendTime(RESEND_TIME);
               }}
               type="button"
@@ -171,7 +178,12 @@ function LoginSection({
               {isLoggedInLoading ? <Loader /> : "ارسال مجدد کد"}
             </button>
           )}
-          <button className="btn mt-4" type="button" onClick={handleVerifyOTP}>
+          <button
+            className="btn mt-4"
+            type="button"
+            onClick={handleVerifyOTP}
+            disabled={isLoggedInLoading}
+          >
             {isLoggedInLoading ? <Loader /> : "تایید کد"}
           </button>
         </>

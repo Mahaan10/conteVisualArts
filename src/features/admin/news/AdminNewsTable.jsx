@@ -10,6 +10,7 @@ import useNews from "../../../hooks/useNews";
 import useDeleteNews from "../../../hooks/useDeleteNews";
 import AdminNewsRow from "./AdminNewsRow";
 import NewsForm from "./NewsForm";
+import NotFound from "../../../ui/NotFound";
 
 function AdminNewsTable() {
   const { news, error, isError, isLoading } = useNews();
@@ -17,17 +18,25 @@ function AdminNewsTable() {
   const [newsToEdit, setNewsToEdit] = useState(null);
   const [newsToDelete, setNewsToDelete] = useState(null);
   const { showToast } = useToast();
+
   const { currentData, currentPage, totalPages, goToPage } = usePagination(
     news,
     6
   );
   console.log(news);
   if (isLoading) return <Loader />;
-  if (isError)
-    return showToast(
-      "error",
-      error?.response?.data?.message || "اطلاعات یافت نشد"
-    );
+  if (isError) {
+    showToast("error", error?.response?.data?.message || "اطلاعات یافت نشد");
+    return <NotFound />;
+  }
+
+  const handleDelete = async () =>
+    await deleteNews(newsToDelete?._id, {
+      onSuccess: () => {
+        setNewsToDelete(null);
+        showToast("success", `${newsToDelete?.title} با موفقیت حذف شد`);
+      },
+    });
 
   return (
     <>
@@ -75,17 +84,7 @@ function AdminNewsTable() {
             isDeleting={isDeletingNews}
             disabled={false}
             onClose={() => setNewsToDelete(null)}
-            onConfirm={async () =>
-              await deleteNews(newsToDelete?._id, {
-                onSuccess: () => {
-                  setNewsToDelete(null);
-                  showToast(
-                    "success",
-                    `${newsToDelete?.title} با موفقیت حذف شد`
-                  );
-                },
-              })
-            }
+            onConfirm={handleDelete}
           />
         </Modal>
       )}

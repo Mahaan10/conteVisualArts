@@ -51,11 +51,8 @@ function CompleteProfile({ contact, onClose }) {
     const newUser = {
       name: data.name,
       ...(isPhone ? { phone: contact } : { email: contact }),
-      ...(isPhone && data.email
-        ? { email: data.email }
-        : isEmail && data.phone
-        ? { phone: data.phone }
-        : null),
+      ...(isPhone && data.email ? { email: data.email } : {}),
+      ...(isEmail && data.phone ? { phone: data.phone } : {}),
     };
     await createNewUser(newUser);
     onClose();

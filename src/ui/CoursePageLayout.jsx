@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom";
-import useSingleCourse from "../../hooks/useSingleCourse";
+import useSingleCourse from "../hooks/useSingleCourse";
 import { PiGraduationCapLight } from "react-icons/pi";
-import Loading from "../../ui/Loading";
-import { useToast } from "../../context/useToastContext";
+import Loading from "./Loading";
+import { useToast } from "../context/useToastContext";
 import { BsClockHistory, BsCheckAll } from "react-icons/bs";
 import { TbUsers, TbClockCheck } from "react-icons/tb";
 import { FaRegCommentDots } from "react-icons/fa6";
@@ -17,17 +17,18 @@ import {
   ThemeProvider,
 } from "flowbite-react";
 import { useRef, useState } from "react";
-import Modal from "../../ui/Modal";
-import Comments from "../../ui/Comments";
+import Modal from "./Modal";
+import Comments from "./Comments";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { Autoplay } from "swiper/modules";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
-import useOutsideClick from "../../hooks/useOutsideClick";
-import formattedDate from "../../utils/formattedDate";
-import { useCart } from "../../context/useShoppingCardContext";
+import useOutsideClick from "../hooks/useOutsideClick";
+import formattedDate from "../utils/formattedDate";
+import { useCart } from "../context/useShoppingCardContext";
+import NotFound from "./NotFound";
 
 const customTheme = createTheme({
   modal: {
@@ -51,7 +52,8 @@ function CoursePageLayout() {
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [preview, setPreview] = useState(null);
   const [previewIndex, setPreviewIndex] = useState(0);
-  const swiperRef = useRef(null);
+  const imageSwiperRef = useRef(null);
+  const reviewSwiperRef = useRef(null);
   const { id } = useParams();
   const { showToast } = useToast();
   const { course, error, isError, isLoading } = useSingleCourse(id);
@@ -81,11 +83,10 @@ function CoursePageLayout() {
   };
 
   if (isLoading) return <Loading />;
-  if (isError)
-    return showToast(
-      "error",
-      error?.response?.data?.message || "خطا در بارگذاری"
-    );
+  if (isError) {
+    showToast("error", error?.response?.data?.message || "خطا در بارگذاری");
+    return <NotFound />;
+  }
 
   return (
     <>
@@ -248,13 +249,13 @@ function CoursePageLayout() {
                 >
                   <button
                     className="border border-almond-cookie hover:bg-almond-cookie dark:hover:bg-dark-cerulean transition-colors duration-300 dark:border-dark-cerulean/50 p-2 rounded-full cursor-pointer"
-                    onClick={() => swiperRef.current?.slidePrev()}
+                    onClick={() => imageSwiperRef.current?.slidePrev()}
                   >
                     <FiChevronRight className="w-5 h-5" />
                   </button>
                   <button
                     className="border border-almond-cookie hover:bg-almond-cookie dark:hover:bg-dark-cerulean transition-colors duration-300 dark:border-dark-cerulean/50 p-2 rounded-full cursor-pointer"
-                    onClick={() => swiperRef.current?.slideNext()}
+                    onClick={() => imageSwiperRef.current?.slideNext()}
                   >
                     <FiChevronLeft className="w-5 h-5" />
                   </button>
@@ -263,7 +264,7 @@ function CoursePageLayout() {
             </div>
             <Swiper
               modules={[Autoplay]}
-              onSwiper={(swiper) => (swiperRef.current = swiper)}
+              onSwiper={(swiper) => (imageSwiperRef.current = swiper)}
               autoplay={{ delay: 8000, disableOnInteraction: false }}
               spaceBetween={25}
               loop
@@ -314,13 +315,13 @@ function CoursePageLayout() {
               >
                 <button
                   className="border border-almond-cookie hover:bg-almond-cookie dark:hover:bg-dark-cerulean transition-colors duration-300 dark:border-dark-cerulean/50 p-2 rounded-full cursor-pointer"
-                  onClick={() => swiperRef.current?.slidePrev()}
+                  onClick={() => reviewSwiperRef.current?.slidePrev()}
                 >
                   <FiChevronRight className="w-5 h-5" />
                 </button>
                 <button
                   className="border border-almond-cookie hover:bg-almond-cookie dark:hover:bg-dark-cerulean transition-colors duration-300 dark:border-dark-cerulean/50 p-2 rounded-full cursor-pointer"
-                  onClick={() => swiperRef.current?.slideNext()}
+                  onClick={() => reviewSwiperRef.current?.slideNext()}
                 >
                   <FiChevronLeft className="w-5 h-5" />
                 </button>
@@ -328,7 +329,7 @@ function CoursePageLayout() {
             </div>
             <Swiper
               modules={[Autoplay]}
-              onSwiper={(swiper) => (swiperRef.current = swiper)}
+              onSwiper={(swiper) => (reviewSwiperRef.current = swiper)}
               autoplay={{ delay: 8000, disableOnInteraction: false }}
               spaceBetween={25}
               loop
@@ -351,7 +352,9 @@ function CoursePageLayout() {
                 <SwiperSlide key={review?._id}>
                   <div className="p-4 bg-transparent rounded-lg border text-sm shadow-xl dark:shadow-black dark:border-grayish-violet/50 border-almond-cookie/50 h-64 flex flex-col">
                     <div className="flex items-center justify-between gap-x-2">
-                      <span className="font-bold">{review.user.name}</span>
+                      <span className="font-bold">
+                        {review?.user?.name || "ناشناس"}
+                      </span>
                       <Rating>
                         {[1, 2, 3, 4, 5].map((star) => (
                           <RatingStar

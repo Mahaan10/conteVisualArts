@@ -37,13 +37,25 @@ function Home() {
     });
   }, []);
 
+  useEffect(() => {
+    if (isError || newsIsError || studentWorksIsError) {
+      showToast(
+        "error",
+        (error || newsError || studentWorksError)?.response?.data?.message ||
+          "بارگذاری با خطا مواجه شد"
+      );
+    }
+  }, [
+    isError,
+    newsIsError,
+    studentWorksIsError,
+    error,
+    newsError,
+    studentWorksError,
+    showToast,
+  ]);
+
   if (isLoading || isNewsLoading || studentWorksLoading) return <Loading />;
-  if (isError || newsIsError || studentWorksIsError)
-    return showToast(
-      "error",
-      (error || newsError || studentWorksError)?.response?.data?.message ||
-        "بارگذاری با خطا مواجه شد"
-    );
 
   return (
     <div className="p-2 sm:p-4 md:p-8 h-auto max-w-screen-xl mx-auto">

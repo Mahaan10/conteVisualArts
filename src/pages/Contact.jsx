@@ -3,7 +3,6 @@ import { PiInfo, PiInstagramLogo, PiTelegramLogo } from "react-icons/pi";
 import { AiOutlinePhone } from "react-icons/ai";
 import { LiaFaxSolid } from "react-icons/lia";
 import { HiOutlineEnvelope } from "react-icons/hi2";
-import { Link } from "react-router-dom";
 
 function Contact() {
   const iconClass =
@@ -15,7 +14,7 @@ function Contact() {
       name: "Phone",
       desc: "02166957831",
       icon: <AiOutlinePhone className={`${iconClass}`} />,
-      to: "",
+      to: "tel:02166957831",
     },
     {
       id: 2,
@@ -29,7 +28,7 @@ function Contact() {
       name: "Email",
       desc: "conteschool@yahoo.com",
       icon: <HiOutlineEnvelope className={`${iconClass}`} />,
-      to: "",
+      to: "mailto:conteschool@yahoo.com",
     },
   ];
 
@@ -94,7 +93,13 @@ function Contact() {
           >
             <div className="flex flex-col gap-y-6">
               {socialLinks1.map((social) => (
-                <Link key={social.id} to={social.to} className="group">
+                <a
+                  key={social.id}
+                  href={social.to}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group"
+                >
                   <div className="flex flex-row-reverse items-center gap-x-2 py-2">
                     {social.icon}
                     <div className="flex flex-col">
@@ -104,12 +109,18 @@ function Contact() {
                       </span>
                     </div>
                   </div>
-                </Link>
+                </a>
               ))}
             </div>
             <div className="flex flex-col gap-y-6">
               {socialLinks2.map((social) => (
-                <Link key={social.id} to={social.to} className="group">
+                <a
+                  key={social.id}
+                  href={social.to}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group"
+                >
                   <div className="flex flex-row-reverse items-center gap-x-2 py-2">
                     {social.icon}
                     <div className="flex flex-col">
@@ -119,7 +130,7 @@ function Contact() {
                       </span>
                     </div>
                   </div>
-                </Link>
+                </a>
               ))}
             </div>
           </div>

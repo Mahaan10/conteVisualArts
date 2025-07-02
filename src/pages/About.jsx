@@ -8,7 +8,11 @@ function About() {
           <HiOutlineUsers className="w-7 h-7" />
           <p className="text-lg">درباره ما</p>
         </div>
-        <div className="my-10 p-1 bg-linear-180 dark:from-dark-cerulean dark:to-grayish-violet from-butter-caramel to-golden-sand transition-colors duration-300 rounded-md shadow-2xl ">
+        <div
+          className="my-10 p-1 bg-linear-180 dark:from-dark-cerulean dark:to-grayish-violet from-butter-caramel to-golden-sand transition-colors duration-300 rounded-md shadow-2xl"
+          data-aos="fade-up"
+          data-aos-duration="1000"
+        >
           <div className="px-10 py-5 bg-gray-100 dark:bg-gray-950 leading-8 text-center text-sm md:text-base md:text-justify">
             <p className="">
               آموزشگاه هنرهای تجسمی کنته در شریعتی محدوده قلهک یکی از بهترین

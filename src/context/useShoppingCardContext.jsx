@@ -18,7 +18,7 @@ export default function ShoppingCardProvider({ children }) {
     setCardItems((prev) => {
       const isExists = prev.find((item) => item._id === course._id);
       if (isExists) {
-        showToast("warning", "این دوره در سبد خرید شما وحود دارد");
+        showToast("warning", "این دوره در سبد خرید شما وجود دارد");
         return prev;
       }
       return [...prev, course];

@@ -1,7 +1,7 @@
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
 
 function Pagination({ currentPage, totalPages, onPageChange }) {
-  if (totalPages === 0) return null;
+  if (totalPages <= 1) return null;
 
   const handlePrev = () => {
     if (currentPage > 1) onPageChange(currentPage - 1);

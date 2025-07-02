@@ -96,8 +96,8 @@ function CourseCards({ array }) {
             </div>
 
             <div className="flex flex-col flex-grow gap-y-3 h-full">
-              <div className="flex line-clamp-2">
-                <h5 className="font-semibold text-base tracking-tight">
+              <div className="line-clamp-2 min-h-[3.2rem]">
+                <h5 className="font-semibold text-sm sm:text-base tracking-tight">
                   {arr.name}
                 </h5>
               </div>
@@ -111,7 +111,7 @@ function CourseCards({ array }) {
                 <span>ظرفیت باقی مانده:</span>
                 <span>{arr.availableSeats} نفر</span>
               </div>
-              <p className="text-gray-700 dark:text-gray-400 text-xs line-clamp-2 flex-grow">
+              <p className="text-gray-700 dark:text-gray-400 text-xs line-clamp-3 min-h-[3rem]">
                 {arr.description}
               </p>
 

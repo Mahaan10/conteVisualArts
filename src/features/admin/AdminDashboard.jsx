@@ -11,6 +11,8 @@ import useNews from "../../hooks/useNews";
 import { Loader } from "../../ui/Loading";
 import { useToast } from "../../context/useToastContext";
 import useReviews from "../../hooks/useReviews";
+import { useEffect } from "react";
+import NotFound from "../../ui/NotFound";
 
 function AdminDashboard() {
   const { users, error, isError, isLoading } = useUsers();
@@ -36,9 +38,50 @@ function AdminDashboard() {
     reviews,
     isLoading: reviewsIsLoading,
     isError: reviewsIsError,
-    errro: reviewsError,
+    error: reviewsError,
   } = useReviews();
   const { showToast } = useToast();
+
+  useEffect(() => {
+    if (
+      isError ||
+      coursesIsError ||
+      studentWorksIsError ||
+      newsIsError ||
+      reviewsIsError
+    ) {
+      showToast(
+        "error",
+        error?.response?.data?.message ||
+          newsError?.response?.data?.message ||
+          studentWorksError?.response?.data?.message ||
+          coursesError?.response?.data?.message ||
+          reviewsError?.response?.data?.message ||
+          "اطلاعات یافت نشد"
+      );
+    }
+  }, [
+    isError,
+    coursesIsError,
+    studentWorksIsError,
+    newsIsError,
+    reviewsIsError,
+    error,
+    newsError,
+    studentWorksError,
+    coursesError,
+    reviewsError,
+    showToast,
+  ]);
+
+  if (
+    isError ||
+    coursesIsError ||
+    studentWorksIsError ||
+    newsIsError ||
+    reviewsIsError
+  )
+    return <NotFound />;
 
   if (
     isLoading ||
@@ -48,23 +91,6 @@ function AdminDashboard() {
     reviewsIsLoading
   )
     return <Loader />;
-
-  if (
-    isError ||
-    coursesIsError ||
-    studentWorksIsError ||
-    newsIsError ||
-    reviewsIsError
-  )
-    return showToast(
-      "error",
-      error?.response?.data?.message ||
-        newsError?.response?.data?.message ||
-        studentWorksError?.response?.data?.message ||
-        coursesError?.response?.data?.message ||
-        reviewsError?.response?.data?.message ||
-        "اطلاعات یافت نشد"
-    );
 
   const totalEnrolledStudents = courses.reduce(
     (total, course) => total + course.enrolledStudents.length,

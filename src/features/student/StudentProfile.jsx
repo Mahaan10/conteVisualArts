@@ -15,6 +15,7 @@ import useOutsideClick from "../../hooks/useOutsideClick";
 import useEditUser from "../../hooks/useEditUser";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import NotFound from "../../ui/NotFound";
 
 const schema = yup.object().shape({
   name: yup.string().required("وارد کردن نام ونام خانوادگی الزامیست"),
@@ -144,11 +145,13 @@ function StudentProfile() {
     showToast("success", "موفق");
   }; */
 
-  if (isError || !token)
-    return showToast(
+  if (isError || !token) {
+    showToast(
       "error",
       error?.response?.data?.message || "اطلاعات کاربری یافت نشد"
     );
+    return <NotFound />;
+  }
 
   if (isLoading) return <Loading />;
 

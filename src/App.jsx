@@ -9,7 +9,7 @@ import News from "./pages/News";
 import StudentWorks from "./pages/StudentWorks";
 import Contact from "./pages/Contact";
 import About from "./pages/About";
-import CoursePageLayout from "./features/course/CoursePageLayout";
+import CoursePageLayout from "./ui/CoursePageLayout";
 import ProtectedRoute from "./ui/ProtectedRoute";
 import AppLayout from "./ui/AppLayout";
 import StudentProfile from "./features/student/StudentProfile";
@@ -23,6 +23,7 @@ import AdminUsers from "./features/admin/users/AdminUsers";
 import { HelmetProvider } from "react-helmet-async";
 import AppInitializer from "./ui/AppInitializer";
 import NewsPageLayout from "./ui/NewsPageLayout";
+import NotFound from "./ui/NotFound";
 
 function App() {
   const queryClient = new QueryClient();
@@ -45,7 +46,10 @@ function App() {
                   </Route>
                   <Route path="contact" element={<Contact />} />
                   <Route path="about" element={<About />} />
-                  <Route path="student" element={<ProtectedRoute />}>
+                  <Route
+                    path="student"
+                    element={<ProtectedRoute allowedRoles="student" />}
+                  >
                     <Route element={<AppLayout />}>
                       <Route
                         index
@@ -76,6 +80,7 @@ function App() {
                     </Route>
                   </Route>
                 </Route>
+                <Route path="*" element={<NotFound />} />
               </Routes>
             </AppInitializer>
           </HelmetProvider>

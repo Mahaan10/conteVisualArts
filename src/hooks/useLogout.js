@@ -12,7 +12,7 @@ export default function useLogout() {
   const { isPending: isLoggedOut, mutateAsync: logout } = useMutation({
     mutationFn: logoutApi,
     onSuccess: () => {
-      queryClient.removeQueries();
+      queryClient.clear();
       Cookies.remove("token");
       setToken(null);
       showToast("success", "با موفقیت خارج شدید");

@@ -1,4 +1,4 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { Navigate, NavLink, Outlet } from "react-router-dom";
 import { useGetUser } from "../context/useGetUserContext";
 import { CiEdit } from "react-icons/ci";
 import { TbSmartHome } from "react-icons/tb";
@@ -10,16 +10,23 @@ import useLogout from "../hooks/useLogout";
 import { SiCountingworkspro } from "react-icons/si";
 import { FiUsers } from "react-icons/fi";
 
+const getNavLinkClass = ({ isActive }) =>
+  isActive
+    ? "bg-almond-cookie dark:bg-dark-cerulean flex items-center gap-x-2 hover:bg-golden-sand dark:hover:bg-purple-plumeria px-2 py-3 rounded-lg transition-all duration-300 w-full"
+    : "hover:bg-golden-sand dark:hover:bg-purple-plumeria flex items-center gap-x-2 px-2 py-3 rounded-lg transition-all duration-300 w-full";
+
 function AppLayout() {
   const { user, isLoading, isError, error, token } = useGetUser();
   const { isLoggedOut, logout } = useLogout();
   const { showToast } = useToast();
 
-  if (isError || !token)
-    return showToast(
+  if (isError || !token) {
+    showToast(
       "error",
       error?.response?.data?.message || "اطلاعات کاربری یافت نشد"
     );
+    return <Navigate to="/" replace />;
+  }
 
   if (isLoading) return <Loading />;
 
@@ -39,11 +46,7 @@ function AppLayout() {
                   ? "/student/profile"
                   : "/admin/dashboard"
               }`}
-              className={({ isActive }) =>
-                isActive
-                  ? "bg-almond-cookie dark:bg-dark-cerulean flex items-center gap-x-2 hover:bg-golden-sand dark:hover:bg-purple-plumeria px-2 py-3 rounded-lg transition-all duration-300 w-full"
-                  : "hover:bg-golden-sand dark:hover:bg-purple-plumeria flex items-center gap-x-2 px-2 py-3 rounded-lg transition-all duration-300 w-full"
-              }
+              className={getNavLinkClass}
             >
               <TbSmartHome className="w-5 h-5" />
               <span>داشبورد</span>
@@ -54,11 +57,7 @@ function AppLayout() {
               to={`${
                 user?.role === "student" ? "/student/courses" : "/admin/courses"
               }`}
-              className={({ isActive }) =>
-                isActive
-                  ? "bg-almond-cookie dark:bg-dark-cerulean flex items-center gap-x-2 hover:bg-golden-sand dark:hover:bg-purple-plumeria px-2 py-3 rounded-lg transition-all duration-300 w-full"
-                  : "hover:bg-golden-sand dark:hover:bg-purple-plumeria flex items-center gap-x-2 px-2 py-3 rounded-lg transition-all duration-300 w-full"
-              }
+              className={getNavLinkClass}
             >
               <BsFolder2Open className="w-5 h-5" />
               <span>
@@ -118,11 +117,7 @@ function AppLayout() {
                   ? "/student/payments"
                   : "/admin/payments"
               }`}
-              className={({ isActive }) =>
-                isActive
-                  ? "bg-almond-cookie dark:bg-dark-cerulean flex items-center gap-x-2 hover:bg-golden-sand dark:hover:bg-purple-plumeria px-2 py-3 rounded-lg transition-all duration-300 w-full"
-                  : "hover:bg-golden-sand dark:hover:bg-purple-plumeria flex items-center gap-x-2 px-2 py-3 rounded-lg transition-all duration-300 w-full"
-              }
+              className={getNavLinkClass}
             >
               <HiOutlineAdjustmentsVertical className="w-5 h-5" />
               <span>

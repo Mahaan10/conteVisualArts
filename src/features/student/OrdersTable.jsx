@@ -1,24 +1,33 @@
+import { useEffect } from "react";
 import { useGetUser } from "../../context/useGetUserContext";
 import { useToast } from "../../context/useToastContext";
 import { Loader } from "../../ui/Loading";
 import Table from "../../ui/Table";
 import OrdersRow from "./OrdersRow";
+import NotFound from "../../ui/NotFound";
 
 function OrdersTable() {
   const { user, isLoading, isError, error, token } = useGetUser();
   const { showToast } = useToast();
 
-  if (isError || !token)
-    return showToast(
-      "error",
-      error?.response?.data?.message || "اطلاعات کاربری یافت نشد"
-    );
+  useEffect(() => {
+    if (isError || !token) {
+      showToast(
+        "error",
+        error?.response?.data?.message || "اطلاعات کاربری یافت نشد"
+      );
+    }
+  }, [isError, token, error, showToast]);
+
+  if (isError || !token) {
+    return <NotFound />;
+  }
 
   if (isLoading) return <Loader />;
 
   return (
     <>
-      {user?.enrolledCourses.length === 0 ? (
+      {!user?.enrolledCourses.length ? (
         <p>شما هنوز سفارشی ثبت نکرده اید.</p>
       ) : (
         <Table>

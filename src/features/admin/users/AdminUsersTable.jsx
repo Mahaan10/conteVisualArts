@@ -10,6 +10,7 @@ import useUsers from "../../../hooks/useUsers";
 import useDeleteUser from "../../../hooks/useDeleteUser";
 import AdminUsersRow from "./AdminUsersRow";
 import UsersForm from "./UsersForm";
+import NotFound from "../../../ui/NotFound";
 
 function AdminUsersTable() {
   const { users, error, isError, isLoading } = useUsers();
@@ -17,7 +18,8 @@ function AdminUsersTable() {
   const [userToEdit, setUserToEdit] = useState(null);
   const [userToDelete, setUserToDelete] = useState(null);
   const { showToast } = useToast();
-  const sortUsers = users.filter((user) => user?.role === "student");
+
+  const sortUsers = users?.filter((user) => user?.role === "student") || [];
 
   const { currentData, currentPage, totalPages, goToPage } = usePagination(
     sortUsers,
@@ -25,11 +27,21 @@ function AdminUsersTable() {
   );
   //console.log(users);
   if (isLoading) return <Loader />;
-  if (isError)
-    return showToast(
-      "error",
-      error?.response?.data?.message || "اطلاعات یافت نشد"
-    );
+  if (isError) {
+    showToast("error", error?.response?.data?.message || "اطلاعات یافت نشد");
+    return <NotFound />;
+  }
+
+  const handleDelete = async () => {
+    await deleteUser(userToDelete?._id, {
+      onSuccess: () => {
+        showToast("success", `${userToDelete?.name} با موفقیت حذف شد`);
+        setUserToDelete(null);
+      },
+      onError: (err) =>
+        showToast("error", err?.response?.data?.message || "حذف انجام نشد"),
+    });
+  };
 
   return (
     <>
@@ -77,17 +89,7 @@ function AdminUsersTable() {
             isDeleting={isDeletingUser}
             disabled={false}
             onClose={() => setUserToDelete(null)}
-            onConfirm={async () =>
-              await deleteUser(userToDelete?._id, {
-                onSuccess: () => {
-                  setUserToDelete(null);
-                  showToast(
-                    "success",
-                    `${userToDelete?.name} با موفقیت حذف شد`
-                  );
-                },
-              })
-            }
+            onConfirm={handleDelete}
           />
         </Modal>
       )}

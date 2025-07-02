@@ -10,6 +10,7 @@ import useStudentWorks from "../../../hooks/useStudentWorks";
 import useDeleteStudentWorks from "../../../hooks/useDeleteStudentWorks";
 import AdminStudentWorksRow from "./AdminStudentWorksRow";
 import StudentWorksForm from "./StudentWorksForm";
+import NotFound from "../../../ui/NotFound";
 
 function AdminStudentWorksTable() {
   const { studentWorks, error, isError, isLoading } = useStudentWorks();
@@ -17,17 +18,29 @@ function AdminStudentWorksTable() {
   const [artWorkToEdit, setArtWorkToEdit] = useState(null);
   const [artWorkToDelete, setArtWorkToDelete] = useState(null);
   const { showToast } = useToast();
+
   const { currentData, currentPage, totalPages, goToPage } = usePagination(
     studentWorks,
     6
   );
   console.log(studentWorks);
   if (isLoading) return <Loader />;
-  if (isError)
-    return showToast(
-      "error",
-      error?.response?.data?.message || "اطلاعات یافت نشد"
-    );
+  if (isError) {
+    showToast("error", error?.response?.data?.message || "اطلاعات یافت نشد");
+    return <NotFound />;
+  }
+
+  const handleDelete = async () => {
+    await deleteArtWork(artWorkToDelete?._id, {
+      onSuccess: () => {
+        showToast("success", `${artWorkToDelete?.title} با موفقیت حذف شد`);
+        setArtWorkToDelete(null);
+      },
+      onError: (err) => {
+        showToast("error", err?.response?.data?.message || "حذف انجام نشد");
+      },
+    });
+  };
 
   return (
     <>
@@ -75,17 +88,7 @@ function AdminStudentWorksTable() {
             isDeleting={isDeletingArtWork}
             disabled={false}
             onClose={() => setArtWorkToDelete(null)}
-            onConfirm={async () =>
-              await deleteArtWork(artWorkToDelete?._id, {
-                onSuccess: () => {
-                  setArtWorkToDelete(null);
-                  showToast(
-                    "success",
-                    `${artWorkToDelete?.title} با موفقیت حذف شد`
-                  );
-                },
-              })
-            }
+            onConfirm={handleDelete}
           />
         </Modal>
       )}

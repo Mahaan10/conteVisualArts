@@ -7,6 +7,7 @@ import {
 } from "flowbite-react";
 import { useCart } from "../context/useShoppingCardContext";
 import useOutsideClick from "../hooks/useOutsideClick";
+import { HiOutlineTrash } from "react-icons/hi2";
 
 const customTheme = createTheme({
   drawer: {
@@ -42,6 +43,8 @@ const customTheme = createTheme({
 function ShoppingMenu({ isOpen, setIsOpen }) {
   const { cardItems, removeFromCard, totalPrice } = useCart();
   const shoppingMenuRef = useOutsideClick(() => setIsOpen(false));
+
+  console.log(cardItems);
   return (
     <>
       {isOpen && (
@@ -70,6 +73,7 @@ function ShoppingMenu({ isOpen, setIsOpen }) {
                               <img
                                 src={item.Image}
                                 alt={item.name}
+                                loading="lazy"
                                 className="rounded-md"
                               />
                             </div>
@@ -84,9 +88,9 @@ function ShoppingMenu({ isOpen, setIsOpen }) {
                         </div>
                         <button
                           onClick={() => removeFromCard(item._id)}
-                          className="bg-red-500 p-2 rounded-lg text-xs cursor-pointer hover:bg-red-400 dark:hover:bg-red-600 transition-colors duration-300"
+                          className="text-red-500 rounded-lg text-xs cursor-pointer hover:text-red-600 transition-colors duration-300"
                         >
-                          حذف
+                          <HiOutlineTrash className="w-6 h-6" />
                         </button>
                       </li>
                     ))}
@@ -100,7 +104,7 @@ function ShoppingMenu({ isOpen, setIsOpen }) {
                     </div>
                     <button
                       className="w-full bg-almond-cookie hover:bg-golden-sand text-black font-bold py-2 rounded-lg transition-colors duration-300 dark:bg-dark-cerulean cursor-pointer dark:text-white dark:hover:bg-purple-plumeria"
-                      onClick={() => alert("درگاه پرداخت پیاده‌سازی شود")}
+                      onClick={() => alert("درگاه پرداخت")}
                     >
                       پرداخت
                     </button>

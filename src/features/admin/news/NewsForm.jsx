@@ -194,7 +194,7 @@ function NewsForm({ onClose, newsToEdit = {} }) {
           <div id="fileUpload" className="relative w-full max-w-md">
             <FileInput
               sizing="sm"
-              accept="Image/*"
+              accept="image/*"
               name="Image"
               onChange={(e) =>
                 setValue("Image", e.target.files, { shouldValidate: true })

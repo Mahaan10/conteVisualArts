@@ -50,11 +50,10 @@ function FooterSection() {
   const { showToast } = useToast();
 
   if (isLoading) return <Loader />;
-  if (isError)
-    return showToast(
-      "error",
-      error?.response?.data?.message || "خطا در بارگذاری"
-    );
+  if (isError) {
+    showToast("error", error?.response?.data?.message || "خطا در بارگذاری");
+    return null;
+  }
 
   if (courses.length === 0 || !courses) {
     return <div className="text-center mt-4">دوره‌ای یافت نشد</div>;
@@ -119,27 +118,27 @@ function FooterSection() {
                     <div className="flex flex-col gap-y-4 text-xs sm:text-sm">
                       <div className="flex gap-x-2 opacity-50">
                         <span>تلفن:</span>
-                        <Link
-                          to="tel:+9802166957831"
+                        <a
+                          href="tel:+9802166957831"
                           target="_blank"
                           rel="noopener noreferrer"
                         >
                           021-66957831
-                        </Link>
+                        </a>
                       </div>
                       <div className="flex gap-x-2 opacity-50">
                         <span>فکس:</span>
-                        <Link to="">021-66958237</Link>
+                        <a href="">021-66958237</a>
                       </div>
                       <div className="flex gap-x-2 opacity-50">
                         <span>ایمیل:</span>
-                        <Link
-                          to="mailto:conteschool@yahoo.com"
+                        <a
+                          href="mailto:conteschool@yahoo.com"
                           target="_blank"
                           rel="noopener noreferrer"
                         >
                           conteschool@yahoo.com
-                        </Link>
+                        </a>
                       </div>
                       <div className="flex items-center gap-x-4">
                         <FooterIcon href="/courses" icon={PiInstagramLogo} />

@@ -23,9 +23,9 @@ function PagesLayout() {
         <ShoppingCardProvider>
           <div className="bg-whitesmoke dark:bg-slate-950 dark:text-whitesmoke text-gray-900 rounded-lg transition-colors duration-300 overflow-x-hidden">
             <Header />
-            <div className="max-w-[1920px] mx-auto">
+            <main className="max-w-[1920px] mx-auto">
               <Outlet />
-            </div>
+            </main>
             <FooterSection />
           </div>
         </ShoppingCardProvider>

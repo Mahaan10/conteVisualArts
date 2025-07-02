@@ -19,9 +19,9 @@ const customTheme = createTheme({
     },
   },
   button: {
-    base: "w-full max-w-md mx-auto rounded-lg cursor-pointer",
+    base: "gap-x-3",
     outlineColor: {
-      dark: "dark:hover:text-whitesmoke hover:text-gray-800 hover:bg-golden-sand transition-colors duration-300 text-xs",
+      dark: "dark:hover:text-whitesmoke cursor-pointer transition-colors duration-300 text-xs",
     },
   },
   modal: {
@@ -73,12 +73,14 @@ function StudentWorksCards({ array }) {
           data-aos="fade-up"
           data-aos-duration="1000"
         >
-          <h5 className="text-xl font-semibold tracking-tight line-clamp-2">
-            {arr.title}
-          </h5>
-          <h1 className="text-gray-700 dark:text-gray-400 text-xs text-ellipsis overflow-hidden line-clamp-2">
+          <div className="line-clamp-2 min-h-[3.2rem]">
+            <h5 className="font-semibold text-sm sm:text-base tracking-tight">
+              {arr.title}
+            </h5>
+          </div>
+          <p className="text-gray-700 dark:text-gray-400 text-xs line-clamp-3 min-h-[3rem]">
             {arr?.description}
-          </h1>
+          </p>
 
           <div className="flex items-center justify-between">
             <p>{arr?.student?.name}</p>

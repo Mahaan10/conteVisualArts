@@ -12,9 +12,9 @@ const customTheme = createTheme({
     },
   },
   button: {
-    base: "w-full max-w-md mx-auto rounded-lg cursor-pointer gap-x-3",
+    base: "gap-x-3",
     outlineColor: {
-      dark: "dark:hover:text-whitesmoke hover:text-gray-800 hover:bg-golden-sand transition-colors duration-300 text-xs",
+      dark: "dark:hover:text-whitesmoke cursor-pointer transition-colors duration-300 text-xs",
     },
   },
 });
