@@ -4,6 +4,10 @@ export default function getAllNewsApi() {
   return http.get("/news").then(({ data }) => data.data);
 }
 
+export function getSingleNewsApi(id) {
+  return http.get(`/news/${id}`).then(({ data }) => data.data);
+}
+
 export function createNewNewsApi(newNews) {
   return http
     .post("/news", newNews, {

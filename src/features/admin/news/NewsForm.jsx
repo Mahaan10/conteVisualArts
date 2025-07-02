@@ -37,7 +37,7 @@ const customTheme = createTheme({
     },
   },
   button: {
-    base: "w-full max-w-md mx-auto rounded-lg",
+    base: "w-full max-w-md mx-auto rounded-lg cursor-pointer",
   },
 });
 

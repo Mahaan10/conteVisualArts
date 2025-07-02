@@ -75,6 +75,11 @@ function CoursePageLayout() {
     setPreview(course?.courseImages[newIndex]);
   };
 
+  const handleAddToCard = (course) => {
+    addToCard(course);
+    showToast("success", `${course.name} به سبد خرید اضافه شد`);
+  };
+
   if (isLoading) return <Loading />;
   if (isError)
     return showToast(
@@ -84,7 +89,14 @@ function CoursePageLayout() {
 
   return (
     <>
-      <div className="my-10 mx-4">
+      <div className="my-10 mx-4 relative">
+        {/* Add to card mobile view */}
+        <button
+          className="fixed bottom-0 z-40 bg-almond-cookie hover:bg-golden-sand dark:hover:bg-dark-purple dark:bg-purple-plumeria w-[95%] mx-auto right-0 left-0 py-3 cursor-pointer text-sm sm:hidden"
+          onClick={() => handleAddToCard(course)}
+        >
+          افزودن به سبد خرید
+        </button>
         <div
           className="flex items-center gap-x-2 mb-10"
           data-aos="fade-right"
@@ -211,8 +223,8 @@ function CoursePageLayout() {
             <span>ثبت دیدگاه</span>
           </button>
           <button
-            className="btn py-3.5 bg-transparent border dark:border-moderate-violet justify-center gap-x-4 dark:hover:bg-purple-plumeria hover:border-transparent border-butter-caramel hover:bg-golden-sand w-48"
-            onClick={() => addToCard(course)}
+            className="btn py-3.5 bg-transparent border dark:border-moderate-violet justify-center gap-x-4 dark:hover:bg-purple-plumeria hover:border-transparent border-butter-caramel hover:bg-golden-sand w-48 hidden sm:flex"
+            onClick={() => handleAddToCard(course)}
           >
             افزودن به سبد خرید
           </button>

@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { useToast } from "./useToastContext";
 
 const ShoppingCardContext = createContext();
 
@@ -7,6 +8,7 @@ export default function ShoppingCardProvider({ children }) {
     const stored = localStorage.getItem("shoppingCard");
     return stored ? JSON.parse(stored) : [];
   });
+  const { showToast } = useToast();
 
   useEffect(() => {
     localStorage.setItem("shoppingCard", JSON.stringify(cardItems));
@@ -15,7 +17,10 @@ export default function ShoppingCardProvider({ children }) {
   const addToCard = (course) => {
     setCardItems((prev) => {
       const isExists = prev.find((item) => item._id === course._id);
-      if (isExists) return prev;
+      if (isExists) {
+        showToast("warning", "این دوره در سبد خرید شما وحود دارد");
+        return prev;
+      }
       return [...prev, course];
     });
   };
