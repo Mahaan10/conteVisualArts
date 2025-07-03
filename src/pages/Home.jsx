@@ -106,7 +106,7 @@ function Home() {
         />
 
         {/* لایه‌ی محتوای روی عکس */}
-        <div className="relative z-10 flex flex-col justify-center items-start h-full p-4 sm:p-8 text-whitesmoke font-hoda">
+        <div className="absolute z-10 flex flex-col justify-center items-start h-full p-4 sm:p-8 text-whitesmoke font-hoda top-[20%] sm:top-[15%] md:top-[5%]">
           <h1
             className="text-lg sm:text-2xl md:text-5xl font-black"
             data-aos="fade-right"
