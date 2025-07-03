@@ -1,5 +1,5 @@
 import { Button, Spinner } from "flowbite-react";
-import { HiArrowRight } from "react-icons/hi";
+import { PiSmileySadFill } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
 
 function NotFound() {
@@ -13,24 +13,24 @@ function NotFound() {
             <h1 className="my-4 dark:text-whitesmoke text-center text-sm font-semibold sm:text-xl">
               مشکلی در نمایش اطلاعات به وجود آمده است
             </h1>
-            <p className="mb-4 dark:text-whitesmoke text-center text-xs font-semibold sm:text-lg flex items-center gap-x-4">
-              <span> لطفا از اتصال اینترنت اطمینان حاصل نمایید</span>
+            <div className="mb-4 dark:text-whitesmoke text-center text-xs font-semibold sm:text-lg flex items-center gap-x-2">
+              <span> لطفا از اتصال اینترنت خود اطمینان حاصل نمایید</span>
               <div className="flex flex-wrap items-center">
-                <Spinner
-                  size="sm"
-                  aria-label="Info spinner example"
-                  className=""
-                  light
-                />
+                <PiSmileySadFill className="w-5 h-5" />
               </div>
-            </p>
-            <button
-              className="flex items-center gap-x-4 text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-600 transition-colors mx-auto cursor-pointer"
-              onClick={() => navigate(-1)}
+            </div>
+            <Button
+              className="cursor-pointer flex items-center gap-x-4 font-semibold mx-auto"
+              color="dark"
+              onClick={() => navigate("/")}
             >
-              <HiArrowRight className="w-6 h-6" />
-              <span>بازگشت</span>
-            </button>
+              <span>تلاش مجدد</span>
+              <Spinner
+                size="sm"
+                aria-label="Info spinner example"
+                color="gray"
+              />
+            </Button>
           </div>
         </div>
       </div>

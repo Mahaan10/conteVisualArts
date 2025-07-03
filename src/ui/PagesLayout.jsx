@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import ShoppingCardProvider from "../context/useShoppingCardContext";
+import FilterProvider from "../context/FilterContext";
 
 function PagesLayout() {
   useEffect(() => {
@@ -21,13 +22,15 @@ function PagesLayout() {
     <div className="bg-linen max-w-screen p-2 md:p-10 font-iran-marker dark:text-whitesmoke dark:bg-dark-purple transition-colors duration-300">
       <GetUserProvider>
         <ShoppingCardProvider>
-          <div className="bg-whitesmoke dark:bg-slate-950 dark:text-whitesmoke text-gray-900 rounded-lg transition-colors duration-300 overflow-x-hidden">
-            <Header />
-            <main className="max-w-[1920px] mx-auto">
-              <Outlet />
-            </main>
-            <FooterSection />
-          </div>
+          <FilterProvider>
+            <div className="bg-whitesmoke dark:bg-slate-950 dark:text-whitesmoke text-gray-900 rounded-lg transition-colors duration-300 overflow-x-hidden">
+              <Header />
+              <main className="max-w-[1920px] mx-auto">
+                <Outlet />
+              </main>
+              <FooterSection />
+            </div>
+          </FilterProvider>
         </ShoppingCardProvider>
       </GetUserProvider>
     </div>

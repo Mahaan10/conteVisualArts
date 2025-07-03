@@ -9,6 +9,7 @@ import {
 } from "flowbite-react";
 import { PiMagnifyingGlassBold } from "react-icons/pi";
 import { TbCategory, TbBorderCorners } from "react-icons/tb";
+import { useFilter } from "../context/FilterContext";
 
 const customTheme = createTheme({
   floatingLabel: {
@@ -33,12 +34,15 @@ const customTheme = createTheme({
       heading: "flex items-center gap-x-1",
     },
     content: {
-      base: "p-2 first:rounded-t-lg last:rounded-b-lg dark:bg-slate-900 bg-gray-100 text-xs cursor-pointer hover:bg-gray-200 dark:hover:bg-slate-950 flex items-center gap-x-2 transition-colors duration-300",
+      base: "p-2 first:rounded-t-lg last:rounded-b-lg dark:bg-gray-900 bg-gray-200 text-xs cursor-pointer hover:bg-gray-200 dark:hover:bg-slate-950 flex items-center gap-x-2 transition-colors duration-300",
     },
   },
 });
 
 function CoursesSidebar() {
+  const { filters, updateSearch, toggleCategory, updateSort } = useFilter();
+  const type = "courses";
+
   return (
     <>
       {/* Sidebar */}
@@ -54,6 +58,8 @@ function CoursesSidebar() {
               label="جستجو بین دوره ها"
               sizing="sm"
               type="text"
+              value={filters[type].search}
+              onChange={(e) => updateSearch(e.target.value, type)}
             />
 
             <button className="absolute top-2.5 p-1.5 left-2 cursor-pointer hover:bg-golden-sand dark:hover:bg-purple-plumeria bg-almond-cookie dark:bg-dark-cerulean rounded-full transition-colors duration-300">
@@ -68,12 +74,44 @@ function CoursesSidebar() {
                 <span>دسته بندی دوره ها</span>
               </AccordionTitle>
               <AccordionContent>
-                <input type="checkbox" />
-                <label htmlFor="">نقاشی</label>
+                <input
+                  type="checkbox"
+                  checked={filters[type].category === "child"}
+                  onChange={() => toggleCategory("child", type)}
+                />
+                <label>کودکان</label>
               </AccordionContent>
               <AccordionContent>
-                <input type="checkbox" />
-                <label htmlFor="">کوزه گری</label>
+                <input
+                  type="checkbox"
+                  checked={filters[type].category === "adult"}
+                  onChange={() => toggleCategory("adult", type)}
+                />
+                <label>بزرگسالان</label>
+              </AccordionContent>
+              <AccordionContent>
+                <input
+                  type="checkbox"
+                  checked={filters[type].category === "summer"}
+                  onChange={() => toggleCategory("summer", type)}
+                />
+                <label>تابستانی</label>
+              </AccordionContent>
+              <AccordionContent>
+                <input
+                  type="checkbox"
+                  checked={filters[type].category === "autumn"}
+                  onChange={() => toggleCategory("autumn", type)}
+                />
+                <label>پائیزی</label>
+              </AccordionContent>
+              <AccordionContent>
+                <input
+                  type="checkbox"
+                  checked={filters[type].category === "special"}
+                  onChange={() => toggleCategory("special", type)}
+                />
+                <label>ویژه</label>
               </AccordionContent>
             </AccordionPanel>
           </Accordion>
@@ -85,11 +123,19 @@ function CoursesSidebar() {
                 <span>مرتب سازی</span>
               </AccordionTitle>
               <AccordionContent>
-                <input type="radio" />
+                <input
+                  type="radio"
+                  checked={filters[type].sort === "newest"}
+                  onChange={() => updateSort("newest")}
+                />
                 <label htmlFor="">جدیدترین</label>
               </AccordionContent>
               <AccordionContent>
-                <input type="radio" />
+                <input
+                  type="radio"
+                  checked={filters[type].sort === "oldest"}
+                  onChange={() => updateSort("oldest")}
+                />
                 <label htmlFor="">قدیمی ترین</label>
               </AccordionContent>
             </AccordionPanel>

@@ -86,7 +86,6 @@ function Header() {
     await logout();
   };
 
-  // نقش کاربر برای نمایش منو
   const renderUserMenu = () => {
     if (!user) return null;
 

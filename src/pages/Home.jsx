@@ -59,7 +59,7 @@ function Home() {
 
   return (
     <div className="p-2 sm:p-4 md:p-8 h-auto max-w-screen-xl mx-auto">
-      <div className="w-full h-full mx-auto flex-1 relative mt-4">
+      {/* <div className="w-full h-full mx-auto flex-1 relative mt-4">
         <div className="relative z-0 md:aspect-auto">
           <img
             src="images/photo_2025-05-08_00-14-50 (2).jpg"
@@ -94,6 +94,46 @@ function Home() {
             </button>
           </div>
         </div>
+      </div> */}
+      <div className="relative w-full min-h-screen">
+        {/* بک‌گراند عکس تمام صفحه */}
+        <img
+          src="images/photo_2025-05-08_00-14-50 (2).jpg"
+          alt=""
+          className="absolute inset-0 w-full h-full z-0 rounded-lg object-cover"
+          loading="lazy"
+          data-aos="zoom-in"
+        />
+
+        {/* لایه‌ی محتوای روی عکس */}
+        <div className="relative z-10 flex flex-col justify-center items-start h-full p-4 sm:p-8 text-whitesmoke font-hoda">
+          <h1
+            className="text-lg sm:text-2xl md:text-5xl font-black"
+            data-aos="fade-right"
+          >
+            کُنته، جایی برای تجلی هنر
+          </h1>
+          <h2
+            className="text-[10px] sm:text-sm md:text-2xl mt-2 md:mt-6"
+            data-aos="fade-left"
+          >
+            با آموزشگاه هنر های تجسمی کُنته، مسیر هنر رو تجربه کن
+          </h2>
+
+          <div
+            className="mt-3 sm:mt-5 md:mt-10 relative w-full max-w-md"
+            data-aos="flip-down"
+          >
+            <input
+              type="text"
+              className="inputTextField w-full"
+              placeholder="جستجو در بین دوره ها ..."
+            />
+            <button className="absolute left-2 top-1/2 -translate-y-1/2 p-2 text-black dark:text-whitesmoke hover:bg-golden-sand dark:hover:bg-purple-plumeria bg-almond-cookie dark:bg-dark-cerulean rounded-full transition-colors duration-300 cursor-pointer">
+              <PiMagnifyingGlassBold className="md:size-6 size-4 sm:size-5" />
+            </button>
+          </div>
+        </div>
       </div>
       {/* News and Events */}
       <div className="mt-10 overflow-hidden max-w-full">
@@ -104,7 +144,7 @@ function Home() {
         className="border-t border-almond-cookie/50 dark:border-moderate-violet/20 mt-10"
         data-aos="fade-right"
         data-aos-easing="ease-in-out"
-        data-aos-duratin="2000"
+        data-aos-duration="2000"
       ></div>
       <div className="mt-10 overflow-hidden max-w-full">
         <HomePageCourses courses={courses} />
