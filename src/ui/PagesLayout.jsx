@@ -19,7 +19,7 @@ function PagesLayout() {
   }, []);
 
   return (
-    <div className="bg-linen max-w-screen 2xl:max-w-screen-xl 2xl:mx-auto p-2 md:p-10 font-iran-marker dark:text-whitesmoke dark:bg-dark-purple transition-colors duration-300">
+    <div className="bg-linen max-w-screen 2xl:max-w-screen-2xl 2xl:mx-auto p-2 md:p-10 font-iran-marker dark:text-whitesmoke dark:bg-dark-purple transition-colors duration-300">
       <GetUserProvider>
         <ShoppingCardProvider>
           <FilterProvider>

@@ -5,9 +5,10 @@ import Loading from "./Loading";
 import { useToast } from "../context/useToastContext";
 import { BsClockHistory, BsCheckAll } from "react-icons/bs";
 import { TbUsers, TbClockCheck } from "react-icons/tb";
-import { FaRegCommentDots } from "react-icons/fa6";
+import { FaEye, FaEyeSlash, FaRegCommentDots } from "react-icons/fa6";
 import { PiCalendarCheck } from "react-icons/pi";
 import {
+  Button,
   createTheme,
   Modal as FlowbiteModal,
   ModalBody,
@@ -16,7 +17,7 @@ import {
   RatingStar,
   ThemeProvider,
 } from "flowbite-react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Modal from "./Modal";
 import Comments from "./Comments";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -52,14 +53,24 @@ function CoursePageLayout() {
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [preview, setPreview] = useState(null);
   const [previewIndex, setPreviewIndex] = useState(0);
+  const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
+  const [isOverflowing, setIsOverflowing] = useState(false);
   const imageSwiperRef = useRef(null);
   const reviewSwiperRef = useRef(null);
+  const descriptionRef = useRef(null);
   const { id } = useParams();
   const { showToast } = useToast();
   const { course, error, isError, isLoading } = useSingleCourse(id);
   const modalRef = useOutsideClick(() => {
     if (isPreviewOpen) setIsPreviewOpen(false);
   });
+
+  useEffect(() => {
+    if (descriptionRef.current) {
+      const { scrollHeight, clientHeight } = descriptionRef.current;
+      setIsOverflowing(scrollHeight > clientHeight);
+    }
+  }, [course?.description]);
 
   const handlePrev = () => {
     if (!course?.courseImages.length > 0) return;
@@ -103,18 +114,11 @@ function CoursePageLayout() {
           data-aos="fade-right"
           data-aos-duration="1000"
         >
-          <PiGraduationCapLight className="w-7 h-7" />
-          <p className="text-xl">{course?.name}</p>
+          <PiGraduationCapLight className="md:size-7 size-5" />
+          <p className="text-sm md:text-xl">{course?.name}</p>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-x-14 p-3 py-6 lg:p-5 mb-10">
-          <div className="col-span-1 lg:col-span-7 xl:col-span-6">
-            <p
-              className="leading-7 md:leading-8 mb-7 text-sm md:text-base font-bold"
-              data-aos="fade-left"
-              data-aos-duration="1000"
-            >
-              {course?.description}
-            </p>
+          <div className="col-span-1 lg:col-span-7 xl:col-span-6 order-2 md:order-1">
             <div className="flex flex-col gap-y-7 my-12 lg:justify-between lg:flex-row">
               <div
                 className="flex justify-between lg:justify-start lg:gap-x-20 items-center"
@@ -146,6 +150,7 @@ function CoursePageLayout() {
                   </span>
                 </div>
               </div>
+
               <div
                 className="flex items-center justify-between lg:flex-col lg:items-end gap-y-4"
                 data-aos="zoom-out"
@@ -194,6 +199,25 @@ function CoursePageLayout() {
                 </div>
               </div>
             </div>
+            <div
+              className="flex items-center gap-x-6 mt-10"
+              data-aos="fade-left"
+              data-aos-duration="1000"
+            >
+              <button
+                className="btn py-3.5 bg-transparent border dark:border-moderate-violet justify-center gap-x-4 dark:hover:bg-purple-plumeria hover:border-transparent border-butter-caramel hover:bg-golden-sand w-48"
+                onClick={() => setIsOpen(!isOpen)}
+              >
+                <FaRegCommentDots className="w-4 h-4" />
+                <span>ثبت دیدگاه</span>
+              </button>
+              <button
+                className="btn py-3.5 bg-transparent border dark:border-moderate-violet justify-center gap-x-4 dark:hover:bg-purple-plumeria hover:border-transparent border-butter-caramel hover:bg-golden-sand w-48 hidden sm:flex"
+                onClick={() => handleAddToCard(course)}
+              >
+                افزودن به سبد خرید
+              </button>
+            </div>
           </div>
           <div className="col-span-1 lg:col-span-5 xl:col-span-6 order-1 md:order-2 self-start">
             <div
@@ -211,26 +235,45 @@ function CoursePageLayout() {
           </div>
         </div>
         {/*  */}
-        <div
-          className="flex items-center gap-x-6"
-          data-aos="fade-left"
-          data-aos-duration="1000"
-        >
-          <button
-            className="btn py-3.5 bg-transparent border dark:border-moderate-violet justify-center gap-x-4 dark:hover:bg-purple-plumeria hover:border-transparent border-butter-caramel hover:bg-golden-sand w-48"
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            <FaRegCommentDots className="w-4 h-4" />
-            <span>ثبت دیدگاه</span>
-          </button>
-          <button
-            className="btn py-3.5 bg-transparent border dark:border-moderate-violet justify-center gap-x-4 dark:hover:bg-purple-plumeria hover:border-transparent border-butter-caramel hover:bg-golden-sand w-48 hidden sm:flex"
-            onClick={() => handleAddToCard(course)}
-          >
-            افزودن به سبد خرید
-          </button>
-        </div>
 
+        <div className="relative rounded-xl overflow-hidden">
+          <div className="rounded-xl p-3 lg:p-6">
+            <div
+              className={`overflow-hidden transition-all duration-500 mb-8 ${
+                isDescriptionExpanded ? "max-h-[3000px]" : "max-h-30"
+              }`}
+            >
+              <p
+                ref={descriptionRef}
+                className={`leading-7 md:leading-8 mb-7 text-xs md:text-sm text-justify font-bold ${
+                  !isDescriptionExpanded ? "line-clamp-4" : ""
+                }`}
+              >
+                {course?.description}
+              </p>
+            </div>
+          </div>
+          {isOverflowing && (
+            <div className="flex items-end justify-center absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-whitesmoke dark:from-slate-950">
+              <button
+                className="cursor-pointer flex items-center gap-x-2 rounded-md text-xs py-2 px-3 bg-transparent border border-almond-cookie dark:border-gray-900 hover:bg-almond-cookie dark:hover:bg-gray-900 transition-all duration-300"
+                onClick={() => setIsDescriptionExpanded((prev) => !prev)}
+              >
+                {!isDescriptionExpanded ? (
+                  <>
+                    <span>ادامه مطلب</span>
+                    <FaEye className="w-4 h-4" />
+                  </>
+                ) : (
+                  <>
+                    <span>بستن</span>
+                    <FaEyeSlash className="w-4 h-4" />
+                  </>
+                )}
+              </button>
+            </div>
+          )}
+        </div>
         {course?.courseImages.length > 0 ? (
           <>
             <div className="my-10">

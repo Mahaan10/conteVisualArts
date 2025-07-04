@@ -5,7 +5,7 @@ import getAllCoursesApi, {
   getSingleCourseApi,
 } from "../services/coursesService";
 import getAllStudentsWorksApi from "../services/studentsWorksService";
-import getAllNewsApi from "../services/newsService";
+import getAllNewsApi, { getSingleNewsApi } from "../services/newsService";
 import getAllReviewsApi from "../services/reviewsService";
 import { useToast } from "../context/useToastContext";
 import Loading from "./Loading";
@@ -57,12 +57,23 @@ function AppInitializer({ children }) {
           }
         }
         if (pathname.startsWith("/news")) {
-          tasks.push(
-            queryClient.prefetchQuery({
-              queryKey: ["news"],
-              queryFn: getAllNewsApi,
-            })
-          );
+          const match = pathname.match(/^\/news\/([^/]+)$/);
+          if (match) {
+            const newsId = match[1];
+            tasks.push(
+              queryClient.prefetchQuery({
+                queryKey: ["news", newsId],
+                queryFn: () => getSingleNewsApi(newsId),
+              })
+            );
+          } else {
+            tasks.push(
+              queryClient.prefetchQuery({
+                queryKey: ["news"],
+                queryFn: getAllNewsApi,
+              })
+            );
+          }
         }
         if (pathname.startsWith("/reviews")) {
           tasks.push(

@@ -3,13 +3,12 @@ import { getSingleNewsApi } from "../services/newsService";
 
 export default function useSingleNews(id) {
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["course", id],
+    queryKey: ["news", id],
     queryFn: () => getSingleNewsApi(id),
-    enabled: !!id,
+    enabled: !!id
   });
 
-  const news = data || {};
-  console.log(news);
+  const news = data?.news || {};
 
   return { news, isLoading, isError, error };
 }
