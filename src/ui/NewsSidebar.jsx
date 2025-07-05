@@ -7,6 +7,7 @@ import {
   ThemeProvider,
 } from "flowbite-react";
 import { TbBorderCorners } from "react-icons/tb";
+import { useFilter } from "../context/FilterContext";
 
 const customTheme = createTheme({
   floatingLabel: {
@@ -37,6 +38,8 @@ const customTheme = createTheme({
 });
 
 function NewsSidebar() {
+  const { filters, updateSort } = useFilter();
+  const type = "news";
   return (
     <>
       {/* Sidebar */}
@@ -54,12 +57,20 @@ function NewsSidebar() {
                 <span>مرتب سازی</span>
               </AccordionTitle>
               <AccordionContent>
-                <input type="radio" />
+                <input
+                  type="radio"
+                  checked={filters[type]?.sort === "newest"}
+                  onChange={() => updateSort("newest", type)}
+                />
                 <label htmlFor="">جدیدترین</label>
               </AccordionContent>
               <AccordionContent>
-                <input type="radio" />
-                <label htmlFor="">قدیمی ترین</label>
+                <input
+                  type="radio"
+                  checked={filters[type]?.sort === "oldest"}
+                  onChange={() => updateSort("oldest", type)}
+                />
+                <label htmlFor="">قدیمی‌ترین</label>
               </AccordionContent>
             </AccordionPanel>
           </Accordion>

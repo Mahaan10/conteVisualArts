@@ -3,7 +3,7 @@ import { createContext, useContext, useState } from "react";
 const defaultFilters = {
   courses: { search: "", category: "", sort: "" },
   news: { sort: "" },
-  studentWorks: { sort: "" },
+  studentWorks: { category: "", sort: "" },
 };
 
 const FilterContext = createContext();

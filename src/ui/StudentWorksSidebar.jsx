@@ -7,6 +7,7 @@ import {
   ThemeProvider,
 } from "flowbite-react";
 import { TbBorderCorners, TbCategory } from "react-icons/tb";
+import { useFilter } from "../context/FilterContext";
 
 const customTheme = createTheme({
   floatingLabel: {
@@ -36,7 +37,10 @@ const customTheme = createTheme({
   },
 });
 
-function StudentWorksSidebar() {
+function StudentWorksSidebar({ courses }) {
+  const { filters, toggleCategory, updateSort } = useFilter();
+  const type = "studentWorks";
+
   return (
     <>
       {/* Sidebar */}
@@ -53,16 +57,20 @@ function StudentWorksSidebar() {
                 <TbCategory className="w-5 h-5" />
                 <span>دسته بندی آثار</span>
               </AccordionTitle>
-              <AccordionContent>
-                <input type="checkbox" />
-                <label htmlFor="">نقاشی</label>
-              </AccordionContent>
-              <AccordionContent>
-                <input type="checkbox" />
-                <label htmlFor="">کوزه گری</label>
-              </AccordionContent>
+
+              {courses.map((course) => (
+                <AccordionContent key={course._id}>
+                  <input
+                    type="checkbox"
+                    checked={filters[type].category === course.name}
+                    onChange={() => toggleCategory(course.name, type)}
+                  />
+                  <label>{course.name}</label>
+                </AccordionContent>
+              ))}
             </AccordionPanel>
           </Accordion>
+
           {/* .... */}
           <Accordion collapseAll>
             <AccordionPanel>
@@ -71,12 +79,20 @@ function StudentWorksSidebar() {
                 <span>مرتب سازی</span>
               </AccordionTitle>
               <AccordionContent>
-                <input type="radio" />
-                <label htmlFor="">جدیدترین</label>
+                <input
+                  type="radio"
+                  checked={filters[type].sort === "newest"}
+                  onChange={() => updateSort("newest", type)}
+                />
+                <label>جدیدترین</label>
               </AccordionContent>
               <AccordionContent>
-                <input type="radio" />
-                <label htmlFor="">قدیمی ترین</label>
+                <input
+                  type="radio"
+                  checked={filters[type].sort === "oldest"}
+                  onChange={() => updateSort("oldest", type)}
+                />
+                <label>قدیمی‌ترین</label>
               </AccordionContent>
             </AccordionPanel>
           </Accordion>

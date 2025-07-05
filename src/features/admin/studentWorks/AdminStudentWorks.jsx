@@ -3,9 +3,41 @@ import { useState } from "react";
 import Modal from "../../../ui/Modal";
 import AdminStudentWorksTable from "./AdminStudentWorksTable";
 import StudentWorksForm from "./StudentWorksForm";
+import useCourses from "../../../hooks/useCourses";
+import useUsers from "../../../hooks/useUsers";
+import { useToast } from "../../../context/useToastContext";
+import NotFound from "../../../ui/NotFound";
+import { Loader } from "../../../ui/Loading";
 
 function AdminStudentWorks() {
   const [isOpen, setIsOpen] = useState(false);
+  const {
+    courses,
+    error: coursesError,
+    isError: coursesIsError,
+    isLoading: coursesIsLoading,
+  } = useCourses();
+  const {
+    users,
+    error: usersError,
+    isError: usersIsError,
+    isLoading: usersIsLoading,
+  } = useUsers();
+  const { showToast } = useToast();
+
+  const sortUsers = users?.filter((user) => user?.role === "student") || [];
+  console.log(sortUsers);
+
+  if (coursesIsLoading || usersIsLoading) return <Loader />;
+  if (coursesIsError || usersIsError) {
+    showToast(
+      "error",
+      coursesError?.response?.data?.message ||
+        usersError?.response?.data?.message ||
+        "اطلاعات یافت نشد"
+    );
+    return <NotFound />;
+  }
   return (
     <div className="container">
       <div className="flex justify-between">
@@ -22,7 +54,11 @@ function AdminStudentWorks() {
       {/* Add New Art */}
       {isOpen && (
         <Modal title="افزودن اثر جدید" onClose={() => setIsOpen(false)}>
-          <StudentWorksForm onClose={() => setIsOpen(false)} />
+          <StudentWorksForm
+            onClose={() => setIsOpen(false)}
+            courses={courses}
+            students={sortUsers}
+          />
         </Modal>
       )}
     </div>

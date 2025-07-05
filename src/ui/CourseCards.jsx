@@ -21,7 +21,7 @@ const customTheme = createTheme({
   button: {
     base: "gap-x-3",
     outlineColor: {
-      dark: "dark:hover:text-whitesmoke cursor-pointer transition-colors duration-300 text-xs",
+      dark: "dark:hover:text-whitesmoke bg-transparent border-gray-400 hover:bg-almond-cookie hover:border-almond-cookie hover:text-inherit dark:border-gray-600 dark:hover:border-gray-700 cursor-pointer transition-colors duration-300 text-xs ",
     },
   },
 });
@@ -57,25 +57,44 @@ function CourseCards({ array }) {
                 تکمیل ظرفیت
               </span>
             ) : (
-              <span
-                className={`absolute top-2 left-2 text-whitesmoke text-xs px-2 py-1 rounded z-10 ${
-                  arr.badge === "summer"
-                    ? "bg-yellow-400"
+              <>
+                <span
+                  className={`absolute top-2 left-2 text-whitesmoke text-xs px-2 py-1 rounded z-10 ${
+                    arr.ageGroup === "adult"
+                      ? "bg-sky-900"
+                      : arr.ageGroup === "child"
+                      ? "bg-cyan-700"
+                      : ""
+                  }`}
+                >
+                  {arr.ageGroup === "adult"
+                    ? "بزرگسالان"
+                    : arr.ageGroup === "child"
+                    ? "کودکان"
+                    : ""}
+                </span>
+                <span
+                  className={`absolute left-2 text-whitesmoke text-xs px-2 py-1 rounded z-10 ${
+                    arr.ageGroup ? "top-8.5" : "top-2"
+                  } ${
+                    arr.badge === "summer"
+                      ? "bg-yellow-400"
+                      : arr.badge === "special"
+                      ? "bg-emerald-600"
+                      : arr.badge === "autumn"
+                      ? "bg-amber-800"
+                      : ""
+                  }`}
+                >
+                  {arr.badge === "summer"
+                    ? "تابستانی"
                     : arr.badge === "special"
-                    ? "bg-emerald-600"
+                    ? "ویژه"
                     : arr.badge === "autumn"
-                    ? "bg-amber-800"
-                    : "hidden"
-                }`}
-              >
-                {arr.badge === "summer"
-                  ? "تابستانی"
-                  : arr.badge === "special"
-                  ? "ویژه"
-                  : arr.badge === "autumn"
-                  ? "پائیزی"
-                  : ""}
-              </span>
+                    ? "پائیزی"
+                    : ""}
+                </span>
+              </>
             )}
 
             <span className="absolute top-2 right-2 bg-transparent px-2 py-1 z-10">

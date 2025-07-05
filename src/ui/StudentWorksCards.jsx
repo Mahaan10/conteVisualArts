@@ -21,7 +21,7 @@ const customTheme = createTheme({
   button: {
     base: "gap-x-3",
     outlineColor: {
-      dark: "dark:hover:text-whitesmoke cursor-pointer transition-colors duration-300 text-xs",
+      dark: "dark:hover:text-whitesmoke bg-transparent border-gray-400 hover:bg-almond-cookie hover:border-almond-cookie hover:text-inherit dark:border-gray-600 dark:hover:border-gray-700 cursor-pointer transition-colors duration-300 text-xs",
     },
   },
   modal: {
@@ -83,13 +83,15 @@ function StudentWorksCards({ array }) {
           </p>
 
           <div className="flex items-center justify-between">
-            <p>{arr?.student?.name}</p>
+            <p>
+              {arr?.student?.name}|{arr?.course.name}
+            </p>
           </div>
           <div className="flex items-center justify-center">
             <Button
               color="dark"
               outline
-              className="transition-all duration-300"
+              className="transition-all duration-300 w-full"
             >
               پیش نمایش
             </Button>
@@ -98,7 +100,7 @@ function StudentWorksCards({ array }) {
       ))}
       {/* Preview Image */}
       <Modal
-        size="6xl"
+        size="4xl"
         show={isModalOpen}
         onClose={() => setIsModalOpen(false)}
       >

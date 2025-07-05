@@ -11,9 +11,23 @@ import useDeleteStudentWorks from "../../../hooks/useDeleteStudentWorks";
 import AdminStudentWorksRow from "./AdminStudentWorksRow";
 import StudentWorksForm from "./StudentWorksForm";
 import NotFound from "../../../ui/NotFound";
+import useCourses from "../../../hooks/useCourses";
+import useUsers from "../../../hooks/useUsers";
 
 function AdminStudentWorksTable() {
   const { studentWorks, error, isError, isLoading } = useStudentWorks();
+  const {
+    courses,
+    error: coursesError,
+    isError: coursesIsError,
+    isLoading: coursesIsLoading,
+  } = useCourses();
+  const {
+    users,
+    error: usersError,
+    isError: usersIsError,
+    isLoading: usersIsLoading,
+  } = useUsers();
   const { deleteArtWork, isDeletingArtWork } = useDeleteStudentWorks();
   const [artWorkToEdit, setArtWorkToEdit] = useState(null);
   const [artWorkToDelete, setArtWorkToDelete] = useState(null);
@@ -23,10 +37,20 @@ function AdminStudentWorksTable() {
     studentWorks,
     6
   );
+
+  const sortUsers = users?.filter((user) => user?.role === "student") || [];
+  console.log(sortUsers);
+
   console.log(studentWorks);
-  if (isLoading) return <Loader />;
-  if (isError) {
-    showToast("error", error?.response?.data?.message || "اطلاعات یافت نشد");
+  if (isLoading || coursesIsLoading || usersIsLoading) return <Loader />;
+  if (isError || coursesIsError || usersIsError) {
+    showToast(
+      "error",
+      error?.response?.data?.message ||
+        coursesError?.response?.data?.message ||
+        usersError?.response?.data?.message ||
+        "اطلاعات یافت نشد"
+    );
     return <NotFound />;
   }
 
@@ -54,6 +78,8 @@ function AdminStudentWorksTable() {
               <th>عنوان</th>
               <th>تاریخ</th>
               <th>عکس اثر</th>
+              <th>دوره</th>
+              <th>هنرجو</th>
               <th>عملیات</th>
             </Table.Header>
             <Table.Body>
@@ -98,6 +124,8 @@ function AdminStudentWorksTable() {
           <StudentWorksForm
             artWorkToEdit={artWorkToEdit}
             onClose={() => setArtWorkToEdit(null)}
+            courses={courses}
+            students={sortUsers}
           />
         </Modal>
       )}

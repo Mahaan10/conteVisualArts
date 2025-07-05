@@ -13,14 +13,6 @@ import { TbBorderCorners, TbCategory } from "react-icons/tb";
 import { FaSort } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 
-const categoryLabels = {
-  child: "کودکان",
-  adult: "بزرگسالان",
-  summer: "تابستانی",
-  autumn: "پاییزی",
-  special: "ویژه",
-};
-
 const customTheme = createTheme({
   drawer: {
     root: {
@@ -48,7 +40,13 @@ const customTheme = createTheme({
   },
 });
 
-function ModalFilterSort({ isOpen, setIsOpen, onClose, type = "courses" }) {
+function ModalFilterSort({
+  isOpen,
+  setIsOpen,
+  onClose,
+  categoryLabels,
+  type = "courses",
+}) {
   const { filters, toggleCategory, updateSort } = useFilter();
   const [openSection, setOpenSection] = useState(null);
 
@@ -79,38 +77,40 @@ function ModalFilterSort({ isOpen, setIsOpen, onClose, type = "courses" }) {
         />
         <DrawerItems className="px-4 py-2 space-y-6 text-sm">
           {/* دسته‌بندی */}
-          <Accordion collapseAll>
-            <AccordionPanel>
-              <AccordionTitle onClick={() => toggleAccordion("category")}>
-                <TbCategory className="w-5 h-5" />
-                <span>دسته‌بندی دوره‌ها</span>
-              </AccordionTitle>
-              <div
-                className={`transition-all duration-600 overflow-hidden  ${
-                  openSection === "category"
-                    ? "max-h-96 opacity-100 mt-2 p-5 first:rounded-t-lg last:rounded-b-lg dark:bg-gray-900 bg-gray-200"
-                    : "max-h-0 opacity-0"
-                }`}
-              >
-                <div className="grid grid-cols-2 gap-2">
-                  {Object.entries(categoryLabels).map(([key, label]) => (
-                    <label
-                      key={key}
-                      className="flex items-center gap-2 cursor-pointer"
-                    >
-                      <input
-                        type="checkbox"
-                        name="category"
-                        checked={filters[type]?.category === key}
-                        onChange={() => toggleCategory(key, type)}
-                      />
-                      {label}
-                    </label>
-                  ))}
+          {categoryLabels && (
+            <Accordion collapseAll>
+              <AccordionPanel>
+                <AccordionTitle onClick={() => toggleAccordion("category")}>
+                  <TbCategory className="w-5 h-5" />
+                  <span>دسته‌بندی دوره‌ها</span>
+                </AccordionTitle>
+                <div
+                  className={`transition-all duration-600 overflow-hidden  ${
+                    openSection === "category"
+                      ? "max-h-96 opacity-100 mt-2 p-5 first:rounded-t-lg last:rounded-b-lg dark:bg-gray-900 bg-gray-200"
+                      : "max-h-0 opacity-0"
+                  }`}
+                >
+                  <div className="grid grid-cols-2 gap-2">
+                    {Object.entries(categoryLabels).map(([key, label]) => (
+                      <label
+                        key={key}
+                        className="flex items-center gap-2 cursor-pointer"
+                      >
+                        <input
+                          type="checkbox"
+                          name="category"
+                          checked={filters[type]?.category === key}
+                          onChange={() => toggleCategory(key, type)}
+                        />
+                        {label}
+                      </label>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            </AccordionPanel>
-          </Accordion>
+              </AccordionPanel>
+            </Accordion>
+          )}
 
           {/* مرتب‌سازی */}
           <Accordion collapseAll>

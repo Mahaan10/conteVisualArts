@@ -14,7 +14,7 @@ const customTheme = createTheme({
   button: {
     base: "gap-x-3",
     outlineColor: {
-      dark: "dark:hover:text-whitesmoke cursor-pointer transition-colors duration-300 text-xs",
+      dark: "dark:hover:text-whitesmoke bg-transparent border-gray-400 hover:bg-almond-cookie hover:border-almond-cookie hover:text-inherit dark:border-gray-600 dark:hover:border-gray-700 cursor-pointer transition-colors duration-300 text-xs",
     },
   },
 });

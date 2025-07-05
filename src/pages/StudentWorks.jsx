@@ -8,20 +8,52 @@ import StudentWorksCards from "../ui/StudentWorksCards";
 import Loading from "../ui/Loading";
 import { useToast } from "../context/useToastContext";
 import NotFound from "../ui/NotFound";
+import { useFilter } from "../context/FilterContext";
+import { useState } from "react";
+import ModalFilterSort from "../ui/ModalFilterSort";
 
 const customTheme = createTheme({
   button: {
     base: "gap-x-3 w-40",
     outlineColor: {
-      dark: "dark:hover:text-whitesmoke cursor-pointer transition-colors duration-300 text-xs",
+      dark: "dark:hover:text-whitesmoke bg-transparent border-gray-400 hover:bg-almond-cookie hover:border-almond-cookie hover:text-inherit dark:border-gray-600 dark:hover:border-gray-700 cursor-pointer transition-colors duration-300 text-xs",
     },
   },
 });
 
 function StudentWorks() {
   const { studentWorks, error, isError, isLoading } = useStudentWorks();
+  const { filters } = useFilter();
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const { showToast } = useToast();
-  console.log(studentWorks);
+  const type = "studentWorks";
+
+  const allCourses = studentWorks.map((work) => work.course);
+
+  const courses = Array.from(
+    new Map(allCourses.map((course) => [course._id, course])).values()
+  );
+
+  const categoryLabels = courses.reduce((acc, course) => {
+    acc[course.name] = course.name;
+    return acc;
+  }, {});
+
+  const filteredStudentWorks = studentWorks
+    ?.filter((work) => {
+      const category = filters[type]?.category;
+      if (!category) return true;
+      return work.course.name === category;
+    })
+    .sort((a, b) => {
+      const sort = filters[type]?.sort;
+      if (sort === "newest") {
+        return new Date(b.date) - new Date(a.date);
+      } else if (sort === "oldest") {
+        return new Date(a.date) - new Date(b.date);
+      }
+      return 0;
+    });
 
   if (isLoading) return <Loading />;
   if (isError) {
@@ -50,27 +82,30 @@ function StudentWorks() {
         data-aos-duration="1000"
       >
         <ThemeProvider theme={customTheme}>
-          <Button color="dark" pill outline>
+          <Button color="dark" outline onClick={() => setIsDrawerOpen(true)}>
             <TbFilters className="w-5 h-5" />
-            <span> فیلتر آثار</span>
-          </Button>
-          <Button color="dark" pill outline>
-            <FaSort className="w-5 h-5" />
-            <span>مرتب سازی</span>
+            <span>فیلتر آثار</span>
           </Button>
         </ThemeProvider>
       </div>
       <div className="grid grid-cols-12 gap-5 mx-4">
         {/* Sidebar */}
         <aside className="hidden lg:block col-span-12 lg:col-span-4 xl:col-span-3 order-2 lg:order-2 lg:pl-8">
-          <StudentWorksSidebar />
+          <StudentWorksSidebar courses={courses} />
         </aside>
         <div className="col-span-12 lg:col-span-8 xl:col-span-9 order-1 lg:order-2 mb-10">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-y-8 sm:gap-x-8 bg-gray-100 dark:bg-gray-950 rounded-lg p-4">
-            <StudentWorksCards array={studentWorks} />
+            <StudentWorksCards array={filteredStudentWorks} />
           </div>
         </div>
       </div>
+      <ModalFilterSort
+        isOpen={isDrawerOpen}
+        setIsOpen={setIsDrawerOpen}
+        onClose={() => setIsDrawerOpen(false)}
+        type={type}
+        categoryLabels={categoryLabels}
+      />
     </div>
   );
 }

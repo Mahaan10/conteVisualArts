@@ -1,6 +1,11 @@
-import { PiGraduationCapLight } from "react-icons/pi";
+import { PiGraduationCapLight, PiMagnifyingGlassBold } from "react-icons/pi";
 import CoursesSidebar from "../ui/CoursesSidebar";
-import { Button, createTheme, ThemeProvider } from "flowbite-react";
+import {
+  Button,
+  createTheme,
+  FloatingLabel,
+  ThemeProvider,
+} from "flowbite-react";
 import { TbFilters } from "react-icons/tb";
 import CourseCards from "../ui/CourseCards";
 import useCourses from "../hooks/useCourses";
@@ -13,9 +18,18 @@ import ModalFilterSort from "../ui/ModalFilterSort";
 
 const customTheme = createTheme({
   button: {
-    base: "gap-x-3 w-40",
+    base: "gap-x-3",
     outlineColor: {
-      dark: "dark:hover:text-whitesmoke cursor-pointer transition-colors duration-300 text-xs",
+      dark: "dark:hover:text-whitesmoke bg-transparent border-gray-400 hover:bg-almond-cookie hover:border-almond-cookie hover:text-inherit dark:border-gray-600 dark:hover:border-gray-700 bg-transparent border-gray-300 hover:bg-almond-cookie hover:border-almond-cookie hover:text-inherit dark:border-gray-600 dark:hover:border-gray-700 cursor-pointer transition-colors duration-300 text-xs focus:ring-0 h-12 px-10",
+    },
+  },
+  floatingLabel: {
+    label: {
+      default: {
+        outlined: {
+          sm: "right-1 left-auto dark:bg-slate-950 bg-whitesmoke cursor-text",
+        },
+      },
     },
   },
 });
@@ -25,10 +39,17 @@ function Courses() {
   const { courses, error, isError, isLoading } = useCourses();
   const { showToast } = useToast();
   const location = useLocation();
-  const { filters } = useFilter();
+  const { filters, updateSearch } = useFilter();
   const type = "courses";
 
   const isCourseDetailPage = location.pathname.startsWith("/courses/");
+  const categoryLabels = {
+    child: "کودکان",
+    adult: "بزرگسالان",
+    summer: "تابستانی",
+    autumn: "پاییزی",
+    special: "ویژه",
+  };
 
   const filteredCourses = courses
     ?.filter((course) => {
@@ -86,15 +107,30 @@ function Courses() {
             data-aos-duration="1000"
           >
             <ThemeProvider theme={customTheme}>
-              <Button
-                color="dark"
-                pill
-                outline
-                onClick={() => setIsDrawerOpen(true)}
-              >
-                <TbFilters className="w-5 h-5" />
-                <span>فیلتر دوره ها</span>
-              </Button>
+              <div className="flex flex-col sm:flex-row gap-y-4 gap-x-4">
+                <form action="" className="relative">
+                  <FloatingLabel
+                    variant="outlined"
+                    label="جستجو بین دوره ها"
+                    sizing="sm"
+                    type="text"
+                    value={filters[type].search}
+                    onChange={(e) => updateSearch(e.target.value, type)}
+                  />
+
+                  <button className="absolute top-2.5 p-1.5 left-2 cursor-pointer hover:bg-golden-sand dark:hover:bg-purple-plumeria bg-almond-cookie dark:bg-dark-cerulean rounded-full transition-colors duration-300">
+                    <PiMagnifyingGlassBold className="w-4 h-4" />
+                  </button>
+                </form>
+                <Button
+                  color="dark"
+                  outline
+                  onClick={() => setIsDrawerOpen(true)}
+                >
+                  <TbFilters className="w-5 h-5" />
+                  <span>فیلتر دوره ها</span>
+                </Button>
+              </div>
             </ThemeProvider>
           </div>
           <div className="grid grid-cols-12 gap-5 mx-4">
@@ -114,7 +150,8 @@ function Courses() {
         isOpen={isDrawerOpen}
         setIsOpen={setIsDrawerOpen}
         onClose={() => setIsDrawerOpen(false)}
-        type="courses"
+        type={type}
+        categoryLabels={categoryLabels}
       />
     </div>
   );

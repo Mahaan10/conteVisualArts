@@ -8,22 +8,37 @@ import { FaSort } from "react-icons/fa6";
 import NewsSidebar from "../ui/NewsSidebar";
 import { Outlet, useLocation } from "react-router-dom";
 import NotFound from "../ui/NotFound";
+import { useFilter } from "../context/FilterContext";
+import ModalFilterSort from "../ui/ModalFilterSort";
+import { useState } from "react";
 
 const customTheme = createTheme({
   button: {
     base: "gap-x-3 w-40",
     outlineColor: {
-      dark: "dark:hover:text-whitesmoke cursor-pointer transition-colors duration-300 text-xs",
+      dark: "dark:hover:text-whitesmoke bg-transparent border-gray-400 hover:bg-almond-cookie hover:border-almond-cookie hover:text-inherit dark:border-gray-600 dark:hover:border-gray-700 bg-transparent border-gray-300 hover:bg-almond-cookie hover:border-almond-cookie hover:text-inherit dark:border-gray-600 dark:hover:border-gray-700 cursor-pointer transition-colors duration-300 text-xs",
     },
   },
 });
 
 function News() {
   const { news, error, isError, isLoading } = useNews();
+  const { filters } = useFilter();
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const { showToast } = useToast();
   const location = useLocation();
-
+  const type = "news";
   const isNewsDetailPage = location.pathname !== "/news";
+
+  const sortedNews = [...news].sort((a, b) => {
+    const sort = filters[type]?.sort;
+    if (sort === "newest") {
+      return new Date(b.createdAt) - new Date(a.createdAt);
+    } else if (sort === "oldest") {
+      return new Date(a.createdAt) - new Date(b.createdAt);
+    }
+    return 0;
+  });
 
   if (isLoading) return <Loading />;
   if (isError) {
@@ -57,7 +72,12 @@ function News() {
             data-aos-duration="1000"
           >
             <ThemeProvider theme={customTheme}>
-              <Button color="dark" pill outline>
+              <Button
+                color="dark"
+                pill
+                outline
+                onClick={() => setIsDrawerOpen(true)}
+              >
                 <FaSort className="w-5 h-5" />
                 <span>مرتب سازی</span>
               </Button>
@@ -72,16 +92,22 @@ function News() {
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3  gap-y-8 sm:gap-x-8 bg-gray-100 dark:bg-gray-950 rounded-lg p-4">
                 {news.length === 0 ? (
                   <p className="text-center text-sm col-span-12">
-                    هیچ خبری ثبت نشده است
+                    هیچ رویدادی ثبت نشده است
                   </p>
                 ) : (
-                  <NewsCards array={news} />
+                  <NewsCards array={sortedNews} />
                 )}
               </div>
             </div>
           </div>
         </>
       )}
+      <ModalFilterSort
+        isOpen={isDrawerOpen}
+        setIsOpen={setIsDrawerOpen}
+        onClose={() => setIsDrawerOpen(false)}
+        type={type}
+      />
     </div>
   );
 }
