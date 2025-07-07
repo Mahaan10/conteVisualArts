@@ -33,6 +33,17 @@ function Home() {
   const [searchValue, setSearchValue] = useState("");
   const { updateSearch } = useFilter();
 
+  const topRatedCourses = courses?.length
+    ? [...courses]
+        .sort((a, b) => b.ratingsAverage - a.ratingsAverage)
+        .slice(0, 8)
+    : [];
+
+  const showingNews = news?.length ? [...news].slice(0, 5) : [];
+  const showingStudentWorks = studentWorks?.length
+    ? [...studentWorks].slice(0, 8)
+    : [];
+
   useEffect(() => {
     AOS.init({
       duration: 1500,
@@ -122,7 +133,7 @@ function Home() {
       </div>
       {/* News and Events */}
       <div className="mt-10 overflow-hidden max-w-full">
-        <HomePageNewsSection news={news} />
+        <HomePageNewsSection news={showingNews} />
       </div>
       {/* Popular Courses */}
       <div
@@ -132,7 +143,7 @@ function Home() {
         data-aos-duration="2000"
       ></div>
       <div className="mt-10 overflow-hidden max-w-full">
-        <HomePageCourses courses={courses} />
+        <HomePageCourses courses={topRatedCourses} />
       </div>
       {/* Student Works */}
       <div
@@ -142,7 +153,7 @@ function Home() {
         data-aos-duration="1500"
       ></div>
       <div className="mt-10 overflow-hidden max-w-full">
-        <HomePageStudentWorks studentWorks={studentWorks} />
+        <HomePageStudentWorks studentWorks={showingStudentWorks} />
       </div>
     </div>
   );
