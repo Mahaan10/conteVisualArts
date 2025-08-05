@@ -9,6 +9,11 @@ import { useCart } from "../context/useShoppingCardContext";
 import useOutsideClick from "../hooks/useOutsideClick";
 import { HiShoppingBag, HiOutlineTrash } from "react-icons/hi2";
 import { useEffect } from "react";
+import useCreatePayment from "../hooks/useCreatePayment";
+import { useGetUser } from "../context/useGetUserContext";
+import { useToast } from "../context/useToastContext";
+import { Loader } from "./Loading";
+import { BASE_URL } from "../services/httpService";
 
 const customTheme = createTheme({
   drawer: {
@@ -33,7 +38,10 @@ const customTheme = createTheme({
 });
 
 function ShoppingMenu({ isOpen, setIsOpen }) {
-  const { cardItems, removeFromCard, totalPrice } = useCart();
+  const { createPayment, isCreatingPayment } = useCreatePayment();
+  const { user, isLoading, isError, error, token } = useGetUser();
+  const { cardItems, removeFromCard, totalPrice, clearCard } = useCart();
+  const { showToast } = useToast();
   const shoppingMenuRef = useOutsideClick(() => setIsOpen(false));
 
   useEffect(() => {
@@ -47,6 +55,43 @@ function ShoppingMenu({ isOpen, setIsOpen }) {
       document.body.style.overflow = "auto";
     };
   }, [isOpen]);
+
+  const createPaymentHandler = async () => {
+    if (token) {
+      const newPayment = {
+        amount: totalPrice * 10,
+        email: user?.email,
+        mobile: user?.phone,
+        description: "پرداخت تستی از فرانت",
+        callback_url: `${BASE_URL}/student/verify-payment`,
+      };
+      try {
+        await createPayment(newPayment);
+        showToast(
+          "success",
+          `لینک پرداخت به تلفن همراه ${user?.phone} ارسال شد`
+        );
+        clearCard();
+        setIsOpen(false);
+      } catch (error) {
+        showToast(
+          "error",
+          error?.response?.data?.message ||
+            "مشکلی در ارسال لینک پرداخت وجود دارد"
+        );
+      }
+    } else {
+      showToast("error", "برای پرداخت باید ابتدا وارد اکانت خود شوید");
+      setIsOpen(false);
+    }
+  };
+
+  if (isError) {
+    showToast(
+      "error",
+      error?.response?.data?.message || "مشکلی در بارگذاری وجود دارد"
+    );
+  }
 
   return (
     <ThemeProvider theme={customTheme}>
@@ -105,9 +150,10 @@ function ShoppingMenu({ isOpen, setIsOpen }) {
                 </div>
                 <button
                   className="w-full bg-almond-cookie hover:bg-golden-sand text-black font-bold py-2 rounded-lg transition-colors duration-300 dark:bg-dark-cerulean cursor-pointer dark:text-white dark:hover:bg-purple-plumeria"
-                  onClick={() => alert("درگاه پرداخت")}
+                  onClick={createPaymentHandler}
+                  disabled={isCreatingPayment || isLoading}
                 >
-                  پرداخت
+                  {isLoading || isCreatingPayment ? <Loader /> : "پرداخت"}
                 </button>
               </div>
             </>

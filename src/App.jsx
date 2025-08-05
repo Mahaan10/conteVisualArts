@@ -24,6 +24,7 @@ import { HelmetProvider } from "react-helmet-async";
 import AppInitializer from "./ui/AppInitializer";
 import NewsPageLayout from "./ui/NewsPageLayout";
 import NotFound from "./ui/NotFound";
+import VerifyPayment from "./ui/VerifyPayment";
 
 function App() {
   const queryClient = new QueryClient();
@@ -81,6 +82,7 @@ function App() {
                   </Route>
                 </Route>
                 <Route path="*" element={<NotFound />} />
+                <Route path="payments/verify" element={<VerifyPayment />} />
               </Routes>
             </AppInitializer>
           </HelmetProvider>

@@ -1,7 +1,7 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const BASE_URL = "/api/v1";
+export const BASE_URL = "http://localhost:3000/api/v1";
 
 const app = axios.create({
   baseURL: BASE_URL,
