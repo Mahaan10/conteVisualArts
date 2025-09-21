@@ -94,12 +94,8 @@ function FooterSection() {
                       <FooterLink href="/news">اخبار و رویدادها</FooterLink>
                       <FooterLink href="/about">درباره ما</FooterLink>
                       <FooterLink href="/contact">ارتباط با ما</FooterLink>
-                      <FooterLink href="/courses/portrait">
-                        سوالات متداول(FAQ)
-                      </FooterLink>
-                      <FooterLink href="/courses/portrait">
-                        قوانین و مقررات
-                      </FooterLink>
+                      <FooterLink href="/">سوالات متداول(FAQ)</FooterLink>
+                      <FooterLink href="/">قوانین و مقررات</FooterLink>
                     </FooterLinkGroup>
                   </div>
                   {/* <div>
@@ -119,17 +115,17 @@ function FooterSection() {
                       <div className="flex gap-x-2 opacity-50">
                         <span>تلفن:</span>
                         <a
-                          href="tel:+9802166957831"
+                          href="tel:+982166957831"
                           target="_blank"
                           rel="noopener noreferrer"
                         >
                           021-66957831
                         </a>
                       </div>
-                      <div className="flex gap-x-2 opacity-50">
+                      {/* <div className="flex gap-x-2 opacity-50">
                         <span>فکس:</span>
                         <a href="">021-66958237</a>
-                      </div>
+                      </div> */}
                       <div className="flex gap-x-2 opacity-50">
                         <span>ایمیل:</span>
                         <a
@@ -141,9 +137,24 @@ function FooterSection() {
                         </a>
                       </div>
                       <div className="flex items-center gap-x-4">
-                        <FooterIcon href="/courses" icon={PiInstagramLogo} />
-                        <FooterIcon href="/courses" icon={PiTelegramLogo} />
-                        <FooterIcon href="/courses" icon={FaWhatsapp} />
+                        <FooterIcon
+                          rel="noopener noreferrer"
+                          target="_blank"
+                          href="https://www.instagram.com/conteschool1393"
+                          icon={PiInstagramLogo}
+                        />
+                        <FooterIcon
+                          rel="noopener noreferrer"
+                          target="_blank"
+                          href="https://t.me/+989125975912"
+                          icon={PiTelegramLogo}
+                        />
+                        <FooterIcon
+                          rel="noopener noreferrer"
+                          target="_blank"
+                          href="https://wa.me/+989125975912"
+                          icon={FaWhatsapp}
+                        />
                       </div>
                     </div>
                   </div>
@@ -164,12 +175,12 @@ function FooterSection() {
                       loading="lazy"
                       className="w-12 h-12"
                     />
-                    <img
+                    {/* <img
                       src="/images/enamad.jpg"
                       alt=""
                       loading="lazy"
                       className="w-12 h-12"
-                    />
+                    /> */}
                   </div>
                 </div>
               </div>

@@ -28,10 +28,10 @@ function StudentWorks() {
   const { showToast } = useToast();
   const type = "studentWorks";
 
-  const allCourses = studentWorks.map((work) => work.course);
+  const allCourses = studentWorks.map((work) => work?.course);
 
   const courses = Array.from(
-    new Map(allCourses.map((course) => [course._id, course])).values()
+    new Map(allCourses.map((course) => [course?._id, course])).values()
   );
 
   const categoryLabels = courses.reduce((acc, course) => {

@@ -3,6 +3,7 @@ import {
   Drawer,
   DrawerHeader,
   DrawerItems,
+  Select,
   Sidebar,
   SidebarItemGroup,
   SidebarItems,
@@ -20,6 +21,7 @@ import { Loader } from "./Loading";
 import { useToast } from "../context/useToastContext";
 import { useEffect } from "react";
 import useOutsideClick from "../hooks/useOutsideClick";
+import { useThemeMode } from "../context/useThemeModeContext";
 
 const customTheme = createTheme({
   drawer: {
@@ -50,11 +52,21 @@ const customTheme = createTheme({
         "h-full overflow-y-auto overflow-x-hidden rounded-lg bg-gray-100 dark:bg-gray-900 px-3 py-4 mt-6 w-full",
     },
   },
+  select: {
+    field: {
+      select: {
+        colors: {
+          gray: "bg-whitesmoke dark:bg-slate-900 sm:w-22 w-full dark:focus:ring-0 dark:border-zinc-800 dark:hover:border-zinc-600 dark:focus:border-zinc-400 border-gray-300 hover:border-gray-400 focus:border-gray-600 focus:ring-0 transition-colors duration-300 ease-in-out bg-[position:left_12px_center]",
+        },
+      },
+    },
+  },
 });
 
 function HeaderMenu({ isOpen, setIsOpen, setIsModalOpen }) {
   const { token, isLoading, isError, error, user } = useGetUser();
   const { showToast } = useToast();
+  const { themeMode, setThemeMode } = useThemeMode();
 
   useEffect(() => {
     if (isError) {
@@ -173,6 +185,18 @@ function HeaderMenu({ isOpen, setIsOpen, setIsModalOpen }) {
             </SidebarItems>
           </Sidebar>
         </DrawerItems>
+        <div className="mt-4">
+          <Select
+            name="theme"
+            color="gray"
+            className="w-full mx-auto"
+            value={themeMode}
+            onChange={(event) => setThemeMode(event.target.value)}
+          >
+            <option value="dark">حالت تیره</option>
+            <option value="light">حالت روشن</option>
+          </Select>
+        </div>
       </Drawer>
     </ThemeProvider>
   );

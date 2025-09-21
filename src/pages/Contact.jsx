@@ -1,7 +1,7 @@
 import { FaWhatsapp } from "react-icons/fa6";
 import { PiInfo, PiInstagramLogo, PiTelegramLogo } from "react-icons/pi";
 import { AiOutlinePhone } from "react-icons/ai";
-import { LiaFaxSolid } from "react-icons/lia";
+//import { LiaFaxSolid } from "react-icons/lia";
 import { HiOutlineEnvelope } from "react-icons/hi2";
 
 function Contact() {
@@ -14,15 +14,15 @@ function Contact() {
       name: "Phone",
       desc: "02166957831",
       icon: <AiOutlinePhone className={`${iconClass}`} />,
-      to: "tel:02166957831",
+      to: "tel:+982166957831",
     },
-    {
+    /* {
       id: 2,
       name: "Fax",
       desc: "02166958237",
       icon: <LiaFaxSolid className={`${iconClass}`} />,
       to: "",
-    },
+    }, */
     {
       id: 3,
       name: "Email",
@@ -38,21 +38,21 @@ function Contact() {
       name: "Instagram",
       desc: "conteschool/",
       icon: <PiInstagramLogo className={`${iconClass}`} />,
-      to: "",
+      to: "https://www.instagram.com/conteschool1393",
     },
     {
       id: 2,
       name: "Telegram",
       desc: "conteschool/",
       icon: <PiTelegramLogo className={`${iconClass}`} />,
-      to: "",
+      to: "https://t.me/+989125975912",
     },
     {
       id: 3,
       name: "WhatsApp",
       desc: "conteschool/",
       icon: <FaWhatsapp className={`${iconClass}`} />,
-      to: "",
+      to: "https://wa.me/+989125975912",
     },
   ];
 

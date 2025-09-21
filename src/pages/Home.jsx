@@ -84,7 +84,7 @@ function Home() {
       <div className="relative w-full min-h-screen">
         {/* بک‌گراند عکس تمام صفحه */}
         <img
-          src="images/photo_2025-05-08_00-14-50 (2).jpg"
+          src="images/6.jpg"
           alt=""
           className="absolute inset-0 w-full h-full z-0 rounded-lg object-cover"
           loading="lazy"
@@ -103,7 +103,7 @@ function Home() {
             className="text-[10px] sm:text-sm md:text-2xl mt-2 md:mt-6"
             data-aos="fade-left"
           >
-            با آموزشگاه هنر های تجسمی کُنته، مسیر هنر رو تجربه کن
+            با آموزشگاه هنر های تجسمی کُنته، مسیر هنر را تجربه کن
           </h2>
 
           <div

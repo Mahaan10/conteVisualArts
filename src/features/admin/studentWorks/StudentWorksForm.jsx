@@ -94,10 +94,10 @@ function StudentWorksForm({ courses, students, onClose, artWorkToEdit = {} }) {
   useEffect(() => {
     if (editArtWorkId) {
       reset({
-        title: artWorkToEdit.title,
-        description: artWorkToEdit.description,
-        course: artWorkToEdit?.course._id || "",
-        student: artWorkToEdit.student._id || "",
+        title: artWorkToEdit?.title,
+        description: artWorkToEdit?.description,
+        course: artWorkToEdit?.course?._id || "",
+        student: artWorkToEdit?.student?._id || "",
       });
     }
   }, [reset, editArtWorkId, artWorkToEdit]);

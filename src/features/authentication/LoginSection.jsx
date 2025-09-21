@@ -95,17 +95,15 @@ function LoginSection({
     <form className="space-y-5" onSubmit={handleSubmit(handleSendOTP)}>
       {!contactSubmitted && (
         <>
-          <p className="text-xs mb-4">
-            لطفاً شماره همراه یا ایمیل خود را وارد کنید:
-          </p>
+          <p className="text-xs mb-4">لطفاً شماره همراه خود را وارد کنید:</p>
           <ThemeProvider theme={customTheme}>
             <FloatingLabel
               variant="outlined"
-              label="شماره همراه یا ایمیل"
+              label="شماره همراه"
               sizing="sm"
               type="text"
               {...register("contact", {
-                required: "وارد کردن شماره موبایل یا ایمیل الزامیست",
+                required: "وارد کردن شماره همراه الزامیست",
                 validate: (value) => {
                   const isPhone = /^09\d{9}$/.test(value);
                   const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);

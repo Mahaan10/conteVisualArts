@@ -35,7 +35,7 @@ import { useCart } from "../context/useShoppingCardContext";
 
 const customTheme = createTheme({
   dropdown: {
-    arrowIcon: "mr-2",
+    arrowIcon: "",
     content: "w-60",
     floating: {
       style: {
@@ -53,7 +53,7 @@ const customTheme = createTheme({
   button: {
     color: {
       default:
-        "cursor-pointer bg-almond-cookie dark:bg-dark-cerulean hover:bg-golden-sand dark:hover:bg-purple-plumeria transition-colors duration-300 focus:ring-0 text-black dark:text-whitesmoke",
+        "cursor-pointer bg-almond-cookie dark:bg-dark-cerulean hover:bg-golden-sand dark:hover:bg-purple-plumeria transition-colors duration-300 focus:ring-0 text-black dark:text-whitesmoke px-1 lg:px-3",
     },
   },
 });
@@ -67,8 +67,8 @@ function Header() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isShoppingMenuOpen, setIsShoppingMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
-  // Show toast for error and render fallback UI
   useEffect(() => {
     if (isError) {
       showToast(
@@ -78,9 +78,18 @@ function Header() {
     }
   }, [isError, error, showToast]);
 
-  if (isError) {
+  /* if (isError) {
     return null;
-  }
+  } */
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const shouldScroll = window.scrollY > 10;
+      setIsScrolled((prev) => (prev !== shouldScroll ? shouldScroll : prev));
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const logoutHandler = async () => {
     await logout();
@@ -213,7 +222,10 @@ function Header() {
       </Helmet>
 
       <header
-        className="z-50 relative flex items-center justify-between border-b border-light-shade-yellow dark:border-moderate-violet transition-colors duration-300"
+        className={`flex items-center justify-between border-b border-light-shade-yellow dark:border-moderate-violet transition-colors duration-300 z-20 max-w-[1920px] mx-auto ${
+          isScrolled &&
+          "bg-whitesmoke/90 shadow-md dark:shadow-zinc-800/50 dark:bg-slate-950/80 backdrop-blur fixed top-0 md:left-10 md:right-10 left-2 right-2"
+        }`}
         data-aos="fade-right"
         data-aos-duration="1500"
       >
@@ -227,9 +239,9 @@ function Header() {
           <IoMenuOutline className="w-8 h-8" />
         </button>
 
-        {/* Brand + Nav */}
+        {/* Right Section */}
         <div className="flex items-center justify-center">
-          <Link to="/" className="ml-2">
+          <Link to="/" className="">
             <img
               src="/images/Logo.jpg"
               alt="مدرسه هنری کنته - لوگو رسمی آموزشگاه هنرهای تجسمی"
@@ -239,7 +251,7 @@ function Header() {
           </Link>
 
           <nav
-            className="hidden lg:flex items-center gap-x-6 text-xs ml-2 list-none"
+            className="hidden lg:flex items-center gap-x-6 text-xs mx-2 list-none"
             aria-label="ناوبری اصلی"
           >
             <li>
@@ -263,9 +275,11 @@ function Header() {
           </nav>
         </div>
 
-        {/* Right Section */}
-        <div className="flex items-center justify-between gap-x-2 lg:gap-x-4 lg:ml-5 ml-3.5">
-          <ThemeMode />
+        {/* Left Section */}
+        <div className="flex items-center justify-between gap-x-2 lg:gap-x-4 lg:ml-5 sm:ml-3.5 ml-1">
+          <div className="sm:flex hidden">
+            <ThemeMode />
+          </div>
 
           <div className="relative">
             <button
@@ -301,7 +315,7 @@ function Header() {
                 placement="bottom-start"
                 size="sm"
                 dismissOnClick={true}
-                className="z-20"
+                className=""
               >
                 <DropdownHeader>
                   <img
@@ -329,18 +343,16 @@ function Header() {
             </ThemeProvider>
           )}
         </div>
-
-        <HeaderMenu
-          isOpen={isDrawerOpen}
-          setIsOpen={setIsDrawerOpen}
-          setIsModalOpen={setIsModalOpen}
-        />
-        <ShoppingMenu
-          isOpen={isShoppingMenuOpen}
-          setIsOpen={setIsShoppingMenuOpen}
-        />
       </header>
-
+      <HeaderMenu
+        isOpen={isDrawerOpen}
+        setIsOpen={setIsDrawerOpen}
+        setIsModalOpen={setIsModalOpen}
+      />
+      <ShoppingMenu
+        isOpen={isShoppingMenuOpen}
+        setIsOpen={setIsShoppingMenuOpen}
+      />
       {isModalOpen && (
         <Modal title="ورود یا ثبت نام" onClose={() => setIsModalOpen(false)}>
           <AuthContainer onClose={() => setIsModalOpen(false)} />

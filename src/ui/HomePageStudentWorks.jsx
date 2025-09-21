@@ -57,7 +57,7 @@ function HomePageStudentWorks({ studentWorks }) {
 
       <Swiper
         modules={[Autoplay]}
-        autoplay={{ delay: 4000, disableOnInteraction: false }}
+        autoplay={{ delay: 2000, disableOnInteraction: false }}
         spaceBetween={25}
         loop
         breakpoints={{

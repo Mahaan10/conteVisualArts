@@ -8,6 +8,8 @@ import { FiArrowUpLeft, FiChevronLeft, FiChevronRight } from "react-icons/fi";
 function HomePageCourses({ courses }) {
   const swiperRef = useRef(null);
   const filteredCourses = courses?.filter((c) => c.isActive) || [];
+  console.log("TopRatedCourses => ", courses);
+  console.log("FilteredCourses => ", filteredCourses);
 
   if (courses.length === 0 || !courses) {
     return <div className="text-center mt-4">دوره‌ای یافت نشد</div>;

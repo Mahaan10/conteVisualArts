@@ -30,6 +30,7 @@ import useOutsideClick from "../hooks/useOutsideClick";
 import formattedDate from "../utils/formattedDate";
 import { useCart } from "../context/useShoppingCardContext";
 import NotFound from "./NotFound";
+import toPersianNumbersWithComma from "../utils/toPersianNumbers";
 
 const customTheme = createTheme({
   modal: {
@@ -200,12 +201,12 @@ function CoursePageLayout() {
               </div>
             </div>
             <div
-              className="flex items-center gap-x-6 mt-10"
+              className="flex items-center justify-center gap-x-6 mt-10"
               data-aos="fade-left"
               data-aos-duration="1000"
             >
               <button
-                className="btn py-3.5 bg-transparent border dark:border-moderate-violet justify-center gap-x-4 dark:hover:bg-purple-plumeria hover:border-transparent border-butter-caramel hover:bg-golden-sand w-48"
+                className="btn py-3.5 bg-transparent border dark:border-moderate-violet justify-center gap-x-4 dark:hover:bg-purple-plumeria hover:border-transparent border-butter-caramel hover:bg-golden-sand sm:w-48 w-full"
                 onClick={() => setIsOpen(!isOpen)}
               >
                 <FaRegCommentDots className="w-4 h-4" />
@@ -217,6 +218,16 @@ function CoursePageLayout() {
               >
                 افزودن به سبد خرید
               </button>
+            </div>
+            <div
+              className="flex items-center justify-center m-10 gap-x-1.5"
+              data-aos="fade-right"
+              data-aos-duration="500"
+            >
+              <p className="text-2xl font-extraBlack lg:text-3xl ">
+                {toPersianNumbersWithComma(course?.price)}
+              </p>
+              <span className="opacity-50">تومان</span>
             </div>
           </div>
           <div className="col-span-1 lg:col-span-5 xl:col-span-6 order-1 md:order-2 self-start">
