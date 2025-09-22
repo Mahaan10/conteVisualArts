@@ -114,7 +114,6 @@ function StudentWorksForm({ courses, students, onClose, artWorkToEdit = {} }) {
   }, [Image]);
 
   const onSubmit = async (data) => {
-    console.log(data);
 
     const formData = new FormData();
     formData.append("title", data?.title);
@@ -124,18 +123,7 @@ function StudentWorksForm({ courses, students, onClose, artWorkToEdit = {} }) {
     if (data?.Image && data?.Image[0]) {
       formData.append("Image", data?.Image[0]);
     }
-    console.log(formData);
 
-    /* const updatedCourse = {
-      ...formData,
-      name: data?.name,
-      description: data?.description,
-      duration: data?.duration,
-      price: data?.price,
-      availableSeats: data?.availableSeats,
-      startDate: data?.startDate?.toDate().toISOString(),
-      isActive: data?.isActive,
-    }; */
     if (editArtWorkId) {
       await editArtWork(
         { artWorkId: editArtWorkId, newArtWork: formData },

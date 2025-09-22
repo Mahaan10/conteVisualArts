@@ -25,7 +25,7 @@ function AdminUsersTable() {
     sortUsers,
     6
   );
-  //console.log(users);
+
   if (isLoading) return <Loader />;
   if (isError) {
     showToast("error", error?.response?.data?.message || "اطلاعات یافت نشد");

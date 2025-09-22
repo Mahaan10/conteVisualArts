@@ -41,7 +41,6 @@ function NewsCards({ array }) {
           <Card className="max-w-sm transition-all duration-300">
             <div className="w-full">
               <img
-                //src="https://flowbite.com/docs/images/blog/image-1.jpg"
                 src={arr.Image}
                 alt={arr.title}
                 loading="lazy"

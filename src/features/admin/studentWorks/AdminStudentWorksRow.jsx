@@ -4,8 +4,6 @@ import Table from "../../../ui/Table";
 import formattedDate from "../../../utils/formattedDate";
 
 function AdminStudentWorksRow({ studentWork, index, onEdit, onDelete }) {
-  console.log(studentWork);
-
   return (
     <Table.Row>
       <td>{index + 1}</td>

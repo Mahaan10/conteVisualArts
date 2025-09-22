@@ -26,7 +26,7 @@ function AdminStudentWorks() {
   const { showToast } = useToast();
 
   const sortUsers = users?.filter((user) => user?.role === "student") || [];
-  console.log(sortUsers);
+
 
   if (coursesIsLoading || usersIsLoading) return <Loader />;
   if (coursesIsError || usersIsError) {

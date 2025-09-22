@@ -4,7 +4,6 @@ import Table from "../../../ui/Table";
 import formattedDate from "../../../utils/formattedDate";
 
 function AdminUsersRow({ user, index, onEdit, onDelete }) {
-  console.log(user);
 
   return (
     <Table.Row>

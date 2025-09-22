@@ -23,7 +23,7 @@ function AdminNewsTable() {
     news,
     6
   );
-  console.log(news);
+
   if (isLoading) return <Loader />;
   if (isError) {
     showToast("error", error?.response?.data?.message || "اطلاعات یافت نشد");

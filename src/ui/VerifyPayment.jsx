@@ -21,10 +21,10 @@ function VerifyPayment() {
 
       try {
         const { data } = await axios.post("/payments/verify", { authority });
-        console.log(data);
+        //console.log(data);
         if (data?.code === 100) {
           showToast("success", "پرداخت با موفقیت انجام شد");
-          navigate("/student"); // یا هر مسیر دلخواه
+          navigate("/student");
         } else {
           showToast("error", "پرداخت ناموفق بود");
           navigate("/");

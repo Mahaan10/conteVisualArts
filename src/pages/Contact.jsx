@@ -16,13 +16,6 @@ function Contact() {
       icon: <AiOutlinePhone className={`${iconClass}`} />,
       to: "tel:+982166957831",
     },
-    /* {
-      id: 2,
-      name: "Fax",
-      desc: "02166958237",
-      icon: <LiaFaxSolid className={`${iconClass}`} />,
-      to: "",
-    }, */
     {
       id: 3,
       name: "Email",
@@ -36,21 +29,21 @@ function Contact() {
     {
       id: 1,
       name: "Instagram",
-      desc: "conteschool/",
+      desc: "conteschool1393",
       icon: <PiInstagramLogo className={`${iconClass}`} />,
       to: "https://www.instagram.com/conteschool1393",
     },
     {
       id: 2,
       name: "Telegram",
-      desc: "conteschool/",
+      desc: "09125975912",
       icon: <PiTelegramLogo className={`${iconClass}`} />,
       to: "https://t.me/+989125975912",
     },
     {
       id: 3,
       name: "WhatsApp",
-      desc: "conteschool/",
+      desc: "09125975912",
       icon: <FaWhatsapp className={`${iconClass}`} />,
       to: "https://wa.me/+989125975912",
     },

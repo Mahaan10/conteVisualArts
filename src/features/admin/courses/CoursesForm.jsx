@@ -190,7 +190,7 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
 
   const onSubmit = async (data) => {
     const startDateToISO = data?.startDate.toDate().toISOString();
-    console.log(data);
+
 
     const formData = new FormData();
     formData.append("name", data?.name);
@@ -210,18 +210,7 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
         formData.append("courseImages", file);
       });
     }
-    console.log(formData);
 
-    /* const updatedCourse = {
-      ...formData,
-      name: data?.name,
-      description: data?.description,
-      duration: data?.duration,
-      price: data?.price,
-      availableSeats: data?.availableSeats,
-      startDate: data?.startDate?.toDate().toISOString(),
-      isActive: data?.isActive,
-    }; */
     if (editCourseId) {
       await editCourse(
         { courseId: editCourseId, newCourse: formData },

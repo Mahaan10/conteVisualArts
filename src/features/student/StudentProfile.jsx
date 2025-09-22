@@ -134,16 +134,6 @@ function StudentProfile() {
     await editUser({ userId: user?._id, updatedUser: formData });
     showToast("success", "اطلاعات با موفقیت ویرایش شد");
   };
-  /* console.log(data);
-
-    const updatedUser = {
-      name: data?.name,
-      email: data?.email,
-      phone: data?.phone,
-    };
-    await editUser({ userId: user?._id, updatedUser });
-    showToast("success", "موفق");
-  }; */
 
   if (isError || !token) {
     showToast(

@@ -37,7 +37,6 @@ function CoursesTable() {
   const filterUserCourses = courses.filter((course) =>
     userCourses.includes(course._id)
   );
-  console.log(user);
   return (
     <>
       {!user?.enrolledCourses.length ? (

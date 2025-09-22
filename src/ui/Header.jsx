@@ -227,8 +227,8 @@ function Header() {
             ? "bg-whitesmoke/90 shadow-md dark:shadow-zinc-800/50 dark:bg-slate-950/80 backdrop-blur fixed top-0 md:left-10 md:right-10 left-2 right-2"
             : "relative"
         }`}
-        data-aos="fade-right"
-        data-aos-duration="1500"
+        //data-aos="fade-right"
+        //data-aos-duration="1500"
       >
         {/* Mobile Menu Button */}
         <button

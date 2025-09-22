@@ -22,7 +22,7 @@ function AdminCoursesTable() {
     courses,
     6
   );
-  console.log(courses);
+
   if (isLoading) return <Loader />;
 
   if (isError) {
