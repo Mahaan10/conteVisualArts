@@ -109,7 +109,7 @@ function FooterSection() {
                       </FooterLink>
                     </FooterLinkGroup>
                   </div> */}
-                  <div>
+                  <div className="col-span-full sm:col-span-1">
                     <FooterTitle title="راه های ارتباطی" />
                     <div className="flex flex-col gap-y-4 text-xs sm:text-sm">
                       <div className="flex gap-x-2 opacity-50">
@@ -122,10 +122,6 @@ function FooterSection() {
                           021-66957831
                         </a>
                       </div>
-                      {/* <div className="flex gap-x-2 opacity-50">
-                        <span>فکس:</span>
-                        <a href="">021-66958237</a>
-                      </div> */}
                       <div className="flex gap-x-2 opacity-50">
                         <span>ایمیل:</span>
                         <a
@@ -156,6 +152,13 @@ function FooterSection() {
                           icon={FaWhatsapp}
                         />
                       </div>
+                      <div className="flex gap-x-2 opacity-50">
+                        <span className="leading-6">آدرس:</span>
+                        <p className="leading-6">
+                          تهران. شریعتی. قلهک. رو به روی بیمارستان ایرانمهر. کوی
+                          مرشدی. پلاک 6. واحد 3
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -166,6 +169,7 @@ function FooterSection() {
                       src="/images/Logo.jpg"
                       alt="Conte Logo"
                       loading="lazy"
+                      className="h-32 md:w-28 w-19"
                     />
                   </div>
                   <div className="flex flex-col sm:flex-row items-center justify-between">

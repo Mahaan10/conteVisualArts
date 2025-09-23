@@ -91,15 +91,15 @@ function Home() {
           data-aos="zoom-in"
         />
 
-        <div className="absolute z-10 flex flex-col justify-center items-start h-full p-4 sm:p-8 text-whitesmoke font-hoda top-[20%] sm:top-[15%] md:top-[5%]">
+        <div className="absolute z-10 flex flex-col justify-center items-start h-full p-4 sm:p-8 text-whitesmoke font-hoda top-0 sm:top-0">
           <h1
-            className="text-lg sm:text-2xl md:text-5xl font-black"
+            className="text-2xl sm:text-4xl md:text-5xl font-black"
             data-aos="fade-right"
           >
             کُنته، جایی برای تجلی هنر
           </h1>
           <h2
-            className="text-[10px] sm:text-sm md:text-2xl mt-2 md:mt-6"
+            className="text-xs sm:text-xl md:text-2xl mt-2 md:mt-6"
             data-aos="fade-left"
           >
             با آموزشگاه هنر های تجسمی کُنته، مسیر هنر را تجربه کن
