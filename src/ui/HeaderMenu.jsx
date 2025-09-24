@@ -18,7 +18,7 @@ import CustomNavlink from "./CustomNavlink";
 import { useGetUser } from "../context/useGetUserContext";
 import { Link } from "react-router-dom";
 import { Loader } from "./Loading";
-import { useToast } from "../context/useToastContext";
+import toast from "react-hot-toast";
 import { useEffect } from "react";
 import useOutsideClick from "../hooks/useOutsideClick";
 import { useThemeMode } from "../context/useThemeModeContext";
@@ -65,17 +65,13 @@ const customTheme = createTheme({
 
 function HeaderMenu({ isOpen, setIsOpen, setIsModalOpen }) {
   const { token, isLoading, isError, error, user } = useGetUser();
-  const { showToast } = useToast();
   const { themeMode, setThemeMode } = useThemeMode();
 
   useEffect(() => {
     if (isError) {
-      showToast(
-        "error",
-        error?.response?.data?.message || "اطلاعات کاربری یافت نشد"
-      );
+      toast.error(error?.response?.data?.message || "اطلاعات کاربری یافت نشد");
     }
-  }, [isError, error, showToast]);
+  }, [isError, error]);
 
   useEffect(() => {
     const handleResize = () => {

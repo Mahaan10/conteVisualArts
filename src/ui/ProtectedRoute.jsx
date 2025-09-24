@@ -1,27 +1,23 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useGetUser } from "../context/useGetUserContext";
-import { useToast } from "../context/useToastContext";
+import toast from "react-hot-toast";
 import Loading from "./Loading";
 
 function ProtectedRoute({ allowedRoles = [] }) {
   const { user, token, isLoading, isError, error, isTokenChecked } =
     useGetUser();
-  const { showToast } = useToast();
 
   if (isLoading || !isTokenChecked) return <Loading />;
 
   if (isError) {
-    showToast(
-      "error",
-      error?.response?.data?.message || "سطح دسترسی تعریف نشده"
-    );
+    toast.error(error?.response?.data?.message || "سطح دسترسی تعریف نشده");
     return <Navigate to="/" replace />;
   }
 
   if (!token) return <Navigate to="/" replace />;
 
   if (Array.isArray(allowedRoles) && !allowedRoles.includes(user?.role)) {
-    showToast("error", "شما به این بخش دسترسی ندارید");
+    toast.error("شما به این بخش دسترسی ندارید");
     return <Navigate to="/" replace />;
   }
 

@@ -5,9 +5,9 @@ import AdminStudentWorksTable from "./AdminStudentWorksTable";
 import StudentWorksForm from "./StudentWorksForm";
 import useCourses from "../../../hooks/useCourses";
 import useUsers from "../../../hooks/useUsers";
-import { useToast } from "../../../context/useToastContext";
 import NotFound from "../../../ui/NotFound";
 import { Loader } from "../../../ui/Loading";
+import toast from "react-hot-toast";
 
 function AdminStudentWorks() {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,15 +23,12 @@ function AdminStudentWorks() {
     isError: usersIsError,
     isLoading: usersIsLoading,
   } = useUsers();
-  const { showToast } = useToast();
 
   const sortUsers = users?.filter((user) => user?.role === "student") || [];
 
-
   if (coursesIsLoading || usersIsLoading) return <Loader />;
   if (coursesIsError || usersIsError) {
-    showToast(
-      "error",
+    toast.error(
       coursesError?.response?.data?.message ||
         usersError?.response?.data?.message ||
         "اطلاعات یافت نشد"

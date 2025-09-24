@@ -6,7 +6,7 @@ import StudentWorksSidebar from "../ui/StudentWorksSidebar";
 import useStudentWorks from "../hooks/useStudentWorks";
 import StudentWorksCards from "../ui/StudentWorksCards";
 import Loading from "../ui/Loading";
-import { useToast } from "../context/useToastContext";
+import toast from "react-hot-toast";
 import NotFound from "../ui/NotFound";
 import { useFilter } from "../context/FilterContext";
 import { useState } from "react";
@@ -25,7 +25,6 @@ function StudentWorks() {
   const { studentWorks, error, isError, isLoading } = useStudentWorks();
   const { filters } = useFilter();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const { showToast } = useToast();
   const type = "studentWorks";
 
   const allCourses = studentWorks.map((work) => work?.course);
@@ -35,7 +34,7 @@ function StudentWorks() {
   );
 
   const categoryLabels = courses.reduce((acc, course) => {
-    acc[course.name] = course.name;
+    acc[course.name] = course?.name;
     return acc;
   }, {});
 
@@ -43,7 +42,7 @@ function StudentWorks() {
     ?.filter((work) => {
       const category = filters[type]?.category;
       if (!category) return true;
-      return work.course.name === category;
+      return work.course?.name === category;
     })
     .sort((a, b) => {
       const sort = filters[type]?.sort;
@@ -57,10 +56,7 @@ function StudentWorks() {
 
   if (isLoading) return <Loading />;
   if (isError) {
-    showToast(
-      "error",
-      error?.response?.data?.message || "بارگذاری با خطا مواجه شد"
-    );
+    toast.error(error?.response?.data?.message || "بارگذاری با خطا مواجه شد");
     return <NotFound />;
   }
 

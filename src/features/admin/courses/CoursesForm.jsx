@@ -11,13 +11,13 @@ import {
   ThemeProvider,
 } from "flowbite-react";
 import { DateObject } from "react-multi-date-picker";
-import { useToast } from "../../../context/useToastContext";
 import useCreateCourse from "../../../hooks/useCreateCourse";
 import useEditCourse from "../../../hooks/useEditCourse";
 import Calendar from "../../../ui/Calendar";
 import { Loader } from "../../../ui/Loading";
 import { HiChevronDown } from "react-icons/hi";
 import { numberWithCommas } from "../../../utils/toPersianNumbers";
+import toast from "react-hot-toast";
 
 const customTheme = createTheme({
   floatingLabel: {
@@ -115,7 +115,6 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
   const [preview, setPreview] = useState(null);
   const [courseImagesPreview, setCourseImagesPreview] = useState([]);
   const [rawPrice, setRawPrice] = useState("");
-  const { showToast } = useToast();
   const { createCourse, isCreatingCourse } = useCreateCourse();
   const { editCourse, isEditingCourse } = useEditCourse();
   const { _id: editCourseId } = courseToEdit;
@@ -191,7 +190,6 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
   const onSubmit = async (data) => {
     const startDateToISO = data?.startDate.toDate().toISOString();
 
-
     const formData = new FormData();
     formData.append("name", data?.name);
     formData.append("description", data?.description);
@@ -216,13 +214,12 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
         { courseId: editCourseId, newCourse: formData },
         {
           onSuccess: () => {
-            showToast("success", `${data?.name} با موفقیت ویرایش شد`);
+            toast.success(`${data?.name} با موفقیت ویرایش شد`);
             onClose();
             reset();
           },
           onError: (error) =>
-            showToast(
-              "error",
+            toast.error(
               error?.response?.data?.message ||
                 `ویرایش ${data?.name} موفقیت آمیز نبود`
             ),
@@ -231,13 +228,12 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
     } else {
       await createCourse(formData, {
         onSuccess: () => {
-          showToast("success", `${data?.name} با موفقیت ایجاد شد`);
+          toast.success(`${data?.name} با موفقیت ایجاد شد`);
           onClose();
           reset();
         },
         onError: (error) =>
-          showToast(
-            "error",
+          toast.error(
             error?.response?.data?.message ||
               `ایجاد ${data?.name} موفقیت آمیز نبود`
           ),

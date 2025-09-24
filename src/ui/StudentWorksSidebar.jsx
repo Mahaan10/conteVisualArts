@@ -59,13 +59,13 @@ function StudentWorksSidebar({ courses }) {
               </AccordionTitle>
 
               {courses.map((course) => (
-                <AccordionContent key={course._id}>
+                <AccordionContent key={course?._id}>
                   <input
                     type="checkbox"
-                    checked={filters[type].category === course.name}
-                    onChange={() => toggleCategory(course.name, type)}
+                    checked={filters[type].category === course?.name}
+                    onChange={() => toggleCategory(course?.name, type)}
                   />
-                  <label>{course.name}</label>
+                  <label>{course?.name}</label>
                 </AccordionContent>
               ))}
             </AccordionPanel>

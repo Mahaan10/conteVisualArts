@@ -7,9 +7,9 @@ function AdminNewsRow({ news, index, onEdit, onDelete }) {
   return (
     <Table.Row>
       <td>{index + 1}</td>
-      <td>{news.title}</td>
-      <td>{formattedDate(news.createdAt)}</td>
-      <td>{formattedDate(news.updatedAt)}</td>
+      <td>{news?.title}</td>
+      <td>{formattedDate(news?.createdAt)}</td>
+      <td>{formattedDate(news?.updatedAt)}</td>
       <td className="flex gap-x-4 justify-center">
         <button
           className="btn text-whitesmoke w-24 bg-cyan-700 hover:bg-cyan-800"

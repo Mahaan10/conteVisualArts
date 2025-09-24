@@ -1,10 +1,9 @@
 import { Navigate, NavLink, Outlet } from "react-router-dom";
 import { useGetUser } from "../context/useGetUserContext";
-import { CiEdit } from "react-icons/ci";
 import { TbSmartHome } from "react-icons/tb";
 import { BsCalendar3Event, BsFolder2Open } from "react-icons/bs";
 import { HiOutlineAdjustmentsVertical, HiOutlinePower } from "react-icons/hi2";
-import { useToast } from "../context/useToastContext";
+import toast from "react-hot-toast";
 import Loading, { Loader } from "./Loading";
 import useLogout from "../hooks/useLogout";
 import { SiCountingworkspro } from "react-icons/si";
@@ -18,13 +17,9 @@ const getNavLinkClass = ({ isActive }) =>
 function AppLayout() {
   const { user, isLoading, isError, error, token } = useGetUser();
   const { isLoggedOut, logout } = useLogout();
-  const { showToast } = useToast();
 
   if (isError || !token) {
-    showToast(
-      "error",
-      error?.response?.data?.message || "اطلاعات کاربری یافت نشد"
-    );
+    toast.error(error?.response?.data?.message || "اطلاعات کاربری یافت نشد");
     return <Navigate to="/" replace />;
   }
 

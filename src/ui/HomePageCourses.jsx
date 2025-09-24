@@ -71,21 +71,21 @@ function HomePageCourses({ courses }) {
         onSwiper={(swiper) => (swiperRef.current = swiper)}
       >
         {filteredCourses.map((course) => (
-          <SwiperSlide key={course._id}>
+          <SwiperSlide key={course?._id}>
             <Link
-              to={`/courses/${course._id}`}
+              to={`/courses/${course?._id}`}
               className="flex flex-col gap-y-2 items-center w-full"
             >
               <div className="w-40 h-40">
                 <img
-                  src={course.Image}
-                  alt={course.name}
+                  src={course?.Image}
+                  alt={course?.name}
                   loading="lazy"
                   className="rounded-lg w-full h-full object-cover"
                 />
               </div>
               <h1 className="text-sm text-nowrap w-40 text-right">
-                {course.name}
+                {course?.name}
               </h1>
             </Link>
           </SwiperSlide>

@@ -10,11 +10,11 @@ import {
   Select,
   ThemeProvider,
 } from "flowbite-react";
-import { useToast } from "../../../context/useToastContext";
 import useCreateStudentWorks from "../../../hooks/useCreateStudentWorks";
 import useEditStudentWorks from "../../../hooks/useEditStudentWorks";
 import { Loader } from "../../../ui/Loading";
 import { HiChevronDown } from "react-icons/hi";
+import toast from "react-hot-toast";
 
 const customTheme = createTheme({
   floatingLabel: {
@@ -72,7 +72,6 @@ const schema = Yup.object().shape({
 
 function StudentWorksForm({ courses, students, onClose, artWorkToEdit = {} }) {
   const [preview, setPreview] = useState(null);
-  const { showToast } = useToast();
   const { createArtWork, isCreatingArtWork } = useCreateStudentWorks();
   const { editArtWork, isEditingStudentWorks } = useEditStudentWorks();
   const { _id: editArtWorkId } = artWorkToEdit;
@@ -114,7 +113,6 @@ function StudentWorksForm({ courses, students, onClose, artWorkToEdit = {} }) {
   }, [Image]);
 
   const onSubmit = async (data) => {
-
     const formData = new FormData();
     formData.append("title", data?.title);
     formData.append("description", data?.description);
@@ -129,13 +127,12 @@ function StudentWorksForm({ courses, students, onClose, artWorkToEdit = {} }) {
         { artWorkId: editArtWorkId, newArtWork: formData },
         {
           onSuccess: () => {
-            showToast("success", `${data?.title} با موفقیت ویرایش شد`);
+            toast.success(`${data?.title} با موفقیت ویرایش شد`);
             onClose();
             reset();
           },
           onError: (error) =>
-            showToast(
-              "error",
+            toast.error(
               error?.response?.data?.message ||
                 `ویرایش ${data?.title} موفقیت آمیز نبود`
             ),
@@ -144,13 +141,12 @@ function StudentWorksForm({ courses, students, onClose, artWorkToEdit = {} }) {
     } else {
       await createArtWork(formData, {
         onSuccess: () => {
-          showToast("success", `${data?.title} با موفقیت ایجاد شد`);
+          toast.success(`${data?.title} با موفقیت ایجاد شد`);
           onClose();
           reset();
         },
         onError: (error) =>
-          showToast(
-            "error",
+          toast.error(
             error?.response?.data?.message ||
               `ایجاد ${data?.title} موفقیت آمیز نبود`
           ),

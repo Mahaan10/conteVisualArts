@@ -1,10 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { editUserApi } from "../services/usersService";
-import { useToast } from "../context/useToastContext";
+import toast from "react-hot-toast";
 
 export default function useEditUser(token) {
   const queryClient = useQueryClient();
-  const { showToast } = useToast();
 
   const { isPending: isUserEditing, mutateAsync: editUser } = useMutation({
     mutationFn: editUserApi,
@@ -14,8 +13,7 @@ export default function useEditUser(token) {
       });
     },
     onError: (error) => {
-      showToast(
-        "error",
+      toast.error(
         error?.response?.data?.message || "ویرایش اطلاعات موفقیت آمیز نبود"
       );
     },

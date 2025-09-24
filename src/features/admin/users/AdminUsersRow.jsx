@@ -4,14 +4,13 @@ import Table from "../../../ui/Table";
 import formattedDate from "../../../utils/formattedDate";
 
 function AdminUsersRow({ user, index, onEdit, onDelete }) {
-
   return (
     <Table.Row>
       <td>{index + 1}</td>
-      <td>{user.name}</td>
-      <td>{formattedDate(user.createdAt)}</td>
+      <td>{user?.name}</td>
+      <td>{formattedDate(user?.createdAt)}</td>
       <td>
-        {user.enrolledCourses.map((course) => (
+        {user?.enrolledCourses.map((course) => (
           <p key={course?._id}>{}</p>
         ))}
       </td>

@@ -9,7 +9,7 @@ import {
 import { TbFilters } from "react-icons/tb";
 import CourseCards from "../ui/CourseCards";
 import useCourses from "../hooks/useCourses";
-import { useToast } from "../context/useToastContext";
+import toast from "react-hot-toast";
 import Loading from "../ui/Loading";
 import { Outlet, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -37,7 +37,6 @@ const customTheme = createTheme({
 function Courses() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const { courses, error, isError, isLoading } = useCourses();
-  const { showToast } = useToast();
   const location = useLocation();
   const { filters, updateSearch } = useFilter();
   const type = "courses";
@@ -54,14 +53,14 @@ function Courses() {
   const filteredCourses = courses
     ?.filter((course) => {
       const searchValue = filters[type]?.search?.trim() || "";
-      return !searchValue || course.name?.includes(searchValue);
+      return !searchValue || course?.name?.includes(searchValue);
     })
     .filter((course) => {
       const category = filters[type]?.category;
       if (!category) return true;
       return category === "child" || category === "adult"
-        ? course.ageGroup === category
-        : course.badge === category;
+        ? course?.ageGroup === category
+        : course?.badge === category;
     })
     .sort((a, b) => {
       const sort = filters[type]?.sort;
@@ -75,12 +74,9 @@ function Courses() {
 
   useEffect(() => {
     if (isError) {
-      showToast(
-        "error",
-        error?.response?.data?.message || "بارگذاری با خطا مواجه شد"
-      );
+      toast.error(error?.response?.data?.message || "بارگذاری با خطا مواجه شد");
     }
-  }, [isError, error, showToast]);
+  }, [isError, error]);
 
   if (isLoading) return <Loading />;
 

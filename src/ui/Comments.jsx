@@ -1,17 +1,11 @@
 import { useState, useEffect } from "react";
-import {
-  createTheme,
-  FloatingLabel,
-  Textarea,
-  ThemeProvider,
-  Tooltip,
-} from "flowbite-react";
+import { createTheme, Textarea, ThemeProvider, Tooltip } from "flowbite-react";
 import useCreateReview from "../hooks/useCreateReview";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import Loading, { Loader } from "./Loading";
 import useSingleCourse from "../hooks/useSingleCourse";
-import { useToast } from "../context/useToastContext";
+import toast from "react-hot-toast";
 import { useGetUser } from "../context/useGetUserContext";
 
 const customTheme = createTheme({
@@ -44,7 +38,6 @@ const Comments = ({ onClose }) => {
     token,
   } = useGetUser();
   const [value, setValue] = useState(3);
-  const { showToast } = useToast();
   const {
     handleSubmit,
     register,
@@ -53,30 +46,26 @@ const Comments = ({ onClose }) => {
 
   useEffect(() => {
     if (isError || isUserError) {
-      showToast(
-        "error",
-        error?.response?.data?.message || "خطا در بارگذاری اطلاعات"
-      );
+      toast.error(error?.response?.data?.message || "خطا در بارگذاری اطلاعات");
       onClose();
     }
-  }, [isError, isUserError, error, showToast, onClose]);
+  }, [isError, isUserError, error, onClose]);
 
   useEffect(() => {
     if (!isLoading && !isUserLoading) {
       if (!token) {
-        showToast("error", "برای ارسال دیدگاه لطفاً وارد حساب کاربری شوید.");
+        toast.error("برای ارسال دیدگاه لطفاً وارد حساب کاربری شوید.");
         onClose();
       } else if (
         !course?.enrolledStudents?.some((student) => student === user?._id)
       ) {
-        showToast(
-          "error",
+        toast.error(
           "فقط هنرجویان ثبت‌نام‌ کرده در این دوره می‌توانند دیدگاه ثبت کنند."
         );
         onClose();
       }
     }
-  }, [token, course, user, isLoading, isUserLoading, showToast, onClose]);
+  }, [token, course, user, isLoading, isUserLoading, onClose]);
 
   const onSubmit = async (data) => {
     const newComment = {

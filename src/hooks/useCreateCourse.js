@@ -1,10 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createNewCourseApi } from "../services/coursesService";
-import { useToast } from "../context/useToastContext";
+import toast from "react-hot-toast";
 
 export default function useCreateCourse() {
   const queryClient = useQueryClient();
-  const { showToast } = useToast();
 
   const { isPending: isCreatingCourse, mutateAsync: createCourse } =
     useMutation({
@@ -15,10 +14,7 @@ export default function useCreateCourse() {
         });
       },
       onError: (error) =>
-        showToast(
-          "error",
-          error?.response?.data?.message || "عدم ایجاد دوره جدید"
-        ),
+        toast.error(error?.response?.data?.message || "عدم ایجاد دوره جدید"),
     });
 
   return { createCourse, isCreatingCourse };

@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useGetUser } from "../../context/useGetUserContext";
-import { useToast } from "../../context/useToastContext";
+import toast from "react-hot-toast";
 import Loading, { Loader } from "../../ui/Loading";
 import {
   Button,
@@ -63,7 +63,6 @@ const customTheme = createTheme({
 function StudentProfile() {
   const { user, isLoading, isError, error, token } = useGetUser();
   const { editUser, isUserEditing } = useEditUser(token);
-  const { showToast } = useToast();
   const [preview, setPreview] = useState(null);
   const [isNameEditable, setIsNameEditable] = useState(false);
   const [isPhoneEditable, setIsPhoneEditable] = useState(false);
@@ -132,14 +131,11 @@ function StudentProfile() {
       formData.append("profilePicture", data?.profilePicture[0]);
     }
     await editUser({ userId: user?._id, updatedUser: formData });
-    showToast("success", "اطلاعات با موفقیت ویرایش شد");
+    toast.success("اطلاعات با موفقیت ویرایش شد");
   };
 
   if (isError || !token) {
-    showToast(
-      "error",
-      error?.response?.data?.message || "اطلاعات کاربری یافت نشد"
-    );
+    toast.error(error?.response?.data?.message || "اطلاعات کاربری یافت نشد");
     return <NotFound />;
   }
 

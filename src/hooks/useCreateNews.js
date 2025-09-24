@@ -1,10 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useToast } from "../context/useToastContext";
+import toast from "react-hot-toast";
 import { createNewNewsApi } from "../services/newsService";
 
 export default function useCreateNews() {
   const queryClient = useQueryClient();
-  const { showToast } = useToast();
 
   const { isPending: isCreatingNews, mutateAsync: createNews } = useMutation({
     mutationFn: createNewNewsApi,
@@ -14,10 +13,7 @@ export default function useCreateNews() {
       });
     },
     onError: (error) =>
-      showToast(
-        "error",
-        error?.response?.data?.message || "عدم ایجاد رویداد جدید"
-      ),
+      toast.error(error?.response?.data?.message || "عدم ایجاد رویداد جدید"),
   });
 
   return { createNews, isCreatingNews };

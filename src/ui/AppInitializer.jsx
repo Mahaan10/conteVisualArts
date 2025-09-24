@@ -7,14 +7,13 @@ import getAllCoursesApi, {
 import getAllStudentsWorksApi from "../services/studentsWorksService";
 import getAllNewsApi, { getSingleNewsApi } from "../services/newsService";
 import getAllReviewsApi from "../services/reviewsService";
-import { useToast } from "../context/useToastContext";
+import toast from "react-hot-toast";
 import Loading from "./Loading";
 
 function AppInitializer({ children }) {
   const [isReady, setIsReady] = useState(false);
   const queryClient = useQueryClient();
   const { pathname } = useLocation();
-  const { showToast } = useToast();
 
   useEffect(() => {
     const loadingInitialData = async () => {
@@ -86,15 +85,12 @@ function AppInitializer({ children }) {
         await Promise.all(tasks);
         setIsReady(true);
       } catch (error) {
-        showToast(
-          "error",
-          error?.response?.data?.message || "اطلاعات یافت نشد"
-        );
+        toast.error(error?.response?.data?.message || "اطلاعات یافت نشد");
         setIsReady(true);
       }
     };
     loadingInitialData();
-  }, [pathname, queryClient, showToast]);
+  }, [pathname, queryClient]);
 
   if (!isReady)
     return (

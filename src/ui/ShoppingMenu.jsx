@@ -11,7 +11,7 @@ import { HiShoppingBag, HiOutlineTrash } from "react-icons/hi2";
 import { useEffect } from "react";
 import useCreatePayment from "../hooks/useCreatePayment";
 import { useGetUser } from "../context/useGetUserContext";
-import { useToast } from "../context/useToastContext";
+import toast from "react-hot-toast";
 import { Loader } from "./Loading";
 import { BASE_URL } from "../services/httpService";
 
@@ -41,7 +41,6 @@ function ShoppingMenu({ isOpen, setIsOpen }) {
   const { createPayment, isCreatingPayment } = useCreatePayment();
   const { user, isLoading, isError, error, token } = useGetUser();
   const { cardItems, removeFromCard, totalPrice, clearCard } = useCart();
-  const { showToast } = useToast();
   const shoppingMenuRef = useOutsideClick(() => setIsOpen(false));
 
   useEffect(() => {
@@ -67,28 +66,23 @@ function ShoppingMenu({ isOpen, setIsOpen }) {
       };
       try {
         await createPayment(newPayment);
-        showToast(
-          "success",
-          `لینک پرداخت به تلفن همراه ${user?.phone} ارسال شد`
-        );
+        toast.success(`لینک پرداخت به تلفن همراه ${user?.phone} ارسال شد`);
         clearCard();
         setIsOpen(false);
       } catch (error) {
-        showToast(
-          "error",
+        toast.error(
           error?.response?.data?.message ||
             "مشکلی در ارسال لینک پرداخت وجود دارد"
         );
       }
     } else {
-      showToast("error", "برای پرداخت باید ابتدا وارد اکانت خود شوید");
+      toast.error("برای پرداخت باید ابتدا وارد اکانت خود شوید");
       setIsOpen(false);
     }
   };
 
   if (isError) {
-    showToast(
-      "error",
+    toast.error(
       error?.response?.data?.message || "مشکلی در بارگذاری وجود دارد"
     );
   }

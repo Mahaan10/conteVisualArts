@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useToast } from "../../../context/useToastContext";
 import usePagination from "../../../hooks/usePagination";
 import { Loader } from "../../../ui/Loading";
 import Table from "../../../ui/Table";
@@ -13,6 +12,7 @@ import StudentWorksForm from "./StudentWorksForm";
 import NotFound from "../../../ui/NotFound";
 import useCourses from "../../../hooks/useCourses";
 import useUsers from "../../../hooks/useUsers";
+import toast from "react-hot-toast";
 
 function AdminStudentWorksTable() {
   const { studentWorks, error, isError, isLoading } = useStudentWorks();
@@ -31,7 +31,6 @@ function AdminStudentWorksTable() {
   const { deleteArtWork, isDeletingArtWork } = useDeleteStudentWorks();
   const [artWorkToEdit, setArtWorkToEdit] = useState(null);
   const [artWorkToDelete, setArtWorkToDelete] = useState(null);
-  const { showToast } = useToast();
 
   const { currentData, currentPage, totalPages, goToPage } = usePagination(
     studentWorks,
@@ -42,8 +41,7 @@ function AdminStudentWorksTable() {
 
   if (isLoading || coursesIsLoading || usersIsLoading) return <Loader />;
   if (isError || coursesIsError || usersIsError) {
-    showToast(
-      "error",
+    toast.error(
       error?.response?.data?.message ||
         coursesError?.response?.data?.message ||
         usersError?.response?.data?.message ||
@@ -55,11 +53,11 @@ function AdminStudentWorksTable() {
   const handleDelete = async () => {
     await deleteArtWork(artWorkToDelete?._id, {
       onSuccess: () => {
-        showToast("success", `${artWorkToDelete?.title} با موفقیت حذف شد`);
+        toast.success(`${artWorkToDelete?.title} با موفقیت حذف شد`);
         setArtWorkToDelete(null);
       },
       onError: (err) => {
-        showToast("error", err?.response?.data?.message || "حذف انجام نشد");
+        toast.error(err?.response?.data?.message || "حذف انجام نشد");
       },
     });
   };
@@ -83,7 +81,7 @@ function AdminStudentWorksTable() {
             <Table.Body>
               {currentData.map((studentWork, index) => (
                 <AdminStudentWorksRow
-                  key={studentWork._id}
+                  key={studentWork?._id}
                   studentWork={studentWork}
                   index={(currentPage - 1) * 6 + index}
                   onEdit={() => setArtWorkToEdit(studentWork)}

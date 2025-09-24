@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useToast } from "../../../context/useToastContext";
 import usePagination from "../../../hooks/usePagination";
 import { Loader } from "../../../ui/Loading";
 import Table from "../../../ui/Table";
@@ -11,13 +10,13 @@ import useDeleteUser from "../../../hooks/useDeleteUser";
 import AdminUsersRow from "./AdminUsersRow";
 import UsersForm from "./UsersForm";
 import NotFound from "../../../ui/NotFound";
+import toast from "react-hot-toast";
 
 function AdminUsersTable() {
   const { users, error, isError, isLoading } = useUsers();
   const { deleteUser, isDeletingUser } = useDeleteUser();
   const [userToEdit, setUserToEdit] = useState(null);
   const [userToDelete, setUserToDelete] = useState(null);
-  const { showToast } = useToast();
 
   const sortUsers = users?.filter((user) => user?.role === "student") || [];
 
@@ -28,18 +27,18 @@ function AdminUsersTable() {
 
   if (isLoading) return <Loader />;
   if (isError) {
-    showToast("error", error?.response?.data?.message || "اطلاعات یافت نشد");
+    toast.error(error?.response?.data?.message || "اطلاعات یافت نشد");
     return <NotFound />;
   }
 
   const handleDelete = async () => {
     await deleteUser(userToDelete?._id, {
       onSuccess: () => {
-        showToast("success", `${userToDelete?.name} با موفقیت حذف شد`);
+        toast.success(`${userToDelete?.name} با موفقیت حذف شد`);
         setUserToDelete(null);
       },
       onError: (err) =>
-        showToast("error", err?.response?.data?.message || "حذف انجام نشد"),
+        toast.error(err?.response?.data?.message || "حذف انجام نشد"),
     });
   };
 

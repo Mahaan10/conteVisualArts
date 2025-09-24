@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import {
   createTheme,
   Footer,
@@ -15,7 +14,7 @@ import { PiInstagramLogo, PiTelegramLogo } from "react-icons/pi";
 import { FaWhatsapp } from "react-icons/fa6";
 import useCourses from "../hooks/useCourses";
 import { Loader } from "./Loading";
-import { useToast } from "../context/useToastContext";
+import toast from "react-hot-toast";
 
 const customTheme = createTheme({
   footer: {
@@ -47,12 +46,11 @@ const customTheme = createTheme({
 
 function FooterSection() {
   const { courses, error, isError, isLoading } = useCourses();
-  const { showToast } = useToast();
 
   if (isLoading) return <Loader />;
   if (isError) {
-    showToast("error", error?.response?.data?.message || "خطا در بارگذاری");
-    return null;
+    toast.error(error?.response?.data?.message || "خطا در بارگذاری");
+    //return null;
   }
 
   if (courses.length === 0 || !courses) {
@@ -76,10 +74,10 @@ function FooterSection() {
                     <FooterLinkGroup col>
                       {slicedCourses.map((course) => (
                         <FooterLink
-                          key={course._id}
-                          href={`/courses/${course._id}`}
+                          key={course?._id}
+                          href={`/courses/${course?._id}`}
                         >
-                          {course.name}
+                          {course?.name}
                         </FooterLink>
                       ))}
                     </FooterLinkGroup>

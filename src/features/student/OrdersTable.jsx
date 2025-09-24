@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useGetUser } from "../../context/useGetUserContext";
-import { useToast } from "../../context/useToastContext";
+import toast from "react-hot-toast";
 import { Loader } from "../../ui/Loading";
 import Table from "../../ui/Table";
 import OrdersRow from "./OrdersRow";
@@ -8,16 +8,11 @@ import NotFound from "../../ui/NotFound";
 
 function OrdersTable() {
   const { user, isLoading, isError, error, token } = useGetUser();
-  const { showToast } = useToast();
-
   useEffect(() => {
     if (isError || !token) {
-      showToast(
-        "error",
-        error?.response?.data?.message || "اطلاعات کاربری یافت نشد"
-      );
+      toast.error(error?.response?.data?.message || "اطلاعات کاربری یافت نشد");
     }
-  }, [isError, token, error, showToast]);
+  }, [isError, token, error]);
 
   if (isError || !token) {
     return <NotFound />;

@@ -17,7 +17,7 @@ import { SiCountingworkspro } from "react-icons/si";
 import Modal from "./Modal";
 import AuthContainer from "../features/authentication/AuthContainer";
 import ShoppingMenu from "./ShoppingMenu";
-import { useToast } from "../context/useToastContext";
+import toast from "react-hot-toast";
 import {
   createTheme,
   Dropdown,
@@ -30,7 +30,6 @@ import { useGetUser } from "../context/useGetUserContext";
 import { BsCalendar3Event, BsFolder2Open } from "react-icons/bs";
 import { Loader } from "./Loading";
 import useLogout from "../hooks/useLogout";
-import { Helmet } from "react-helmet-async";
 import { useCart } from "../context/useShoppingCardContext";
 
 const customTheme = createTheme({
@@ -62,7 +61,6 @@ function Header() {
   const { user, isLoading, isError, error, token } = useGetUser();
   const { isLoggedOut, logout } = useLogout();
   const { cardItems } = useCart();
-  const { showToast } = useToast();
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -71,12 +69,9 @@ function Header() {
 
   useEffect(() => {
     if (isError) {
-      showToast(
-        "error",
-        error?.response?.data?.message || "اطلاعات کاربری یافت نشد"
-      );
+      toast.error(error?.response?.data?.message || "اطلاعات کاربری یافت نشد");
     }
-  }, [isError, error, showToast]);
+  }, [isError, error]);
 
   /* if (isError) {
     return null;
@@ -153,7 +148,7 @@ function Header() {
 
   return (
     <>
-      <Helmet>
+      {/* <Helmet>
         <title>مدرسه هنری کنته | آموزش تخصصی هنرهای تجسمی</title>
         <meta
           name="description"
@@ -173,7 +168,7 @@ function Header() {
         <link rel="manifest" href="/site.webmanifest" />
         <meta name="theme-color" content="#ffffff" />
 
-        {/* Open Graph */}
+        
         <meta
           property="og:title"
           content="مدرسه هنری کنته | آموزش هنرهای تجسمی"
@@ -190,7 +185,7 @@ function Header() {
         />
         <meta property="og:locale" content="fa_IR" />
 
-        {/* Twitter Card */}
+        
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="مدرسه هنری کنته" />
         <meta
@@ -202,7 +197,7 @@ function Header() {
           content="https://contevisualarts.ir/images/og-image.jpg"
         />
 
-        {/* JSON-LD Structured Data */}
+        
         <script type="application/ld+json">
           {`
             {
@@ -219,7 +214,7 @@ function Header() {
             }
           `}
         </script>
-      </Helmet>
+      </Helmet> */}
 
       <header
         className={`flex items-center justify-between border-b border-light-shade-yellow dark:border-moderate-violet transition-colors duration-300 z-20 max-w-[1920px] mx-auto ${

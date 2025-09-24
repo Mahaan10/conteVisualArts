@@ -7,13 +7,13 @@ function AdminStudentWorksRow({ studentWork, index, onEdit, onDelete }) {
   return (
     <Table.Row>
       <td>{index + 1}</td>
-      <td>{studentWork.title}</td>
-      <td>{formattedDate(studentWork.date)}</td>
+      <td>{studentWork?.title}</td>
+      <td>{formattedDate(studentWork?.date)}</td>
       <td>
         <div className="flex items-center justify-center">
           <img
-            src={studentWork.Image}
-            alt={studentWork.title}
+            src={studentWork?.Image}
+            alt={studentWork?.title}
             className="w-10 h-10 rounded-md object-cover"
           />
         </div>

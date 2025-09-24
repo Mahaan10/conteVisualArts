@@ -2,12 +2,11 @@ import { useMutation } from "@tanstack/react-query";
 import { loginApi } from "../services/usersService";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
-import { useToast } from "../context/useToastContext";
+import toast from "react-hot-toast";
 import { useGetUser } from "../context/useGetUserContext";
 
 export default function useAuth() {
   const navigate = useNavigate();
-  const { showToast } = useToast();
   const { setToken } = useGetUser();
   const { isPending: isLoggedInLoading, mutateAsync: getLoggedIn } =
     useMutation({
@@ -26,9 +25,8 @@ export default function useAuth() {
           } else {
             navigate("/", { replace: true });
           }
+          toast.success(`${data?.data?.user?.name}، خوش آمدید`)
         }
-
-        showToast("success", `${data?.data?.user?.name}، خوش آمدید`);
       },
     });
 

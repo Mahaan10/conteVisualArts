@@ -1,7 +1,6 @@
 import { FaWhatsapp } from "react-icons/fa6";
 import { PiInfo, PiInstagramLogo, PiTelegramLogo } from "react-icons/pi";
 import { AiOutlinePhone } from "react-icons/ai";
-//import { LiaFaxSolid } from "react-icons/lia";
 import { HiOutlineEnvelope } from "react-icons/hi2";
 
 function Contact() {

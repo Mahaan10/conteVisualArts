@@ -1,10 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useToast } from "../context/useToastContext";
+import toast from "react-hot-toast";
 import requestPaymentApi from "../services/paymentsService";
 
 export default function useCreatePayment() {
   const queryClient = useQueryClient();
-  const { showToast } = useToast();
 
   const { isPending: isCreatingPayment, mutateAsync: createPayment } =
     useMutation({
@@ -15,8 +14,7 @@ export default function useCreatePayment() {
         });
       },
       onError: (error) => {
-        showToast(
-          "error",
+        toast.error(
           error?.response?.data?.message ||
             "مشکلی در ارسال لینک پرداخت وجود دارد"
         );

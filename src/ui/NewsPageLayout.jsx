@@ -1,7 +1,7 @@
 import { BsPen } from "react-icons/bs";
 import useSingleNews from "../hooks/useSingleNews";
 import { useParams } from "react-router-dom";
-import { useToast } from "../context/useToastContext";
+import toast from "react-hot-toast";
 import Loading from "./Loading";
 import NotFound from "./NotFound";
 import formattedDate from "../utils/formattedDate";
@@ -16,7 +16,6 @@ function NewsPageLayout() {
   const descriptionRef = useRef();
   const { id } = useParams();
   const { news, error, isError, isLoading } = useSingleNews(id);
-  const { showToast } = useToast();
 
   useEffect(() => {
     if (descriptionRef.current) {
@@ -27,7 +26,7 @@ function NewsPageLayout() {
 
   if (isLoading) return <Loading />;
   if (isError) {
-    showToast("error", error?.response?.data?.message || "خطا در بارگذاری");
+    toast.error(error?.response?.data?.message || "خطا در بارگذاری");
     return <NotFound />;
   }
   return (

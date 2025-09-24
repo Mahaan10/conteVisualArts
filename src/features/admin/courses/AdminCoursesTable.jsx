@@ -1,7 +1,6 @@
 import { useState } from "react";
 import useCourses from "../../../hooks/useCourses";
 import useDeleteCourse from "../../../hooks/useDeleteCourse";
-import { useToast } from "../../../context/useToastContext";
 import usePagination from "../../../hooks/usePagination";
 import { Loader } from "../../../ui/Loading";
 import Table from "../../../ui/Table";
@@ -11,13 +10,13 @@ import Modal from "../../../ui/Modal";
 import ConfirmDelete from "../../../ui/ConfirmDelete";
 import CoursesForm from "./CoursesForm";
 import NotFound from "../../../ui/NotFound";
+import toast from "react-hot-toast";
 
 function AdminCoursesTable() {
   const { courses, error, isError, isLoading } = useCourses();
   const { deleteCourse, isDeletingCourse } = useDeleteCourse();
   const [courseToEdit, setCourseToEdit] = useState(null);
   const [courseToDelete, setCourseToDelete] = useState(null);
-  const { showToast } = useToast();
   const { currentData, currentPage, totalPages, goToPage } = usePagination(
     courses,
     6
@@ -26,18 +25,18 @@ function AdminCoursesTable() {
   if (isLoading) return <Loader />;
 
   if (isError) {
-    showToast("error", error?.response?.data?.message || "اطلاعات یافت نشد");
+    toast.error(error?.response?.data?.message || "اطلاعات یافت نشد");
     return <NotFound />;
   }
 
   const handleDelete = async () => {
     await deleteCourse(courseToDelete?._id, {
       onSuccess: () => {
-        showToast("success", `${courseToDelete?.name} با موفقیت حذف شد`);
+        toast.success(`${courseToDelete?.name} با موفقیت حذف شد`);
         setCourseToDelete(null);
       },
       onError: (err) =>
-        showToast("error", err?.response?.data?.message || "حذف انجام نشد"),
+        toast.error(err?.response?.data?.message || "حذف انجام نشد"),
     });
   };
 

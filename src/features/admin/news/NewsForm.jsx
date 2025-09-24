@@ -9,10 +9,10 @@ import {
   FloatingLabel,
   ThemeProvider,
 } from "flowbite-react";
-import { useToast } from "../../../context/useToastContext";
 import { Loader } from "../../../ui/Loading";
 import useCreateNews from "../../../hooks/useCreateNews";
 import useEditNews from "../../../hooks/useEditNews";
+import toast from "react-hot-toast";
 
 const customTheme = createTheme({
   floatingLabel: {
@@ -58,7 +58,6 @@ const schema = Yup.object().shape({
 
 function NewsForm({ onClose, newsToEdit = {} }) {
   const [preview, setPreview] = useState(null);
-  const { showToast } = useToast();
   const { createNews, isCreatingNews } = useCreateNews();
   const { editNews, isEditingNews } = useEditNews();
   const { _id: editNewsId } = newsToEdit;
@@ -98,7 +97,6 @@ function NewsForm({ onClose, newsToEdit = {} }) {
   }, [Image]);
 
   const onSubmit = async (data) => {
-
     const formData = new FormData();
     formData.append("title", data?.title);
     formData.append("description", data?.description);
@@ -111,13 +109,12 @@ function NewsForm({ onClose, newsToEdit = {} }) {
         { newsId: editNewsId, newNews: formData },
         {
           onSuccess: () => {
-            showToast("success", `${data?.title} با موفقیت ویرایش شد`);
+            toast.success(`${data?.title} با موفقیت ویرایش شد`);
             onClose();
             reset();
           },
           onError: (error) =>
-            showToast(
-              "error",
+            toast.error(
               error?.response?.data?.message ||
                 `ویرایش ${data?.title} موفقیت آمیز نبود`
             ),
@@ -126,13 +123,12 @@ function NewsForm({ onClose, newsToEdit = {} }) {
     } else {
       await createNews(formData, {
         onSuccess: () => {
-          showToast("success", `${data?.title} با موفقیت ایجاد شد`);
+          toast.success("success", `${data?.title} با موفقیت ایجاد شد`);
           onClose();
           reset();
         },
         onError: (error) =>
-          showToast(
-            "error",
+          toast.error(
             error?.response?.data?.message ||
               `ایجاد ${data?.title} موفقیت آمیز نبود`
           ),

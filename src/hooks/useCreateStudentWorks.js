@@ -1,10 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useToast } from "../context/useToastContext";
+import toast from "react-hot-toast";
 import { createNewArtWorksApi } from "../services/studentsWorksService";
 
 export default function useCreateStudentWorks() {
   const queryClient = useQueryClient();
-  const { showToast } = useToast();
 
   const { isPending: isCreatingArtWork, mutateAsync: createArtWork } =
     useMutation({
@@ -15,10 +14,7 @@ export default function useCreateStudentWorks() {
         });
       },
       onError: (error) =>
-        showToast(
-          "error",
-          error?.response?.data?.message || "عدم ایجاد اثر جدید"
-        ),
+        toast.error(error?.response?.data?.message || "عدم ایجاد اثر جدید"),
     });
 
   return { createArtWork, isCreatingArtWork };

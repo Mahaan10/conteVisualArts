@@ -2,7 +2,7 @@ import { PiMagnifyingGlassBold } from "react-icons/pi";
 import HomePageCourses from "../ui/HomePageCourses";
 import HomePageNewsSection from "../ui/HomePageNewsSection";
 import useCourses from "../hooks/useCourses";
-import { useToast } from "../context/useToastContext";
+import toast from "react-hot-toast";
 import Loading from "../ui/Loading";
 import useNews from "../hooks/useNews";
 import useStudentWorks from "../hooks/useStudentWorks";
@@ -28,7 +28,6 @@ function Home() {
     studentWorks,
   } = useStudentWorks();
 
-  const { showToast } = useToast();
   const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState("");
   const { updateSearch } = useFilter();
@@ -55,8 +54,7 @@ function Home() {
 
   useEffect(() => {
     if (isError || newsIsError || studentWorksIsError) {
-      showToast(
-        "error",
+      toast.error(
         (error || newsError || studentWorksError)?.response?.data?.message ||
           "بارگذاری با خطا مواجه شد"
       );
@@ -68,7 +66,6 @@ function Home() {
     error,
     newsError,
     studentWorksError,
-    showToast,
   ]);
 
   const handleSearch = () => {

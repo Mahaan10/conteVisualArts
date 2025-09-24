@@ -1,7 +1,7 @@
 import { BsPen } from "react-icons/bs";
 import NewsCards from "../ui/NewsCards";
 import useNews from "../hooks/useNews";
-import { useToast } from "../context/useToastContext";
+import toast from "react-hot-toast";
 import Loading from "../ui/Loading";
 import { Button, createTheme, ThemeProvider } from "flowbite-react";
 import { FaSort } from "react-icons/fa6";
@@ -25,7 +25,6 @@ function News() {
   const { news, error, isError, isLoading } = useNews();
   const { filters } = useFilter();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const { showToast } = useToast();
   const location = useLocation();
   const type = "news";
   const isNewsDetailPage = location.pathname !== "/news";
@@ -42,10 +41,7 @@ function News() {
 
   if (isLoading) return <Loading />;
   if (isError) {
-    showToast(
-      "error",
-      error?.response?.data?.message || "بارگذاری با خطا مواجه شد"
-    );
+    toast.error(error?.response?.data?.message || "بارگذاری با خطا مواجه شد");
     return <NotFound />;
   }
 

@@ -1,11 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useToast } from "../context/useToastContext";
+import toast from "react-hot-toast";
 import { deleteUserApi } from "../services/usersService";
 import Cookies from "js-cookie";
 
 export default function useDeleteUser() {
   const queryClient = useQueryClient();
-  const { showToast } = useToast();
 
   const { isPending: isDeletingUser, mutateAsync: deleteUser } = useMutation({
     mutationFn: deleteUserApi,
@@ -17,7 +16,7 @@ export default function useDeleteUser() {
       Cookies.remove("token");
     },
     onError: (error) =>
-      showToast("error", error?.response?.data?.message || "حذف ناموفق"),
+      toast.error(error?.response?.data?.message || "حذف ناموفق"),
   });
 
   return { isDeletingUser, deleteUser };

@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import { Loader } from "../../ui/Loading";
 import { createTheme, FloatingLabel, ThemeProvider } from "flowbite-react";
 import OTPInput from "react-otp-input";
-import { useToast } from "../../context/useToastContext";
 import { CiEdit } from "react-icons/ci";
+import toast from "react-hot-toast";
 
 const RESEND_TIME = 60;
 const customTheme = createTheme({
@@ -29,7 +29,6 @@ function LoginSection({
   getLoggedIn,
   onLoginSuccess,
 }) {
-  const { showToast } = useToast();
   const [contactSubmitted, setContactSubmitted] = useState(false);
   const [otp, setOtp] = useState("");
   const [resendTime, setResendTime] = useState(RESEND_TIME);
@@ -46,22 +45,19 @@ function LoginSection({
   const handleSendOTP = async (data) => {
     try {
       await getLoggedIn({
-        phone: data.contact,
-        email: data.contact,
+        phone: data?.contact,
+        email: data?.contact,
       });
       setContactSubmitted(true);
-      showToast("success", `کد تایید به ${data.contact} ارسال شد`);
+      toast.success(`کد تایید به ${data?.contact} ارسال شد`);
     } catch (error) {
-      showToast(
-        "error",
-        error?.response?.data?.message || "ارسال کد ناموفق بود"
-      );
+      toast.error(error?.response?.data?.message || "ارسال کد ناموفق بود");
     }
   };
 
   const handleVerifyOTP = async () => {
     if (otp.length !== 6) {
-      showToast("error", "کد تایید باید ۶ رقمی باشد");
+      toast.error("کد تایید باید ۶ رقمی باشد");
       return;
     }
 
@@ -75,18 +71,12 @@ function LoginSection({
     } catch (error) {
       const status = error?.response?.status;
       if (status === 404 || status === 409) {
-        showToast("info", "لطفاً اطلاعات خود را تکمیل کنید");
+        toast.success("لطفاً اطلاعات خود را تکمیل کنید");
         onLoginSuccess(contact, otp);
       } else if (status === 401 || status === 400) {
-        showToast(
-          "error",
-          error?.response?.data?.message || "کد تایید اشتباه است"
-        );
+        toast.error(error?.response?.data?.message || "کد تایید اشتباه است");
       } else {
-        showToast(
-          "error",
-          error?.response?.data?.message || "ورود با خطا مواجه شد"
-        );
+        toast.error(error?.response?.data?.message || "ورود با خطا مواجه شد");
       }
     }
   };

@@ -1,10 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useToast } from "../context/useToastContext";
+import toast from "react-hot-toast";
 import { editNewsApi } from "../services/newsService";
 
 export default function useEditNews() {
   const queryClient = useQueryClient();
-  const { showToast } = useToast();
+ 
 
   const { isPending: isEditingNews, mutateAsync: editNews } = useMutation({
     mutationFn: editNewsApi,
@@ -14,7 +14,7 @@ export default function useEditNews() {
       });
     },
     onError: (error) =>
-      showToast("error", error?.response?.data?.message || "ویرایش انجام نشد"),
+      toast.error( error?.response?.data?.message || "ویرایش انجام نشد"),
   });
   return { isEditingNews, editNews };
 }

@@ -1,10 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useToast } from "../context/useToastContext";
+import toast from "react-hot-toast";
 import { editArtWorksApi } from "../services/studentsWorksService";
 
 export default function useEditStudentWorks() {
   const queryClient = useQueryClient();
-  const { showToast } = useToast();
 
   const { isPending: isEditingStudentWorks, mutateAsync: editArtWork } =
     useMutation({
@@ -15,10 +14,7 @@ export default function useEditStudentWorks() {
         });
       },
       onError: (error) =>
-        showToast(
-          "error",
-          error?.response?.data?.message || "ویرایش انجام نشد"
-        ),
+        toast.error(error?.response?.data?.message || "ویرایش انجام نشد"),
     });
   return { isEditingStudentWorks, editArtWork };
 }

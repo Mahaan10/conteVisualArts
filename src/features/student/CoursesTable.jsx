@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useGetUser } from "../../context/useGetUserContext";
-import { useToast } from "../../context/useToastContext";
+import toast from "react-hot-toast";
 import useCourses from "../../hooks/useCourses";
 import { Loader } from "../../ui/Loading";
 import NotFound from "../../ui/NotFound";
@@ -15,17 +15,15 @@ function CoursesTable() {
     isError: coursesIsError,
     isLoading: coursesLoading,
   } = useCourses();
-  const { showToast } = useToast();
 
   useEffect(() => {
     if (isError || coursesIsError || !token) {
-      showToast(
-        "error",
+      toast.error(
         (error || coursesError)?.response?.data?.message ||
           "اطلاعات کاربری یافت نشد"
       );
     }
-  }, [isError, coursesIsError, token, error, coursesError, showToast]);
+  }, [isError, coursesIsError, token, error, coursesError]);
 
   if (isError || coursesIsError || !token) return <NotFound />;
 

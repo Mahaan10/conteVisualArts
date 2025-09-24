@@ -9,10 +9,10 @@ import { FaRegCommentDots } from "react-icons/fa";
 import useStudentWorks from "../../hooks/useStudentWorks";
 import useNews from "../../hooks/useNews";
 import { Loader } from "../../ui/Loading";
-import { useToast } from "../../context/useToastContext";
 import useReviews from "../../hooks/useReviews";
 import { useEffect } from "react";
 import NotFound from "../../ui/NotFound";
+import toast from "react-hot-toast";
 
 function AdminDashboard() {
   const { users, error, isError, isLoading } = useUsers();
@@ -40,7 +40,6 @@ function AdminDashboard() {
     isError: reviewsIsError,
     error: reviewsError,
   } = useReviews();
-  const { showToast } = useToast();
 
   useEffect(() => {
     if (
@@ -50,8 +49,7 @@ function AdminDashboard() {
       newsIsError ||
       reviewsIsError
     ) {
-      showToast(
-        "error",
+      toast.error(
         error?.response?.data?.message ||
           newsError?.response?.data?.message ||
           studentWorksError?.response?.data?.message ||
@@ -71,7 +69,6 @@ function AdminDashboard() {
     studentWorksError,
     coursesError,
     reviewsError,
-    showToast,
   ]);
 
   if (
@@ -93,7 +90,7 @@ function AdminDashboard() {
     return <Loader />;
 
   const totalEnrolledStudents = courses.reduce(
-    (total, course) => total + course.enrolledStudents.length,
+    (total, course) => total + course?.enrolledStudents.length,
     0
   );
 

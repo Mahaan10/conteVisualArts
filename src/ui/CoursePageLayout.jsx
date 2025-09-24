@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import useSingleCourse from "../hooks/useSingleCourse";
 import { PiGraduationCapLight } from "react-icons/pi";
 import Loading from "./Loading";
-import { useToast } from "../context/useToastContext";
+import toast from "react-hot-toast";
 import { BsClockHistory, BsCheckAll } from "react-icons/bs";
 import { TbUsers, TbClockCheck } from "react-icons/tb";
 import { FaEye, FaEyeSlash, FaRegCommentDots } from "react-icons/fa6";
@@ -59,7 +59,6 @@ function CoursePageLayout() {
   const reviewSwiperRef = useRef(null);
   const descriptionRef = useRef(null);
   const { id } = useParams();
-  const { showToast } = useToast();
   const { course, error, isError, isLoading } = useSingleCourse(id);
   const modalRef = useOutsideClick(() => {
     if (isPreviewOpen) setIsPreviewOpen(false);
@@ -75,27 +74,27 @@ function CoursePageLayout() {
   const handlePrev = () => {
     if (!course?.courseImages.length > 0) return;
     const newIndex =
-      (previewIndex - 1 + course.courseImages.length) %
-      course.courseImages.length;
+      (previewIndex - 1 + course?.courseImages.length) %
+      course?.courseImages.length;
     setPreviewIndex(newIndex);
     setPreview(course?.courseImages[newIndex]);
   };
 
   const handleNext = () => {
     if (!course?.courseImages.length > 0) return;
-    const newIndex = (previewIndex + 1) % course.courseImages.length;
+    const newIndex = (previewIndex + 1) % course?.courseImages.length;
     setPreviewIndex(newIndex);
     setPreview(course?.courseImages[newIndex]);
   };
 
   const handleAddToCard = (course) => {
     addToCard(course);
-    showToast("success", `${course.name} به سبد خرید اضافه شد`);
+    toast.success(`${course?.name} به سبد خرید اضافه شد`);
   };
 
   if (isLoading) return <Loading />;
   if (isError) {
-    showToast("error", error?.response?.data?.message || "خطا در بارگذاری");
+    toast.error(error?.response?.data?.message || "خطا در بارگذاری");
     return <NotFound />;
   }
 

@@ -84,7 +84,7 @@ function StudentWorksCards({ array }) {
 
           <div className="flex items-center justify-between">
             <p>
-              {arr?.student?.name}|{arr?.course.name}
+              {arr?.student?.name}|{arr?.course?.name}
             </p>
           </div>
           <div className="flex items-center justify-center">

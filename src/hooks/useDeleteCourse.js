@@ -1,10 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteCourseApi } from "../services/coursesService";
-import { useToast } from "../context/useToastContext";
+import toast from "react-hot-toast";
 
 export default function useDeleteCourse() {
   const queryClient = useQueryClient();
-  const { showToast } = useToast();
 
   const { isPending: isDeletingCourse, mutateAsync: deleteCourse } =
     useMutation({
@@ -15,7 +14,7 @@ export default function useDeleteCourse() {
         });
       },
       onError: (error) =>
-        showToast("error", error?.response?.data?.message || "حذف ناموفق"),
+        toast.error(error?.response?.data?.message || "حذف ناموفق"),
     });
 
   return { isDeletingCourse, deleteCourse };
