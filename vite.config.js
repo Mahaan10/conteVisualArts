@@ -8,8 +8,8 @@ export default defineConfig({
   plugins: [react(), tailwindcss(), flowbiteReact()],
   server: {
     proxy: {
-      "/api": "http://127.0.0.1:3000",
-      //"/api": "https://conteschool.ir",
+      //"/api": "http://127.0.0.1:3000",
+      "/api": "https://conteschool.ir",
     },
   },
 });
