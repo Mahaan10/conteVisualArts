@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useGetUser } from "../../context/useGetUserContext";
 import toast from "react-hot-toast";
-import useCourses from "../../hooks/useCourses";
 import { Loader } from "../../ui/Loading";
 import NotFound from "../../ui/NotFound";
 import Table from "../../ui/Table";
@@ -9,32 +8,16 @@ import CoursesRow from "./CoursesRow";
 
 function CoursesTable() {
   const { user, isLoading, isError, error, token } = useGetUser();
-  const {
-    courses,
-    error: coursesError,
-    isError: coursesIsError,
-    isLoading: coursesLoading,
-  } = useCourses();
 
   useEffect(() => {
-    if (isError || coursesIsError || !token) {
-      toast.error(
-        (error || coursesError)?.response?.data?.message ||
-          "اطلاعات کاربری یافت نشد"
-      );
+    if (isError || !token) {
+      toast.error(error?.response?.data?.message || "اطلاعات کاربری یافت نشد");
     }
-  }, [isError, coursesIsError, token, error, coursesError]);
+  }, [isError, token, error]);
 
-  if (isError || coursesIsError || !token) return <NotFound />;
+  if (isError || !token) return <NotFound />;
 
-  if (isLoading || coursesLoading) return <Loader />;
-
-  //find user courses ids
-  const userCourses = user?.enrolledCourses.map((courses) => courses._id) || [];
-  //filter courses that user enrolled
-  const filterUserCourses = courses.filter((course) =>
-    userCourses.includes(course._id)
-  );
+  if (isLoading) return <Loader />;
   return (
     <>
       {!user?.enrolledCourses.length ? (
@@ -45,12 +28,13 @@ function CoursesTable() {
             <th className="py-2">#</th>
             <th>عنوان دوره</th>
             <th>تاریخ شروع</th>
+            <th>تاریخ ثبت نام</th>
             <th>تعداد جلسات</th>
             <th>ظرفیت</th>
             <th>وضعیت دوره</th>
           </Table.Header>
           <Table.Body>
-            {filterUserCourses.map((course, index) => (
+            {user?.enrolledCourses?.map((course, index) => (
               <CoursesRow key={course._id} course={course} index={index} />
             ))}
           </Table.Body>

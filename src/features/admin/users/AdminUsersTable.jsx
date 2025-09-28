@@ -77,7 +77,7 @@ function AdminUsersTable() {
           </div>
         </>
       )}
-      {/* Delete Course */}
+      {/* Delete User */}
       {userToDelete && (
         <Modal
           title={`حذف ${userToDelete?.name}`}
@@ -92,7 +92,7 @@ function AdminUsersTable() {
           />
         </Modal>
       )}
-      {/* Edit Course */}
+      {/* Edit User */}
       {userToEdit && (
         <Modal title="ویرایش کاربر" onClose={() => setUserToEdit(null)}>
           <UsersForm

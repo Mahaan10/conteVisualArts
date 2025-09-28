@@ -2,6 +2,7 @@ import { CiEdit } from "react-icons/ci";
 import { PiTrash } from "react-icons/pi";
 import Table from "../../../ui/Table";
 import formattedDate from "../../../utils/formattedDate";
+import { Link } from "react-router-dom";
 
 function AdminUsersRow({ user, index, onEdit, onDelete }) {
   return (
@@ -10,9 +11,17 @@ function AdminUsersRow({ user, index, onEdit, onDelete }) {
       <td>{user?.name}</td>
       <td>{formattedDate(user?.createdAt)}</td>
       <td>
-        {user?.enrolledCourses.map((course) => (
-          <p key={course?._id}>{}</p>
-        ))}
+        <div className="grid grid-cols-2 gap-x-4">
+          {user?.enrolledCourses?.map((enrolledItem) => (
+            <Link
+              key={enrolledItem?._id}
+              to={`/courses/${enrolledItem?.course?._id}`}
+              className="p-2 rounded-lg bg-almond-cookie dark:hover:bg-dark-cerulean hover:bg-golden-sand dark:bg-purple-plumeria transition-colors duration-300 cursor-pointer"
+            >
+              {enrolledItem?.course?.name}
+            </Link>
+          ))}
+        </div>
       </td>
       <td className="flex gap-x-4 justify-center">
         <button
