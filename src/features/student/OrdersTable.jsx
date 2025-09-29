@@ -31,7 +31,7 @@ function OrdersTable() {
             <th>شماره پیگیری</th>
             <th>شرح سفارش</th>
             <th>مبلغ</th>
-            <th>تاریخ</th>
+            <th>تاریخ پرداخت</th>
             <th>وضعیت پرداخت</th>
           </Table.Header>
           <Table.Body>

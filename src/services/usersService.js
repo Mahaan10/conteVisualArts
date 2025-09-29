@@ -24,11 +24,7 @@ export function logoutApi() {
 
 export function editUserApi({ userId, updatedUser }) {
   return http
-    .patch(`/users/${userId}`, updatedUser, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    })
+    .patch(`/users/${userId}`, updatedUser)
     .then(({ data }) => data.data);
 }
 

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Loader } from "../../ui/Loading";
 import { createTheme, FloatingLabel, ThemeProvider } from "flowbite-react";
 import OTPInput from "react-otp-input";
@@ -31,31 +31,11 @@ function LoginSection({
 }) {
   const [contactSubmitted, setContactSubmitted] = useState(false);
   const [otp, setOtp] = useState("");
+  const [isAutoSubmitted, setIsAutoSubmitted] = useState(false);
   const [resendTime, setResendTime] = useState(RESEND_TIME);
-
-  useEffect(() => {
-    if (contactSubmitted && resendTime > 0) {
-      const timer = setInterval(() => setResendTime((t) => t - 1), 1000);
-      return () => clearInterval(timer);
-    }
-  }, [contactSubmitted, resendTime]);
-
   const contact = getValues("contact");
 
-  const handleSendOTP = async (data) => {
-    try {
-      await getLoggedIn({
-        phone: data?.contact,
-        email: data?.contact,
-      });
-      setContactSubmitted(true);
-      toast.success(`کد تایید به ${data?.contact} ارسال شد`);
-    } catch (error) {
-      toast.error(error?.response?.data?.message || "ارسال کد ناموفق بود");
-    }
-  };
-
-  const handleVerifyOTP = async () => {
+  const handleVerifyOTP = useCallback(async () => {
     if (otp.length !== 6) {
       toast.error("کد تایید باید ۶ رقمی باشد");
       return;
@@ -78,6 +58,47 @@ function LoginSection({
       } else {
         toast.error(error?.response?.data?.message || "ورود با خطا مواجه شد");
       }
+      if (isAutoSubmitted) {
+        setIsAutoSubmitted(false);
+      }
+    }
+  }, [otp, contact, getLoggedIn, onClose, onLoginSuccess, isAutoSubmitted]);
+
+  useEffect(() => {
+    if (contactSubmitted && resendTime > 0) {
+      const timer = setInterval(() => setResendTime((t) => t - 1), 1000);
+      return () => clearInterval(timer);
+    }
+  }, [contactSubmitted, resendTime]);
+
+  useEffect(() => {
+    if (
+      contactSubmitted &&
+      otp.length === 6 &&
+      !isLoggedInLoading &&
+      !isAutoSubmitted
+    ) {
+      setIsAutoSubmitted(true);
+      handleVerifyOTP();
+    }
+  }, [
+    otp,
+    contactSubmitted,
+    isLoggedInLoading,
+    handleVerifyOTP,
+    isAutoSubmitted,
+  ]);
+
+  const handleSendOTP = async (data) => {
+    try {
+      await getLoggedIn({
+        phone: data?.contact,
+        email: data?.contact,
+      });
+      setContactSubmitted(true);
+      toast.success(`کد تایید به ${data?.contact} ارسال شد`);
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "ارسال کد ناموفق بود");
     }
   };
 
@@ -122,7 +143,7 @@ function LoginSection({
       {contactSubmitted && (
         <>
           <div className="flex items-center justify-between">
-            <p className="text-xs mb-4 flex items-center justify-center">
+            <p className="text-xs flex items-center justify-center">
               کد تایید را وارد کنید:
             </p>
             <button
@@ -140,13 +161,19 @@ function LoginSection({
             value={otp}
             onChange={setOtp}
             numInputs={6}
-            renderSeparator={<span>-</span>}
+            renderSeparator={<span></span>}
             renderInput={(props) => (
-              <input inputMode="numeric" type="tel" {...props} />
+              <input
+                inputMode="numeric"
+                type="tel"
+                {...props}
+                autoComplete="one-time-code"
+              />
             )}
-            containerStyle="flex flex-row-reverse gap-x-2 justify-center my-5"
+            containerStyle="flex flex-row-reverse gap-x-2 justify-center my-5 w-full"
             inputStyle={{
-              width: "2.5rem",
+              width: "14%",
+              maxWidth: "3rem",
               padding: "0.5rem 0.2rem",
               border: "1px solid gray",
               borderRadius: "0.5rem",

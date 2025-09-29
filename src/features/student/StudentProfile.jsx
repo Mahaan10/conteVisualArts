@@ -5,7 +5,6 @@ import Loading, { Loader } from "../../ui/Loading";
 import {
   Button,
   createTheme,
-  FileInput,
   FloatingLabel,
   ThemeProvider,
 } from "flowbite-react";
@@ -27,13 +26,6 @@ const schema = yup.object().shape({
     .string()
     .email("فرمت ایمیل صحیح نیست")
     .required("وارد کردن ایمیل الزامیست"),
-  profilePicture: yup
-    .mixed()
-    .nullable()
-    .test("fileSize", "حجم فایل نباید بیش از 1 مگابایت باشد", (value) => {
-      if (!value?.[0]) return true;
-      return value[0].size <= 1000000;
-    }),
 });
 
 const customTheme = createTheme({
@@ -53,17 +45,11 @@ const customTheme = createTheme({
       },
     },
   },
-  fileInput: {
-    sizes: {
-      sm: "max-w-2xs min-w-3xs bg-inherit dark:bg-inherit",
-    },
-  },
 });
 
 function StudentProfile() {
-  const { user, isLoading, isError, error, token } = useGetUser();
-  const { editUser, isUserEditing } = useEditUser(token);
-  const [preview, setPreview] = useState(null);
+  const { user, isLoading, isError, error } = useGetUser();
+  const { editUser, isUserEditing } = useEditUser();
   const [isNameEditable, setIsNameEditable] = useState(false);
   const [isPhoneEditable, setIsPhoneEditable] = useState(false);
   const [isEmailEditable, setIsEmailEditable] = useState(false);
@@ -71,7 +57,6 @@ function StudentProfile() {
     handleSubmit,
     register,
     formState: { errors, isValid },
-    setValue,
     watch,
     reset,
   } = useForm({
@@ -81,11 +66,9 @@ function StudentProfile() {
       name: "",
       phone: "",
       email: "",
-      profilePicture: null,
     },
   });
 
-  const profilePicture = watch("profilePicture");
   const watchedName = watch("name");
   const watchedPhone = watch("phone");
   const watchedEmail = watch("email");
@@ -93,8 +76,7 @@ function StudentProfile() {
   const isFormChanged =
     watchedName !== user?.name ||
     watchedPhone !== user?.phone ||
-    watchedEmail !== user?.email ||
-    profilePicture?.[0];
+    watchedEmail !== user?.email;
 
   const nameRef = useOutsideClick(() => setIsNameEditable(false));
   const phoneRef = useOutsideClick(() => setIsPhoneEditable(false));
@@ -106,35 +88,21 @@ function StudentProfile() {
         name: user?.name || "",
         phone: user?.phone || "",
         email: user?.email || "",
-        profilePicture: null,
       });
     }
   }, [reset, user]);
 
-  useEffect(() => {
-    if (profilePicture?.[0]) {
-      const objectUrl = URL.createObjectURL(profilePicture[0]);
-      setPreview(objectUrl);
-
-      return () => URL.revokeObjectURL(objectUrl);
-    } else {
-      setPreview(null);
-    }
-  }, [profilePicture]);
-
   const onSubmit = async (data) => {
-    const formData = new FormData();
-    formData.append("name", data?.name);
-    formData.append("phone", data?.phone);
-    formData.append("email", data?.email);
-    if (data?.profilePicture && data?.profilePicture[0]) {
-      formData.append("profilePicture", data?.profilePicture[0]);
-    }
-    await editUser({ userId: user?._id, updatedUser: formData });
-    toast.success("اطلاعات با موفقیت ویرایش شد");
+    const updatedUser = {
+      name: data?.name,
+      phone: data?.phone,
+      email: data?.email,
+    };
+
+    await editUser({ userId: user?._id, updatedUser });
   };
 
-  if (isError || !token) {
+  if (isError) {
     toast.error(error?.response?.data?.message || "اطلاعات کاربری یافت نشد");
     return <NotFound />;
   }
@@ -231,42 +199,19 @@ function StudentProfile() {
                   </p>
                 )}
               </div>
-
-              <div id="fileUpload" className="relative">
-                <FileInput
-                  sizing="sm"
-                  onChange={(e) => setValue("profilePicture", e.target.files)}
-                />
-                {errors?.profilePicture && (
-                  <p className="text-red-500 text-sm">
-                    {errors?.profilePicture?.message}
-                  </p>
-                )}
-                {preview ? (
-                  <img
-                    src={preview}
-                    alt={user?.name}
-                    className="w-8 h-8 absolute top-1 left-2 rounded-full object-cover"
-                  />
-                ) : user?.profilePicture ? (
-                  <img
-                    src={user?.profilePicture}
-                    alt={user?.name}
-                    className="w-8 h-8 absolute top-1 left-2 rounded-full object-cover"
-                  />
-                ) : null}
-              </div>
             </div>
           </div>
-          <Button
-            color="dark"
-            outline
-            type="submit"
-            className="mt-4 cursor-pointer transition-colors duration-300"
-            disabled={!isValid || isUserEditing || !isFormChanged}
-          >
-            {isUserEditing ? <Loader /> : "تایید"}
-          </Button>
+          <div className="flex items-center gap-6 flex-col sm:flex-row">
+            <Button
+              color="dark"
+              outline
+              type="submit"
+              className="m-4 min-w-3xs max-w-2xs mx-auto sm:mx-0 sm:min-w-30 py-2.5 cursor-pointer"
+              disabled={!isValid || isUserEditing || !isFormChanged}
+            >
+              {isUserEditing ? <Loader /> : "تایید"}
+            </Button>
+          </div>
         </ThemeProvider>
       </form>
     </div>
