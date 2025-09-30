@@ -68,14 +68,15 @@ function AdminCoursesRow({ course, index, onEdit, onDelete }) {
         </ThemeProvider>
       </td>
       <td>{course?.duration} جلسه</td>
-      <td>{course?.availableSeats} نفر</td>
+      <td>{course?.maxcapacity} نفر</td>
       <td>{course?.enrolledStudents.length} هنرجو</td>
+      <td>{course?.availableSeats} نفر</td>
       <td>
         {course?.ageGroup === "child"
           ? "کودکان"
           : course?.ageGroup === "adult"
           ? "بزرگسالان"
-          : ""}
+          : "همه سنین"}
       </td>
       <td>
         {course?.badge === "summer"

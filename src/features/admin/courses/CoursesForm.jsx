@@ -67,10 +67,14 @@ const schema = Yup.object().shape({
     .typeError("قیمت باید عدد باشد")
     .required("قیمت الزامی است")
     .min(0, "قیمت نمی‌تواند منفی باشد"),
-  availableSeats: Yup.number()
+  maxcapacity: Yup.number()
     .typeError("ظرفیت باید عدد باشد")
     .required("ظرفیت الزامی است")
     .min(1, "حداقل ظرفیت ۱ نفر است"),
+  availableSeats: Yup.number()
+    .typeError("ظرفیت باقی مانده باید عدد باشد")
+    .required("ظرفیت  باقی مانده الزامی است")
+    .min(1, "حداقل ظرفیت باقی مانده ۱ نفر است"),
   startDate: Yup.mixed()
     .required("تاریخ شروع الزامی است")
     .test("is-date-object", "تاریخ معتبر نیست", (value) => {
@@ -146,6 +150,7 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
         description: courseToEdit.description,
         duration: courseToEdit.duration,
         price: courseToEdit.price,
+        maxcapacity: courseToEdit.maxcapacity,
         availableSeats: courseToEdit.availableSeats,
         startDate: courseToEdit.startDate
           ? new DateObject(new Date(courseToEdit.startDate))
@@ -195,6 +200,7 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
     formData.append("description", data?.description);
     formData.append("duration", data?.duration);
     formData.append("price", data?.price);
+    formData.append("maxcapacity", data?.maxcapacity);
     formData.append("availableSeats", data?.availableSeats);
     formData.append("startDate", startDateToISO);
     formData.append("isActive", data?.isActive === "true");
@@ -393,11 +399,28 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
               : null}
           </div>
 
+          {/* Max Capacity */}
+          <div className="flex relative flex-col w-full max-w-md">
+            <FloatingLabel
+              variant="outlined"
+              label="ظرفیت کل"
+              sizing="sm"
+              type="number"
+              className="transition-all duration-300"
+              {...register("maxcapacity")}
+            />
+            {errors?.maxcapacity && (
+              <p className="text-red-500 text-xs mt-2">
+                {errors?.maxcapacity?.message}
+              </p>
+            )}
+          </div>
+
           {/* Available Seats */}
           <div className="flex relative flex-col w-full max-w-md">
             <FloatingLabel
               variant="outlined"
-              label="ظرفیت"
+              label="ظرفیت باقی مانده"
               sizing="sm"
               type="number"
               className="transition-all duration-300"

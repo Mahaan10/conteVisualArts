@@ -30,7 +30,8 @@ function CoursesTable() {
             <th>تاریخ شروع</th>
             <th>تاریخ ثبت نام</th>
             <th>تعداد جلسات</th>
-            <th>ظرفیت</th>
+            <th>ظرفیت کل</th>
+            <th>ظرفیت باقی مانده</th>
             <th>وضعیت دوره</th>
           </Table.Header>
           <Table.Body>

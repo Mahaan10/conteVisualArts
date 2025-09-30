@@ -9,6 +9,7 @@ function CoursesRow({ course, index }) {
       <td>{formattedDate(course?.course?.startDate)}</td>
       <td>{formattedDate(course?.enrolledAt)}</td>
       <td>{course?.course?.duration} جلسه</td>
+      <td>{course?.course?.maxcapacity} نفر</td>
       <td>{course?.course?.availableSeats} نفر</td>
       <td>{course?.course?.isActive ? "در حال پذیرش ⏳" : "تکمیل ظرفیت ✔️"}</td>
     </Table.Row>

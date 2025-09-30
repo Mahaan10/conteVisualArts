@@ -9,9 +9,9 @@ export default function useEditUser() {
     mutationFn: editUserApi,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["user"],
+        queryKey: ["users"],
       });
-      toast.success("اطلاعات با موفقیت ویرایش شد"); 
+      toast.success("اطلاعات با موفقیت ویرایش شد");
     },
     onError: (error) => {
       toast.error(

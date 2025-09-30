@@ -76,10 +76,30 @@ const schema = Yup.object().shape({
     .required("شماره همراه الزامی است")
     .matches(/^09\d{9}$/, "شماره همراه معتبر نیست"),
   enrolledCourses: Yup.string().nullable(),
+  availableCourses: Yup.string().nullable(),
 });
-function UsersForm({ onClose, userToEdit = {} }) {
+
+function UsersForm({
+  onClose,
+  userToEdit = {},
+  courses,
+  onConfirmDeleteCourse,
+  onConfirmAddCourse,
+}) {
   const { editUser, isUserEditing } = useEditUser();
   const { _id: editUserId } = userToEdit;
+
+  const studentCourses = userToEdit?.enrolledCourses?.map(
+    (course) => course._id
+  );
+
+  const enrolledCourses = courses?.filter((course) =>
+    studentCourses?.includes(course?._id)
+  );
+
+  const availableCourses = courses?.filter(
+    (course) => !studentCourses.includes(course?._id)
+  );
 
   const {
     register,
@@ -92,7 +112,16 @@ function UsersForm({ onClose, userToEdit = {} }) {
     resolver: yupResolver(schema),
   });
 
-  const selectedCourse = watch("enrolledCourses");
+  const selectedCourseIdToDelete = watch("enrolledCourses");
+  const availableCourseIdToAdd = watch("availableCourses");
+
+  const selectedCourseToDelete = enrolledCourses?.find(
+    (course) => course._id === selectedCourseIdToDelete
+  );
+
+  const selectedCourseToAddToUser = availableCourses?.find(
+    (course) => course._id === availableCourseIdToAdd
+  );
 
   useEffect(() => {
     if (editUserId) {
@@ -105,25 +134,20 @@ function UsersForm({ onClose, userToEdit = {} }) {
   }, [reset, editUserId, userToEdit]);
 
   const onSubmit = async (data) => {
-    const formData = new FormData();
-    formData.append("name", data?.name);
-    formData.append("email", data?.email);
-    formData.append("phone", data?.phone);
+    const updatedUser = {
+      name: data?.name,
+      email: data?.email,
+      phone: data?.phone,
+    };
 
     if (editUserId) {
       await editUser(
-        { courseId: editUserId, newCourse: formData },
+        { userId: editUserId, updatedUser: updatedUser },
         {
           onSuccess: () => {
-            toast.success(`${data?.name} با موفقیت ویرایش شد`);
             onClose();
             reset();
           },
-          onError: (error) =>
-            toast.error(
-              error?.response?.data?.message ||
-                `ویرایش ${data?.name} موفقیت آمیز نبود`
-            ),
         }
       );
     }
@@ -173,7 +197,7 @@ function UsersForm({ onClose, userToEdit = {} }) {
               variant="outlined"
               label="شماره همراه"
               sizing="sm"
-              type="number"
+              type="tel"
               className="transition-all duration-300"
               {...register("phone")}
             />
@@ -191,10 +215,10 @@ function UsersForm({ onClose, userToEdit = {} }) {
               {...register("enrolledCourses")}
               className="w-full max-w-md mx-auto"
             >
-              <option value="">-- دوره های ثبت نام کرده --</option>
-              {userToEdit?.enrolledCourses?.map((user) => (
-                <option key={user?._id} value={user?.enrolledCourses?._id}>
-                  {user?.course?.name}
+              <option value="">-- دوره های ثبت نام شده --</option>
+              {enrolledCourses?.map((course) => (
+                <option key={course?._id} value={course?._id}>
+                  {course?.name}
                 </option>
               ))}
             </Select>
@@ -211,10 +235,44 @@ function UsersForm({ onClose, userToEdit = {} }) {
           <Button
             color="red"
             className="flex items-center justify-center gap-x-4"
-            disabled={!selectedCourse}
-            //onClick={onDelete}
+            disabled={!selectedCourseIdToDelete}
+            onClick={() => onConfirmDeleteCourse(selectedCourseToDelete)}
           >
             <span>حذف دوره</span>
+            <PiTrash className="w-5 h-5" />
+          </Button>
+
+          {/* availableCourses */}
+          <div className="w-full flex justify-between items-center relative max-w-md">
+            <Select
+              color="gray"
+              {...register("availableCourses")}
+              className="w-full max-w-md mx-auto"
+            >
+              <option value="">-- دوره های ثبت نام نشده --</option>
+              {availableCourses?.map((course) => (
+                <option key={course?._id} value={course?._id}>
+                  {course?.name}
+                </option>
+              ))}
+            </Select>
+
+            <HiChevronDown className="w-5 h-5 absolute left-2" />
+
+            {errors?.enrolledCourses && (
+              <p className="text-red-500 text-xs mt-2">
+                {errors?.enrolledCourses?.message}
+              </p>
+            )}
+          </div>
+
+          <Button
+            color="green"
+            className="flex items-center justify-center gap-x-4"
+            disabled={!availableCourseIdToAdd}
+            onClick={() => onConfirmAddCourse(selectedCourseToAddToUser)}
+          >
+            <span>ثبت نام دوره</span>
             <PiTrash className="w-5 h-5" />
           </Button>
 

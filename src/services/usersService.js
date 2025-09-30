@@ -31,3 +31,15 @@ export function editUserApi({ userId, updatedUser }) {
 export function deleteUserApi(userId) {
   return http.delete(`/users/${userId}`).then(({ data }) => data.data);
 }
+
+export function deleteUserFromCourseApi({ userId, courseId }) {
+  return http
+    .delete(`users/${userId}/courses/${courseId}`)
+    .then(({ data }) => data.data);
+}
+
+export function addUserToCourseApi({ userId, courseId }) {
+  return http
+    .post(`users/${userId}/courses/${courseId}`)
+    .then(({ data }) => data.data);
+}

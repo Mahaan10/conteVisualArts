@@ -4,21 +4,28 @@ import Table from "../../../ui/Table";
 import formattedDate from "../../../utils/formattedDate";
 import { Link } from "react-router-dom";
 
-function AdminUsersRow({ user, index, onEdit, onDelete }) {
+function AdminUsersRow({ user, index, onEdit, onDelete, courses }) {
+  const studentCourses = user?.enrolledCourses?.map((course) => course._id);
+
+  const enrolledCourses = courses?.filter((course) =>
+    studentCourses?.includes(course?._id)
+  );
+
+
   return (
     <Table.Row>
       <td>{index + 1}</td>
       <td>{user?.name}</td>
       <td>{formattedDate(user?.createdAt)}</td>
       <td>
-        <div className="grid grid-cols-2 gap-x-4">
-          {user?.enrolledCourses?.map((enrolledItem) => (
+        <div className="grid grid-cols-2 gap-2">
+          {enrolledCourses?.map((course) => (
             <Link
-              key={enrolledItem?._id}
-              to={`/courses/${enrolledItem?.course?._id}`}
+              key={course?._id}
+              to={`/courses/${course?._id}`}
               className="p-2 rounded-lg bg-almond-cookie dark:hover:bg-dark-cerulean hover:bg-golden-sand dark:bg-purple-plumeria transition-colors duration-300 cursor-pointer"
             >
-              {enrolledItem?.course?.name}
+              {course?.name}
             </Link>
           ))}
         </div>

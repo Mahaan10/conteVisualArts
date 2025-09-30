@@ -53,8 +53,9 @@ function AdminCoursesTable() {
               <th>تاریخ شروع</th>
               <th>وضعیت</th>
               <th>جلسات</th>
-              <th>ظرفیت</th>
+              <th>ظرفیت کل</th>
               <th>هنرجویان</th>
+              <th>ظرفیت باقی مانده</th>
               <th>رده سنی</th>
               <th>آیتم</th>
               <th>قیمت</th>
