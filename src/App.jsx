@@ -24,6 +24,7 @@ import NewsPageLayout from "./ui/NewsPageLayout";
 import NotFound from "./ui/NotFound";
 import VerifyPayment from "./ui/VerifyPayment";
 import { Toaster } from "react-hot-toast";
+import AdminReviews from "./features/admin/reviews/AdminReviews";
 
 function App() {
   const queryClient = new QueryClient();
@@ -67,6 +68,7 @@ function App() {
                   <Route path="users" element={<AdminUsers />} />
                   <Route path="studentWorks" element={<AdminStudentWorks />} />
                   <Route path="news" element={<AdminNews />} />
+                  <Route path="reviews" element={<AdminReviews />} />
                 </Route>
               </Route>
             </Route>

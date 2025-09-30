@@ -30,6 +30,7 @@ import formattedDate from "../utils/formattedDate";
 import { useCart } from "../context/useShoppingCardContext";
 import NotFound from "./NotFound";
 import toPersianNumbersWithComma from "../utils/toPersianNumbers";
+import { useGetUser } from "../context/useGetUserContext";
 
 const customTheme = createTheme({
   modal: {
@@ -48,6 +49,13 @@ const customTheme = createTheme({
 });
 
 function CoursePageLayout() {
+  const {
+    user,
+    isLoading: userIsLoading,
+    isError: userIsError,
+    error: userError,
+    token,
+  } = useGetUser();
   const { addToCard } = useCart();
   const [isOpen, setIsOpen] = useState(false);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
@@ -88,13 +96,28 @@ function CoursePageLayout() {
   };
 
   const handleAddToCard = (course) => {
-    addToCard(course);
-    toast.success(`${course?.name} به سبد خرید اضافه شد`);
+    if (user && token) {
+      const isAlreadyEnrolled = user?.enrolledCourses?.some(
+        (enrolledCourse) => enrolledCourse?._id === course?._id
+      );
+
+      if (isAlreadyEnrolled) {
+        toast.error("شما قبلاً در این دوره ثبت نام کرده‌اید.");
+      } else {
+        addToCard(course);
+        toast.success(`${course?.name} به سبد خرید اضافه شد`);
+      }
+    } else {
+      addToCard(course);
+      toast.success(`${course?.name} به سبد خرید اضافه شد`);
+    }
   };
 
-  if (isLoading) return <Loading />;
-  if (isError) {
-    toast.error(error?.response?.data?.message || "خطا در بارگذاری");
+  if (isLoading || userIsLoading) return <Loading />;
+  if (isError || userIsError) {
+    toast.error(
+      (error || userError)?.response?.data?.message || "خطا در بارگذاری"
+    );
     return <NotFound />;
   }
 
@@ -103,7 +126,7 @@ function CoursePageLayout() {
       <div className="my-10 mx-4 relative">
         {/* Add to card mobile view */}
         <button
-          className="fixed bottom-0 z-40 bg-almond-cookie hover:bg-golden-sand dark:hover:bg-dark-purple dark:bg-purple-plumeria w-[95%] mx-auto right-0 left-0 py-3 cursor-pointer text-sm sm:hidden"
+          className="fixed bottom-0 z-40 bg-almond-cookie hover:bg-golden-sand dark:hover:bg-dark-purple dark:bg-purple-plumeria w-[95%] mx-auto right-0 left-0 py-4 cursor-pointer text-sm sm:hidden"
           onClick={() => handleAddToCard(course)}
         >
           افزودن به سبد خرید

@@ -10,7 +10,7 @@ export default function useCreateReview() {
       mutationFn: createReviewApi,
       onSuccess: (data) => {
         queryClient.invalidateQueries({
-          queryKey: ["course", data?.course],
+          queryKey: ["courses", data?.course],
         });
         toast.success("کامنت با موفقیت ارسال شد");
       },

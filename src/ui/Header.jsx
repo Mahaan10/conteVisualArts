@@ -31,6 +31,7 @@ import { BsCalendar3Event, BsFolder2Open } from "react-icons/bs";
 import { Loader } from "./Loading";
 import useLogout from "../hooks/useLogout";
 import { useCart } from "../context/useShoppingCardContext";
+import { FaRegCommentDots } from "react-icons/fa6";
 
 const customTheme = createTheme({
   dropdown: {
@@ -134,6 +135,9 @@ function Header() {
         </DropdownItem>
         <DropdownItem as={Link} to="/admin/news" icon={BsCalendar3Event}>
           رویدادها
+        </DropdownItem>
+        <DropdownItem as={Link} to="/admin/reviews" icon={FaRegCommentDots}>
+          نظرات کاربران
         </DropdownItem>
         <DropdownItem
           as={Link}

@@ -11,7 +11,6 @@ function AdminUsersRow({ user, index, onEdit, onDelete, courses }) {
     studentCourses?.includes(course?._id)
   );
 
-
   return (
     <Table.Row>
       <td>{index + 1}</td>

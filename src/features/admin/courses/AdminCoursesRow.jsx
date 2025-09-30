@@ -6,6 +6,7 @@ import Table from "../../../ui/Table";
 import formattedDate from "../../../utils/formattedDate";
 import toPersianNumbersWithComma from "../../../utils/toPersianNumbers";
 import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 const customTheme = createTheme({
   toggleSwitch: {
@@ -54,7 +55,14 @@ function AdminCoursesRow({ course, index, onEdit, onDelete }) {
   return (
     <Table.Row>
       <td>{index + 1}</td>
-      <td>{course?.name}</td>
+      <td>
+        <Link
+          to={`/courses/${course?._id}`}
+          className="p-2 rounded-lg bg-almond-cookie dark:hover:bg-dark-cerulean hover:bg-golden-sand dark:bg-purple-plumeria transition-colors duration-300 cursor-pointer btn justify-center mx-auto"
+        >
+          {course?.name}
+        </Link>
+      </td>
       <td>{formattedDate(course?.startDate)}</td>
       <td>
         <ThemeProvider theme={customTheme}>

@@ -5,20 +5,29 @@ import { Loader } from "../../ui/Loading";
 import Table from "../../ui/Table";
 import OrdersRow from "./OrdersRow";
 import NotFound from "../../ui/NotFound";
+import useCourses from "../../hooks/useCourses";
 
 function OrdersTable() {
   const { user, isLoading, isError, error, token } = useGetUser();
+  const {
+    courses,
+    error: coursesError,
+    isError: coursesIsError,
+    isLoading: coursesIsLoading,
+  } = useCourses();
+
   useEffect(() => {
-    if (isError || !token) {
-      toast.error(error?.response?.data?.message || "اطلاعات کاربری یافت نشد");
+    if (isError || coursesIsError || !token) {
+      toast.error(
+        (error || coursesError)?.response?.data?.message ||
+          "اطلاعات کاربری یافت نشد"
+      );
     }
-  }, [isError, token, error]);
+  }, [isError, token, error, coursesError, coursesIsError]);
 
-  if (isError || !token) {
-    return <NotFound />;
-  }
+  if (isError || !token) return <NotFound />;
 
-  if (isLoading) return <Loader />;
+  if (isLoading || coursesIsLoading) return <Loader />;
 
   return (
     <>
@@ -35,8 +44,13 @@ function OrdersTable() {
             <th>وضعیت پرداخت</th>
           </Table.Header>
           <Table.Body>
-            {user?.enrolledCourses.map((course, index) => (
-              <OrdersRow key={course._id} course={course} index={index} />
+            {user?.enrolledCourses.map((enrolledItem, index) => (
+              <OrdersRow
+                key={enrolledItem._id}
+                course={enrolledItem}
+                index={index}
+                courses={courses}
+              />
             ))}
           </Table.Body>
         </Table>

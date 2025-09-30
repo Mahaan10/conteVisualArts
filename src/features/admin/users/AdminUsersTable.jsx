@@ -31,9 +31,8 @@ function AdminUsersTable() {
     useAddUserToAvailableCourse();
   const [userToEdit, setUserToEdit] = useState(null);
   const [userToDelete, setUserToDelete] = useState(null);
-const [courseDeleteDetails, setCourseDeleteDetails] = useState(null);
-const [courseAddDetails, setCourseAddDetails] = useState(null)
-
+  const [courseDeleteDetails, setCourseDeleteDetails] = useState(null);
+  const [courseAddDetails, setCourseAddDetails] = useState(null);
 
   const sortUsers = users?.filter((user) => user?.role === "student") || [];
 
@@ -82,7 +81,7 @@ const [courseAddDetails, setCourseAddDetails] = useState(null)
       { userId: user?._id, courseId: course?._id },
       {
         onSuccess: () => {
-          toast.success(`${user?.name} به ${course?.name} باموفیت اضافه شد`);
+          toast.success(`${user?.name} به ${course?.name} با موفقیت اضافه شد`);
           setCourseAddDetails(null);
         },
       }
@@ -147,13 +146,17 @@ const [courseAddDetails, setCourseAddDetails] = useState(null)
             userToEdit={userToEdit}
             courses={courses || []}
             onClose={() => setUserToEdit(null)}
-            onConfirmDeleteCourse={(course) => setCourseDeleteDetails({ user: userToEdit, course: course })}
-            onConfirmAddCourse={(course) => setCourseAddDetails({ user: userToEdit, course: course })}
+            onConfirmDeleteCourse={(course) =>
+              setCourseDeleteDetails({ user: userToEdit, course: course })
+            }
+            onConfirmAddCourse={(course) =>
+              setCourseAddDetails({ user: userToEdit, course: course })
+            }
           />
         </Modal>
       )}
       {/* Delete User From Course */}
-      {courseDeleteDetails  && (
+      {courseDeleteDetails && (
         <Modal
           title={`حذف ${courseDeleteDetails?.course?.name} از ${courseDeleteDetails?.user?.name}`}
           onClose={() => setCourseDeleteDetails(null)}
@@ -162,16 +165,16 @@ const [courseAddDetails, setCourseAddDetails] = useState(null)
             name={`${courseDeleteDetails?.course?.name} از ${courseDeleteDetails?.user?.name}`}
             isDeleting={isDeletingUserFromCourse}
             disabled={false}
-            onClose={() => setCourseDeletionDetails(null)}
+            onClose={() => setCourseDeleteDetails(null)}
             onConfirm={handleDeleteUserFromCourse}
           />
         </Modal>
       )}
 
       {/* Add User To Available Course */}
-      {courseAddDetails  && (
+      {courseAddDetails && (
         <Modal
-          title={`اضافه کردن ${courseAddDetails ?.user?.name} به ${courseAddDetails ?.course?.name}`}
+          title={`اضافه کردن ${courseAddDetails?.user?.name} به ${courseAddDetails?.course?.name}`}
           onClose={() => setCourseAddDetails(null)}
         >
           <ConfirmAdd

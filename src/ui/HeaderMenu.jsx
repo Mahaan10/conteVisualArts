@@ -56,7 +56,7 @@ const customTheme = createTheme({
     field: {
       select: {
         colors: {
-          gray: "bg-whitesmoke dark:bg-slate-900 sm:w-22 w-full dark:focus:ring-0 dark:border-zinc-800 dark:hover:border-zinc-600 dark:focus:border-zinc-400 border-gray-300 hover:border-gray-400 focus:border-gray-600 focus:ring-0 transition-colors duration-300 ease-in-out bg-[position:left_12px_center]",
+          gray: "bg-whitesmoke dark:bg-slate-900 w-full dark:focus:ring-0 dark:border-zinc-800 dark:hover:border-zinc-600 dark:focus:border-zinc-400 border-gray-300 hover:border-gray-400 focus:border-gray-600 focus:ring-0 transition-colors duration-300 ease-in-out bg-[position:left_12px_center]",
         },
       },
     },

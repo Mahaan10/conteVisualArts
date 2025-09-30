@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { createTheme, Textarea, ThemeProvider, Tooltip } from "flowbite-react";
 import useCreateReview from "../hooks/useCreateReview";
 import { useForm } from "react-hook-form";
@@ -26,6 +26,7 @@ const customTheme = createTheme({
 });
 
 const rates = ["خیلی بد", "بد", "متوسط", "خوب", "عالی"];
+const MAX_LENGTH = 200;
 
 const Comments = ({ onClose }) => {
   const { id } = useParams();
@@ -38,6 +39,7 @@ const Comments = ({ onClose }) => {
     token,
   } = useGetUser();
   const [value, setValue] = useState(3);
+  const toastShownRef = useRef(false);
   const {
     handleSubmit,
     register,
@@ -46,15 +48,21 @@ const Comments = ({ onClose }) => {
 
   useEffect(() => {
     if (isError || isUserError) {
-      toast.error(error?.response?.data?.message || "خطا در بارگذاری اطلاعات");
-      onClose();
+      if (!toastShownRef.current) {
+        toast.error(
+          error?.response?.data?.message || "خطا در بارگذاری اطلاعات"
+        );
+        toastShownRef.current = true;
+        onClose();
+      }
     }
   }, [isError, isUserError, error, onClose]);
 
   useEffect(() => {
-    if (!isLoading && !isUserLoading) {
+    if (!isLoading && !isUserLoading && !toastShownRef.current) {
       if (!token) {
         toast.error("برای ارسال دیدگاه لطفاً وارد حساب کاربری شوید.");
+        toastShownRef.current = true;
         onClose();
       } else if (
         !course?.enrolledStudents?.some((student) => student === user?._id)
@@ -62,6 +70,7 @@ const Comments = ({ onClose }) => {
         toast.error(
           "فقط هنرجویان ثبت‌نام‌ کرده در این دوره می‌توانند دیدگاه ثبت کنند."
         );
+        toastShownRef.current = true;
         onClose();
       }
     }
@@ -128,7 +137,14 @@ const Comments = ({ onClose }) => {
             name="review"
             rows={4}
             className="resize-none"
-            {...register("review", { required: "لطفا توضیحات را وارد کنید" })}
+            maxLength={MAX_LENGTH}
+            {...register("review", {
+              required: "لطفا توضیحات را وارد کنید",
+              maxLength: {
+                value: MAX_LENGTH,
+                message: `توضیحات نمی تواند بیشتر از ${MAX_LENGTH} کاراکتر باشد`,
+              },
+            })}
           />
           {errors.review && (
             <p className="text-red-500 text-sm">{errors.review.message}</p>

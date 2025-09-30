@@ -12,7 +12,6 @@ import {
 import useEditUser from "../../../hooks/useEditUser";
 import { Loader } from "../../../ui/Loading";
 import { HiChevronDown } from "react-icons/hi";
-import toast from "react-hot-toast";
 import { PiTrash } from "react-icons/pi";
 
 const customTheme = createTheme({
@@ -46,26 +45,6 @@ const customTheme = createTheme({
     },
   },
 });
-
-/* const schema = Yup.object().shape({
-  name: Yup.string().required("عنوان الزامی است"),
-  description: Yup.string().required("توضیحات الزامی است"),
-  duration: Yup.number()
-    .typeError("تعداد جلسات باید عدد باشد")
-    .required("تعداد جلسات الزامی است")
-    .positive("تعداد جلسات باید بیشتر از صفر باشد"),
-  price: Yup.number()
-    .typeError("قیمت باید عدد باشد")
-    .required("قیمت الزامی است")
-    .min(0, "قیمت نمی‌تواند منفی باشد"),
-  availableSeats: Yup.number()
-    .typeError("ظرفیت باید عدد باشد")
-    .required("ظرفیت الزامی است")
-    .min(1, "حداقل ظرفیت ۱ نفر است"),
-  isActive: Yup.string().required("وضعیت دوره الزامی است"),
-  ageGroup: Yup.string(),
-  badge: Yup.string(),
-}); */
 
 const schema = Yup.object().shape({
   name: Yup.string().required("نام کاربر الزامی است"),
