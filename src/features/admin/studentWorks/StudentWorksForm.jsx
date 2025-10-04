@@ -57,7 +57,6 @@ const schema = Yup.object().shape({
   title: Yup.string().required("عنوان الزامی است"),
   description: Yup.string().required("توضیحات الزامی است"),
   course: Yup.string().required("انتخاب دوره الزامی است"),
-  student: Yup.string().required("انتخاب هنرجو الزامی است"),
   Image: Yup.mixed()
     .nullable()
     .test("fileSize", "حجم فایل نباید بیش از 8 مگابایت باشد", (value) => {
@@ -96,7 +95,6 @@ function StudentWorksForm({ courses, students, onClose, artWorkToEdit = {} }) {
         title: artWorkToEdit?.title,
         description: artWorkToEdit?.description,
         course: artWorkToEdit?.course?._id || "",
-        student: artWorkToEdit?.student?._id || "",
       });
     }
   }, [reset, editArtWorkId, artWorkToEdit]);
@@ -117,7 +115,6 @@ function StudentWorksForm({ courses, students, onClose, artWorkToEdit = {} }) {
     formData.append("title", data?.title);
     formData.append("description", data?.description);
     formData.append("course", data?.course);
-    formData.append("student", data?.student);
     if (data?.Image && data?.Image[0]) {
       formData.append("Image", data?.Image[0]);
     }
@@ -242,31 +239,6 @@ function StudentWorksForm({ courses, students, onClose, artWorkToEdit = {} }) {
             {errors?.course && (
               <p className="text-red-500 text-xs mt-2">
                 {errors?.course?.message}
-              </p>
-            )}
-          </div>
-
-          {/* ُStudent */}
-          <div className="w-full max-w-md">
-            <div className="relative">
-              <Select
-                color="gray"
-                className="w-full max-w-md"
-                id="student"
-                {...register("student")}
-              >
-                <option value="">-- هنرجو --</option>
-                {students.map((user) => (
-                  <option key={user?._id} value={user?._id}>
-                    {user?.name}
-                  </option>
-                ))}
-              </Select>
-              <HiChevronDown className="w-5 h-5 absolute left-2 top-2.5 pointer-events-none" />
-            </div>
-            {errors?.student && (
-              <p className="text-red-500 text-xs mt-2">
-                {errors?.student?.message}
               </p>
             )}
           </div>

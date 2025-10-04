@@ -64,10 +64,12 @@ function StudentWorksCards({ array }) {
         <Card
           key={arr._id}
           className="max-w-sm text-xs relative cursor-pointer"
-          //imgAlt={arr.title}
-          //imgSrc={arr.Image}
           renderImage={() => (
-            <img className="h-60 w-full" src={arr.Image} alt={arr.title} />
+            <img
+              className="min-h-60 w-full p-0.5 rounded-t-lg"
+              src={arr.Image}
+              alt={arr.title}
+            />
           )}
           onClick={() => handleCardClick(arr)}
           data-aos="fade-up"
@@ -83,9 +85,7 @@ function StudentWorksCards({ array }) {
           </p>
 
           <div className="flex items-center justify-between">
-            <p>
-              {arr?.student?.name}|{arr?.course?.name}
-            </p>
+            <p>{arr?.course?.name}</p>
           </div>
           <div className="flex items-center justify-center">
             <Button
@@ -106,10 +106,7 @@ function StudentWorksCards({ array }) {
       >
         <ModalHeader>
           {selectedStudentWork && (
-            <>
-              پیش نمایش اثر {selectedStudentWork?.title} از{" "}
-              {selectedStudentWork?.student?.name}
-            </>
+            <>پیش نمایش اثر {selectedStudentWork?.title}</>
           )}
         </ModalHeader>
         <ModalBody ref={modalRef}>

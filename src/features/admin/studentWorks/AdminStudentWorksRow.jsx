@@ -19,7 +19,6 @@ function AdminStudentWorksRow({ studentWork, index, onEdit, onDelete }) {
         </div>
       </td>
       <td>{studentWork?.course?.name}</td>
-      <td>{studentWork?.student?.name || "نامشخص"}</td>
       <td className="flex gap-x-4 justify-center">
         <button
           className="btn text-whitesmoke w-24 bg-cyan-700 hover:bg-cyan-800"

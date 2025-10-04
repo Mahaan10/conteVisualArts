@@ -75,7 +75,6 @@ function AdminStudentWorksTable() {
               <th>تاریخ</th>
               <th>عکس اثر</th>
               <th>دوره</th>
-              <th>هنرجو</th>
               <th>عملیات</th>
             </Table.Header>
             <Table.Body>
@@ -102,7 +101,7 @@ function AdminStudentWorksTable() {
       {/* Delete Course */}
       {artWorkToDelete && (
         <Modal
-          title={`حذف ${artWorkToDelete?.name}`}
+          title={`حذف ${artWorkToDelete?.title}`}
           onClose={() => setArtWorkToDelete(null)}
         >
           <ConfirmDelete
