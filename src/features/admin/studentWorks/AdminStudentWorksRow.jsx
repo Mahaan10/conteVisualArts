@@ -2,6 +2,7 @@ import { CiEdit } from "react-icons/ci";
 import { PiTrash } from "react-icons/pi";
 import Table from "../../../ui/Table";
 import formattedDate from "../../../utils/formattedDate";
+import { Link } from "react-router-dom";
 
 function AdminStudentWorksRow({ studentWork, index, onEdit, onDelete }) {
   return (
@@ -18,7 +19,14 @@ function AdminStudentWorksRow({ studentWork, index, onEdit, onDelete }) {
           />
         </div>
       </td>
-      <td>{studentWork?.course?.name}</td>
+      <td>
+        <Link
+          to={`/courses/${studentWork?.course?._id}`}
+          className="p-2 rounded-lg bg-almond-cookie dark:hover:bg-dark-cerulean hover:bg-golden-sand dark:bg-purple-plumeria transition-colors duration-300 cursor-pointer btn w-auto justify-center mx-auto"
+        >
+          {studentWork?.course?.name}
+        </Link>
+      </td>
       <td className="flex gap-x-4 justify-center">
         <button
           className="btn text-whitesmoke w-24 bg-cyan-700 hover:bg-cyan-800"

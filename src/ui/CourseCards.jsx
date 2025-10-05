@@ -7,10 +7,9 @@ import {
   ThemeProvider,
 } from "flowbite-react";
 import { useState } from "react";
-import { FaArrowLeft, FaRegCalendarCheck } from "react-icons/fa6";
+import { FaArrowLeft } from "react-icons/fa6";
 import { PiStudent } from "react-icons/pi";
 import { Link } from "react-router-dom";
-import formattedDate from "../utils/formattedDate";
 
 const customTheme = createTheme({
   card: {
@@ -64,14 +63,14 @@ function CourseCards({ array }) {
                       ? "bg-sky-900"
                       : arr.ageGroup === "child"
                       ? "bg-cyan-700"
-                      : ""
+                      : "bg-cyan-950"
                   }`}
                 >
                   {arr.ageGroup === "adult"
                     ? "بزرگسالان"
                     : arr.ageGroup === "child"
                     ? "کودکان"
-                    : ""}
+                    : "همه سنین"}
                 </span>
                 <span
                   className={`absolute left-2 text-whitesmoke text-xs px-2 py-1 rounded z-10 ${
@@ -121,14 +120,15 @@ function CourseCards({ array }) {
                 </h5>
               </div>
               <div className="flex text-[10px] space-x-1">
-                <FaRegCalendarCheck className="w-4 h-4" />
-                <span>تاریخ شروع:</span>
-                <span>{formattedDate(arr.startDate)}</span>
-              </div>
-              <div className="flex text-[10px] space-x-1">
                 <PiStudent className="w-4 h-4" />
-                <span>ظرفیت باقی مانده:</span>
-                <span>{arr.availableSeats} نفر</span>
+                <span>رده سنی مجاز:</span>
+                <span>
+                  {arr.ageGroup === "child"
+                    ? "کودکان"
+                    : arr.ageGroup === "adult"
+                    ? "بزرگسالان"
+                    : "همه سنین"}
+                </span>
               </div>
               <p className="text-gray-700 dark:text-gray-400 text-xs line-clamp-3 min-h-[3rem]">
                 {arr.description}

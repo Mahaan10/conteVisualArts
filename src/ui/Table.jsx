@@ -11,7 +11,7 @@ export default Table;
 function TableHeader({ children }) {
   return (
     <thead>
-      <tr className="border-b border-gray-400/40 dark:border-grayish-violet/10">
+      <tr className="border-b border-gray-400/40 dark:border-grayish-violet/10 text-nowrap">
         {children}
       </tr>
     </thead>
@@ -24,7 +24,7 @@ function TableBody({ children }) {
 
 function TableRow({ children }) {
   return (
-    <tr className="border-b border-gray-400/40 dark:border-grayish-violet/10 last:border-none">
+    <tr className="border-b border-gray-400/40 dark:border-grayish-violet/10 last:border-none text-nowrap">
       {children}
     </tr>
   );

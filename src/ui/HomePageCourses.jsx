@@ -84,7 +84,7 @@ function HomePageCourses({ courses }) {
                   className="rounded-lg w-full h-full object-cover"
                 />
               </div>
-              <h1 className="text-sm text-nowrap w-40 text-right">
+              <h1 className="text-sm leading-6 w-40 text-right">
                 {course?.name}
               </h1>
             </Link>

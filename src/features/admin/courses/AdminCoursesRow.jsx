@@ -3,7 +3,6 @@ import { PiTrash } from "react-icons/pi";
 import { createTheme, ThemeProvider, ToggleSwitch } from "flowbite-react";
 import useEditCourse from "../../../hooks/useEditCourse";
 import Table from "../../../ui/Table";
-import formattedDate from "../../../utils/formattedDate";
 import toPersianNumbersWithComma from "../../../utils/toPersianNumbers";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
@@ -58,12 +57,11 @@ function AdminCoursesRow({ course, index, onEdit, onDelete }) {
       <td>
         <Link
           to={`/courses/${course?._id}`}
-          className="p-2 rounded-lg bg-almond-cookie dark:hover:bg-dark-cerulean hover:bg-golden-sand dark:bg-purple-plumeria transition-colors duration-300 cursor-pointer btn justify-center mx-auto"
+          className="p-2 rounded-lg bg-almond-cookie dark:hover:bg-dark-cerulean hover:bg-golden-sand dark:bg-purple-plumeria transition-colors duration-300 cursor-pointer btn w-auto justify-center mx-auto"
         >
           {course?.name}
         </Link>
       </td>
-      <td>{formattedDate(course?.startDate)}</td>
       <td>
         <ThemeProvider theme={customTheme}>
           <ToggleSwitch
@@ -78,22 +76,44 @@ function AdminCoursesRow({ course, index, onEdit, onDelete }) {
       <td>{course?.duration} جلسه</td>
       <td>{course?.maxcapacity} نفر</td>
       <td>{course?.enrolledStudents.length} هنرجو</td>
-      <td>{course?.availableSeats} نفر</td>
+      <td>{course?.maxcapacity - course?.enrolledStudents?.length} نفر</td>
       <td>
-        {course?.ageGroup === "child"
-          ? "کودکان"
-          : course?.ageGroup === "adult"
-          ? "بزرگسالان"
-          : "همه سنین"}
+        <span
+          className={`p-1 rounded-sm text-whitesmoke ${
+            course?.ageGroup === "child"
+              ? "bg-cyan-700"
+              : course?.ageGroup === "adult"
+              ? "bg-sky-900"
+              : "bg-cyan-950"
+          }`}
+        >
+          {course?.ageGroup === "child"
+            ? "کودکان"
+            : course?.ageGroup === "adult"
+            ? "بزرگسالان"
+            : "همه سنین"}
+        </span>
       </td>
       <td>
-        {course?.badge === "summer"
-          ? "تابستانی"
-          : course?.badge === "special"
-          ? "ویژه"
-          : course?.badge === "autumn"
-          ? "پائیزی"
-          : ""}
+        <span
+          className={`p-1 rounded-sm ${
+            course?.badge === "summer"
+              ? "bg-yellow-400 text-whitesmoke"
+              : course?.badge === "special"
+              ? "bg-emerald-600 text-whitesmoke"
+              : course.badge === "autumn"
+              ? "bg-amber-800 text-whitesmoke"
+              : ""
+          }`}
+        >
+          {course?.badge === "summer"
+            ? "تابستانی"
+            : course?.badge === "special"
+            ? "ویژه"
+            : course?.badge === "autumn"
+            ? "پائیزی"
+            : "___"}
+        </span>
       </td>
       <td>{toPersianNumbersWithComma(course?.price)} تومان</td>
       <td className="flex gap-x-4">

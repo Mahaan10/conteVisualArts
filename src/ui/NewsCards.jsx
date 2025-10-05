@@ -38,7 +38,16 @@ function NewsCards({ array }) {
           data-aos="fade-up"
           data-aos-duration="1000"
         >
-          <Card className="max-w-sm transition-all duration-300">
+          <Card className="max-w-sm transition-all duration-300 relative">
+            {arr.badge && (
+              <span
+                className={`absolute top-2 left-2 text-whitesmoke text-xs px-2 py-1 rounded z-10 ${
+                  arr.badge === "new" ? "bg-red-800" : ""
+                }`}
+              >
+                {arr.badge === "new" ? "جدید" : ""}
+              </span>
+            )}
             <div className="w-full">
               <img
                 src={arr.Image}
@@ -55,8 +64,8 @@ function NewsCards({ array }) {
               </div>
               <div className="flex text-[10px] space-x-1">
                 <FaRegCalendarCheck className="w-4 h-4" />
-                <span>تاریخ انتشار:</span>
-                <span>{formattedDate(arr.createdAt)}</span>
+                <span>تاریخ شروع:</span>
+                <span>{formattedDate(arr.startDate)}</span>
               </div>
               <div className="flex text-[10px] space-x-1">
                 <BsCalendar2Range className="w-4 h-4" />

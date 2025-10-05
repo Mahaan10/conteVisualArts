@@ -61,7 +61,7 @@ function ShoppingMenu({ isOpen, setIsOpen }) {
         amount: totalPrice * 10,
         email: user?.email,
         mobile: user?.phone,
-        description: "پرداخت تستی از فرانت",
+        description: "پرداخت",
         callback_url: `${BASE_URL}/student/verify-payment`,
       };
       try {
@@ -121,7 +121,8 @@ function ShoppingMenu({ isOpen, setIsOpen }) {
                           <p className="font-bold text-sm">{item.name}</p>
                           <p className="text-xs text-gray-600 dark:text-gray-300 mt-1">
                             {item.duration} جلسه |{" "}
-                            {item.price?.toLocaleString()} تومان
+                            {item.price?.toLocaleString()}
+                            تومان
                           </p>
                         </div>
                       </div>

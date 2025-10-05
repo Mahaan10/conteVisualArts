@@ -36,7 +36,6 @@ function AdminNewsTable() {
         toast.success(`${newsToDelete?.title} با موفقیت حذف شد`);
       },
     });
-
   return (
     <>
       {news?.length === 0 ? (
@@ -47,8 +46,9 @@ function AdminNewsTable() {
             <Table.Header>
               <th className="py-2">#</th>
               <th>عنوان</th>
-              <th>تاریخ انتشار</th>
-              <th>آخرین بروزرسانی</th>
+              <th>تاریخ شروع</th>
+              <th>عکس کاور</th>
+              <th>آیتم</th>
               <th>عملیات</th>
             </Table.Header>
             <Table.Body>

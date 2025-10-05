@@ -1,4 +1,4 @@
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useState } from "react";
@@ -10,10 +10,8 @@ import {
   Select,
   ThemeProvider,
 } from "flowbite-react";
-import { DateObject } from "react-multi-date-picker";
 import useCreateCourse from "../../../hooks/useCreateCourse";
 import useEditCourse from "../../../hooks/useEditCourse";
-import Calendar from "../../../ui/Calendar";
 import { Loader } from "../../../ui/Loading";
 import { HiChevronDown } from "react-icons/hi";
 import { numberWithCommas } from "../../../utils/toPersianNumbers";
@@ -75,15 +73,6 @@ const schema = Yup.object().shape({
     .typeError("ظرفیت باقی مانده باید عدد باشد")
     .required("ظرفیت  باقی مانده الزامی است")
     .min(1, "حداقل ظرفیت باقی مانده ۱ نفر است"),
-  startDate: Yup.mixed()
-    .required("تاریخ شروع الزامی است")
-    .test("is-date-object", "تاریخ معتبر نیست", (value) => {
-      return (
-        value instanceof DateObject &&
-        typeof value.toDate === "function" &&
-        !!value.toDate()
-      );
-    }),
   Image: Yup.mixed()
     .nullable()
     .test("fileSize", "حجم فایل نباید بیش از 8 مگابایت باشد", (value) => {
@@ -128,14 +117,12 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
     handleSubmit,
     reset,
     setValue,
-    control,
     watch,
     formState: { errors, isValid },
   } = useForm({
     mode: "onBlur",
     resolver: yupResolver(schema),
     defaultValues: {
-      startDate: null,
       price: 0,
     },
   });
@@ -152,9 +139,6 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
         price: courseToEdit.price,
         maxcapacity: courseToEdit.maxcapacity,
         availableSeats: courseToEdit.availableSeats,
-        startDate: courseToEdit.startDate
-          ? new DateObject(new Date(courseToEdit.startDate))
-          : null,
         isActive: courseToEdit.isActive === true ? "true" : "false",
         ageGroup: courseToEdit.ageGroup || "",
         badge: courseToEdit.badge || "",
@@ -193,8 +177,6 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
   }, [courseImages]);
 
   const onSubmit = async (data) => {
-    const startDateToISO = data?.startDate.toDate().toISOString();
-
     const formData = new FormData();
     formData.append("name", data?.name);
     formData.append("description", data?.description);
@@ -202,7 +184,6 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
     formData.append("price", data?.price);
     formData.append("maxcapacity", data?.maxcapacity);
     formData.append("availableSeats", data?.availableSeats);
-    formData.append("startDate", startDateToISO);
     formData.append("isActive", data?.isActive === "true");
     formData.append("ageGroup", data?.ageGroup);
     formData.append("badge", data?.badge);
@@ -308,7 +289,7 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
               variant="outlined"
               label="قیمت (تومان)"
               sizing="sm"
-              type="text"
+              type="tel"
               value={rawPrice}
               onChange={(e) => {
                 const onlyDigits = e.target.value.replace(/\D/g, "");
@@ -473,22 +454,6 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
               <p className="text-red-500 text-xs mt-2">
                 {errors?.badge?.message}
               </p>
-            )}
-          </div>
-
-          {/* Calendar */}
-          <div className="flex relative flex-col w-full max-w-md">
-            <Controller
-              name="startDate"
-              control={control}
-              render={({ field: { onChange, value } }) => (
-                <Calendar value={value} onChange={(date) => onChange(date)} />
-              )}
-            />
-            {errors.startDate && (
-              <span className="text-red-500 text-xs mt-2">
-                {errors.startDate.message}
-              </span>
             )}
           </div>
 

@@ -39,7 +39,6 @@ function AdminCoursesTable() {
         toast.error(err?.response?.data?.message || "حذف انجام نشد"),
     });
   };
-
   return (
     <>
       {courses?.length === 0 ? (
@@ -50,10 +49,9 @@ function AdminCoursesTable() {
             <Table.Header>
               <th className="py-2">#</th>
               <th>عنوان</th>
-              <th>تاریخ شروع</th>
               <th>وضعیت</th>
               <th>جلسات</th>
-              <th>ظرفیت کل</th>
+              <th>ظرفیت</th>
               <th>هنرجویان</th>
               <th>ظرفیت باقی مانده</th>
               <th>رده سنی</th>

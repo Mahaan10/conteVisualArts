@@ -1,12 +1,10 @@
 import { useParams } from "react-router-dom";
 import useSingleCourse from "../hooks/useSingleCourse";
-import { PiGraduationCapLight } from "react-icons/pi";
+import { PiGraduationCapLight, PiStudent } from "react-icons/pi";
 import Loading from "./Loading";
 import toast from "react-hot-toast";
 import { BsClockHistory, BsCheckAll } from "react-icons/bs";
-import { TbUsers, TbClockCheck } from "react-icons/tb";
 import { FaEye, FaEyeSlash, FaRegCommentDots } from "react-icons/fa6";
-import { PiCalendarCheck } from "react-icons/pi";
 import {
   createTheme,
   Modal as FlowbiteModal,
@@ -126,7 +124,7 @@ function CoursePageLayout() {
       <div className="my-10 mx-4 relative">
         {/* Add to card mobile view */}
         <button
-          className="fixed bottom-0 z-40 bg-almond-cookie hover:bg-golden-sand dark:hover:bg-dark-purple dark:bg-purple-plumeria w-[95%] mx-auto right-0 left-0 py-4 cursor-pointer text-sm sm:hidden"
+          className="fixed bottom-0 z-40 bg-almond-cookie hover:bg-golden-sand dark:hover:bg-dark-purple dark:bg-purple-plumeria w-[95%] mx-auto right-0 left-0 py-4.5 cursor-pointer text-sm sm:hidden"
           onClick={() => handleAddToCard(course)}
         >
           افزودن به سبد خرید
@@ -157,19 +155,21 @@ function CoursePageLayout() {
                 </div>
                 <div className="flex flex-col items-center gap-y-3">
                   <div className="bg-almond-cookie transition-colors duration-300 dark:bg-dark-cerulean p-4 rounded-2xl">
-                    <TbUsers className="w-6 h-6" />
+                    <PiStudent className="w-6 h-6" />
                   </div>
                   <span className="text-sm font-bold">
-                    {course?.enrolledStudents.length} هنرجو
+                    {course?.ageGroup === "child"
+                      ? "کودکان"
+                      : course?.ageGroup === "adult"
+                      ? "بزرگسالان"
+                      : "همه سنین"}
                   </span>
                 </div>
                 <div className="flex flex-col items-center gap-y-3">
                   <div className="bg-almond-cookie transition-colors duration-300 dark:bg-dark-cerulean p-4 rounded-2xl">
                     <BsCheckAll className="w-6 h-6" />
                   </div>
-                  <span className="text-sm font-bold">
-                    {course?.availableSeats} ظرفیت مانده
-                  </span>
+                  <span className="text-sm font-bold">مشاوره رایگان</span>
                 </div>
               </div>
 
@@ -179,7 +179,11 @@ function CoursePageLayout() {
                 data-aos-duration="1000"
               >
                 <div className="flex items-center gap-x-1.5">
-                  <span className="text-sm ">{course?.reviews.length} نظر</span>
+                  <span className="text-sm ">
+                    {course?.reviews.length > 0
+                      ? `${course?.reviews?.length} نظر`
+                      : "بدون نظر"}
+                  </span>
                   <FaRegCommentDots className="w-4 h-4" />
                 </div>
                 {course?.ratingsQuantity > 0 ? (
@@ -201,7 +205,7 @@ function CoursePageLayout() {
                 )}
               </div>
             </div>
-            <div
+            {/* <div
               className="flex items-start gap-y-3 gap-x-6 flex-col md:flex-row md:items-center flex-wrap text-xs"
               data-aos="fade-left"
               data-aos-duration="1000"
@@ -220,7 +224,7 @@ function CoursePageLayout() {
                   <span>{formattedDate(course?.startDate)}</span>
                 </div>
               </div>
-            </div>
+            </div> */}
             <div
               className="flex items-center justify-center gap-x-6 mt-10"
               data-aos="fade-left"
