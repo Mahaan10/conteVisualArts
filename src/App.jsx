@@ -25,6 +25,7 @@ import NotFound from "./ui/NotFound";
 import VerifyPayment from "./ui/VerifyPayment";
 import { Toaster } from "react-hot-toast";
 import AdminReviews from "./features/admin/reviews/AdminReviews";
+import AdminPayments from "./features/admin/payments/AdminPayments";
 
 function App() {
   const queryClient = new QueryClient();
@@ -69,11 +70,12 @@ function App() {
                   <Route path="studentWorks" element={<AdminStudentWorks />} />
                   <Route path="news" element={<AdminNews />} />
                   <Route path="reviews" element={<AdminReviews />} />
+                  <Route path="payments" element={<AdminPayments />} />
                 </Route>
               </Route>
             </Route>
             <Route path="*" element={<NotFound />} />
-            <Route path="payments/verify" element={<VerifyPayment />} />
+            <Route path="payment/result" element={<VerifyPayment />} />
           </Routes>
         </AppInitializer>
       </ThemeModeProvider>

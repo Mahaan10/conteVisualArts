@@ -69,7 +69,7 @@ function UsersForm({
   const { _id: editUserId } = userToEdit;
 
   const studentCourses = userToEdit?.enrolledCourses?.map(
-    (course) => course._id
+    (course) => course?.course?._id
   );
 
   const enrolledCourses = courses?.filter((course) =>

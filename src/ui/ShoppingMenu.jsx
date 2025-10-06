@@ -13,7 +13,6 @@ import useCreatePayment from "../hooks/useCreatePayment";
 import { useGetUser } from "../context/useGetUserContext";
 import toast from "react-hot-toast";
 import { Loader } from "./Loading";
-import { BASE_URL } from "../services/httpService";
 
 const customTheme = createTheme({
   drawer: {
@@ -56,28 +55,51 @@ function ShoppingMenu({ isOpen, setIsOpen }) {
   }, [isOpen]);
 
   const createPaymentHandler = async () => {
-    if (token) {
-      const newPayment = {
-        amount: totalPrice * 10,
-        email: user?.email,
-        mobile: user?.phone,
-        description: "پرداخت",
-        callback_url: `${BASE_URL}/student/verify-payment`,
-      };
-      try {
-        await createPayment(newPayment);
-        toast.success(`لینک پرداخت به تلفن همراه ${user?.phone} ارسال شد`);
-        clearCard();
-        setIsOpen(false);
-      } catch (error) {
-        toast.error(
-          error?.response?.data?.message ||
-            "مشکلی در ارسال لینک پرداخت وجود دارد"
-        );
-      }
-    } else {
+    if (!token) {
       toast.error("برای پرداخت باید ابتدا وارد اکانت خود شوید");
       setIsOpen(false);
+      return;
+    }
+
+    if (cardItems?.length === 0) {
+      toast.error("سبد خرید شما خالی است.");
+      return;
+    }
+
+    const enrolledCourseIds =
+      user?.enrolledCourses?.map(
+        (enrolledCourse) => enrolledCourse?.course?._id
+      ) || [];
+
+    if (enrolledCourseIds.includes(cardItems[0]?._id)) {
+      toast.error("شما در حال حاضر این دوره را خریداری کرده‌اید.");
+      clearCard();
+      setIsOpen(false);
+      return;
+    }
+
+    const newPayment = {
+      amount: cardItems[0]?.price, //totalPrice,
+      email: user?.email,
+      mobile: user?.phone,
+      description: "پرداخت",
+      courseId: cardItems[0]?._id,
+    };
+
+    try {
+      const { url } = await createPayment(newPayment);
+
+      if (url) {
+        clearCard();
+        setIsOpen(false);
+        window.location.replace(url);
+      } else {
+        toast.error("لینک پرداخت در پاسخ API موجود نیست.");
+      }
+    } catch (error) {
+      toast.error(
+        error?.response?.data?.message || "مشکلی در لینک پرداخت وجود دارد"
+      );
     }
   };
 
@@ -109,7 +131,7 @@ function ShoppingMenu({ isOpen, setIsOpen }) {
                   >
                     <div className="flex flex-col">
                       <div className="flex items-center gap-x-2">
-                        <div className="w-10 h-10">
+                        <div className="w-10">
                           <img
                             src={item.Image}
                             alt={item.name}
@@ -120,9 +142,8 @@ function ShoppingMenu({ isOpen, setIsOpen }) {
                         <div className="flex flex-col">
                           <p className="font-bold text-sm">{item.name}</p>
                           <p className="text-xs text-gray-600 dark:text-gray-300 mt-1">
-                            {item.duration} جلسه |{" "}
-                            {item.price?.toLocaleString()}
-                            تومان
+                            {item.duration} جلسه __{" "}
+                            {item.price?.toLocaleString()} تومان
                           </p>
                         </div>
                       </div>

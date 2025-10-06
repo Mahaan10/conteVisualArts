@@ -40,7 +40,7 @@ function AdminUsersTable() {
     sortUsers,
     6
   );
-
+  console.log(courseDeleteDetails);
   if (isLoading || coursesIsLoading) return <Loader />;
   if (isError || coursesIsError) {
     toast.error(
@@ -87,7 +87,6 @@ function AdminUsersTable() {
       }
     );
   };
-
   return (
     <>
       {sortUsers?.length === 0 ? (
