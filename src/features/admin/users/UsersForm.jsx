@@ -1,4 +1,4 @@
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect } from "react";
@@ -90,17 +90,9 @@ function UsersForm({
     mode: "onBlur",
     resolver: yupResolver(schema),
   });
-
+  console.log(userToEdit);
   const selectedCourseIdToDelete = watch("enrolledCourses");
-  const availableCourseIdToAdd = watch("availableCourses");
-
-  const selectedCourseToDelete = enrolledCourses?.find(
-    (course) => course._id === selectedCourseIdToDelete
-  );
-
-  const selectedCourseToAddToUser = availableCourses?.find(
-    (course) => course._id === availableCourseIdToAdd
-  );
+  const selectedCourseIdToAdd = watch("availableCourses");
 
   useEffect(() => {
     if (editUserId) {
@@ -121,7 +113,7 @@ function UsersForm({
 
     if (editUserId) {
       await editUser(
-        { userId: editUserId, updatedUser: updatedUser },
+        { userId: editUserId, updatedUser },
         {
           onSuccess: () => {
             onClose();
@@ -143,13 +135,10 @@ function UsersForm({
               label="نام"
               sizing="sm"
               type="text"
-              className="transition-all duration-300"
               {...register("name")}
             />
             {errors?.name && (
-              <p className="text-red-500 text-xs mt-2">
-                {errors?.name?.message}
-              </p>
+              <p className="text-red-500 text-xs mt-2">{errors.name.message}</p>
             )}
           </div>
 
@@ -160,12 +149,11 @@ function UsersForm({
               label="ایمیل"
               sizing="sm"
               type="email"
-              className="transition-all duration-300"
               {...register("email")}
             />
             {errors?.email && (
               <p className="text-red-500 text-xs mt-2">
-                {errors?.email?.message}
+                {errors.email.message}
               </p>
             )}
           </div>
@@ -177,17 +165,16 @@ function UsersForm({
               label="شماره همراه"
               sizing="sm"
               type="tel"
-              className="transition-all duration-300"
               {...register("phone")}
             />
             {errors?.phone && (
               <p className="text-red-500 text-xs mt-2">
-                {errors?.phone?.message}
+                {errors.phone.message}
               </p>
             )}
           </div>
 
-          {/* enrolledCourses */}
+          {/* Enrolled Courses */}
           <div className="w-full flex justify-between items-center relative max-w-md">
             <Select
               color="gray"
@@ -196,32 +183,30 @@ function UsersForm({
             >
               <option value="">-- دوره های ثبت نام شده --</option>
               {enrolledCourses?.map((course) => (
-                <option key={course?._id} value={course?._id}>
-                  {course?.name}
+                <option key={course._id} value={course._id}>
+                  {course.name}
                 </option>
               ))}
             </Select>
-
             <HiChevronDown className="w-5 h-5 absolute left-2" />
-
-            {errors?.enrolledCourses && (
-              <p className="text-red-500 text-xs mt-2">
-                {errors?.enrolledCourses?.message}
-              </p>
-            )}
           </div>
 
           <Button
             color="red"
             className="flex items-center justify-center gap-x-4"
             disabled={!selectedCourseIdToDelete}
-            onClick={() => onConfirmDeleteCourse(selectedCourseToDelete)}
+            onClick={() =>
+              onConfirmDeleteCourse({
+                userId: editUserId,
+                courseId: selectedCourseIdToDelete,
+              })
+            }
           >
             <span>حذف دوره</span>
             <PiTrash className="w-5 h-5" />
           </Button>
 
-          {/* availableCourses */}
+          {/* Available Courses */}
           <div className="w-full flex justify-between items-center relative max-w-md">
             <Select
               color="gray"
@@ -230,26 +215,24 @@ function UsersForm({
             >
               <option value="">-- دوره های ثبت نام نشده --</option>
               {availableCourses?.map((course) => (
-                <option key={course?._id} value={course?._id}>
-                  {course?.name}
+                <option key={course._id} value={course._id}>
+                  {course.name}
                 </option>
               ))}
             </Select>
-
             <HiChevronDown className="w-5 h-5 absolute left-2" />
-
-            {errors?.enrolledCourses && (
-              <p className="text-red-500 text-xs mt-2">
-                {errors?.enrolledCourses?.message}
-              </p>
-            )}
           </div>
 
           <Button
             color="green"
             className="flex items-center justify-center gap-x-4"
-            disabled={!availableCourseIdToAdd}
-            onClick={() => onConfirmAddCourse(selectedCourseToAddToUser)}
+            disabled={!selectedCourseIdToAdd}
+            onClick={() =>
+              onConfirmAddCourse({
+                userId: editUserId,
+                courseId: selectedCourseIdToAdd,
+              })
+            }
           >
             <span>ثبت نام دوره</span>
             <PiTrash className="w-5 h-5" />

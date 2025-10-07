@@ -8,7 +8,7 @@ function AuthContainer({ onClose }) {
   const [step, setStep] = useState(1);
   const [otp, setOtp] = useState("");
   const { getLoggedIn, isLoggedInLoading } = useAuth();
-  const [contact, setContact] = useState("");
+  const [phone, setPhone] = useState("");
 
   const {
     handleSubmit,
@@ -17,9 +17,8 @@ function AuthContainer({ onClose }) {
     formState: { errors, isValid },
   } = useForm({ mode: "onBlur" });
 
-  const handleLoginSuccess = (contact, otp) => {
-    setContact(contact);
-    setOtp(otp);
+  const handleLoginSuccess = (phone) => {
+    setPhone(phone);
     setStep(2);
   };
 
@@ -41,9 +40,11 @@ function AuthContainer({ onClose }) {
           onClose={onClose}
           getLoggedIn={getLoggedIn}
           onLoginSuccess={handleLoginSuccess}
+          setOtp={setOtp}
+          otp={otp}
         />
       )}
-      {step === 2 && <CompleteProfile contact={contact} onClose={onClose} />}
+      {step === 2 && <CompleteProfile contact={phone} onClose={onClose} />}
     </>
   );
 }

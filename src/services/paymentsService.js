@@ -9,3 +9,7 @@ export function responsePaymentApi(authority) {
     .get(`/payments/result?authority=${authority}`)
     .then((data) => data.data);
 }
+
+export function getPaymentsApi() {
+  return http.get("/payments/all").then((data) => data.data.data);
+}

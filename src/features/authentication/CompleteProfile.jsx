@@ -18,24 +18,14 @@ const customTheme = createTheme({
 });
 
 function CompleteProfile({ contact, onClose }) {
-  const isPhone = /^09\d{9}$/.test(contact);
-  const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact);
   const { createNewUser, isCreatingUser } = useSignUp();
 
   const schema = yup.object().shape({
     name: yup.string().required("نام و نام خانوادگی الزامیست"),
-    ...(isPhone && {
-      email: yup
-        .string()
-        .required("ایمیل الزامیست")
-        .email("فرمت ایمیل معتبر نیست"),
-    }),
-    ...(isEmail && {
-      phone: yup
-        .string()
-        .required("شماره موبایل الزامیست")
-        .matches(/^09\d{9}$/, "فرمت شماره همراه صحیح نیست"),
-    }),
+    email: yup
+      .string()
+      .required("ایمیل الزامیست")
+      .email("فرمت ایمیل معتبر نیست"),
   });
 
   const {
@@ -49,10 +39,9 @@ function CompleteProfile({ contact, onClose }) {
 
   const onSubmit = async (data) => {
     const newUser = {
-      name: data.name,
-      ...(isPhone ? { phone: contact } : { email: contact }),
-      ...(isPhone && data.email ? { email: data.email } : {}),
-      ...(isEmail && data.phone ? { phone: data.phone } : {}),
+      name: data?.name,
+      phone: contact,
+      email: data?.email,
     };
     await createNewUser(newUser);
     onClose();
@@ -74,33 +63,15 @@ function CompleteProfile({ contact, onClose }) {
           <p className="text-red-500 text-xs">{errors.name.message}</p>
         )}
 
-        {isEmail && (
-          <>
-            <FloatingLabel
-              variant="outlined"
-              label="شماره همراه"
-              sizing="sm"
-              type="tel"
-              {...register("phone")}
-            />
-            {errors.phone && (
-              <p className="text-red-500 text-xs">{errors.phone.message}</p>
-            )}
-          </>
-        )}
-        {isPhone && (
-          <>
-            <FloatingLabel
-              variant="outlined"
-              label="ایمیل"
-              sizing="sm"
-              type="email"
-              {...register("email")}
-            />
-            {errors.email && (
-              <p className="text-red-500 text-xs">{errors.email.message}</p>
-            )}
-          </>
+        <FloatingLabel
+          variant="outlined"
+          label="ایمیل"
+          sizing="sm"
+          type="email"
+          {...register("email")}
+        />
+        {errors?.email && (
+          <p className="text-red-500 text-xs">{errors?.email?.message}</p>
         )}
       </ThemeProvider>
 

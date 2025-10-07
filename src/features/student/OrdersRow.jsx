@@ -7,7 +7,7 @@ function OrdersRow({ course, index }) {
   return (
     <Table.Row>
       <td className="py-2">{index + 1}</td>
-      <td className="font-iranian-sans">شماره پیگیری پرداخت</td>
+      <td>{course?.payment?.refId || "N/A"}</td>
       <td>
         <Link
           to={`/courses/${course?.course?._id}`}

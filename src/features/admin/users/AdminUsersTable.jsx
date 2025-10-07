@@ -24,11 +24,13 @@ function AdminUsersTable() {
     isError: coursesIsError,
     isLoading: coursesIsLoading,
   } = useCourses();
+
   const { deleteUser, isDeletingUser } = useDeleteUser();
   const { deleteUserFromCourse, isDeletingUserFromCourse } =
     useDeleteUserFromCourse();
   const { addUserToAvailableCourse, isAddingUserToCourse } =
     useAddUserToAvailableCourse();
+
   const [userToEdit, setUserToEdit] = useState(null);
   const [userToDelete, setUserToDelete] = useState(null);
   const [courseDeleteDetails, setCourseDeleteDetails] = useState(null);
@@ -36,12 +38,11 @@ function AdminUsersTable() {
 
   const sortUsers = users?.filter((user) => user?.role === "student") || [];
 
-  const { currentData, currentPage, totalPages, goToPage } = usePagination(
-    sortUsers,
-    6
-  );
-  console.log(courseDeleteDetails);
+  const { currentData, currentPage, totalPages, goToPage, setCurrentPage } =
+    usePagination(sortUsers, 6);
+
   if (isLoading || coursesIsLoading) return <Loader />;
+
   if (isError || coursesIsError) {
     toast.error(
       (error || coursesError)?.response?.data?.message || "اطلاعات یافت نشد"
@@ -49,6 +50,7 @@ function AdminUsersTable() {
     return <NotFound />;
   }
 
+  // --- handle deleting user ---
   const handleDeleteUser = async () => {
     await deleteUser(userToDelete?._id, {
       onSuccess: () => {
@@ -60,33 +62,42 @@ function AdminUsersTable() {
     });
   };
 
+  // --- handle deleting user from course ---
   const handleDeleteUserFromCourse = async () => {
-    const { user, course } = courseDeleteDetails;
+    const { userId, courseId } = courseDeleteDetails;
+    console.log("Deleting from course:", courseDeleteDetails);
 
     await deleteUserFromCourse(
-      { userId: user?._id, courseId: course?._id },
+      { userId, courseId },
       {
         onSuccess: () => {
-          toast.success(`${course?.name} با موفقیت از ${user?.name} حذف شد`);
+          toast.success("کاربر از دوره حذف شد");
           setCourseDeleteDetails(null);
         },
+        onError: (err) =>
+          toast.error(err?.response?.data?.message || "حذف انجام نشد"),
       }
     );
   };
 
+  // --- handle adding user to course ---
   const handleAddUserToCourse = async () => {
-    const { user, course } = courseAddDetails;
+    const { userId, courseId } = courseAddDetails;
+    console.log("Adding to course:", courseAddDetails);
 
     await addUserToAvailableCourse(
-      { userId: user?._id, courseId: course?._id },
+      { userId, courseId },
       {
         onSuccess: () => {
-          toast.success(`${user?.name} به ${course?.name} با موفقیت اضافه شد`);
+          toast.success("کاربر با موفقیت به دوره اضافه شد");
           setCourseAddDetails(null);
         },
+        onError: (err) =>
+          toast.error(err?.response?.data?.message || "ثبت انجام نشد"),
       }
     );
   };
+
   return (
     <>
       {sortUsers?.length === 0 ? (
@@ -97,6 +108,7 @@ function AdminUsersTable() {
             <Table.Header>
               <th className="py-2">#</th>
               <th>نام</th>
+              <th>شماره همراه</th>
               <th>تاریخ عضویت</th>
               <th>دوره ها</th>
               <th>عملیات</th>
@@ -114,15 +126,20 @@ function AdminUsersTable() {
               ))}
             </Table.Body>
           </Table>
+
           <div className="flex justify-center mt-4">
             <Pagination
               currentPage={currentPage}
               totalPages={totalPages}
-              onPageChange={goToPage}
+              onPageChange={(page) => {
+                if (page > totalPages) setCurrentPage(1);
+                else goToPage(page);
+              }}
             />
           </div>
         </>
       )}
+
       {/* Delete User */}
       {userToDelete && (
         <Modal
@@ -132,12 +149,12 @@ function AdminUsersTable() {
           <ConfirmDelete
             name={userToDelete?.name}
             isDeleting={isDeletingUser}
-            disabled={false}
             onClose={() => setUserToDelete(null)}
             onConfirm={handleDeleteUser}
           />
         </Modal>
       )}
+
       {/* Edit User */}
       {userToEdit && (
         <Modal title="ویرایش کاربر" onClose={() => setUserToEdit(null)}>
@@ -145,41 +162,38 @@ function AdminUsersTable() {
             userToEdit={userToEdit}
             courses={courses || []}
             onClose={() => setUserToEdit(null)}
-            onConfirmDeleteCourse={(course) =>
-              setCourseDeleteDetails({ user: userToEdit, course: course })
+            onConfirmDeleteCourse={
+              (data) => setCourseDeleteDetails(data) // contains userId, courseId
             }
-            onConfirmAddCourse={(course) =>
-              setCourseAddDetails({ user: userToEdit, course: course })
-            }
+            onConfirmAddCourse={(data) => setCourseAddDetails(data)} // contains userId, courseId
           />
         </Modal>
       )}
+
       {/* Delete User From Course */}
       {courseDeleteDetails && (
         <Modal
-          title={`حذف ${courseDeleteDetails?.course?.name} از ${courseDeleteDetails?.user?.name}`}
+          title="حذف کاربر از دوره"
           onClose={() => setCourseDeleteDetails(null)}
         >
           <ConfirmDelete
-            name={`${courseDeleteDetails?.course?.name} از ${courseDeleteDetails?.user?.name}`}
+            name="این دوره"
             isDeleting={isDeletingUserFromCourse}
-            disabled={false}
             onClose={() => setCourseDeleteDetails(null)}
             onConfirm={handleDeleteUserFromCourse}
           />
         </Modal>
       )}
 
-      {/* Add User To Available Course */}
+      {/* Add User To Course */}
       {courseAddDetails && (
         <Modal
-          title={`اضافه کردن ${courseAddDetails?.user?.name} به ${courseAddDetails?.course?.name}`}
+          title="افزودن کاربر به دوره"
           onClose={() => setCourseAddDetails(null)}
         >
           <ConfirmAdd
-            name={`${courseAddDetails?.user?.name} به ${courseAddDetails?.course?.name}`}
+            name="این دوره"
             isAdding={isAddingUserToCourse}
-            disabled={false}
             onClose={() => setCourseAddDetails(null)}
             onConfirm={handleAddUserToCourse}
           />

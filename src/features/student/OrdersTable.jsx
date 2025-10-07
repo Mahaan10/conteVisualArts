@@ -27,7 +27,7 @@ function OrdersTable() {
         <Table>
           <Table.Header>
             <th className="py-2">#</th>
-            <th>شماره پیگیری</th>
+            <th>شماره پیگیری پرداخت</th>
             <th>شرح سفارش</th>
             <th>مبلغ</th>
             <th>تاریخ پرداخت</th>

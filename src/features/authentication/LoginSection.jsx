@@ -28,12 +28,14 @@ function LoginSection({
   onClose,
   getLoggedIn,
   onLoginSuccess,
+  setOtp,
+  otp,
 }) {
   const [contactSubmitted, setContactSubmitted] = useState(false);
-  const [otp, setOtp] = useState("");
+  //const [otp, setOtp] = useState("");
   const [isAutoSubmitted, setIsAutoSubmitted] = useState(false);
   const [resendTime, setResendTime] = useState(RESEND_TIME);
-  const contact = getValues("contact");
+  const phone = getValues("phone");
 
   const handleVerifyOTP = useCallback(async () => {
     if (otp.length !== 6) {
@@ -41,19 +43,18 @@ function LoginSection({
       return;
     }
 
-    const data = contact.includes("@")
-      ? { email: contact, otp }
-      : { phone: contact, otp };
+    const data = { phone, otp };
 
     try {
       await getLoggedIn(data);
       onClose();
     } catch (error) {
       const status = error?.response?.status;
-      if (status === 404 || status === 409) {
+
+      /* if (status === 404 || status === 409) {
         toast.success("لطفاً اطلاعات خود را تکمیل کنید");
-        onLoginSuccess(contact, otp);
-      } else if (status === 401 || status === 400) {
+        onLoginSuccess(contact, "");
+      } else */ if (status === 401 || status === 400) {
         toast.error(error?.response?.data?.message || "کد تایید اشتباه است");
       } else {
         toast.error(error?.response?.data?.message || "ورود با خطا مواجه شد");
@@ -62,7 +63,7 @@ function LoginSection({
         setIsAutoSubmitted(false);
       }
     }
-  }, [otp, contact, getLoggedIn, onClose, onLoginSuccess, isAutoSubmitted]);
+  }, [otp, phone, getLoggedIn, onClose, isAutoSubmitted]);
 
   useEffect(() => {
     if (contactSubmitted && resendTime > 0) {
@@ -89,16 +90,21 @@ function LoginSection({
     isAutoSubmitted,
   ]);
 
-  const handleSendOTP = async (data) => {
+  const handleSendOTP = async ({ phone }) => {
     try {
-      await getLoggedIn({
-        phone: data?.contact,
-        email: data?.contact,
-      });
+      await getLoggedIn({ phone });
       setContactSubmitted(true);
-      toast.success(`کد تایید به ${data?.contact} ارسال شد`);
+      setResendTime(RESEND_TIME);
+      toast.success(`کد تایید به ${phone} ارسال شد`);
     } catch (error) {
-      toast.error(error?.response?.data?.message || "ارسال کد ناموفق بود");
+      const status = error?.response?.status;
+
+      if (status === 404 || status === 409) {
+        toast.success("لطفا اطلاعات خود را تکمیل کنید");
+        onLoginSuccess(phone);
+      } else {
+        toast.error(error?.response?.data?.message || "ارسال کد ناموفق بود");
+      }
     }
   };
 
@@ -112,23 +118,18 @@ function LoginSection({
               variant="outlined"
               label="شماره همراه"
               sizing="sm"
-              type="text"
-              {...register("contact", {
+              type="tel"
+              {...register("phone", {
                 required: "وارد کردن شماره همراه الزامیست",
-                validate: (value) => {
+                validata: (value) => {
                   const isPhone = /^09\d{9}$/.test(value);
-                  const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-                  return (
-                    isPhone || isEmail || "فرمت شماره موبایل یا ایمیل صحیح نیست"
-                  );
+                  return isPhone || "فرمت شماره همراه صحیح نیست";
                 },
               })}
             />
           </ThemeProvider>
-          {errors.contact && (
-            <p className="text-red-500 text-xs mt-1">
-              {errors.contact.message}
-            </p>
+          {errors.phone && (
+            <p className="text-red-500 text-xs mt-1">{errors.phone.message}</p>
           )}
           <button
             className="btn mt-4"

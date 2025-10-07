@@ -17,15 +17,25 @@ function AdminUsersRow({ user, index, onEdit, onDelete, courses }) {
     <Table.Row>
       <td>{index + 1}</td>
       <td>{user?.name}</td>
+      <td>
+        <a
+          href={`tel:+98${user?.phone.slice(1)}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="p-2 rounded-lg bg-almond-cookie dark:hover:bg-dark-cerulean hover:bg-golden-sand dark:bg-purple-plumeria transition-colors duration-300 cursor-pointer btn w-full justify-center mx-auto"
+        >
+          {user?.phone}
+        </a>
+      </td>
       <td>{formattedDate(user?.createdAt)}</td>
       <td>
-        <div className="grid grid-cols-1 gap-2">
+        <div className="flex flex-col">
           {enrolledCourses && enrolledCourses.length > 0 ? (
             enrolledCourses?.map((course) => (
               <Link
                 key={course?._id}
                 to={`/courses/${course?._id}`}
-                className="p-2 rounded-lg bg-almond-cookie dark:hover:bg-dark-cerulean hover:bg-golden-sand dark:bg-purple-plumeria transition-colors duration-300 cursor-pointer btn w-full justify-center mx-auto"
+                className="p-2 rounded-lg bg-almond-cookie dark:hover:bg-dark-cerulean hover:bg-golden-sand dark:bg-purple-plumeria transition-colors duration-300 cursor-pointer btn w-full justify-center mx-auto mb-2.5"
               >
                 {course?.name}
               </Link>
