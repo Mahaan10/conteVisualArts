@@ -29,10 +29,8 @@ function AdminPaymentsRow({ payment, index }) {
       </td>
       <td>{toPersianNumbersWithComma(payment?.amount / 10)} تومان</td>
       <td>
-        {payment?.status === "pending"
+        {payment?.status === "pending" || payment?.status === "failed"
           ? "__"
-          : !payment?.fee
-          ? "پرداخت دستی"
           : `${toPersianNumbersWithComma(
               (payment?.amount - payment?.fee) / 10
             )} تومان`}

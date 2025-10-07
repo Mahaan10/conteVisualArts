@@ -50,7 +50,7 @@ function AdminUsersTable() {
     return <NotFound />;
   }
 
-  // --- handle deleting user ---
+  
   const handleDeleteUser = async () => {
     await deleteUser(userToDelete?._id, {
       onSuccess: () => {
@@ -62,10 +62,9 @@ function AdminUsersTable() {
     });
   };
 
-  // --- handle deleting user from course ---
+  
   const handleDeleteUserFromCourse = async () => {
     const { userId, courseId } = courseDeleteDetails;
-    console.log("Deleting from course:", courseDeleteDetails);
 
     await deleteUserFromCourse(
       { userId, courseId },
@@ -80,10 +79,9 @@ function AdminUsersTable() {
     );
   };
 
-  // --- handle adding user to course ---
+  
   const handleAddUserToCourse = async () => {
     const { userId, courseId } = courseAddDetails;
-    console.log("Adding to course:", courseAddDetails);
 
     await addUserToAvailableCourse(
       { userId, courseId },
@@ -163,9 +161,9 @@ function AdminUsersTable() {
             courses={courses || []}
             onClose={() => setUserToEdit(null)}
             onConfirmDeleteCourse={
-              (data) => setCourseDeleteDetails(data) // contains userId, courseId
+              (data) => setCourseDeleteDetails(data) 
             }
-            onConfirmAddCourse={(data) => setCourseAddDetails(data)} // contains userId, courseId
+            onConfirmAddCourse={(data) => setCourseAddDetails(data)}
           />
         </Modal>
       )}

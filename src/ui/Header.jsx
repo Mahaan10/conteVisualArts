@@ -68,11 +68,9 @@ function Header() {
   const [isShoppingMenuOpen, setIsShoppingMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
-  useEffect(() => {
     if (isError) {
       toast.error(error?.response?.data?.message || "اطلاعات کاربری یافت نشد");
     }
-  }, [isError, error]);
 
   /* if (isError) {
     return null;
@@ -152,74 +150,6 @@ function Header() {
 
   return (
     <>
-      {/* <Helmet>
-        <title>مدرسه هنری کنته | آموزش تخصصی هنرهای تجسمی</title>
-        <meta
-          name="description"
-          content="آموزش طراحی و نقاشی در مدرسه هنری کنته، برای هنرجویان در همه سطوح."
-        />
-        <meta
-          name="keywords"
-          content="آموزش نقاشی, طراحی, مدرسه هنری, هنرهای تجسمی, دوره هنری"
-        />
-        <meta name="author" content="مدرسه هنری کنته" />
-        <meta name="robots" content="index, follow" />
-        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta httpEquiv="Content-Language" content="fa" />
-        <link rel="canonical" href="https://contevisualarts.ir/" />
-        <link rel="icon" href="/favicon.ico" />
-        <link rel="manifest" href="/site.webmanifest" />
-        <meta name="theme-color" content="#ffffff" />
-
-        
-        <meta
-          property="og:title"
-          content="مدرسه هنری کنته | آموزش هنرهای تجسمی"
-        />
-        <meta
-          property="og:description"
-          content="دوره‌های تخصصی نقاشی و طراحی برای تمام سطوح هنرجویان."
-        />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://contevisualarts.ir/" />
-        <meta
-          property="og:image"
-          content="https://contevisualarts.ir/images/og-image.jpg"
-        />
-        <meta property="og:locale" content="fa_IR" />
-
-        
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="مدرسه هنری کنته" />
-        <meta
-          name="twitter:description"
-          content="آموزش تخصصی طراحی و نقاشی برای همه سنین."
-        />
-        <meta
-          name="twitter:image"
-          content="https://contevisualarts.ir/images/og-image.jpg"
-        />
-
-        
-        <script type="application/ld+json">
-          {`
-            {
-              "@context": "https://schema.org",
-              "@type": "EducationalOrganization",
-              "name": "مدرسه هنری کنته",
-              "url": "https://contevisualarts.ir",
-              "logo": "https://contevisualarts.ir/images/logo.jpg",
-              "description": "مدرسه تخصصی آموزش هنرهای تجسمی، طراحی و نقاشی برای هنرجویان در همه سطوح.",
-              "address": {
-                "@type": "PostalAddress",
-                "addressCountry": "IR"
-              }
-            }
-          `}
-        </script>
-      </Helmet> */}
-
       <header
         className={`flex items-center justify-between border-b border-light-shade-yellow dark:border-moderate-violet transition-colors duration-300 z-20 max-w-[1920px] mx-auto ${
           isScrolled

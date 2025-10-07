@@ -67,11 +67,9 @@ function HeaderMenu({ isOpen, setIsOpen, setIsModalOpen }) {
   const { token, isLoading, isError, error, user } = useGetUser();
   const { themeMode, setThemeMode } = useThemeMode();
 
-  useEffect(() => {
-    if (isError) {
+    if (isError) 
       toast.error(error?.response?.data?.message || "اطلاعات کاربری یافت نشد");
-    }
-  }, [isError, error]);
+    
 
   useEffect(() => {
     const handleResize = () => {
@@ -100,7 +98,7 @@ function HeaderMenu({ isOpen, setIsOpen, setIsModalOpen }) {
     }
   });
 
-  if (isError) return null;
+  //if (isError) return null;
 
   return (
     <ThemeProvider theme={customTheme}>

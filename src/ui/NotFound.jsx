@@ -6,9 +6,9 @@ function NotFound() {
   const navigate = useNavigate();
 
   return (
-    <div className="h-screen bg-whitesmoke dark:bg-gray-950 flex items-center justify-center">
+    <div className="h-screen bg-whitesmoke dark:bg-gray-950 flex items-center justify-center font-iran-marker">
       <div className="container xl:max-w-screen-xl">
-        <div className="sm:max-w-sm mx-auto flex justify-center items-center">
+        <div className="sm:max-w-md mx-auto flex justify-center items-center">
           <div>
             <h1 className="my-4 dark:text-whitesmoke text-center text-sm font-semibold sm:text-xl">
               مشکلی در نمایش اطلاعات به وجود آمده است

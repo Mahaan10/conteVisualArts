@@ -25,7 +25,7 @@ function AdminPaymentsTable({ paymentsStatusFilter }) {
       case "all":
         return paymentsData;
       case "failed":
-        return paymentsData?.filter((payment) => payment?.status === "pending");
+        return paymentsData?.filter((payment) => payment?.status === "pending" || payment?.status === "failed");
       case "success":
       default:
         return paymentsData?.filter((payment) => payment.status === "success");

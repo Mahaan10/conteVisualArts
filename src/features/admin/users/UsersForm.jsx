@@ -90,7 +90,7 @@ function UsersForm({
     mode: "onBlur",
     resolver: yupResolver(schema),
   });
-  console.log(userToEdit);
+
   const selectedCourseIdToDelete = watch("enrolledCourses");
   const selectedCourseIdToAdd = watch("availableCourses");
 

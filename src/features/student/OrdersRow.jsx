@@ -22,8 +22,6 @@ function OrdersRow({ course, index }) {
       <td>
         {course?.paymentStatus === "paid"
           ? "موفق ✔️"
-          : course?.paymentStatus === "pending"
-          ? "در حال بررسی ⏳"
           : "ناموفق ❌"}
       </td>
     </Table.Row>

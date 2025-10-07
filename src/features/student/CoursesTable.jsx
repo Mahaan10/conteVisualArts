@@ -9,6 +9,8 @@ import CoursesRow from "./CoursesRow";
 function CoursesTable() {
   const { user, isLoading, isError, error, token } = useGetUser();
 
+  const paidPayments = user?.enrolledCourses?.filter((course) => course.paymentStatus === "paid")
+
   useEffect(() => {
     if (isError || !token) {
       toast.error(error?.response?.data?.message || "اطلاعات کاربری یافت نشد");
@@ -20,7 +22,7 @@ function CoursesTable() {
   if (isLoading) return <Loader />;
   return (
     <>
-      {!user?.enrolledCourses.length ? (
+      {!paidPayments?.length === 0 ? (
         <p>شما هنوز در دوره ای ثبت نام نکرده اید.</p>
       ) : (
         <Table>
@@ -32,7 +34,7 @@ function CoursesTable() {
             <th>میانگین</th>
           </Table.Header>
           <Table.Body>
-            {user?.enrolledCourses.map((course, index) => (
+            {paidPayments?.map((course, index) => (
               <CoursesRow key={course._id} course={course} index={index} />
             ))}
           </Table.Body>

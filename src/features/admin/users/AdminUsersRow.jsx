@@ -5,8 +5,8 @@ import formattedDate from "../../../utils/formattedDate";
 import { Link } from "react-router-dom";
 
 function AdminUsersRow({ user, index, onEdit, onDelete, courses }) {
-  const studentCourses = Array.isArray(user?.enrolledCourses)
-    ? user.enrolledCourses.map((course) => course?.course?._id)
+  const studentCourses = user?.enrolledCourses
+    ? user.enrolledCourses?.filter((course) => course?.paymentStatus === "paid" || course?.payment?.refId == null && course?.payment?.authority === null).map((course) => course?.course?._id)
     : [];
 
   const enrolledCourses = courses?.filter((course) =>
