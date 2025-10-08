@@ -50,7 +50,6 @@ function AdminUsersTable() {
     return <NotFound />;
   }
 
-  
   const handleDeleteUser = async () => {
     await deleteUser(userToDelete?._id, {
       onSuccess: () => {
@@ -62,7 +61,6 @@ function AdminUsersTable() {
     });
   };
 
-  
   const handleDeleteUserFromCourse = async () => {
     const { userId, courseId } = courseDeleteDetails;
 
@@ -79,7 +77,6 @@ function AdminUsersTable() {
     );
   };
 
-  
   const handleAddUserToCourse = async () => {
     const { userId, courseId } = courseAddDetails;
 
@@ -160,9 +157,7 @@ function AdminUsersTable() {
             userToEdit={userToEdit}
             courses={courses || []}
             onClose={() => setUserToEdit(null)}
-            onConfirmDeleteCourse={
-              (data) => setCourseDeleteDetails(data) 
-            }
+            onConfirmDeleteCourse={(data) => setCourseDeleteDetails(data)}
             onConfirmAddCourse={(data) => setCourseAddDetails(data)}
           />
         </Modal>

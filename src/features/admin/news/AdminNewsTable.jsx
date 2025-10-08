@@ -75,7 +75,7 @@ function AdminNewsTable() {
       {/* Delete Course */}
       {newsToDelete && (
         <Modal
-          title={`حذف ${newsToDelete?.name}`}
+          title={`حذف ${newsToDelete?.title}`}
           onClose={() => setNewsToDelete(null)}
         >
           <ConfirmDelete

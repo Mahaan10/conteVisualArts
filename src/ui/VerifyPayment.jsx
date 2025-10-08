@@ -39,9 +39,9 @@ function PaymentVerificationPage() {
   return (
     <div className="h-screen bg-whitesmoke dark:bg-gray-950 flex items-center justify-center font-iran-marker">
       <div className="container xl:max-w-screen-xl">
-        <div className="sm:max-w-sm mx-auto flex justify-center items-center">
+        <div className="sm:max-w-sm mx-auto flex justify-center items-center dark:text-whitesmoke">
           <div>
-            <h1 className="my-4 dark:text-whitesmoke text-center text-sm font-semibold sm:text-xl flex items-center gap-x-2">
+            <h1 className="my-4 text-center text-sm font-semibold sm:text-xl flex items-center gap-x-2">
               {paymentData?.success ? (
                 <>
                   پرداخت شما موفقیت‌آمیز بود!
@@ -58,7 +58,7 @@ function PaymentVerificationPage() {
                 </>
               )}
             </h1>
-            <div className="mb-4 dark:text-whitesmoke text-center text-sm font-semibold sm:text-xl flex items-center gap-x-2">
+            <div className="mb-4 text-center text-sm font-semibold sm:text-xl flex items-center gap-x-2">
               <span>
                 {paymentData?.success
                   ? `کد پیگیری: ${paymentData?.refId}`

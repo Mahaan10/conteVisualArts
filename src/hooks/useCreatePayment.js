@@ -3,7 +3,6 @@ import toast from "react-hot-toast";
 import requestPaymentApi from "../services/paymentsService";
 
 export default function useCreatePayment() {
-  //const queryClient = useQueryClient();
 
   const { isPending: isCreatingPayment, mutateAsync: createPayment } =
     useMutation({
@@ -11,9 +10,6 @@ export default function useCreatePayment() {
       onSuccess: (data) => {
         toast.success("درخواست پرداخت با موفقیت ارسال شد");
         return data;
-        /* queryClient.invalidateQueries({
-          queryKey: ["courses", "payments"],
-        }); */
       },
     });
 

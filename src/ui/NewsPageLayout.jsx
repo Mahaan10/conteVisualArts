@@ -165,14 +165,14 @@ function NewsPageLayout() {
           </div>
           <div className="col-span-1 lg:col-span-5 xl:col-span-6 order-1 md:order-2 self-start">
             <div
-              className="aspect-[12/9]"
+              className="relative w-full aspect-[4/3] overflow-hidden rounded-2xl shadow-lg"
               data-aos="zoom-in"
               data-aos-duration="1000"
             >
               <img
                 src={news?.Image}
                 alt={news?.title}
-                className="rounded-xl w-full h-full"
+                className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                 loading="lazy"
               />
             </div>

@@ -32,6 +32,7 @@ import { Loader } from "./Loading";
 import useLogout from "../hooks/useLogout";
 import { useCart } from "../context/useShoppingCardContext";
 import { FaRegCommentDots } from "react-icons/fa6";
+import { useThemeMode } from "../context/useThemeModeContext";
 
 const customTheme = createTheme({
   dropdown: {
@@ -62,15 +63,15 @@ function Header() {
   const { user, isLoading, isError, error, token } = useGetUser();
   const { isLoggedOut, logout } = useLogout();
   const { cardItems } = useCart();
-
+  const { themeMode } = useThemeMode();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isShoppingMenuOpen, setIsShoppingMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
-    if (isError) {
-      toast.error(error?.response?.data?.message || "اطلاعات کاربری یافت نشد");
-    }
+  if (isError) {
+    toast.error(error?.response?.data?.message || "اطلاعات کاربری یافت نشد");
+  }
 
   /* if (isError) {
     return null;
@@ -156,8 +157,6 @@ function Header() {
             ? "bg-whitesmoke/90 shadow-md dark:shadow-zinc-800/50 dark:bg-slate-950/80 backdrop-blur fixed top-0 md:left-10 md:right-10 left-2 right-2"
             : "relative"
         }`}
-        //data-aos="fade-right"
-        //data-aos-duration="1500"
       >
         {/* Mobile Menu Button */}
         <button
@@ -171,9 +170,13 @@ function Header() {
 
         {/* Right Section */}
         <div className="flex items-center justify-center">
-          <Link to="/" className="">
+          <Link to="/">
             <img
-              src="/images/Logo.jpg"
+              src={`${
+                themeMode === "light"
+                  ? "/images/Logo.jpg"
+                  : "/images/Logo-dark.png"
+              }`}
               alt="مدرسه هنری کنته - لوگو رسمی آموزشگاه هنرهای تجسمی"
               loading="lazy"
               className="h-16 w-16 lg:rounded-tr-lg"

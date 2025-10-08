@@ -67,9 +67,9 @@ function ShoppingMenu({ isOpen, setIsOpen }) {
     }
 
     const enrolledCourseIds =
-      user?.enrolledCourses?.map(
-        (enrolledCourse) => enrolledCourse?.course?._id
-      ) || [];
+      user?.enrolledCourses
+        ?.filter((course) => course?.paymentStatus === "paid")
+        .map((enrolledCourse) => enrolledCourse?.course?._id) || [];
 
     if (enrolledCourseIds.includes(cardItems[0]?._id)) {
       toast.error("شما در حال حاضر این دوره را خریداری کرده‌اید.");
@@ -103,11 +103,13 @@ function ShoppingMenu({ isOpen, setIsOpen }) {
     }
   };
 
-  if (isError) {
-    toast.error(
-      error?.response?.data?.message || "مشکلی در بارگذاری وجود دارد"
-    );
-  }
+  useEffect(() => {
+    if (isError) {
+      toast.error(
+        error?.response?.data?.message || "مشکلی در بارگذاری وجود دارد"
+      );
+    }
+  }, [isError, error]);
 
   return (
     <ThemeProvider theme={customTheme}>
