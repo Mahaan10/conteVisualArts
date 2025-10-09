@@ -69,9 +69,12 @@ function Header() {
   const [isShoppingMenuOpen, setIsShoppingMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
-  if (isError) {
-    toast.error(error?.response?.data?.message || "اطلاعات کاربری یافت نشد");
-  }
+  useEffect(() => {
+    if (isError) {
+      toast.error(error?.response?.data?.message || "اطلاعات کاربری یافت نشد");
+    }
+    return;
+  }, [error, isError]);
 
   /* if (isError) {
     return null;
@@ -152,11 +155,12 @@ function Header() {
   return (
     <>
       <header
-        className={`flex items-center justify-between border-b border-light-shade-yellow dark:border-moderate-violet transition-colors duration-300 z-20 max-w-[1920px] mx-auto ${
-          isScrolled
-            ? "bg-whitesmoke/90 shadow-md dark:shadow-zinc-800/50 dark:bg-slate-950/80 backdrop-blur fixed top-0 md:left-10 md:right-10 left-2 right-2"
-            : "relative"
-        }`}
+        className={`flex items-center justify-between border-b border-light-shade-yellow dark:border-moderate-violet z-20 max-w-[1920px] mx-auto transition-all duration-500 ease-in-out
+    ${
+      isScrolled
+        ? "bg-whitesmoke/90 shadow-md dark:shadow-zinc-800/50 dark:bg-slate-950/80 backdrop-blur fixed top-0 md:left-10 md:right-10 left-2 right-2"
+        : "relative"
+    }`}
       >
         {/* Mobile Menu Button */}
         <button
@@ -175,11 +179,11 @@ function Header() {
               src={`${
                 themeMode === "light"
                   ? "/images/Logo.jpg"
-                  : "/images/Logo-dark.png"
+                  : "/images/dark-bgg.jpg"
               }`}
               alt="مدرسه هنری کنته - لوگو رسمی آموزشگاه هنرهای تجسمی"
               loading="lazy"
-              className="h-16 w-16 lg:rounded-tr-lg"
+              className="h-16 w-16 lg:rounded-tr-lg transition-all duration-500 dark:bg-transparent"
             />
           </Link>
 

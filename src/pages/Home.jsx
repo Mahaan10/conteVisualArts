@@ -81,9 +81,9 @@ function Home() {
       <div className="relative w-full min-h-screen">
         {/* Background Image*/}
         <img
-          src="images/6.jpg"
+          src="images/7.jpg"
           alt=""
-          className="absolute inset-0 w-full h-full z-0 rounded-lg object-cover"
+          className="absolute inset-0 w-full h-[80%] z-0 rounded-lg object-cover"
           loading="lazy"
           data-aos="zoom-in"
         />

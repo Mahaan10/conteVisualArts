@@ -14,14 +14,20 @@ export default function ShoppingCardProvider({ children }) {
   }, [cardItems]);
 
   const addToCard = (course) => {
+    let success = false;
+
     setCardItems((prev) => {
       const isExists = prev.find((item) => item._id === course._id);
       if (isExists) {
         toast.error("این دوره در سبد خرید شما وجود دارد");
+        success = false;
         return prev;
       }
+      success = true;
       return [...prev, course];
     });
+
+    return success;
   };
 
   const removeFromCard = (id) => {

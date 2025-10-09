@@ -17,22 +17,25 @@ function PaymentVerificationPage() {
   } = usePaymentResponse(authority);
 
   useEffect(() => {
-    if (paymentData) {
-      if (paymentData?.success) {
-        toast.success(
-          `پرداخت با موفقیت انجام شد. کد پیگیری: ${paymentData?.refId}`
-        );
-      } else if (!paymentData.success) {
-        toast.error("پرداخت ناموفق بود.");
-      }
-    }
+    if (isVerifying) return;
 
     if (isError) {
       toast.error(
         error?.response?.data?.message || "خطا در بررسی وضعیت پرداخت."
       );
+      return;
     }
-  }, [paymentData, isError, error]);
+
+    if (paymentData) {
+      if (paymentData.success) {
+        toast.success(
+          `پرداخت با موفقیت انجام شد. کد پیگیری: ${paymentData?.refId}`
+        );
+      } else {
+        toast.error(paymentData.message || "پرداخت ناموفق بود.");
+      }
+    }
+  }, [paymentData, isError, error, isVerifying]);
 
   if (isVerifying) return <Loading />;
 

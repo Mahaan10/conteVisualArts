@@ -93,7 +93,7 @@ function CoursePageLayout() {
     setPreview(course?.courseImages[newIndex]);
   };
 
-  const handleAddToCard = (course) => {
+  /*   const handleAddToCard = (course) => {
     if (user && token) {
       const isAlreadyEnrolled = user?.enrolledCourses?.some(
         (enrolledCourse) => enrolledCourse?._id === course?._id
@@ -101,6 +101,7 @@ function CoursePageLayout() {
 
       if (isAlreadyEnrolled) {
         toast.error("شما قبلاً در این دوره ثبت نام کرده‌اید.");
+        return
       } else {
         addToCard(course);
         toast.success(`${course?.name} به سبد خرید اضافه شد`);
@@ -108,6 +109,30 @@ function CoursePageLayout() {
     } else {
       addToCard(course);
       toast.success(`${course?.name} به سبد خرید اضافه شد`);
+    }
+  }; */
+  const handleAddToCard = (course) => {
+    if (user && token) {
+      const isAlreadyEnrolled = user?.enrolledCourses?.some(
+        (enrolledCourse) => enrolledCourse?.course?._id === course?._id
+      );
+
+      if (isAlreadyEnrolled) {
+        toast.error("شما قبلاً در این دوره ثبت نام کرده‌اید.");
+        return;
+      }
+
+      const added = addToCard(course);
+
+      if (added) {
+        toast.success(`${course?.name} به سبد خرید اضافه شد`);
+      }
+    } else {
+      const added = addToCard(course);
+
+      if (added) {
+        toast.success(`${course?.name} به سبد خرید اضافه شد`);
+      }
     }
   };
 
