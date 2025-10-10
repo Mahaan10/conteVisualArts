@@ -62,11 +62,11 @@ function HomePageStudentWorks({ studentWorks }) {
         loop
         breakpoints={{
           0: { slidesPerView: 1 },
-          400: { slidesPerView: 2 },
-          640: { slidesPerView: 3 },
-          768: { slidesPerView: 4 },
-          1000: { slidesPerView: 5 },
-          1180: { slidesPerView: 6 },
+          //400: { slidesPerView: 2 },
+          590: { slidesPerView: 2 },
+          890: { slidesPerView: 3 },
+          1144: { slidesPerView: 4 },
+          1350: { slidesPerView: 5 },
         }}
         onSwiper={(swiper) => (swiperRef.current = swiper)}
       >
@@ -76,7 +76,7 @@ function HomePageStudentWorks({ studentWorks }) {
               to="/student-works"
               className="flex flex-col gap-y-2 items-center w-full"
             >
-              <div className="w-40 h-40">
+              <div className="w-55 h-55">
                 <img
                   src={work.Image}
                   alt={work.title}
@@ -84,9 +84,7 @@ function HomePageStudentWorks({ studentWorks }) {
                   className="rounded-lg w-full h-full object-cover"
                 />
               </div>
-              <h1 className="text-sm text-nowrap w-40 text-right">
-                {work.title}
-              </h1>
+              <h1 className="text-sm leading-6">{work.title}</h1>
             </Link>
           </SwiperSlide>
         ))}

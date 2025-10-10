@@ -62,11 +62,10 @@ function HomePageCourses({ courses }) {
         loop
         breakpoints={{
           0: { slidesPerView: 1 },
-          400: { slidesPerView: 2 },
-          640: { slidesPerView: 3 },
-          768: { slidesPerView: 4 },
-          1000: { slidesPerView: 5 },
-          1180: { slidesPerView: 6 },
+          590: { slidesPerView: 2 },
+          890: { slidesPerView: 3 },
+          1144: { slidesPerView: 4 },
+          1350: { slidesPerView: 5 },
         }}
         onSwiper={(swiper) => (swiperRef.current = swiper)}
       >
@@ -74,9 +73,9 @@ function HomePageCourses({ courses }) {
           <SwiperSlide key={course?._id}>
             <Link
               to={`/courses/${course?._id}`}
-              className="flex flex-col gap-y-2 items-center w-full"
+              className="flex flex-col gap-y-3 items-center w-full"
             >
-              <div className="w-40 h-40">
+              <div className="w-55 h-55">
                 <img
                   src={course?.Image}
                   alt={course?.name}
@@ -84,9 +83,7 @@ function HomePageCourses({ courses }) {
                   className="rounded-lg w-full h-full object-cover"
                 />
               </div>
-              <h1 className="text-sm leading-6 w-40 text-right">
-                {course?.name}
-              </h1>
+              <h1 className="text-sm leading-6">{course?.name}</h1>
             </Link>
           </SwiperSlide>
         ))}
