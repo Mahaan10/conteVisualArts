@@ -26,6 +26,8 @@ import VerifyPayment from "./ui/VerifyPayment";
 import { Toaster } from "react-hot-toast";
 import AdminReviews from "./features/admin/reviews/AdminReviews";
 import AdminPayments from "./features/admin/payments/AdminPayments";
+import FAQ from "./pages/FAQ";
+import Regulations from "./pages/Regulations";
 
 function App() {
   const queryClient = new QueryClient();
@@ -47,6 +49,8 @@ function App() {
               </Route>
               <Route path="contact" element={<Contact />} />
               <Route path="about" element={<About />} />
+              <Route path="FAQ" element={<FAQ />} />
+              <Route path="regulations" element={<Regulations />} />
               <Route
                 path="student"
                 element={<ProtectedRoute allowedRoles="student" />}

@@ -5,7 +5,6 @@ import {
   FooterCopyright,
   FooterDivider,
   FooterIcon,
-  FooterLink,
   FooterLinkGroup,
   FooterTitle,
   ThemeProvider,
@@ -15,6 +14,8 @@ import { FaWhatsapp } from "react-icons/fa6";
 import useCourses from "../hooks/useCourses";
 import { Loader } from "./Loading";
 import toast from "react-hot-toast";
+import { useThemeMode } from "../context/useThemeModeContext";
+import { Link } from "react-router-dom";
 
 const customTheme = createTheme({
   footer: {
@@ -22,7 +23,7 @@ const customTheme = createTheme({
       base: "!bg-inherit rounded-none",
     },
     groupLink: {
-      base: "text-black text-xs sm:text-sm",
+      base: "text-black text-xs sm:text-sm ",
       link: {
         base: "me-4 !mr-0",
         href: "hover:opacity-80 opacity-50 hover:no-underline",
@@ -46,6 +47,7 @@ const customTheme = createTheme({
 
 function FooterSection() {
   const { courses, error, isError, isLoading } = useCourses();
+  const { themeMode } = useThemeMode();
 
   if (isLoading) return <Loader />;
   if (isError) {
@@ -73,40 +75,63 @@ function FooterSection() {
                     <FooterTitle title="دوره های پرطرفدار" />
                     <FooterLinkGroup col>
                       {slicedCourses.map((course) => (
-                        <FooterLink
+                        <Link
                           key={course?._id}
-                          href={`/courses/${course?._id}`}
+                          className="text-black text-xs sm:text-sm me-4 !mr-0 hover:opacity-80 opacity-50 hover:no-underline dark:text-white"
+                          to={`/courses/${course?._id}`}
                         >
                           {course?.name}
-                        </FooterLink>
+                        </Link>
                       ))}
                     </FooterLinkGroup>
                   </div>
                   <div>
                     <FooterTitle title="دسترسی سریع و پشتیبانی" />
                     <FooterLinkGroup col>
-                      <FooterLink href="/courses">همه دوره ها</FooterLink>
-                      <FooterLink href="/student-works">
+                      <Link
+                        className="text-black text-xs sm:text-sm me-4 !mr-0 hover:opacity-80 opacity-50 hover:no-underline dark:text-white"
+                        to="/courses"
+                      >
+                        همه دوره ها
+                      </Link>
+                      <Link
+                        className="text-black text-xs sm:text-sm me-4 !mr-0 hover:opacity-80 opacity-50 hover:no-underline flex flex-wrap dark:text-white"
+                        to="/student-works"
+                      >
                         آثار هنرجویان
-                      </FooterLink>
-                      <FooterLink href="/news">اخبار و رویدادها</FooterLink>
-                      <FooterLink href="/about">درباره ما</FooterLink>
-                      <FooterLink href="/contact">ارتباط با ما</FooterLink>
-                      <FooterLink href="/">سوالات متداول(FAQ)</FooterLink>
-                      <FooterLink href="/">قوانین و مقررات</FooterLink>
+                      </Link>
+                      <Link
+                        className="text-black text-xs sm:text-sm me-4 !mr-0 hover:opacity-80 opacity-50 hover:no-underline flex flex-wrap dark:text-white"
+                        to="/news"
+                      >
+                        اخبار و رویدادها
+                      </Link>
+                      <Link
+                        className="text-black text-xs sm:text-sm me-4 !mr-0 hover:opacity-80 opacity-50 hover:no-underline dark:text-white"
+                        to="/about"
+                      >
+                        درباره ما
+                      </Link>
+                      <Link
+                        className="text-black text-xs sm:text-sm me-4 !mr-0 hover:opacity-80 opacity-50 hover:no-underline dark:text-white"
+                        to="/contact"
+                      >
+                        ارتباط با ما
+                      </Link>
+                      <Link
+                        className="text-black text-xs sm:text-sm me-4 !mr-0 hover:opacity-80 opacity-50 hover:no-underline dark:text-white"
+                        to="/FAQ"
+                      >
+                        سوالات متداول(FAQ)
+                      </Link>
+                      <Link
+                        className="text-black text-xs sm:text-sm me-4 !mr-0 hover:opacity-80 opacity-50 hover:no-underline dark:text-white"
+                        to="/regulations"
+                      >
+                        قوانین و مقررات
+                      </Link>
                     </FooterLinkGroup>
                   </div>
-                  {/* <div>
-                    <FooterTitle title="راهنما و پشتیبانی" />
-                    <FooterLinkGroup col>
-                      <FooterLink href="/courses/portrait">
-                        سوالات متداول(FAQ)
-                      </FooterLink>
-                      <FooterLink href="/courses/portrait">
-                        قوانین و مقررات
-                      </FooterLink>
-                    </FooterLinkGroup>
-                  </div> */}
                   <div className="col-span-full sm:col-span-1">
                     <FooterTitle title="راه های ارتباطی" />
                     <div className="flex flex-col gap-y-4 text-xs sm:text-sm">
@@ -160,11 +185,15 @@ function FooterSection() {
                     </div>
                   </div>
                 </div>
-                <div className="flex flex-row sm:flex-col gap-4 mt-4 sm:mt-0 h-32 my-auto">
+                <div className="flex flex-row sm:flex-col gap-4 mt-4 sm:mt-0 h-32 my-auto justify-center sm:justify-start">
                   <div>
                     <FooterBrand
                       href="/"
-                      src="/images/Logo.jpg"
+                      src={`${
+                        themeMode === "light"
+                          ? "/images/Logo.jpg"
+                          : "/images/dark-bgg.jpg"
+                      }`}
                       alt="Conte Logo"
                       loading="lazy"
                       className="h-32 md:w-28 w-19"
@@ -177,12 +206,12 @@ function FooterSection() {
                       loading="lazy"
                       className="w-12 h-12"
                     />
-                    {/* <img
+                    <img
                       src="/images/enamad.jpg"
                       alt=""
                       loading="lazy"
                       className="w-12 h-12"
-                    /> */}
+                    />
                   </div>
                 </div>
               </div>

@@ -1,7 +1,6 @@
 import { GiAbstract024 } from "react-icons/gi";
 import { Button, createTheme, ThemeProvider } from "flowbite-react";
 import { TbFilters } from "react-icons/tb";
-import { FaSort } from "react-icons/fa6";
 import StudentWorksSidebar from "../ui/StudentWorksSidebar";
 import useStudentWorks from "../hooks/useStudentWorks";
 import StudentWorksCards from "../ui/StudentWorksCards";

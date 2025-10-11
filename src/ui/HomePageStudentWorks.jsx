@@ -28,7 +28,7 @@ function HomePageStudentWorks({ studentWorks }) {
           data-aos-duration="1500"
         >
           <Link
-            to="/courses"
+            to="/student-works"
             className="text-xs flex items-center gap-x-1 hover:text-butter-caramel dark:hover:text-moderate-violet transition-colors duration-300"
           >
             <span>همه آثار</span>
