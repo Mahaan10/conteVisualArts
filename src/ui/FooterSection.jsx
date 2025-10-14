@@ -126,7 +126,7 @@ function FooterSection() {
                       </Link>
                       <Link
                         className="text-black text-xs sm:text-sm me-4 !mr-0 hover:opacity-80 opacity-50 hover:no-underline dark:text-white"
-                        to="/regulations"
+                        to="/terms-of-services"
                       >
                         قوانین و مقررات
                       </Link>

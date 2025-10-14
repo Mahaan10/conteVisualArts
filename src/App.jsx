@@ -27,7 +27,7 @@ import { Toaster } from "react-hot-toast";
 import AdminReviews from "./features/admin/reviews/AdminReviews";
 import AdminPayments from "./features/admin/payments/AdminPayments";
 import FAQ from "./pages/FAQ";
-import Regulations from "./pages/Regulations";
+import TermsOfServices from "./pages/Regulations";
 
 function App() {
   const queryClient = new QueryClient();
@@ -50,7 +50,7 @@ function App() {
               <Route path="contact" element={<Contact />} />
               <Route path="about" element={<About />} />
               <Route path="FAQ" element={<FAQ />} />
-              <Route path="regulations" element={<Regulations />} />
+              <Route path="terms-of-services" element={<TermsOfServices />} />
               <Route
                 path="student"
                 element={<ProtectedRoute allowedRoles="student" />}

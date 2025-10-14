@@ -1,18 +1,25 @@
 import {
+  Button,
+  Checkbox,
   createTheme,
   Drawer,
   DrawerHeader,
   DrawerItems,
+  Label,
+  Modal,
+  ModalBody,
+  ModalHeader,
   ThemeProvider,
 } from "flowbite-react";
 import { useCart } from "../context/useShoppingCardContext";
 import useOutsideClick from "../hooks/useOutsideClick";
 import { HiShoppingBag, HiOutlineTrash } from "react-icons/hi2";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useCreatePayment from "../hooks/useCreatePayment";
 import { useGetUser } from "../context/useGetUserContext";
 import toast from "react-hot-toast";
 import { Loader } from "./Loading";
+import TermsOfServices from "../pages/Regulations";
 
 const customTheme = createTheme({
   drawer: {
@@ -42,19 +49,25 @@ function ShoppingMenu({ isOpen, setIsOpen }) {
   const { cardItems, removeFromCard, totalPrice, clearCard } = useCart();
   const shoppingMenuRef = useOutsideClick(() => setIsOpen(false));
 
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
+  const [isTermsModalOpen, setIsTermsModalOpen] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
 
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? "hidden" : "auto";
     return () => {
       document.body.style.overflow = "auto";
     };
   }, [isOpen]);
 
-  const createPaymentHandler = async () => {
+  useEffect(() => {
+    if (isError) {
+      toast.error(
+        error?.response?.data?.message || "مشکلی در بارگذاری وجود دارد"
+      );
+    }
+  }, [isError, error]);
+
+  const handlePayClick = () => {
     if (!token) {
       toast.error("برای پرداخت باید ابتدا وارد اکانت خود شوید");
       setIsOpen(false);
@@ -78,8 +91,17 @@ function ShoppingMenu({ isOpen, setIsOpen }) {
       return;
     }
 
+    setIsTermsModalOpen(true);
+  };
+
+  const handleConfirmPayment = async () => {
+    if (!isChecked) {
+      toast.error("لطفاً شرایط و قوانین را مطالعه و تایید کنید.");
+      return;
+    }
+
     const newPayment = {
-      amount: cardItems[0]?.price, //totalPrice,
+      amount: cardItems[0]?.price,
       email: user?.email,
       mobile: user?.phone,
       description: "پرداخت",
@@ -92,6 +114,7 @@ function ShoppingMenu({ isOpen, setIsOpen }) {
       if (url) {
         clearCard();
         setIsOpen(false);
+        setIsTermsModalOpen(false);
         window.location.replace(url);
       } else {
         toast.error("لینک پرداخت در پاسخ API موجود نیست.");
@@ -102,14 +125,6 @@ function ShoppingMenu({ isOpen, setIsOpen }) {
       );
     }
   };
-
-  useEffect(() => {
-    if (isError) {
-      toast.error(
-        error?.response?.data?.message || "مشکلی در بارگذاری وجود دارد"
-      );
-    }
-  }, [isError, error]);
 
   return (
     <ThemeProvider theme={customTheme}>
@@ -168,7 +183,7 @@ function ShoppingMenu({ isOpen, setIsOpen }) {
                 </div>
                 <button
                   className="w-full bg-almond-cookie hover:bg-golden-sand text-black font-bold py-2 rounded-lg transition-colors duration-300 dark:bg-dark-cerulean cursor-pointer dark:text-white dark:hover:bg-purple-plumeria"
-                  onClick={createPaymentHandler}
+                  onClick={handlePayClick}
                   disabled={isCreatingPayment || isLoading}
                 >
                   {isLoading || isCreatingPayment ? <Loader /> : "پرداخت"}
@@ -178,6 +193,41 @@ function ShoppingMenu({ isOpen, setIsOpen }) {
           )}
         </DrawerItems>
       </Drawer>
+
+      {/* Terms of Service Modal */}
+      <Modal
+        show={isTermsModalOpen}
+        size="3xl"
+        popup
+        onClose={() => setIsTermsModalOpen(false)}
+      >
+        <ModalHeader>شرایط و قوانین</ModalHeader>
+        <ModalBody className="max-h-[70vh] overflow-y-auto">
+          <TermsOfServices />
+          <div className="flex items-center gap-2 mt-4">
+            <Checkbox
+              id="terms"
+              checked={isChecked}
+              onChange={(e) => setIsChecked(e.target.checked)}
+            />
+            <Label htmlFor="terms">
+              شرایط و قوانین را خوانده‌ام و قبول دارم
+            </Label>
+          </div>
+          <div className="mt-4 flex justify-end gap-2">
+            <Button color="gray" onClick={() => setIsTermsModalOpen(false)}>
+              انصراف
+            </Button>
+            <Button
+              gradientDuoTone="purpleToBlue"
+              onClick={handleConfirmPayment}
+              disabled={!isChecked || isCreatingPayment || isLoading}
+            >
+              {isCreatingPayment || isLoading ? <Loader /> : "تایید و پرداخت"}
+            </Button>
+          </div>
+        </ModalBody>
+      </Modal>
     </ThemeProvider>
   );
 }

@@ -164,7 +164,7 @@ function Header() {
       >
         {/* Mobile Menu Button */}
         <button
-          className="lg:hidden block mr-5 cursor-pointer"
+          className="min-[1070px]:hidden block mr-5 cursor-pointer"
           aria-label="منوی موبایل"
           aria-expanded={isDrawerOpen}
           onClick={() => setIsDrawerOpen(!isDrawerOpen)}
@@ -188,7 +188,7 @@ function Header() {
           </Link>
 
           <nav
-            className="hidden lg:flex items-center gap-x-6 text-xs mx-2 list-none"
+            className="hidden min-[1070px]:flex items-center gap-x-6 text-xs mx-2 list-none"
             aria-label="ناوبری اصلی"
           >
             <li>
@@ -208,6 +208,11 @@ function Header() {
             </li>
             <li>
               <CustomNavlink to="/contact">ارتباط با ما</CustomNavlink>
+            </li>
+            <li>
+              <CustomNavlink to="/terms-of-services">
+                قوانین و مقررات
+              </CustomNavlink>
             </li>
           </nav>
         </div>

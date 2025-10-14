@@ -3,7 +3,7 @@ import { BsPlusLg } from "react-icons/bs";
 import { CgMathMinus } from "react-icons/cg";
 import { GoLaw } from "react-icons/go";
 
-function Regulations() {
+function TermsOfServices() {
   return (
     <div className="container">
       <div className="my-10 flex items-center justify-between mx-4">
@@ -23,7 +23,7 @@ function Regulations() {
   );
 }
 
-export default Regulations;
+export default TermsOfServices;
 
 function Accordion() {
   const [openIndex, setOpenIndex] = useState(null);
