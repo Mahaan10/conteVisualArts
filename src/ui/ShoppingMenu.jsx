@@ -19,7 +19,8 @@ import useCreatePayment from "../hooks/useCreatePayment";
 import { useGetUser } from "../context/useGetUserContext";
 import toast from "react-hot-toast";
 import { Loader } from "./Loading";
-import TermsOfServices from "../pages/Regulations";
+import { Accordion } from "../pages/Regulations";
+import { GoLaw } from "react-icons/go";
 
 const customTheme = createTheme({
   drawer: {
@@ -41,15 +42,43 @@ const customTheme = createTheme({
       },
     },
   },
+  modal: {
+    header: {
+      base: "items-center",
+      close: {
+        base: "ml-0",
+      },
+    },
+    body: {
+      base: "p-0 pb-6",
+    },
+  },
+  checkbox: {
+    base: "focus:ring-0 focus:ring-offset-0 border-gray-400 dark:border-gray-400 mr-4 h-4.5 w-4.5",
+  },
+  button: {
+    color: {
+      blue: " text-whitesmoke focus:ring-0 dark:bg-blue-700 dark:hover:bg-blue-800 dark:focus:ring-0 cursor-pointer",
+      red: "text-whitesmoke focus:ring-0 dark:focus:ring-0 cursor-pointer",
+    },
+  },
 });
 
 function ShoppingMenu({ isOpen, setIsOpen }) {
   const { createPayment, isCreatingPayment } = useCreatePayment();
   const { user, isLoading, isError, error, token } = useGetUser();
   const { cardItems, removeFromCard, totalPrice, clearCard } = useCart();
-  const shoppingMenuRef = useOutsideClick(() => setIsOpen(false));
+
+  const shoppingMenuRef = useOutsideClick(() => {
+    if (isOpen) setIsOpen(false);
+  });
 
   const [isTermsModalOpen, setIsTermsModalOpen] = useState(false);
+
+  const modalRef = useOutsideClick(() => {
+    if (isTermsModalOpen) setIsTermsModalOpen(false);
+  });
+
   const [isChecked, setIsChecked] = useState(false);
 
   useEffect(() => {
@@ -92,6 +121,7 @@ function ShoppingMenu({ isOpen, setIsOpen }) {
     }
 
     setIsTermsModalOpen(true);
+    setIsOpen(false);
   };
 
   const handleConfirmPayment = async () => {
@@ -101,11 +131,13 @@ function ShoppingMenu({ isOpen, setIsOpen }) {
     }
 
     const newPayment = {
-      amount: cardItems[0]?.price,
+      amount: cardItems[0]?.price, // total
       email: user?.email,
       mobile: user?.phone,
-      description: "پرداخت",
+      description: `پرداخت ${cardItems[0]?.name}`,
       courseId: cardItems[0]?._id,
+      acceptTnc: isChecked,
+      acceptTncAt: isChecked ? new Date().toISOString() : null,
     };
 
     try {
@@ -128,6 +160,7 @@ function ShoppingMenu({ isOpen, setIsOpen }) {
 
   return (
     <ThemeProvider theme={customTheme}>
+      {/* Drawer */}
       <Drawer
         open={isOpen}
         onClose={() => setIsOpen(false)}
@@ -199,32 +232,47 @@ function ShoppingMenu({ isOpen, setIsOpen }) {
         show={isTermsModalOpen}
         size="3xl"
         popup
+        className="font-iran-marker dark:text-whitesmoke"
+        position="center"
         onClose={() => setIsTermsModalOpen(false)}
       >
-        <ModalHeader>شرایط و قوانین</ModalHeader>
-        <ModalBody className="max-h-[70vh] overflow-y-auto">
-          <TermsOfServices />
-          <div className="flex items-center gap-2 mt-4">
-            <Checkbox
-              id="terms"
-              checked={isChecked}
-              onChange={(e) => setIsChecked(e.target.checked)}
-            />
-            <Label htmlFor="terms">
-              شرایط و قوانین را خوانده‌ام و قبول دارم
-            </Label>
-          </div>
-          <div className="mt-4 flex justify-end gap-2">
-            <Button color="gray" onClick={() => setIsTermsModalOpen(false)}>
-              انصراف
-            </Button>
-            <Button
-              gradientDuoTone="purpleToBlue"
-              onClick={handleConfirmPayment}
-              disabled={!isChecked || isCreatingPayment || isLoading}
-            >
-              {isCreatingPayment || isLoading ? <Loader /> : "تایید و پرداخت"}
-            </Button>
+        <ModalHeader>
+          <p className="flex items-center gap-x-1.5">
+            <GoLaw className="w-7 h-7" />
+            <span>قوانین و مقررات</span>
+          </p>
+        </ModalHeader>
+        <ModalBody>
+          {/* 🔹 Attach outside click ref */}
+          <div ref={modalRef}>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-y-8 sm:gap-x-8 bg-gray-100 dark:bg-gray-950 rounded-lg p-4 m-4">
+              <Accordion />
+            </div>
+
+            <div className="flex items-center gap-2 mt-4">
+              <Checkbox
+                id="terms"
+                color="gray"
+                checked={isChecked}
+                onChange={(e) => setIsChecked(e.target.checked)}
+              />
+              <Label htmlFor="terms">
+                شرایط و قوانین را خوانده‌ام و قبول دارم
+              </Label>
+            </div>
+
+            <div className="mt-6 flex justify-end gap-2 ml-4">
+              <Button color="red" onClick={() => setIsTermsModalOpen(false)}>
+                انصراف
+              </Button>
+              <Button
+                color="blue"
+                onClick={handleConfirmPayment}
+                disabled={!isChecked || isCreatingPayment || isLoading}
+              >
+                {isCreatingPayment || isLoading ? <Loader /> : "تایید و پرداخت"}
+              </Button>
+            </div>
           </div>
         </ModalBody>
       </Modal>

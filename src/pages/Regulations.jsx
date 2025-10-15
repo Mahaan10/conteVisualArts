@@ -25,7 +25,7 @@ function TermsOfServices() {
 
 export default TermsOfServices;
 
-function Accordion() {
+export function Accordion() {
   const [openIndex, setOpenIndex] = useState(null);
 
   const toggleAccordion = (index) => {

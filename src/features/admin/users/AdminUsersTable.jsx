@@ -106,6 +106,7 @@ function AdminUsersTable() {
               <th>شماره همراه</th>
               <th>تاریخ عضویت</th>
               <th>دوره ها</th>
+              <th>قوانین و مقررات</th>
               <th>عملیات</th>
             </Table.Header>
             <Table.Body>

@@ -113,9 +113,14 @@ function CoursePageLayout() {
   }; */
   const handleAddToCard = (course) => {
     if (user && token) {
-      const isAlreadyEnrolled = user?.enrolledCourses?.some(
-        (enrolledCourse) => enrolledCourse?.course?._id === course?._id
-      );
+      const isAlreadyEnrolled = user.enrolledCourses
+        ?.filter(
+          (course) =>
+            course?.paymentStatus === "paid" ||
+            (course?.payment?.refId == null &&
+              course?.payment?.authority === null)
+        )
+        .some((enrolledCourse) => enrolledCourse?.course?._id === course?._id);
 
       if (isAlreadyEnrolled) {
         toast.error("شما قبلاً در این دوره ثبت نام کرده‌اید.");

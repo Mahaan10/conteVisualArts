@@ -1,7 +1,7 @@
 import { CiEdit } from "react-icons/ci";
 import { PiTrash } from "react-icons/pi";
 import Table from "../../../ui/Table";
-import formattedDate from "../../../utils/formattedDate";
+import formattedDate, { formattedTime } from "../../../utils/formattedDate";
 import { Link } from "react-router-dom";
 
 function AdminUsersRow({ user, index, onEdit, onDelete, courses }) {
@@ -46,6 +46,23 @@ function AdminUsersRow({ user, index, onEdit, onDelete, courses }) {
               >
                 {course?.name}
               </Link>
+            ))
+          ) : (
+            <span className="">__</span>
+          )}
+        </div>
+      </td>
+      <td>
+        <div className="flex flex-col">
+          {enrolledCourses && enrolledCourses?.length > 0 ? (
+            enrolledCourses?.map((course) => (
+              <span
+                key={course?._id}
+                className="p-2 w-full justify-center mx-auto mb-2.5"
+              >
+                {formattedTime(course?.tncAcceptedAt) -
+                  formattedDate(course?.tncAcceptedAt) || "__"}
+              </span>
             ))
           ) : (
             <span className="">__</span>

@@ -22,6 +22,7 @@ import toast from "react-hot-toast";
 import { useEffect } from "react";
 import useOutsideClick from "../hooks/useOutsideClick";
 import { useThemeMode } from "../context/useThemeModeContext";
+import { GoLaw } from "react-icons/go";
 
 const customTheme = createTheme({
   drawer: {
@@ -67,9 +68,8 @@ function HeaderMenu({ isOpen, setIsOpen, setIsModalOpen }) {
   const { token, isLoading, isError, error, user } = useGetUser();
   const { themeMode, setThemeMode } = useThemeMode();
 
-    if (isError) 
-      toast.error(error?.response?.data?.message || "اطلاعات کاربری یافت نشد");
-    
+  if (isError)
+    toast.error(error?.response?.data?.message || "اطلاعات کاربری یافت نشد");
 
   useEffect(() => {
     const handleResize = () => {
@@ -173,6 +173,15 @@ function HeaderMenu({ isOpen, setIsOpen, setIsModalOpen }) {
                   <CustomNavlink onClose={() => setIsOpen(false)} to="/contact">
                     <PiInfo className="w-5 h-5 dark:text-gray-400 text-gray-700" />
                     <span>ارتباط با ما</span>
+                  </CustomNavlink>
+                </li>
+                <li className="text-sm rounded-lg transition-colors duration-300 py-1">
+                  <CustomNavlink
+                    onClose={() => setIsOpen(false)}
+                    to="/terms-of-services"
+                  >
+                    <GoLaw className="w-5 h-5 dark:text-gray-400 text-gray-700" />
+                    <span>قوانین و مقررات</span>
                   </CustomNavlink>
                 </li>
               </SidebarItemGroup>
