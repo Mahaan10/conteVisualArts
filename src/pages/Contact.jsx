@@ -11,9 +11,9 @@ function Contact() {
     {
       id: 1,
       name: "Phone",
-      desc: "02166957831",
+      desc: "02122264021",
       icon: <AiOutlinePhone className={`${iconClass}`} />,
-      to: "tel:+982166957831",
+      to: "tel:+982122264021",
     },
     {
       id: 3,
@@ -69,7 +69,7 @@ function Contact() {
             data-aos-duration="1000"
           >
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d742.1623561773503!2d51.440924030625744!3d35.767144374428554!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f8e05103fcbdb05%3A0x4df68982b54cc0d9!2z2KLZhdmI2LLYtNqv2KfZhyDZh9mG2LHZh9in24wg2KrYrNiz2YXbjCDaqdmG2KrZhw!5e0!3m2!1sen!2s!4v1747742787956!5m2!1sen!2s"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d202.33323338748795!2d51.441219805092544!3d35.767226733739605!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f8e05103fcbdb05%3A0x4df68982b54cc0d9!2z2KLZhdmI2LLYtNqv2KfZhyDZh9mG2LHZh9in24wg2KrYrNiz2YXbjCDaqdmG2KrZhw!5e0!3m2!1sen!2s!4v1761402416826!5m2!1sen!2s"
               className="border-0 w-full h-full rounded-lg"
               allowFullScreen=""
               loading="lazy"

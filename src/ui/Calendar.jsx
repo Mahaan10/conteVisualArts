@@ -13,7 +13,6 @@ function Calendar({ value, onChange }) {
         onChange={onChange}
         calendarPosition="top"
         portal={false}
-        minDate={new DateObject({ calendar: persian })}
         containerClassName="w-full"
         inputClass="
           !w-full !pr-3 !pl-3 !py-2 !text-sm !rounded-lg !border

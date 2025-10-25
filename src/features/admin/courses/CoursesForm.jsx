@@ -445,7 +445,7 @@ function CoursesForm({ onClose, courseToEdit = {} }) {
               <option value="">-- آیتم --</option>
               <option value="special">ویژه</option>
               <option value="summer">تابستانی</option>
-              <option value="autumn">پائیزی</option>
+              <option value="workshop">وورکشاپ</option>
             </Select>
 
             <HiChevronDown className="w-5 h-5 absolute left-2" />

@@ -30,7 +30,6 @@ import { useGetUser } from "../context/useGetUserContext";
 import { BsCalendar3Event, BsFolder2Open } from "react-icons/bs";
 import { Loader } from "./Loading";
 import useLogout from "../hooks/useLogout";
-import { useCart } from "../context/useShoppingCardContext";
 import { FaRegCommentDots } from "react-icons/fa6";
 import { useThemeMode } from "../context/useThemeModeContext";
 
@@ -62,7 +61,6 @@ const customTheme = createTheme({
 function Header() {
   const { user, isLoading, isError, error, token } = useGetUser();
   const { isLoggedOut, logout } = useLogout();
-  const { cardItems } = useCart();
   const { themeMode } = useThemeMode();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -178,7 +176,7 @@ function Header() {
             <img
               src={`${
                 themeMode === "light"
-                  ? "/images/Logo.jpg"
+                  ? "/images/light.jpg"
                   : "/images/dark-bgg.jpg"
               }`}
               alt="مدرسه هنری کنته - لوگو رسمی آموزشگاه هنرهای تجسمی"
@@ -219,24 +217,8 @@ function Header() {
 
         {/* Left Section */}
         <div className="flex items-center justify-between gap-x-2 lg:gap-x-4 lg:ml-5 sm:ml-3.5 ml-1">
-          <div className="sm:flex hidden">
+          <div className="flex ml-3 lg:ml-0">
             <ThemeMode />
-          </div>
-
-          <div className="relative">
-            <button
-              className="cursor-pointer bg-almond-cookie p-2 rounded-full dark:bg-dark-cerulean hover:bg-golden-sand dark:hover:bg-purple-plumeria transition-colors duration-300"
-              aria-label="سبد خرید"
-              onClick={() => setIsShoppingMenuOpen(!isShoppingMenuOpen)}
-              aria-expanded={isShoppingMenuOpen}
-            >
-              <HiOutlineShoppingBag className="w-5 h-5" />
-              {cardItems.length > 0 && (
-                <span className="absolute -top-1.5 -right-1.5 bg-red-500 text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center">
-                  {cardItems.length}
-                </span>
-              )}
-            </button>
           </div>
 
           {!token ? (

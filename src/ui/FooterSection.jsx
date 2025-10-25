@@ -138,11 +138,11 @@ function FooterSection() {
                       <div className="flex gap-x-2 opacity-50">
                         <span>تلفن:</span>
                         <a
-                          href="tel:+982166957831"
+                          href="tel:+982122264021"
                           target="_blank"
                           rel="noopener noreferrer"
                         >
-                          021-66957831
+                          021-22264021
                         </a>
                       </div>
                       <div className="flex gap-x-2 opacity-50">
@@ -191,7 +191,7 @@ function FooterSection() {
                       href="/"
                       src={`${
                         themeMode === "light"
-                          ? "/images/Logo.jpg"
+                          ? "/images/light.jpg"
                           : "/images/dark-bgg.jpg"
                       }`}
                       alt="Conte Logo"

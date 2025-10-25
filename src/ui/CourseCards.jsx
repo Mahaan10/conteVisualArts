@@ -80,7 +80,7 @@ function CourseCards({ array }) {
                       ? "bg-yellow-400"
                       : arr.badge === "special"
                       ? "bg-emerald-600"
-                      : arr.badge === "autumn"
+                      : arr.badge === "workshop"
                       ? "bg-amber-800"
                       : ""
                   }`}
@@ -89,8 +89,8 @@ function CourseCards({ array }) {
                     ? "تابستانی"
                     : arr.badge === "special"
                     ? "ویژه"
-                    : arr.badge === "autumn"
-                    ? "پائیزی"
+                    : arr.badge === "workshop"
+                    ? "وورکشاپ"
                     : ""}
                 </span>
               </>

@@ -46,7 +46,7 @@ function Courses() {
     child: "کودکان",
     adult: "بزرگسالان",
     summer: "تابستانی",
-    autumn: "پاییزی",
+    workshop: "وورکشاپ",
     special: "ویژه",
   };
 

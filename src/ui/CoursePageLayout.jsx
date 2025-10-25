@@ -6,8 +6,11 @@ import toast from "react-hot-toast";
 import { BsClockHistory, BsCheckAll } from "react-icons/bs";
 import { FaEye, FaEyeSlash, FaRegCommentDots } from "react-icons/fa6";
 import {
+  Button,
+  Checkbox,
   createTheme,
   Modal as FlowbiteModal,
+  Label,
   ModalBody,
   ModalHeader,
   Rating,
@@ -25,10 +28,12 @@ import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
 import useOutsideClick from "../hooks/useOutsideClick";
 import formattedDate from "../utils/formattedDate";
-import { useCart } from "../context/useShoppingCardContext";
 import NotFound from "./NotFound";
 import toPersianNumbersWithComma from "../utils/toPersianNumbers";
 import { useGetUser } from "../context/useGetUserContext";
+import useCreatePayment from "../hooks/useCreatePayment";
+import { Accordion } from "../pages/Regulations";
+import { GoLaw } from "react-icons/go";
 
 const customTheme = createTheme({
   modal: {
@@ -46,6 +51,29 @@ const customTheme = createTheme({
   },
 });
 
+const customTheme_2 = createTheme({
+  modal: {
+    header: {
+      base: "items-center",
+      close: {
+        base: "ml-0",
+      },
+    },
+    body: {
+      base: "p-0 pb-6",
+    },
+  },
+  checkbox: {
+    base: "focus:ring-0 focus:ring-offset-0 border-gray-400 dark:border-gray-400 mr-4 h-4.5 w-4.5",
+  },
+  button: {
+    color: {
+      blue: " text-whitesmoke focus:ring-0 dark:bg-blue-700 dark:hover:bg-blue-800 dark:focus:ring-0 cursor-pointer",
+      red: "text-whitesmoke focus:ring-0 dark:focus:ring-0 cursor-pointer",
+    },
+  },
+});
+
 function CoursePageLayout() {
   const {
     user,
@@ -54,13 +82,16 @@ function CoursePageLayout() {
     error: userError,
     token,
   } = useGetUser();
-  const { addToCard } = useCart();
+
+  const { createPayment, isCreatingPayment } = useCreatePayment();
   const [isOpen, setIsOpen] = useState(false);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [preview, setPreview] = useState(null);
   const [previewIndex, setPreviewIndex] = useState(0);
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
   const [isOverflowing, setIsOverflowing] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
+  const [isTermsModalOpen, setIsTermsModalOpen] = useState(false);
   const imageSwiperRef = useRef(null);
   const reviewSwiperRef = useRef(null);
   const descriptionRef = useRef(null);
@@ -68,6 +99,10 @@ function CoursePageLayout() {
   const { course, error, isError, isLoading } = useSingleCourse(id);
   const modalRef = useOutsideClick(() => {
     if (isPreviewOpen) setIsPreviewOpen(false);
+  });
+
+  const payRef = useOutsideClick(() => {
+    if (isTermsModalOpen) setIsTermsModalOpen(false);
   });
 
   useEffect(() => {
@@ -93,25 +128,57 @@ function CoursePageLayout() {
     setPreview(course?.courseImages[newIndex]);
   };
 
-  /*   const handleAddToCard = (course) => {
-    if (user && token) {
-      const isAlreadyEnrolled = user?.enrolledCourses?.some(
-        (enrolledCourse) => enrolledCourse?._id === course?._id
-      );
-
-      if (isAlreadyEnrolled) {
-        toast.error("شما قبلاً در این دوره ثبت نام کرده‌اید.");
-        return
-      } else {
-        addToCard(course);
-        toast.success(`${course?.name} به سبد خرید اضافه شد`);
-      }
-    } else {
-      addToCard(course);
-      toast.success(`${course?.name} به سبد خرید اضافه شد`);
+  const handlePayClick = () => {
+    if (!token) {
+      toast.error("برای پرداخت باید ابتدا وارد اکانت خود شوید");
+      return;
     }
-  }; */
-  const handleAddToCard = (course) => {
+
+    const enrolledCourseIds =
+      user?.enrolledCourses
+        ?.filter((course) => course?.paymentStatus === "paid")
+        .map((enrolledCourse) => enrolledCourse?.course?._id) || [];
+
+    if (enrolledCourseIds.includes(id)) {
+      toast.error("شما در حال حاضر این دوره را خریداری کرده‌اید.");
+      return;
+    }
+
+    setIsTermsModalOpen(true);
+  };
+
+  const handleConfirmPayment = async () => {
+    if (!isChecked) {
+      toast.error("لطفاً شرایط و قوانین را مطالعه و تایید کنید.");
+      return;
+    }
+
+    const newPayment = {
+      amount: course?.price, // total
+      email: user?.email,
+      mobile: user?.phone,
+      description: `پرداخت ${course?.name}`,
+      courseId: course?._id,
+      acceptTnc: isChecked,
+      acceptTncAt: isChecked ? new Date().toISOString() : null,
+    };
+
+    try {
+      const { url } = await createPayment(newPayment);
+
+      if (url) {
+        window.location.replace(url);
+      } else {
+        toast.error("لینک پرداخت در پاسخ API موجود نیست.");
+      }
+    } catch (error) {
+      toast.error(
+        error?.response?.data?.message || "مشکلی در لینک پرداخت وجود دارد"
+      );
+    }
+  };
+
+  /*   const handleAddToCard = (course) => {
     if (user && token) {
       const isAlreadyEnrolled = user.enrolledCourses
         ?.filter(
@@ -139,7 +206,7 @@ function CoursePageLayout() {
         toast.success(`${course?.name} به سبد خرید اضافه شد`);
       }
     }
-  };
+  }; */
 
   if (isLoading || userIsLoading) return <Loading />;
   if (isError || userIsError) {
@@ -155,9 +222,9 @@ function CoursePageLayout() {
         {/* Add to card mobile view */}
         <button
           className="fixed bottom-0 z-40 bg-almond-cookie hover:bg-golden-sand dark:hover:bg-dark-purple dark:bg-purple-plumeria w-[95%] mx-auto right-0 left-0 py-4.5 cursor-pointer text-sm sm:hidden"
-          onClick={() => handleAddToCard(course)}
+          onClick={handlePayClick}
         >
-          افزودن به سبد خرید
+          ثبت نام
         </button>
         <div
           className="flex items-center gap-x-2 mb-10"
@@ -235,26 +302,6 @@ function CoursePageLayout() {
                 )}
               </div>
             </div>
-            {/* <div
-              className="flex items-start gap-y-3 gap-x-6 flex-col md:flex-row md:items-center flex-wrap text-xs"
-              data-aos="fade-left"
-              data-aos-duration="1000"
-            >
-              <div className="flex items-center gap-x-1">
-                <TbClockCheck className="w-4 h-4" />
-                <div className="flex items-center text-xs gap-x-1 dark:text-whitesmoke/75 text-black/75">
-                  <p>تاریخ انتشار:</p>
-                  <span>{formattedDate(course?.createdAt)}</span>
-                </div>
-              </div>
-              <div className="flex items-center gap-x-1">
-                <PiCalendarCheck className="w-4 h-4" />
-                <div className="flex items-center text-xs gap-x-1 dark:text-whitesmoke/75 text-black/75">
-                  <p>تاریخ شروع کلاس:</p>
-                  <span>{formattedDate(course?.startDate)}</span>
-                </div>
-              </div>
-            </div> */}
             <div
               className="flex items-center justify-center gap-x-6 mt-10"
               data-aos="fade-left"
@@ -269,21 +316,23 @@ function CoursePageLayout() {
               </button>
               <button
                 className="btn py-3.5 bg-transparent border dark:border-moderate-violet justify-center gap-x-4 dark:hover:bg-purple-plumeria hover:border-transparent border-butter-caramel hover:bg-golden-sand w-48 hidden sm:flex"
-                onClick={() => handleAddToCard(course)}
+                onClick={handlePayClick}
               >
-                افزودن به سبد خرید
+                ثبت نام
               </button>
             </div>
-            <div
-              className="flex items-center justify-center m-10 gap-x-1.5"
-              data-aos="fade-right"
-              data-aos-duration="500"
-            >
-              <p className="text-2xl font-extraBlack lg:text-3xl ">
-                {toPersianNumbersWithComma(course?.price)}
-              </p>
-              <span className="opacity-50">تومان</span>
-            </div>
+            {user && token && (
+              <div
+                className="flex items-center justify-center m-10 gap-x-1.5"
+                data-aos="fade-right"
+                data-aos-duration="500"
+              >
+                <p className="text-2xl font-extraBlack lg:text-3xl ">
+                  {toPersianNumbersWithComma(course?.price)}
+                </p>
+                <span className="opacity-50">تومان</span>
+              </div>
+            )}
           </div>
           <div className="col-span-1 lg:col-span-5 xl:col-span-6 order-1 md:order-2 self-start w-full">
             <div
@@ -527,6 +576,62 @@ function CoursePageLayout() {
           <Comments onClose={() => setIsOpen(false)} />
         </Modal>
       )}
+
+      {/* Terms of Service Modal */}
+      <ThemeProvider theme={customTheme_2}>
+        <FlowbiteModal
+          show={isTermsModalOpen}
+          size="3xl"
+          popup
+          className="font-iran-marker dark:text-whitesmoke"
+          position="center"
+          onClose={() => setIsTermsModalOpen(false)}
+        >
+          <ModalHeader>
+            <p className="flex items-center gap-x-1.5">
+              <GoLaw className="w-7 h-7" />
+              <span>قوانین و مقررات</span>
+            </p>
+          </ModalHeader>
+          <ModalBody>
+            {/* 🔹 Attach outside click ref */}
+            <div ref={payRef}>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-y-8 sm:gap-x-8 bg-gray-100 dark:bg-gray-950 rounded-lg p-4 m-4">
+                <Accordion />
+              </div>
+
+              <div className="flex items-center gap-2 mt-4">
+                <Checkbox
+                  id="terms"
+                  color="gray"
+                  checked={isChecked}
+                  onChange={(e) => setIsChecked(e.target.checked)}
+                />
+                <Label htmlFor="terms">
+                  شرایط و قوانین را خوانده‌ام و قبول دارم
+                </Label>
+              </div>
+
+              <div className="mt-6 flex justify-end gap-2 ml-4">
+                <Button color="red" onClick={() => setIsTermsModalOpen(false)}>
+                  انصراف
+                </Button>
+                <Button
+                  color="blue"
+                  onClick={handleConfirmPayment}
+                  disabled={!isChecked || isCreatingPayment || isLoading}
+                >
+                  {isCreatingPayment || isLoading ? (
+                    <Loader />
+                  ) : (
+                    "تایید و پرداخت"
+                  )}
+                </Button>
+              </div>
+            </div>
+          </ModalBody>
+        </FlowbiteModal>
+      </ThemeProvider>
     </>
   );
 }

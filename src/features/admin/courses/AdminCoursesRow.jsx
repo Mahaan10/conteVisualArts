@@ -101,7 +101,7 @@ function AdminCoursesRow({ course, index, onEdit, onDelete }) {
               ? "bg-yellow-400 text-whitesmoke"
               : course?.badge === "special"
               ? "bg-emerald-600 text-whitesmoke"
-              : course.badge === "autumn"
+              : course.badge === "workshop"
               ? "bg-amber-800 text-whitesmoke"
               : ""
           }`}
@@ -110,8 +110,8 @@ function AdminCoursesRow({ course, index, onEdit, onDelete }) {
             ? "تابستانی"
             : course?.badge === "special"
             ? "ویژه"
-            : course?.badge === "autumn"
-            ? "پائیزی"
+            : course?.badge === "workshop"
+            ? "وورکشاپ"
             : "___"}
         </span>
       </td>
