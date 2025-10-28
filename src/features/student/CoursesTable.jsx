@@ -9,9 +9,14 @@ import CoursesRow from "./CoursesRow";
 function CoursesTable() {
   const { user, isLoading, isError, error, token } = useGetUser();
 
-  const paidPayments = user?.enrolledCourses?.filter(
-    (course) => course.paymentStatus === "paid"
-  );
+  const paidPayments = user?.enrolledCourses
+    ? user.enrolledCourses?.filter(
+        (course) =>
+          course?.paymentStatus === "paid" ||
+          (course?.payment?.refId == null &&
+            course?.payment?.authority === null)
+      )
+    : [];
 
   useEffect(() => {
     if (isError || !token) {

@@ -6,18 +6,16 @@ import { Link } from "react-router-dom";
 
 function AdminUsersRow({ user, index, onEdit, onDelete, courses }) {
   const studentCourses = user?.enrolledCourses
-    ? user.enrolledCourses
-        ?.filter(
-          (course) =>
-            course?.paymentStatus === "paid" ||
-            (course?.payment?.refId == null &&
-              course?.payment?.authority === null)
-        )
-        .map((course) => course?.course?._id)
+    ? user.enrolledCourses?.filter(
+        (course) =>
+          course?.paymentStatus === "paid" ||
+          (course?.payment?.refId == null &&
+            course?.payment?.authority === null)
+      )
     : [];
 
   const enrolledCourses = courses?.filter((course) =>
-    studentCourses?.includes(course?._id)
+    studentCourses?.map((course) => course?.course?._id).includes(course?._id)
   );
 
   return (
@@ -54,15 +52,15 @@ function AdminUsersRow({ user, index, onEdit, onDelete, courses }) {
       </td>
       <td>
         <div className="flex flex-col">
-          {enrolledCourses && enrolledCourses?.length > 0 ? (
-            enrolledCourses?.map((course) => (
-              <span
-                key={course?._id}
-                className="p-2 w-full justify-center mx-auto mb-2.5"
+          {studentCourses && studentCourses?.length > 0 ? (
+            studentCourses?.map((enrolledItem) => (
+              <div
+                key={enrolledItem?._id}
+                className="p-2 flex items-center w-full justify-center mx-auto gap-x-2 mb-2.5"
               >
-                {formattedTime(course?.tncAcceptedAt) -
-                  formattedDate(course?.tncAcceptedAt) || "__"}
-              </span>
+                <span>{formattedTime(enrolledItem?.tncAcceptedAt)}</span>-
+                <span>{formattedDate(enrolledItem?.tncAcceptedAt)}</span>
+              </div>
             ))
           ) : (
             <span className="">__</span>

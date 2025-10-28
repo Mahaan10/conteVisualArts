@@ -13,7 +13,7 @@ export default function useAuth() {
       mutationFn: loginApi,
       onSuccess: (data) => {
         Cookies.set("token", data?.token, {
-          expires: 30,
+          expires: 7,
           secure: true,
           sameSite: "Strict",
         });
@@ -23,7 +23,7 @@ export default function useAuth() {
           if (data?.data?.user?.role === "admin") {
             navigate("/admin", { replace: true });
           } else {
-            navigate("/", { replace: true });
+            navigate("/student", { replace: true });
           }
           toast.success(`${data?.data?.user?.name}، خوش آمدید`)
         }

@@ -2,11 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import CustomNavlink from "./CustomNavlink";
 import { MdSignalCellularAlt2Bar } from "react-icons/md";
-import {
-  HiOutlineAdjustmentsVertical,
-  HiOutlinePower,
-  HiOutlineShoppingBag,
-} from "react-icons/hi2";
+import { HiOutlineAdjustmentsVertical, HiOutlinePower } from "react-icons/hi2";
 import ThemeMode from "./ThemeMode";
 import HeaderMenu from "./HeaderMenu";
 import { IoMenuOutline } from "react-icons/io5";
@@ -16,8 +12,6 @@ import { FiUsers } from "react-icons/fi";
 import { SiCountingworkspro } from "react-icons/si";
 import Modal from "./Modal";
 import AuthContainer from "../features/authentication/AuthContainer";
-import ShoppingMenu from "./ShoppingMenu";
-import toast from "react-hot-toast";
 import {
   createTheme,
   Dropdown,
@@ -32,6 +26,7 @@ import { Loader } from "./Loading";
 import useLogout from "../hooks/useLogout";
 import { FaRegCommentDots } from "react-icons/fa6";
 import { useThemeMode } from "../context/useThemeModeContext";
+import toast from "react-hot-toast";
 
 const customTheme = createTheme({
   dropdown: {
@@ -59,24 +54,20 @@ const customTheme = createTheme({
 });
 
 function Header() {
-  const { user, isLoading, isError, error, token } = useGetUser();
-  const { isLoggedOut, logout } = useLogout();
+  const { user, isLoading, isError, error, token, setToken, isTokenChecked } =
+    useGetUser();
   const { themeMode } = useThemeMode();
+  const { logout, isLoggedOut } = useLogout(setToken);
+
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isShoppingMenuOpen, setIsShoppingMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     if (isError) {
       toast.error(error?.response?.data?.message || "اطلاعات کاربری یافت نشد");
     }
-    return;
-  }, [error, isError]);
-
-  /* if (isError) {
-    return null;
-  } */
+  }, [isError, error]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -88,7 +79,11 @@ function Header() {
   }, []);
 
   const logoutHandler = async () => {
-    await logout();
+    try {
+      await logout();
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const renderUserMenu = () => {
@@ -114,7 +109,6 @@ function Header() {
       );
     }
 
-    // Admin or other roles
     return (
       <>
         <DropdownItem as={Link} to="/admin/dashboard" icon={TbSmartHome}>
@@ -150,15 +144,16 @@ function Header() {
     );
   };
 
+  if (!isTokenChecked) return <Loader />;
+
   return (
     <>
       <header
-        className={`flex items-center justify-between border-b border-light-shade-yellow dark:border-moderate-violet z-20 max-w-[1920px] mx-auto transition-all duration-500 ease-in-out
-    ${
-      isScrolled
-        ? "bg-whitesmoke/90 shadow-md dark:shadow-zinc-800/50 dark:bg-slate-950/80 backdrop-blur fixed top-0 md:left-10 md:right-10 left-2 right-2"
-        : "relative"
-    }`}
+        className={`flex items-center justify-between border-b border-light-shade-yellow dark:border-moderate-violet z-20 max-w-[1920px] mx-auto transition-all duration-500 ease-in-out ${
+          isScrolled
+            ? "bg-whitesmoke/90 shadow-md dark:shadow-zinc-800/50 dark:bg-slate-950/80 backdrop-blur fixed top-0 md:left-10 md:right-10 left-2 right-2"
+            : "relative"
+        }`}
       >
         {/* Mobile Menu Button */}
         <button
@@ -174,11 +169,11 @@ function Header() {
         <div className="flex items-center justify-center">
           <Link to="/">
             <img
-              src={`${
+              src={
                 themeMode === "light"
                   ? "/images/light.jpg"
                   : "/images/dark-bgg.jpg"
-              }`}
+              }
               alt="مدرسه هنری کنته - لوگو رسمی آموزشگاه هنرهای تجسمی"
               loading="lazy"
               className="h-16 w-16 lg:rounded-tr-lg transition-all duration-500 dark:bg-transparent"
@@ -217,9 +212,7 @@ function Header() {
 
         {/* Left Section */}
         <div className="flex items-center justify-between gap-x-2 lg:gap-x-4 lg:ml-5 sm:ml-3.5 ml-1">
-          <div className="flex ml-3 lg:ml-0">
-            <ThemeMode />
-          </div>
+          <ThemeMode />
 
           {!token ? (
             <button
@@ -230,7 +223,7 @@ function Header() {
               <MdSignalCellularAlt2Bar className="w-5 h-5" />
               <span>ورود|عضویت</span>
             </button>
-          ) : isLoading || token === null ? (
+          ) : isLoading ? (
             <Loader />
           ) : (
             <ThemeProvider theme={customTheme}>
@@ -239,7 +232,6 @@ function Header() {
                 placement="bottom-start"
                 size="sm"
                 dismissOnClick={true}
-                className=""
               >
                 <DropdownHeader>
                   <img
@@ -268,15 +260,13 @@ function Header() {
           )}
         </div>
       </header>
+
       <HeaderMenu
         isOpen={isDrawerOpen}
         setIsOpen={setIsDrawerOpen}
         setIsModalOpen={setIsModalOpen}
       />
-      <ShoppingMenu
-        isOpen={isShoppingMenuOpen}
-        setIsOpen={setIsShoppingMenuOpen}
-      />
+
       {isModalOpen && (
         <Modal title="ورود یا ثبت نام" onClose={() => setIsModalOpen(false)}>
           <AuthContainer onClose={() => setIsModalOpen(false)} />
