@@ -1,12 +1,98 @@
-# React + Vite
+# Conte Visual Arts School
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Frontend for **Conte Visual Arts School** — an online platform for visual arts education. Students can browse courses, enroll, view their profile and payment history, and submit works. Instructors manage content through an admin panel.
 
-Currently, two official plugins are available:
+**Live site:** [conteschool.ir](https://conteschool.ir)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Tech Stack
 
-## Expanding the ESLint configuration
+| Layer | Technology |
+|---|---|
+| Framework | React 19 + Vite |
+| Language | JavaScript |
+| Styling | Tailwind CSS v4 · Flowbite React |
+| State / Data | TanStack React Query v5 |
+| Forms | React Hook Form · Yup |
+| Routing | React Router v7 |
+| Maps | Leaflet / React Leaflet |
+| HTTP | Axios |
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Pages
+
+**Public**
+- **Home** — hero, highlights, featured courses
+- **Courses** — course listing with detail view
+- **Student Works** — gallery of submitted student artwork
+- **News** — blog / announcements with detail view
+- **About · Contact · FAQ · Terms of Services**
+
+**Authenticated (Student)**
+- Profile · My Courses · My Payments
+
+**Admin**
+- Dashboard · Courses · Student Works · News · Users · Reviews · Payments
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js >= 18
+- npm
+
+### Installation
+
+```bash
+git clone https://github.com/Mahaan10/conteVisualArts.git
+cd conteVisualArts
+npm install
+```
+
+### Development
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:5173](http://localhost:5173).
+
+The dev server proxies API requests to `https://conteschool.ir`.
+
+### Production Build
+
+```bash
+npm run build
+npm run preview
+```
+
+## API
+
+All API calls go through `src/services/httpService.js`. The base URL is set to `https://conteschool.ir/api/v1`.
+
+Authentication uses a JWT token stored in cookies (`token`).
+
+## Project Structure
+
+```
+src/
+├── pages/          # Route-level page components
+├── features/       # Feature modules (student, admin)
+│   ├── student/
+│   └── admin/
+├── services/       # Axios service modules per resource
+├── hooks/          # Custom React hooks
+├── context/        # React context providers
+├── ui/             # Shared layout and UI components
+└── utils/          # Utility functions
+```
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## Security
+
+See [SECURITY.md](SECURITY.md).
+
+## License
+
+MIT — see [LICENSE](LICENSE).
